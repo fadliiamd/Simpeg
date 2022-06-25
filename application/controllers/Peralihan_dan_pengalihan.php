@@ -8,4 +8,18 @@ class Peralihan_dan_pengalihan extends CI_Controller {
 		$this->load->view('pages/peralihan_dan_pengalihan/pengajuan_mutasi');
 		$this->load->view('partials/main-footer');
 	}
+
+	public function berkas_persyaratan()
+	{
+		$this->load->view('partials/main-header');
+		$this->load->view('pages/peralihan_dan_pengalihan/berkas_persyaratan');
+		$this->load->view('partials/main-footer');
+	}
+
+	public function usulan_mutasi()
+	{
+		$this->load->view('partials/main-header');
+		$this->load->view('pages/peralihan_dan_pengalihan/usulan_mutasi');
+		$this->load->view('partials/main-footer');
+	}
 }

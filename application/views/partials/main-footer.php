@@ -25,7 +25,8 @@
   <script src="<?= base_url(); ?>assets/vendors/datatables.net/jquery.dataTables.js"></script>
   <script src="<?= base_url(); ?>assets/vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
   <script src="<?= base_url(); ?>assets/js/dataTables.select.min.js"></script>
-
+  <script src="<?= base_url(); ?>assets/js/dataTables.buttons.min.js"></script>
+  
   <!-- End plugin js for this page -->
   <!-- inject:js -->
   <script src="<?= base_url(); ?>assets/js/off-canvas.js"></script>
@@ -38,6 +39,10 @@
   <script src="<?= base_url(); ?>assets/js/dashboard.js"></script>
   <script src="<?= base_url(); ?>assets/js/Chart.roundedBarCharts.js"></script>
   <!-- End custom js for this page-->
+
+  <!-- Costum js progantara -->
+  <script src="<?= base_url();?>assets/js/costum.js"></script>
+  <!-- End Costum js progantara -->
 </body>
 
 </html>

@@ -303,10 +303,18 @@
           </li>
           <hr>
           <li class="nav-item">
-            <a class="nav-link" href="<?= base_url("Peralihan_dan_pengalihan/pengajuan_mutasi"); ?>">
-              <i class="icon-grid menu-icon"></i>
-              <span class="menu-title">Pengjuan Mutasi</span>
+            <a class="nav-link" data-toggle="collapse" href="#peralihan" aria-expanded="false" aria-controls="peralihan">
+              <i class="icon-layout menu-icon"></i>
+              <span class="menu-title">Peralihan dan Pengalihan</span>
+              <i class="menu-title"></i>
             </a>
+            <div class="collapse" id="peralihan">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="<?= base_url("Peralihan_dan_pengalihan/pengajuan_mutasi"); ?>">Pengjuan Mutasi</a></li>
+                <li class="nav-item"> <a class="nav-link" href="<?= base_url("Peralihan_dan_pengalihan/berkas_persyaratan"); ?>">Berkas Persyaratan</a></li>
+                <li class="nav-item"> <a class="nav-link" href="<?= base_url("Peralihan_dan_pengalihan/usulan_mutasi"); ?>">Usulan Mutasi</a></li>
+              </ul>
+            </div>
           </li>
           <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
