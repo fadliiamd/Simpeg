@@ -1,11 +1,12 @@
+      </div>
         <!-- partial:partials/_footer.html -->
         <footer class="footer">
           <div class="d-sm-flex justify-content-center justify-content-sm-between">
-            <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © 2021.  Premium <a href="<?= base_url(); ?>assets/https://www.bootstrapdash.com/" target="_blank">Bootstrap admin template</a> from BootstrapDash. All rights reserved.</span>
-            <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Hand-crafted & made with <i class="ti-heart text-danger ml-1"></i></span>
+            <span class="text-center text-muted text-sm-left d-block d-sm-inline-block">Copyright © 2021.  Premium <a href="<?= base_url(); ?>https://www.bootstrapdash.com/" target="_blank">Bootstrap admin template</a> from BootstrapDash. All rights reserved.</span>
+            <span class="float-none mt-1 text-center float-sm-right d-block mt-sm-0">Hand-crafted & made with <i class="ml-1 ti-heart text-danger"></i></span>
           </div>
           <div class="d-sm-flex justify-content-center justify-content-sm-between">
-            <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Distributed by <a href="<?= base_url(); ?>assets/https://www.themewagon.com/" target="_blank">Themewagon</a></span> 
+            <span class="text-center text-muted text-sm-left d-block d-sm-inline-block">Distributed by <a href="<?= base_url(); ?>https://www.themewagon.com/" target="_blank">Themewagon</a></span> 
           </div>
         </footer> 
         <!-- partial -->

@@ -24,13 +24,13 @@
 <body>
   <div class="container-scroller">
     <!-- partial:partials/_navbar.html -->
-    <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+    <nav class="flex-row p-0 navbar col-lg-12 col-12 fixed-top d-flex">
       <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-        <a class="navbar-brand brand-logo mr-5" href="<?= base_url(); ?>"><img src="<?= base_url(); ?>assets/images/logo.svg" class="mr-2" alt="logo"/></a>
+        <a class="mr-5 navbar-brand brand-logo" href="<?= base_url(); ?>"><img src="<?= base_url(); ?>assets/images/logo.svg" class="mr-2" alt="logo"/></a>
         <a class="navbar-brand brand-logo-mini" href="<?= base_url(); ?>"><img src="<?= base_url(); ?>assets/images/logo-mini.svg" alt="logo"/></a>
       </div>
       <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
-        <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
+        <button class="navbar-toggler align-self-center" type="button" data-toggle="minimize">
           <span class="icon-menu"></span>
         </button>
         <ul class="navbar-nav mr-lg-2">
@@ -47,21 +47,21 @@
         </ul>
         <ul class="navbar-nav navbar-nav-right">
           <li class="nav-item dropdown">
-            <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="<?= base_url(); ?>assets/#" data-toggle="dropdown">
-              <i class="icon-bell mx-0"></i>
+            <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="<?= base_url(); ?>#" data-toggle="dropdown">
+              <i class="mx-0 icon-bell"></i>
               <span class="count"></span>
             </a>
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="notificationDropdown">
-              <p class="mb-0 font-weight-normal float-left dropdown-header">Notifications</p>
+              <p class="float-left mb-0 font-weight-normal dropdown-header">Notifications</p>
               <a class="dropdown-item preview-item">
                 <div class="preview-thumbnail">
                   <div class="preview-icon bg-success">
-                    <i class="ti-info-alt mx-0"></i>
+                    <i class="mx-0 ti-info-alt"></i>
                   </div>
                 </div>
                 <div class="preview-item-content">
                   <h6 class="preview-subject font-weight-normal">Application Error</h6>
-                  <p class="font-weight-light small-text mb-0 text-muted">
+                  <p class="mb-0 font-weight-light small-text text-muted">
                     Just now
                   </p>
                 </div>
@@ -69,12 +69,12 @@
               <a class="dropdown-item preview-item">
                 <div class="preview-thumbnail">
                   <div class="preview-icon bg-warning">
-                    <i class="ti-settings mx-0"></i>
+                    <i class="mx-0 ti-settings"></i>
                   </div>
                 </div>
                 <div class="preview-item-content">
                   <h6 class="preview-subject font-weight-normal">Settings</h6>
-                  <p class="font-weight-light small-text mb-0 text-muted">
+                  <p class="mb-0 font-weight-light small-text text-muted">
                     Private message
                   </p>
                 </div>
@@ -82,12 +82,12 @@
               <a class="dropdown-item preview-item">
                 <div class="preview-thumbnail">
                   <div class="preview-icon bg-info">
-                    <i class="ti-user mx-0"></i>
+                    <i class="mx-0 ti-user"></i>
                   </div>
                 </div>
                 <div class="preview-item-content">
                   <h6 class="preview-subject font-weight-normal">New user registration</h6>
-                  <p class="font-weight-light small-text mb-0 text-muted">
+                  <p class="mb-0 font-weight-light small-text text-muted">
                     2 days ago
                   </p>
                 </div>
@@ -95,7 +95,7 @@
             </div>
           </li>
           <li class="nav-item nav-profile dropdown">
-            <a class="nav-link dropdown-toggle" href="<?= base_url(); ?>assets/#" data-toggle="dropdown" id="profileDropdown">
+            <a class="nav-link dropdown-toggle" href="<?= base_url(); ?>#" data-toggle="dropdown" id="profileDropdown">
               <img src="<?= base_url(); ?>assets/images/faces/face28.jpg" alt="profile"/>
             </a>
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
@@ -110,7 +110,7 @@
             </div>
           </li>
           <li class="nav-item nav-settings d-none d-lg-flex">
-            <a class="nav-link" href="<?= base_url(); ?>assets/#">
+            <a class="nav-link" href="<?= base_url(); ?>#">
               <i class="icon-ellipsis"></i>
             </a>
           </li>
@@ -128,10 +128,10 @@
         <div id="theme-settings" class="settings-panel">
           <i class="settings-close ti-close"></i>
           <p class="settings-heading">SIDEBAR SKINS</p>
-          <div class="sidebar-bg-options selected" id="sidebar-light-theme"><div class="img-ss rounded-circle bg-light border mr-3"></div>Light</div>
-          <div class="sidebar-bg-options" id="sidebar-dark-theme"><div class="img-ss rounded-circle bg-dark border mr-3"></div>Dark</div>
-          <p class="settings-heading mt-2">HEADER SKINS</p>
-          <div class="color-tiles mx-0 px-4">
+          <div class="sidebar-bg-options selected" id="sidebar-light-theme"><div class="mr-3 border img-ss rounded-circle bg-light"></div>Light</div>
+          <div class="sidebar-bg-options" id="sidebar-dark-theme"><div class="mr-3 border img-ss rounded-circle bg-dark"></div>Dark</div>
+          <p class="mt-2 settings-heading">HEADER SKINS</p>
+          <div class="px-4 mx-0 color-tiles">
             <div class="tiles success"></div>
             <div class="tiles warning"></div>
             <div class="tiles danger"></div>
@@ -145,15 +145,15 @@
         <i class="settings-close ti-close"></i>
         <ul class="nav nav-tabs border-top" id="setting-panel" role="tablist">
           <li class="nav-item">
-            <a class="nav-link active" id="todo-tab" data-toggle="tab" href="<?= base_url(); ?>assets/#todo-section" role="tab" aria-controls="todo-section" aria-expanded="true">TO DO LIST</a>
+            <a class="nav-link active" id="todo-tab" data-toggle="tab" href="<?= base_url(); ?>#todo-section" role="tab" aria-controls="todo-section" aria-expanded="true">TO DO LIST</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" id="chats-tab" data-toggle="tab" href="<?= base_url(); ?>assets/#chats-section" role="tab" aria-controls="chats-section">CHATS</a>
+            <a class="nav-link" id="chats-tab" data-toggle="tab" href="<?= base_url(); ?>#chats-section" role="tab" aria-controls="chats-section">CHATS</a>
           </li>
         </ul>
         <div class="tab-content" id="setting-content">
           <div class="tab-pane fade show active scroll-wrapper" id="todo-section" role="tabpanel" aria-labelledby="todo-section">
-            <div class="add-items d-flex px-3 mb-0">
+            <div class="px-3 mb-0 add-items d-flex">
               <form class="form w-100">
                 <div class="form-group d-flex">
                   <input type="text" class="form-control todo-list-input" placeholder="Add To-do">
@@ -161,7 +161,7 @@
                 </div>
               </form>
             </div>
-            <div class="list-wrapper px-3">
+            <div class="px-3 list-wrapper">
               <ul class="d-flex flex-column-reverse todo-list">
                 <li>
                   <div class="form-check">
@@ -210,29 +210,29 @@
                 </li>
               </ul>
             </div>
-            <h4 class="px-3 text-muted mt-5 font-weight-light mb-0">Events</h4>
-            <div class="events pt-4 px-3">
-              <div class="wrapper d-flex mb-2">
-                <i class="ti-control-record text-primary mr-2"></i>
+            <h4 class="px-3 mt-5 mb-0 text-muted font-weight-light">Events</h4>
+            <div class="px-3 pt-4 events">
+              <div class="mb-2 wrapper d-flex">
+                <i class="mr-2 ti-control-record text-primary"></i>
                 <span>Feb 11 2018</span>
               </div>
               <p class="mb-0 font-weight-thin text-gray">Creating component page build a js</p>
-              <p class="text-gray mb-0">The total number of sessions</p>
+              <p class="mb-0 text-gray">The total number of sessions</p>
             </div>
-            <div class="events pt-4 px-3">
-              <div class="wrapper d-flex mb-2">
-                <i class="ti-control-record text-primary mr-2"></i>
+            <div class="px-3 pt-4 events">
+              <div class="mb-2 wrapper d-flex">
+                <i class="mr-2 ti-control-record text-primary"></i>
                 <span>Feb 7 2018</span>
               </div>
               <p class="mb-0 font-weight-thin text-gray">Meeting with Alisa</p>
-              <p class="text-gray mb-0 ">Call Sarah Graves</p>
+              <p class="mb-0 text-gray ">Call Sarah Graves</p>
             </div>
           </div>
           <!-- To do section tab ends -->
           <div class="tab-pane fade" id="chats-section" role="tabpanel" aria-labelledby="chats-section">
             <div class="d-flex align-items-center justify-content-between border-bottom">
-              <p class="settings-heading border-top-0 mb-3 pl-3 pt-0 border-bottom-0 pb-0">Friends</p>
-              <small class="settings-heading border-top-0 mb-3 pt-0 border-bottom-0 pb-0 pr-3 font-weight-normal">See All</small>
+              <p class="pt-0 pb-0 pl-3 mb-3 settings-heading border-top-0 border-bottom-0">Friends</p>
+              <small class="pt-0 pb-0 pr-3 mb-3 settings-heading border-top-0 border-bottom-0 font-weight-normal">See All</small>
             </div>
             <ul class="chat-list">
               <li class="list active">
@@ -241,7 +241,7 @@
                   <p>Thomas Douglas</p>
                   <p>Available</p>
                 </div>
-                <small class="text-muted my-auto">19 min</small>
+                <small class="my-auto text-muted">19 min</small>
               </li>
               <li class="list">
                 <div class="profile"><img src="<?= base_url(); ?>assets/images/faces/face2.jpg" alt="image"><span class="offline"></span></div>
@@ -251,8 +251,8 @@
                   </div>
                   <p>Away</p>
                 </div>
-                <div class="badge badge-success badge-pill my-auto mx-2">4</div>
-                <small class="text-muted my-auto">23 min</small>
+                <div class="mx-2 my-auto badge badge-success badge-pill">4</div>
+                <small class="my-auto text-muted">23 min</small>
               </li>
               <li class="list">
                 <div class="profile"><img src="<?= base_url(); ?>assets/images/faces/face3.jpg" alt="image"><span class="online"></span></div>
@@ -260,7 +260,7 @@
                   <p>Daniel Russell</p>
                   <p>Available</p>
                 </div>
-                <small class="text-muted my-auto">14 min</small>
+                <small class="my-auto text-muted">14 min</small>
               </li>
               <li class="list">
                 <div class="profile"><img src="<?= base_url(); ?>assets/images/faces/face4.jpg" alt="image"><span class="offline"></span></div>
@@ -268,7 +268,7 @@
                   <p>James Richardson</p>
                   <p>Away</p>
                 </div>
-                <small class="text-muted my-auto">2 min</small>
+                <small class="my-auto text-muted">2 min</small>
               </li>
               <li class="list">
                 <div class="profile"><img src="<?= base_url(); ?>assets/images/faces/face5.jpg" alt="image"><span class="online"></span></div>
@@ -276,7 +276,7 @@
                   <p>Madeline Kennedy</p>
                   <p>Available</p>
                 </div>
-                <small class="text-muted my-auto">5 min</small>
+                <small class="my-auto text-muted">5 min</small>
               </li>
               <li class="list">
                 <div class="profile"><img src="<?= base_url(); ?>assets/images/faces/face6.jpg" alt="image"><span class="online"></span></div>
@@ -284,7 +284,7 @@
                   <p>Sarah Graves</p>
                   <p>Available</p>
                 </div>
-                <small class="text-muted my-auto">47 min</small>
+                <small class="my-auto text-muted">47 min</small>
               </li>
             </ul>
           </div>
@@ -299,6 +299,13 @@
             <a class="nav-link" href="<?= base_url(); ?>">
               <i class="icon-grid menu-icon"></i>
               <span class="menu-title">Dashboard</span>
+            </a>
+          </li>
+          <hr>
+          <li class="nav-item">
+            <a class="nav-link" href="<?= base_url("Peralihan_dan_pengalihan/pengajuan_mutasi"); ?>">
+              <i class="icon-grid menu-icon"></i>
+              <span class="menu-title">Pengjuan Mutasi</span>
             </a>
           </li>
           <li class="nav-item">
@@ -397,3 +404,8 @@
           </li>
         </ul>
       </nav>
+
+      <!-- partial -->
+      <div class="main-panel">
+          
+          <div class="content-wrapper">
