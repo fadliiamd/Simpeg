@@ -77,7 +77,6 @@ class Welcome extends CI_Controller {
 	public function userLogin()
 	{
 		$this->load->view('pages/samples/login');
-
 	}
 
 	public function userRegister()

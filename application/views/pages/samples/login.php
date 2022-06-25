@@ -22,10 +22,10 @@
 <body>
   <div class="container-scroller">
     <div class="container-fluid page-body-wrapper full-page-wrapper">
-      <div class="content-wrapper d-flex align-items-center auth px-0">
-        <div class="row w-100 mx-0">
-          <div class="col-lg-4 mx-auto">
-            <div class="auth-form-light text-left py-5 px-4 px-sm-5">
+      <div class="px-0 content-wrapper d-flex align-items-center auth">
+        <div class="mx-0 row w-100">
+          <div class="mx-auto col-lg-4">
+            <div class="px-4 py-5 text-left auth-form-light px-sm-5">
               <div class="brand-logo">
                 <img src="<?= base_url();?>assets/images/logo.svg" alt="logo">
               </div>
@@ -33,7 +33,7 @@
               <h6 class="font-weight-light">Sign in to continue.</h6>
               <form class="pt-3">
                 <div class="form-group">
-                  <input type="email" class="form-control form-control-lg" id="exampleInputEmail1" placeholder="Username">
+                  <input type="text" class="form-control form-control-lg" id="exampleInputEmail1" placeholder="NIP">
                 </div>
                 <div class="form-group">
                   <input type="password" class="form-control form-control-lg" id="exampleInputPassword1" placeholder="Password">
@@ -48,15 +48,15 @@
                       Keep me signed in
                     </label>
                   </div>
-                  <a href="#" class="auth-link text-black">Forgot password?</a>
+                  <a href="#" class="text-black auth-link">Forgot password?</a>
                 </div>
                 <div class="mb-2">
                   <button type="button" class="btn btn-block btn-facebook auth-form-btn">
-                    <i class="ti-facebook mr-2"></i>Connect using facebook
+                    <i class="mr-2 ti-facebook"></i>Connect using facebook
                   </button>
                 </div>
-                <div class="text-center mt-4 font-weight-light">
-                  Don't have an account? <a href="register.html" class="text-primary">Create</a>
+                <div class="mt-4 text-center font-weight-light">
+                  Don't have an account? <a href="<?= base_url("auth/register")?>" class="text-primary">Create</a>
                 </div>
               </form>
             </div>
