@@ -37,6 +37,13 @@
   <script src="<?= base_url(); ?>assets/js/dashboard.js"></script>
   <script src="<?= base_url(); ?>assets/js/Chart.roundedBarCharts.js"></script>
   <!-- End custom js for this page-->
+  <script>
+    $(document).ready( function () {
+      $('#list_surat').DataTable({
+        select: true,
+      });
+    } );
+  </script>
 </body>
 
 </html>
