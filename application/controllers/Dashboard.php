@@ -10,11 +10,31 @@ class Dashboard extends CI_Controller {
 			redirect('auth/login');
 		}
 	}
+
+	public function admin() {
+		$this->load->view('partials/main-header');
+		$this->load->view('users/admin/index');
+		$this->load->view('partials/main-footer');
+	}
+
+	public function pegawai() {
+		$this->load->view('partials/main-header');
+		$this->load->view('users/pegawai/index');
+		$this->load->view('partials/main-footer');
+	}
 	
+	public function direktur() {
+		$this->load->view('partials/main-header');
+		$this->load->view('users/direktur/index');
+		$this->load->view('partials/main-footer');
+	}
+
 	public function index()
 	{
-		$this->load->view('partials/main-header');
-		$this->load->view('index');
-		$this->load->view('partials/main-footer');
+		$nip = $this->session->userdata('nip');
+		
+		$this->load->model('account');
+		$this->account->get_redirect_role($nip);
+
 	}
 }
