@@ -10,6 +10,8 @@
   <link rel="stylesheet" href="<?= base_url(); ?>assets/vendors/feather/feather.css">
   <link rel="stylesheet" href="<?= base_url(); ?>assets/vendors/ti-icons/css/themify-icons.css">
   <link rel="stylesheet" href="<?= base_url(); ?>assets/vendors/css/vendor.bundle.base.css">
+  <link rel="stylesheet" href="<?= base_url(); ?>assets/vendors/mdi/css/materialdesignicons.min.css">
+  <script src="https://kit.fontawesome.com/48c190b106.js" crossorigin="anonymous"></script>
   <!-- endinject -->
   <!-- Plugin css for this page -->
   <link rel="stylesheet" href="<?= base_url(); ?>assets/vendors/datatables.net-bs4/dataTables.bootstrap4.css">
@@ -302,17 +304,104 @@
             </a>
           </li>
           <hr>
+          <li>
+            <span class="font-weight-bold">Peralihan dan Pengalihan</span>
+            <hr>
+          </li>
           <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#peralihan" aria-expanded="false" aria-controls="peralihan">
-              <i class="icon-layout menu-icon"></i>
-              <span class="menu-title">Peralihan dan<br>Pengalihan</span>
-              <i class="menu-title"></i>
+              <i class="mdi mdi-account-convert menu-icon"></i>
+              <span class="menu-title">Mutasi</span>
+              <i class="menu-arrow"></i>
             </a>
             <div class="collapse" id="peralihan">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="<?= base_url("Peralihan_dan_pengalihan/pengajuan_mutasi"); ?>">Pengjuan Mutasi</a></li>
+                <li class="nav-item"> <a class="nav-link" href="<?= base_url("Peralihan_dan_pengalihan/pengajuan_mutasi"); ?>">Pengajuan</a></li>
                 <li class="nav-item"> <a class="nav-link" href="<?= base_url("Peralihan_dan_pengalihan/berkas_persyaratan"); ?>">Berkas Persyaratan</a></li>
-                <li class="nav-item"> <a class="nav-link" href="<?= base_url("Peralihan_dan_pengalihan/usulan_mutasi"); ?>">Usulan Mutasi</a></li>
+                <li class="nav-item"> <a class="nav-link" href="<?= base_url("Peralihan_dan_pengalihan/usulan_mutasi"); ?>">Usulan</a></li>
+                <li class="nav-item"> <a class="nav-link" href="#">Penerimaan</a></li>
+                <li class="nav-item"> <a class="nav-link" href="#">Surat Keputusan</a></li>
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#pemberhentian" aria-expanded="false" aria-controls="pemberhentian">
+              <i class="mdi mdi-account-off menu-icon"></i>
+              <span class="menu-title">Pemberhentian</span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="pemberhentian">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="#">Pengajuan</a></li>
+                <li class="nav-item"> <a class="nav-link" href="#">Berkas Persyaratan</a></li>
+                <li class="nav-item"> <a class="nav-link"  href="#">Usulan Pensiun</a></li>
+                <li class="nav-item"> <a class="nav-link" href="#">SK Pensiun</a></li>
+              </ul>
+            </div>
+          </li>
+          <hr>
+          <li>
+            <span class="font-weight-bold">Kepegawaian</span>
+            <hr>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#perangkingan" aria-expanded="false" aria-controls="perangkingan">
+              <i class="mdi mdi-trophy-variant menu-icon"></i>
+              <span class="menu-title">Perangkingan</span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="perangkingan">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="#">Kriteria</a></li>
+                <li class="nav-item"> <a class="nav-link" href="#">Perhitungan</a></li>
+                <li class="nav-item"> <a class="nav-link"  href="#">Hasil</a></li>                
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#kegiatan" aria-expanded="false" aria-controls="kegiatan">
+              <i class="mdi mdi-format-list-bulleted-type menu-icon"></i>
+              <span class="menu-title">Kegiatan</span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="kegiatan">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="#">Diklat</a></li>
+                <li class="nav-item"> <a class="nav-link" href="#">Bimtek</a></li>
+                <li class="nav-item"> <a class="nav-link"  href="#">Prajabatan</a></li>                
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#Divisi" aria-expanded="false" aria-controls="Divisi">
+              <i class="fa-solid fa-building-columns menu-icon"></i>
+              <span class="menu-title">Divisi</span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="Divisi">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="#">Jurusan</a></li>
+                <li class="nav-item"> <a class="nav-link" href="#">Bagian</a></li>
+                <li class="nav-item"> <a class="nav-link"  href="#">Unit</a></li>                
+              </ul>
+            </div>
+          </li>
+          <hr>
+          <li>
+            <span class="font-weight-bold">User dan Aplikasi</span>
+            <hr>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#Account" aria-expanded="false" aria-controls="Account">
+              <i class="mdi mdi-account menu-icon"></i>
+              <span class="menu-title">Account</span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="Account">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="#">Pegawai</a></li>                
+                <li class="nav-item"> <a class="nav-link" href="#">Direktur</a></li>
+                <li class="nav-item"> <a class="nav-link"  href="#">Admin</a></li>                
               </ul>
             </div>
           </li>
