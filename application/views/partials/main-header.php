@@ -305,7 +305,7 @@
           <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#peralihan" aria-expanded="false" aria-controls="peralihan">
               <i class="icon-layout menu-icon"></i>
-              <span class="menu-title">Peralihan dan Pengalihan</span>
+              <span class="menu-title">Peralihan dan<br>Pengalihan</span>
               <i class="menu-title"></i>
             </a>
             <div class="collapse" id="peralihan">
