@@ -96,7 +96,7 @@
                         <td>Caritana Photo</td>
                         <td>Caritana Photo</td>
                         <td>
-                            Pending
+                            <span class="badge badge-warning">Pending</span>
                             <div class="mt-3">
                                 <button type="button" class="btn btn-success" data-toggle="modal" data-target="#approvetable">
                                     Setujui
@@ -257,9 +257,3 @@
         </div>
     </div>
 </div>
-
-<script>
-    $(document).ready(function () {
-        $('#tbl-pengajuan-mutasi').DataTable();
-    });
-</script>
