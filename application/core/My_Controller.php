@@ -20,9 +20,9 @@ class Admin extends Authentication {
         parent::__construct();
         
         $nip = $this->session->userdata('nip');
-		$this->load->model('account');
+		$this->load->model('account_model');
 
-		if ($this->account->get_role($nip) != 'admin') {
+		if ($this->account_model->get_role($nip) != 'admin') {
             redirect('/errors/show_403');
         }
     }
@@ -35,9 +35,9 @@ class Direktur extends Authentication {
         parent::__construct();
         
         $nip = $this->session->userdata('nip');
-		$this->load->model('account');
+		$this->load->model('account_model');
 
-		if ($this->account->get_role($nip) != 'direktur') {
+		if ($this->account_model->get_role($nip) != 'direktur') {
             redirect('/errors/show_403');
         }
     }
@@ -50,9 +50,9 @@ class Pegawai extends Authentication {
         parent::__construct();
         
         $nip = $this->session->userdata('nip');
-		$this->load->model('account');
+		$this->load->model('account_model');
 
-		if ($this->account->get_role($nip) != 'pegawai') {
+		if ($this->account_model->get_role($nip) != 'pegawai') {
             redirect('/errors/show_403');
         }
     }

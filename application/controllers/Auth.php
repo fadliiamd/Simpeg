@@ -11,7 +11,7 @@ class Auth extends CI_Controller
 	public function do_login()
 	{
 		$this->load->model('auth_model');
-		$this->load->model('account');
+		$this->load->model('account_model');
 		$this->load->library('form_validation');
 
 		$rules = $this->auth_model->rules();
@@ -25,7 +25,7 @@ class Auth extends CI_Controller
 		$password = $this->input->post('password');
 
 		if ($this->auth_model->login($username, $password)) {
-			$this->account->get_redirect_role($username);
+			$this->account_model->get_redirect_role($username);
 		} else {
 			$this->session->set_flashdata('message_login_error', 'Login Gagal, pastikan username dan passwrod benar!');
 		}

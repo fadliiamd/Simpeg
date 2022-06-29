@@ -21,7 +21,20 @@
   <!-- inject:css -->
   <link rel="stylesheet" href="<?= base_url(); ?>assets/css/vertical-layout-light/style.css">
   <!-- endinject -->
-  <link rel="shortcut icon" href="<?= base_url(); ?>assets/images/favicon.png" />
+  <link rel="shortcut icon" href="<?= base_url(); ?>assets/images/favicon.png" />  
+
+  <!-- plugins:js -->
+  <script src="<?= base_url(); ?>assets/vendors/js/vendor.bundle.base.js"></script>
+  <!-- endinject -->
+
+  <!-- Plugin js for this page -->
+  <script src="<?= base_url(); ?>assets/vendors/chart.js/Chart.min.js"></script>
+  <script src="<?= base_url(); ?>assets/vendors/datatables.net/jquery.dataTables.js"></script>
+  <script src="<?= base_url(); ?>assets/vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+  <script src="<?= base_url(); ?>assets/js/dataTables.select.min.js"></script>
+  <script src="<?= base_url(); ?>assets/js/dataTables.buttons.min.js"></script>
+  <!-- End plugin js for this page -->
+
 </head>
 <body>
   <div class="container-scroller">
@@ -35,7 +48,7 @@
         <button class="navbar-toggler align-self-center" type="button" data-toggle="minimize">
           <span class="icon-menu"></span>
         </button>
-        <ul class="navbar-nav mr-lg-2">
+        <!-- <ul class="navbar-nav mr-lg-2">
           <li class="nav-item nav-search d-none d-lg-block">
             <div class="input-group">
               <div class="input-group-prepend hover-cursor" id="navbar-search-icon">
@@ -46,7 +59,7 @@
               <input type="text" class="form-control" id="navbar-search-input" placeholder="Search now" aria-label="search" aria-describedby="search">
             </div>
           </li>
-        </ul>
+        </ul> -->
         <ul class="navbar-nav navbar-nav-right">
           <li class="nav-item dropdown">
             <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="<?= base_url(); ?>#" data-toggle="dropdown">
@@ -304,8 +317,8 @@
             </a>
           </li>
           <hr>
-          <li>
-            <span class="font-weight-bold">Peralihan dan Pengalihan</span>
+          <li class="nav-item">
+            <span class="font-weight-bold menu-title">Peralihan dan Pengalihan</span>
             <hr>
           </li>
           <li class="nav-item">
@@ -340,8 +353,8 @@
             </div>
           </li>
           <hr>
-          <li>
-            <span class="font-weight-bold">Kepegawaian</span>
+          <li class="nav-item">
+            <span class="font-weight-bold menu-title">Kepegawaian</span>
             <hr>
           </li>
           <li class="nav-item">
@@ -380,15 +393,15 @@
             </a>
             <div class="collapse" id="Divisi">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="#">Jurusan</a></li>
-                <li class="nav-item"> <a class="nav-link" href="#">Bagian</a></li>
-                <li class="nav-item"> <a class="nav-link"  href="#">Unit</a></li>                
+                <li class="nav-item"> <a class="nav-link" href="<?= base_url("jurusan"); ?>">Jurusan</a></li>
+                <li class="nav-item"> <a class="nav-link" href="<?= base_url("bagian"); ?>">Bagian</a></li>
+                <li class="nav-item"> <a class="nav-link"  href="<?= base_url("unit"); ?>">Unit</a></li>                
               </ul>
             </div>
           </li>
           <hr>
-          <li>
-            <span class="font-weight-bold">User dan Aplikasi</span>
+          <li class="nav-item">
+            <span class="font-weight-bold menu-title">User dan Aplikasi</span>
             <hr>
           </li>
           <li class="nav-item">
@@ -399,9 +412,22 @@
             </a>
             <div class="collapse" id="Account">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="#">Pegawai</a></li>                
+                <li class="nav-item"> <a class="nav-link" href="<?= base_url("account/data_pegawai"); ?>">Pegawai</a></li>                
                 <li class="nav-item"> <a class="nav-link" href="#">Direktur</a></li>
                 <li class="nav-item"> <a class="nav-link"  href="#">Admin</a></li>                
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#kepegawaian" aria-expanded="false" aria-controls="kepegawaian">
+              <i class="mdi mdi-account-settings menu-icon"></i>
+              <span class="menu-title">Kepegawaian</span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="kepegawaian">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="#">Jenis Pegawai</a></li>                
+                <li class="nav-item"> <a class="nav-link" href="<?= base_url("golpang"); ?>">Golongan/Pangkat</a></li>                  
               </ul>
             </div>
           </li>

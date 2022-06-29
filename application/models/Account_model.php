@@ -1,5 +1,5 @@
 <?php
-class Account extends CI_Model
+class Account_model extends CI_Model
 {
 
     public $nip;
