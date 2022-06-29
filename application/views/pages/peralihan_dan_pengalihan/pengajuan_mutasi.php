@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-lg-12">
-        <h4>Berkas Persyaratan</h4>
+        <h4>Pengajuan Mutasi</h4>
 
         <!-- Large modal -->
         <button type="button" class="my-3 btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Tambah Mutasi</button>
@@ -54,7 +54,7 @@
         <!-- End Modal -->
 
         <div class="table-responsive">
-            <table id="tabel-pengajuan-mutasi" class="table table-striped table-bordered">
+            <table id="tbl-pengajuan-mutasi" class="table table-striped table-bordered">
                 <thead>
                     <tr>
                         <th>No</th>
@@ -73,7 +73,7 @@
                         <td>Lorem ipsum color sti amet parabellum dos ente</td>
                         <td>2011-07-25</td>
                         <td>
-                            Pending
+                            <span class="badge badge-warning">Pending</span>
                             <div class="mt-3">
                                 <button type="button" class="btn btn-success" data-toggle="modal" data-target="#approvetable">
                                     Setujui
@@ -228,13 +228,18 @@
                         </td>
                     </tr>
                 </tbody>            
+                <tfoot>
+                    <tr>
+                        <th>No</th>
+                        <th>NIP</th>
+                        <th>Alasan</th>
+                        <th>Tanggal Pengajuan</th>
+                        <th>Status Pengajuan</th>
+                        <th>Tanggal Persetujuan</th>
+                        <th>Action</th>
+                    </tr>
+                </tfoot>
             </table>
         </div>
     </div>
 </div>
-
-<script>
-    $(document).ready(function() {
-        $('#tabel-pengajuan-mutasi').DataTable();
-    });
-</script>
