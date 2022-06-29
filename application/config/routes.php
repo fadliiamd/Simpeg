@@ -50,5 +50,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |		my-controller/my-method	-> my_controller/my_method
 */
 $route['default_controller'] = 'dashboard';
-$route['404_override'] = '';
+$route['404_override'] = 'Errors/show_404';
 $route['translate_uri_dashes'] = FALSE;
+
+/* ===========
+CUSTOM ADMIN ROUTE
+==============
+*/
+$route['dashboard/admin/aju_mutasi'] = 'Peralihan_dan_pengalihan/pengajuan_mutasi';
+
+/* ===========
+CUSTOM DIREKTUR ROUTE
+==============
+*/
+
+
+/* ===========
+CUSTOM PEGAWAI ROUTE
+==============
+*/

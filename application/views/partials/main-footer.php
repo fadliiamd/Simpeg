@@ -17,17 +17,7 @@
   </div>
   <!-- container-scroller -->
 
-  <!-- plugins:js -->
-  <script src="<?= base_url(); ?>assets/vendors/js/vendor.bundle.base.js"></script>
-  <!-- endinject -->
-  <!-- Plugin js for this page -->
-  <script src="<?= base_url(); ?>assets/vendors/chart.js/Chart.min.js"></script>
-  <script src="<?= base_url(); ?>assets/vendors/datatables.net/jquery.dataTables.js"></script>
-  <script src="<?= base_url(); ?>assets/vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
-  <script src="<?= base_url(); ?>assets/js/dataTables.select.min.js"></script>
-  <script src="<?= base_url(); ?>assets/js/dataTables.buttons.min.js"></script>
-  
-  <!-- End plugin js for this page -->
+
   <!-- inject:js -->
   <script src="<?= base_url(); ?>assets/js/off-canvas.js"></script>
   <script src="<?= base_url(); ?>assets/js/hoverable-collapse.js"></script>

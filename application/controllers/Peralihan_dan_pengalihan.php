@@ -1,7 +1,13 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Peralihan_dan_pengalihan extends CI_Controller {
+class Peralihan_dan_pengalihan extends Admin {
+
+	public function __construct()
+	{
+		parent::__construct();
+	}
+
 	public function pengajuan_mutasi()
 	{
 		$this->load->view('partials/main-header');
