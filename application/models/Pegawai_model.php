@@ -113,27 +113,69 @@ class Pegawai_model extends CI_Model
     }
 
     public function update_one($id)
-    {
-        $this->db->trans_start();
+    {        
         
-        $nip = $this->input->post('nip');
-        $password = md5($this->input->post('password'));
-        $role = "pegawai";
+         //check empty string for nullable
+         foreach( $this->input->post() as $key => $value) {
+            if($value === ""){
+                $value = null;
+            }
+            $_POST[$key] = $value;            
+        }
+        // Update account first
+        $this->load->model('account_model');        
+        $update = $this->account_model->update_one($id);        
 
-        $nama = $this->input->post('nama');
-        $jenis_kelamin = $this->input->post('jenis_kelamin');
-        $agama = $this->input->post('agama');
-        $tempat_lahir = $this->input->post('tempat_lahir');
-        $tgl_lahir = $this->input->post('tgl_lahir');
-        $alamat = $this->input->post('alamat');
-        $email = $this->input->post('email');
+        if($update){ 
+            $nip = $this->input->post('nip');
+            $nama = $this->input->post('nama');
+            $jenis_kelamin = $this->input->post('jenis_kelamin');
+            $agama = $this->input->post('agama');
+            $tempat_lahir = $this->input->post('tempat_lahir');
+            $tgl_lahir = $this->input->post('tgl_lahir');
+            $alamat = $this->input->post('alamat');
+            $email = $this->input->post('email');
+            $golongan_id = $this->input->post('golongan_id');
+            $jenis_pegawai = $this->input->post('jenis_pegawai');
+            $status_pegawai = $this->input->post('status_pegawai');
+            $gaji = $this->input->post('gaji');
+            $jabatan = $this->input->post('jabatan');
 
+            $jurusan_id = $this->input->post('jurusan_id');
+            $bagian_id = $this->input->post('bagian_id');
+            $unit_id = $this->input->post('unit_id');     
+            
+            $foto = $this->do_upload("jpg|png", "foto");
+            $ijazah = $this->do_upload("pdf", "ijazah");
+            $karpeg = $this->do_upload("pdf|jpg|png", "karpeg");                    
 
-        $data = array(
-            "nama" => $nama
-        );
-        $this->db->where('id', $id);
-        $this->db->update($this->table, $data);
+            $data_pegawai = array(
+                "nama" => $nama,
+                "jenis_kelamin" => $jenis_kelamin,
+                "agama" => $agama,
+                "tempat_lahir" => $tempat_lahir,
+                "tgl_lahir" => $tgl_lahir,
+                "alamat" => $alamat,
+                "email" => $email,
+                "golongan_id" => $golongan_id,
+                "jenis_pegawai" => $jenis_pegawai,
+                "status" => $status_pegawai,
+                "gaji" => $gaji,
+                "jabatan" => $jabatan,
+                "jurusan_id" => $jurusan_id,
+                "bagian_id" => $bagian_id,
+                "unit_id" => $unit_id,
+                "foto" => $foto,
+                "ijazah" => $ijazah,
+                "karpeg" => $karpeg
+            );
+        }else{
+            return false;
+        }
+
+        $this->db->trans_start();
+        $this->db->where('account_nip', $nip);
+        $this->db->update($this->table, $data_pegawai);
         $this->db->trans_complete();
 
         if ($this->db->trans_status() === FALSE) {
@@ -146,8 +188,8 @@ class Pegawai_model extends CI_Model
     public function delete_one($id)
     {
         $this->db->trans_start();
-        $this->db->where('id', $id);
-        $this->db->delete($this->table);
+        $this->db->where('nip', $id);
+        $this->db->delete($this->account_table);
         $this->db->trans_complete();
 
         if ($this->db->trans_status() === FALSE) {

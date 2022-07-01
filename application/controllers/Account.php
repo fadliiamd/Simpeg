@@ -51,6 +51,38 @@ class Account extends Admin {
             redirect("account/data_pegawai");
         }
     }
+	
+	public function update_data_pegawai()
+    {
+		$this->load->model('pegawai_model');
+        $delete = $this->pegawai_model->update_one($this->input->post('nip_old'));
+
+        if($delete)
+        {
+            $this->session->set_flashdata('message_success', 'Berhasil mengupdate data pegawai!');
+            redirect("account/data_pegawai");
+        }else
+        {
+            $this->session->set_flashdata('message_error', 'Gagal mengupdate data pegawai!');
+            redirect("account/data_pegawai");
+        }
+    }
+	
+	public function delete_data_pegawai()
+    {
+		$this->load->model('pegawai_model');
+        $delete = $this->pegawai_model->delete_one($this->input->post('nip'));
+
+        if($delete)
+        {
+            $this->session->set_flashdata('message_success', 'Berhasil menghapus data pegawai!');
+            redirect("account/data_pegawai");
+        }else
+        {
+            $this->session->set_flashdata('message_error', 'Gagal menghapus data pegawai!');
+            redirect("account/data_pegawai");
+        }
+    }
 
 	/*===========
 		DIREKTUR
