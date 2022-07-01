@@ -5,12 +5,7 @@ class Account_model extends CI_Model
     public $nip;
     public $password;
     public $role;
-
-    public function get_last_ten_entries()
-    {
-        $query = $this->db->get('account', 10);
-        return $query->result();
-    }
+    public $table = 'account';
 
     public function get_role($nip)
     {
@@ -36,5 +31,20 @@ class Account_model extends CI_Model
             default:
                 echo "anda siapa yah? " . $role;
         }
+    }
+
+    public function register($role)
+    {
+        $nip = $this->input->post('nip');
+        $password = password_hash($this->input->post('password'), PASSWORD_DEFAULT);
+
+        $data_account = array(
+            "nip" => $nip,
+            "password" => $password,
+            "role" => $role
+        );        
+        $this->db->insert($this->table, $data_account);
+
+        return ($this->db->affected_rows() != 1) ? false : true;
     }
 }
