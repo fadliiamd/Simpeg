@@ -21,10 +21,10 @@
 	<body>
 		<div class="container-scroller">
 			<div class="container-fluid page-body-wrapper full-page-wrapper">
-				<div class="content-wrapper d-flex align-items-center auth px-0">
-					<div class="row w-100 mx-0">
-						<div class="col-lg-4 mx-auto">
-							<div class="auth-form-light text-left py-5 px-4 px-sm-5">
+				<div class="px-0 content-wrapper d-flex align-items-center auth">
+					<div class="mx-0 row w-100">
+						<div class="mx-auto col-lg-4">
+							<div class="px-4 py-5 text-left auth-form-light px-sm-5">
 								<div class="brand-logo">
 									<img
 										src="<?= base_url();?>assets/images/logo.svg"
@@ -113,10 +113,10 @@
 											>SIGN UP</a
 										>
 									</div>
-									<div class="text-center mt-4 font-weight-light">
+									<div class="mt-4 text-center font-weight-light">
 										Already have an account?
 										<a
-											href="login.html"
+											href="<?= base_url("auth/login")?>"
 											class="text-primary"
 											>Login</a
 										>
