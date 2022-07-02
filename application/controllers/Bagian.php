@@ -69,9 +69,4 @@ class Bagian extends Admin {
             redirect("bagian");
         }
     }
-
-    public function redirect_back()
-    {
-        
-    }
 }
