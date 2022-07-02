@@ -3,4 +3,9 @@ $(document).ready(function () {
 		dom: "Bfrtip",
 		buttons: ["copy", "csv", "excel", "pdf", "print"],
 	});
+
+	$("#tbl-sk-mutasi").DataTable({
+		dom: "Bfrtip",
+		buttons: ["copy", "csv", "excel", "pdf", "print"],
+	});
 });
