@@ -87,4 +87,76 @@ class Account extends Admin {
 	/*===========
 		DIREKTUR
 	=============*/
+	public function data_direktur()
+    {
+		$this->load->model('jurusan_model');
+		$this->load->model('bagian_model');
+		$this->load->model('unit_model');
+		$this->load->model('golpang_model');
+		$this->load->model('direktur_model');
+
+        $golpang = $this->golpang_model->get_all();
+        $jurusan = $this->jurusan_model->get_all();
+        $bagian = $this->bagian_model->get_all();
+        $unit = $this->unit_model->get_all();
+		$direktur = $this->direktur_model->get_all();
+	
+        $this->load->view('partials/main-header');
+		$this->load->view('users/admin/data_direktur', [
+			"jurusan" => $jurusan,
+			"bagian" => $bagian,
+			"unit" => $unit,
+			"golpang" => $golpang,
+			"direktur" => $direktur
+		]);
+		$this->load->view('partials/main-footer');
+    }
+    
+	public function create_data_direktur()
+    {
+		$this->load->model('direktur_model');
+        $add = $this->direktur_model->insert_one();
+
+        if($add)
+        {
+            $this->session->set_flashdata('message_success', 'Behasil menambahkan data direktur!');
+            redirect("account/data_direktur");
+        }else
+        {
+            $this->session->set_flashdata('message_error', 'Gagal menambahkan data direktur!');
+            redirect("account/data_direktur");
+        }
+    }
+	
+	public function update_data_direktur()
+    {
+		$this->load->model('direktur_model');
+        $delete = $this->direktur_model->update_one($this->input->post('nip_old'));
+
+        if($delete)
+        {
+            $this->session->set_flashdata('message_success', 'Berhasil mengupdate data direktur!');
+            redirect("account/data_direktur");
+        }else
+        {
+            $this->session->set_flashdata('message_error', 'Gagal mengupdate data direktur!');
+            redirect("account/data_direktur");
+        }
+    }
+	
+	public function delete_data_direktur()
+    {
+		$this->load->model('direktur_model');
+        $delete = $this->direktur_model->delete_one($this->input->post('nip'));
+
+        if($delete)
+        {
+            $this->session->set_flashdata('message_success', 'Berhasil menghapus data direktur!');
+            redirect("account/data_direktur");
+        }else
+        {
+            $this->session->set_flashdata('message_error', 'Gagal menghapus data direktur!');
+            redirect("account/data_direktur");
+        }
+    }
 }
