@@ -30,6 +30,14 @@
   <script src="<?= base_url(); ?>assets/js/Chart.roundedBarCharts.js"></script>
   <!-- End custom js for this page-->
 
+  <script>
+    $(document).ready( function () {
+      $('#list_surat').DataTable({
+        select: true,
+      });
+    } );
+  </script>
+
   <!-- Costum js progantara -->
   <script src="<?= base_url();?>assets/js/costum.js"></script>
   <!-- End Costum js progantara -->
