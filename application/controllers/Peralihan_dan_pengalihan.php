@@ -1,11 +1,11 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Peralihan_dan_pengalihan extends Admin {
+class Peralihan_dan_pengalihan extends Roles {
 
 	public function __construct()
 	{
-		parent::__construct();
+		parent::__construct(['admin', 'pegawai']);
 	}
 
 	public function pengajuan_mutasi()
