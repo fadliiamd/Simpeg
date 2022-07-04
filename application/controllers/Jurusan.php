@@ -69,9 +69,4 @@ class Jurusan extends Admin {
             redirect("jurusan");
         }
     }
-
-    public function redirect_back()
-    {
-        
-    }
 }

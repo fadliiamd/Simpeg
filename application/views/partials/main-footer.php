@@ -35,9 +35,9 @@
       $('#list_surat').DataTable({
         select: true,
       });
-    } );
+      $(".table-datatable").DataTable({});
+    } );    
   </script>
-
   <!-- Costum js progantara -->
   <script src="<?= base_url();?>assets/js/costum.js"></script>
   <!-- End Costum js progantara -->
