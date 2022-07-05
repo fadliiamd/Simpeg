@@ -3,7 +3,14 @@
         <h3>Data Sub Kriteria</h3>
 
         <!-- Large modal -->
-        <button type="button" class="my-3 btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-sm">Tambah Data Sub Kriteria</button>
+        <div class="d-flex">
+            <button type="button" class="my-3 btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-sm">Tambah Data Sub Kriteria</button>
+            <form class="forms-sample mx-3" action="<?= base_url('perhitungan') ?>" method="GET">
+                <button name="jenis_hitung" value="subkriteria" type="submit" class="my-3 btn btn-info">
+                    Hitung Prioritas Subkriteria
+                </button>
+            </form>
+        </div>        
         <?php if ($this->session->flashdata('message_success')) : ?>
             <div class="alert alert-success alert-dismissible fade show" role="alert">
                 <?= $this->session->flashdata('message_success') ?>
@@ -80,6 +87,7 @@
                         <th>Nama</th>
                         <th>Kriteria</th>
                         <th>Nilai</th>
+                        <th>Prioritas</th>  
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -94,7 +102,7 @@
                             <td><?php echo $value->sub_nama; ?></td>
                             <td>
                                 <?php echo $value->nama_kriteria; ?>
-                            </td>
+                            </td>                            
                             <td>
                                 <?php 
                                 switch ($value->nilai) {
@@ -112,6 +120,9 @@
                                         break;
                                 }                               
                                 ?>
+                            </td>
+                            <td>
+                                <?php echo $value->nilai_prioritas; ?>
                             </td>
                             <td>
                                 <!-- Large modal -->

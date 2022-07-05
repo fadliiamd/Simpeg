@@ -373,8 +373,7 @@
             <div class="collapse" id="perangkingan">
               <ul class="nav flex-column sub-menu">
                 <li class="nav-item"> <a class="nav-link" href="<?= base_url("kriteria"); ?>">Kriteria</a></li>
-                <li class="nav-item"> <a class="nav-link" href="<?= base_url("subkriteria"); ?>">Sub Kriteria</a></li>
-                <li class="nav-item"> <a class="nav-link" href="<?= base_url("perhitungan"); ?>">Perhitungan</a></li>
+                <li class="nav-item"> <a class="nav-link" href="<?= base_url("subkriteria"); ?>">Sub Kriteria</a></li>                                
                 <li class="nav-item"> <a class="nav-link"  href="#">Hasil</a></li>                
               </ul>
             </div>

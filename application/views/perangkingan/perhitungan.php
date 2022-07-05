@@ -1,7 +1,7 @@
 <h2 class="text-center mb-3">Perhitungan Rangking Pegawai</h2>
 <nav aria-label="Page navigation example">
     <ul class="pagination justify-content-center">
-        <li class="page-item active"><a class="page-link" href="#" data-target="#mbp">Matriks Perbandingan Berpasangan</a></li>
+        <li class="page-item"><a class="page-link" href="#" data-target="#mbp">Matriks Perbandingan Berpasangan</a></li>
         <li class="page-item"><a class="page-link" href="#" data-target="#mnk">Matriks Nilai Kriteria</a></li>
         <li class="page-item"><a class="page-link" href="#" data-target="#mptb">Matriks Penjumlahan Tiap Baris</a></li>
         <li class="page-item"><a class="page-link" href="#" data-target="#rk">Rasio Konsistensi</a></li>
@@ -26,8 +26,48 @@
                 </button>
             </div>
         <?php endif ?>
+        <?php 
+        if(isset($_GET["jenis_hitung"])){
+            if(isset($_GET["kriteria"]))
+            {
+                if($_GET["jenis_hitung"]=='subkriteria'){
+                    $select_kriteria = '
+                    <form id="form-kriteria" method="GET" action="'.base_url('perhitungan').'" enctype="multipart/form-data">
+                        <select class="form-control" id="kriteria" name="kriteria" required>';                            
+                    $options ='';
+                    foreach ($only_kriteria as $key => $val){
+                        if($_GET["kriteria"] == $val->id){
+                            $option = '<option value="' . $val->id . '" selected>'.$val->nama.'</option>';
+                        }else{
+                            $option = '<option value="' . $val->id . '">'.$val->nama.'</option>';
+                        }
+                        $options .= $option;
+                    }
+                    $select_kriteria .= $options.'</select>
+                        <input type="hidden" name="jenis_hitung" value="subkriteria">
+                    </form>';
+                    echo $select_kriteria;
+                }                
+            }else{
+                if($_GET["jenis_hitung"]=='subkriteria'){
+                    $select_kriteria = '
+                    <form id="form-kriteria" method="GET" action="'.base_url('perhitungan').'" enctype="multipart/form-data">
+                        <select class="form-control" id="kriteria" name="kriteria" required>
+                            <option value="" selected disabled hidden>-- Pilih Kriteria --</option>';
+                    $option ='';
+                    foreach ($only_kriteria as $key => $val){
+                        $option .= '<option value="' . $val->id . '">'.$val->nama.'</option>';
+                    }
+                    $select_kriteria .= $option.'</select>
+                        <input type="hidden" name="jenis_hitung" value="subkriteria">
+                    </form>';
+                    echo $select_kriteria;
+                } 
+            }       
+        }?>
         <div class="table-responsive pt-3 text-dark">
-            <form id="mbp" class="forms-sample matriks" action="<?= base_url('perhitungan/simpan_mpb') ?>" method="post" enctype="multipart/form-data">
+            <form id="mbp" class="forms-sample matriks d-none" action="<?= base_url('perhitungan/simpan_mpb') ?>" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="kriteria_id" value="<?php if(isset($_GET["kriteria"])) echo $_GET["kriteria"]?>">
                 <div class="form-group">
                     <table class="table table-bordered">
                         <thead>
@@ -52,9 +92,9 @@
                                 $kolom = 1;
                             ?>
                                 <tr>
-                                    <th style="text-align: center;">
+                                    <td style="text-align: center;">
                                         <?= $b->nama ?>
-                                    </th>
+                                    </td>
                                     <?php foreach ($kriteria as $key => $k) { ?>
                                         <td>
                                             <div class="form-group" style="margin-bottom: 0;">
@@ -66,7 +106,7 @@
                                                     }
                                                     $format = '<select 
                                                         id="' . $baris . '-' . $kolom . '" 
-                                                        name="' . $b->id . '-' . $k->id . '" class="form-control form-control-sm text-dark">                          
+                                                        name="' . $b->id . '-' . $k->id . '" class="select-skala form-control form-control-sm text-dark">                          
                                                         ' . $option_format . '</select>';
                                                 } else {
                                                     $option_format = '';
@@ -75,7 +115,7 @@
                                                     }
                                                     $format = '<select 
                                                         id="' . $baris . '-' . $kolom . '" 
-                                                        name="' . $b->id . '-' . $k->id . '" class="form-control form-control-sm text-dark" disabled>
+                                                        name="' . $b->id . '-' . $k->id . '" class="select-skala form-control form-control-sm text-dark" disabled>
                                                         ' . $option_format . '
                                                         </select>';
                                                 }
@@ -107,7 +147,7 @@
                     </table>
                     <div class="mt-3">
                         <button id="load" type="button" class="btn btn-warning">Load Matriks</button>
-                        <button type="submit" class="btn btn-primary">Simpan Matriks</button>
+                        <button id="simpan_skala" type="submit" name="jenis" value="<?= $_GET["jenis_hitung"]?>" class="btn btn-primary">Simpan Matriks</button>
                     </div>
                 </div>
             </form>
@@ -140,7 +180,7 @@
                         foreach ($kriteria as $key => $b) {
                             $kolom = 1;  
                             $format = "<tr>";
-                            $format .= "<th>" . $b->nama . "</th>";
+                            $format .= "<td style='text-align: center;'>" . $b->nama . "</td>";
                             foreach ($kriteria as $key => $k){
                                 $format .= '<td><input 
                                     id="mnk-'.$baris.'-'.$kolom.'" 
@@ -190,7 +230,7 @@
                         foreach ($kriteria as $key => $b) {
                             $kolom = 1;  
                             $format = "<tr>";
-                            $format .= "<th>" . $b->nama . "</th>";
+                            $format .= "<td style='text-align: center;'>" . $b->nama . "</td>";
                             foreach ($kriteria as $key => $k){
                                 $format .= '<td><input 
                                     id="mptb-'.$baris.'-'.$kolom.'" 
@@ -211,95 +251,100 @@
                         <button id="hitung_mptb" type="button" class="btn btn-warning">Hitung</button>
                 </div>
             </div>
-            <div id="rk" class="matriks form-group d-none">
-                <table class="table table-bordered">
-                    <thead>
-                    <tr style="text-align: center;">
-                        <th colspan="7">
-                        Rasio Konsistensi
-                        </th>
-                    </tr>
-                    <tr style="text-align: center;">
-                        <th>
-                        Kriteria
-                        </th>
-                        <th>
-                        Jumlah Per Baris
-                        </th>
-                        <th>
-                        Prioritas
-                        </th>
-                        <th>
-                        Hasil
-                        </th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <?php   
-                        $baris = 1;                                            
-                        foreach ($kriteria as $key => $b) {
-                            $kolom = 1;  
-                            $format = "<tr>";
-                            $format .= "<th>" . $b->nama . "</th>";
-                            foreach (range(1, 2) as $i){
+            <form  id="rk" class="forms-sample matriks d-none" action="<?= base_url('perhitungan/simpan_nilai_prior') ?>" method="POST" enctype="multipart/form-data">
+                <div class="form-group ">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr style="text-align: center;">
+                            <th colspan="7">
+                            Rasio Konsistensi
+                            </th>
+                        </tr>
+                        <tr style="text-align: center;">
+                            <th>
+                            Kriteria
+                            </th>
+                            <th>
+                            Jumlah Per Baris
+                            </th>
+                            <th>
+                            Prioritas
+                            </th>
+                            <th>
+                            Hasil
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php   
+                            $baris = 1;                                            
+                            foreach ($kriteria as $key => $b) {                            
+                                $format = "<tr>";
+                                $format .= "<td style='text-align: center;'>" . $b->nama . "</td>";
+                                foreach (range(1, 2) as $kolom){
+                                    $format .= '<td>
+                                            <input type="text" 
+                                            class="form-control rk-'.$baris.'-'.$kolom.'" value="1" disabled>
+                                            <input name="'.$b->id.'-'.$kolom.'" type="hidden" 
+                                            class="form-control rk-'.$baris.'-'.$kolom.'" value="1">
+                                        </td>';                                
+                                }    
                                 $format .= '<td><input 
-                                    id="rk-'.$baris.'-'.$kolom.'" 
-                                    type="text" class="form-control" value="1" disabled></td>';
-                                $kolom++;
-                            }    
-                            $format .= '<td><input 
-                                    id="rk_jmlh-'.$baris.'" 
-                                    type="text" class="form-control" value="1" disabled></td>';                       
-                            $format .="</tr>";
-                            $baris++;
-                            echo $format;
-                        }                         
-                        ?>
-                    </tbody>
-                    <thead>
-                    <tr style="text-align: center;">
-                        <th style="vertical-align: middle;" colspan="3">
-                            Total
-                        </th>
-                        <th>
-                            <input class="form-control" id="total_rk" value="3" disabled>
-                        </th>
-                    </tr>
-                    </thead>
-                </table>
-                <div class="hasil mt-3">
-                    <h3>Hasil Lanjutan</h3>
-                    <ul>
-                        <li>
-                            Jumlah (jumlah kolom hasil) = <span id="jmlh_kolom_hasil">?</span>
-                        </li>
-                        <li>
-                            Jumlah kriteria n = <span id="jmlh_kriteria">?</span>
-                        </li>
-                        <li>
-                            lamda maks (Jumlah / n) = <span id="lamda_maks">?</span>
-                        </li>
-                        <li>
-                            Nilai CI ((lamda maks - n)/(n-1)) = <span id="nilai_ci">?</span>
-                        </li>
-                        <li>
-                            Nilai CR (CI / IR) = <span id="nilai_cr">?</span>
-                        </li>
-                    </ul>
+                                        id="rk_jmlh-'.$baris.'" 
+                                        type="text" class="form-control" value="1" disabled></td>';                       
+                                $format .="</tr>";
+                                $baris++;
+                                echo $format;
+                            }                         
+                            ?>
+                        </tbody>
+                        <thead>
+                        <tr style="text-align: center;">
+                            <th style="vertical-align: middle;" colspan="3">
+                                Total
+                            </th>
+                            <th>
+                                <input class="form-control" id="total_rk" value="3" disabled>
+                            </th>
+                        </tr>
+                        </thead>
+                    </table>
+                    <div class="hasil mt-3">
+                        <h3>Hasil Lanjutan</h3>
+                        <ul>
+                            <li>
+                                Jumlah (jumlah kolom hasil) = <span id="jmlh_kolom_hasil">?</span>
+                            </li>
+                            <li>
+                                Jumlah kriteria n = <span id="jmlh_kriteria">?</span>
+                            </li>
+                            <li>
+                                lamda maks (Jumlah / n) = <span id="lamda_maks">?</span>
+                            </li>
+                            <li>
+                                Nilai CI ((lamda maks - n)/(n-1)) = <span id="nilai_ci">?</span>
+                            </li>
+                            <li>
+                                Nilai CR (CI / IR) = <span id="nilai_cr">?</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="mt-3">
+                        <button id="hitung_rk" type="button" class="btn btn-warning">Hitung</button>
+                        <button id="simpan_hasil" type="submit" name="jenis" value="<?= $_GET["jenis_hitung"]?>"  class="btn btn-primary" disabled>Simpan Nilai</button>
+                    </div>
                 </div>
-                <div class="mt-3">
-                    <button id="hitung_rk" type="button" class="btn btn-warning">Hitung</button>
-                </div>
-            </div>
+            </form>
         </div>
     </div>
 </div>
 
+
 <script>
     var max_mtx = <?= count($kriteria) ?>;
-    var current = "#mbp";
+    var current = "";
 
-    $('select').on('change', function() {
+    $('.select-skala').on('change', function() {        
         var idx_mtx = this.id;
         var idx_mtx_bar = this.id.split('-')[0];
         var idx_mtx_col = this.id.split('-')[1];       
@@ -319,13 +364,19 @@
         }
     });
 
+    $('#kriteria').on('change', function() {
+        $("#form-kriteria").submit();
+    });
+
     $("#load").click(function(e) {
         e.preventDefault();
         $.ajax({
             type: 'get',
             dataType: 'json',
             url: "<?= base_url('perhitungan/get_nilai_mbp'); ?>",
-            data: $(this).serialize(),
+            data: {                
+                jenis :  $('button[name="jenis"]').val()
+            },
             error: function() {
                 console.log("error");
             },
@@ -333,6 +384,7 @@
                 console.log("bentar lagi before send");
             },
             success: function(x) {
+                console.log(x);
                 if (x.status == "ok") {
                     $.each(x.data, function(key, d) {
                         // $('select[name="' + d.dari_kriteria + '-' + d.ke_kriteria + '"] option[value="' + d.nilai + '"]').attr('selected', true);
@@ -407,7 +459,7 @@
             jmlh = 0;
             for(j=0; j<2; j++){  
                 value = parseFloat($(arr[j]+i).val());               
-                $("#rk-"+i+"-"+(j+1)).val(value);
+                $(".rk-"+i+"-"+(j+1)).val(value);
                 jmlh += value;
             }             
             $("#rk_jmlh-"+i).val(jmlh);     
@@ -435,9 +487,11 @@
 
         if(nilai_cr < 0.1)
         {
-            $("#nilai_cr").html(nilai_cr + " DITERIMA!");
+            $("#nilai_cr").html(nilai_cr + " <span class='badge badge-success'>DITERIMA!</span> ");
+            $("#simpan_hasil").attr("disabled", false);
         }else{
-            $("#nilai_cr").html(nilai_cr + " DITOLAK!");
+            $("#nilai_cr").html(nilai_cr + " <span class='badge badge-danger'>DITOLAK!</span>");
+            $("#simpan_hasil").attr("disabled", true);
         }
 
     })

@@ -44,6 +44,25 @@ class Kriteria_model extends CI_Model
         return true;
     }
 
+    public function update_prior($id)
+    {
+        $this->db->trans_start();
+        $nilai_prior = $this->input->post($id.'-2');
+
+        $data = array(
+            "nilai_prioritas" => $nilai_prior,
+        );
+        $this->db->where('id', $id);
+        $this->db->update($this->table, $data);
+        $this->db->trans_complete();
+
+        if ($this->db->trans_status() === FALSE) {
+            return false;
+        }
+
+        return true;
+    }
+
     public function delete_one($id)
     {
         $this->db->trans_start();

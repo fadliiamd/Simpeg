@@ -3,11 +3,15 @@
         <h3>Data Kriteria</h3>
 
         <!-- Large modal -->
-        <button type="button" class="my-3 btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-sm">Tambah Data Kriteria</button>
+        <div class="d-flex">
+            <button type="button" class="my-3 btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-sm">Tambah Data Kriteria</button>
 
-        <a href="<?= base_url('kriteria/matriks_perbandingan') ?>">
-        <button type="button" class="my-3 btn btn-primary">Lihat Matriks Perbandingan</button>
-        </a>        
+            <form class="forms-sample mx-3" action="<?= base_url('perhitungan') ?>" method="GET">
+                <button name="jenis_hitung" value="kriteria" type="submit" class="my-3 btn btn-info">
+                    Hitung Prioritas Kriteria
+                </button>
+            </form>
+        </div>        
 
         <?php if ($this->session->flashdata('message_success')) : ?>
             <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -65,6 +69,7 @@
                         <th>No</th>
                         <th>ID</th>
                         <th>Nama</th>                        
+                        <th>Prioritas</th>                        
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -77,6 +82,7 @@
                             <td><?php echo $no ?></td>
                             <td><?php echo "C-" . $value->id; ?></td>
                             <td><?php echo $value->nama; ?></td>
+                            <td><?php echo $value->nilai_prioritas; ?></td>
                             <td>                               
                                 <!-- Large modal -->
                                 <button type="button" class="btn btn-warning" data-toggle="modal" data-target=".edittable-<?= $value->id ?>">Edit</button>

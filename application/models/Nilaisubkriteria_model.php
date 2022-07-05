@@ -1,9 +1,9 @@
 <?php
 
-class Nilaikriteria_model extends CI_Model
+class Nilaisubkriteria_model extends CI_Model
 {
 
-    public $table = "nilaikriteria";
+    public $table = "nilaisubkriteria";
 
     public function get_all()
     {
@@ -15,7 +15,14 @@ class Nilaikriteria_model extends CI_Model
     public function inserts()
     {   
         // Selalu override data     
-        $this->db->empty_table($this->table);
+        $this->db->trans_start();
+        $this->db->where('kriteria_id', $this->input->post('kriteria_id'));
+        $this->db->delete($this->table);
+        $this->db->trans_complete();
+
+        if ($this->db->trans_status() === FALSE) {
+            return false;
+        }        
 
         foreach($_POST as $key => $value)
         {
@@ -26,12 +33,11 @@ class Nilaikriteria_model extends CI_Model
                 $data = array(
                     "dari_kriteria" => $from,
                     "ke_kriteria" => $to,
-                    "nilai" => $value
-                );
-    
+                    "nilai" => $value,
+                    "kriteria_id" => $this->input->post('kriteria_id'),
+                );                
                 $this->db->insert($this->table, $data);
-    
-            }            
+            }                     
         }        
 
         return ($this->db->affected_rows() != 1) ? false : true;
