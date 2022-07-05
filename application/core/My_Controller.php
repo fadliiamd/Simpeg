@@ -14,6 +14,27 @@ class Authentication extends CI_Controller {
 
 }
 
+class Roles extends Authentication {
+    
+    public function __construct($array_role) {
+        parent::__construct();
+        
+        $nip = $this->session->userdata('nip');
+        $isAccess = false;
+		$this->load->model('account_model');
+
+        foreach ($array_role as $value) {
+            if ($this->account_model->get_role($nip) == $value) {
+                $isAccess = true;
+            }
+        }		
+
+        if(!$isAccess) {
+            redirect('/errors/show_403');
+        }
+    }
+
+}
 class Admin extends Authentication {
     
     public function __construct() {
