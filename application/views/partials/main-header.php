@@ -329,11 +329,11 @@
             </a>
             <div class="collapse" id="peralihan">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="<?= base_url("Peralihan_dan_pengalihan/pengajuan_mutasi"); ?>">Pengajuan</a></li>
-                <li class="nav-item"> <a class="nav-link" href="<?= base_url("Peralihan_dan_pengalihan/berkas_mutasi"); ?>">Berkas Persyaratan</a></li>
-                <li class="nav-item"> <a class="nav-link" href="<?= base_url("Peralihan_dan_pengalihan/usulan_mutasi"); ?>">Usulan</a></li>
-                <li class="nav-item"> <a class="nav-link" href="<?= base_url("Peralihan_dan_pengalihan/penerimaan_mutasi"); ?>">Penerimaan</a></li>
-                <li class="nav-item"> <a class="nav-link" href="<?= base_url("Peralihan_dan_pengalihan/sk_mutasi"); ?>">Surat Keputusan</a></li>
+                <li class="nav-item"> <a class="nav-link" href="<?= base_url("Mutasi/pengajuan_mutasi"); ?>">Pengajuan</a></li>
+                <li class="nav-item"> <a class="nav-link" href="<?= base_url("Mutasi/berkas_mutasi"); ?>">Berkas Persyaratan</a></li>
+                <li class="nav-item"> <a class="nav-link" href="<?= base_url("Mutasi/usulan_mutasi"); ?>">Usulan</a></li>
+                <li class="nav-item"> <a class="nav-link" href="<?= base_url("Mutasi/penerimaan_mutasi"); ?>">Penerimaan</a></li>
+                <li class="nav-item"> <a class="nav-link" href="<?= base_url("Mutasi/sk_mutasi"); ?>">Surat Keputusan</a></li>
               </ul>
             </div>
           </li>
@@ -345,11 +345,11 @@
             </a>
             <div class="collapse" id="pemberhentian">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="<?= base_url("Peralihan_dan_pengalihan/riwayat_pemberhentian"); ?>">Riwayat</a></li>
-                <li class="nav-item"> <a class="nav-link" href="<?= base_url("Peralihan_dan_pengalihan/pengajuan_pemberhentian"); ?>">Pengajuan</a></li>
-                <li class="nav-item"> <a class="nav-link" href="<?= base_url("Peralihan_dan_pengalihan/berkas_pemberhentian"); ?>">Berkas Persyaratan</a></li>
-                <li class="nav-item"> <a class="nav-link" href="<?= base_url("Peralihan_dan_pengalihan/usulan_pensiun"); ?>">Usulan Pensiun</a></li>
-                <li class="nav-item"> <a class="nav-link" href="<?= base_url("Peralihan_dan_pengalihan/sk_pensiun"); ?>">SK Pensiun</a></li>
+                <li class="nav-item"> <a class="nav-link" href="<?= base_url("Pemberhentian/riwayat_pemberhentian"); ?>">Riwayat</a></li>
+                <li class="nav-item"> <a class="nav-link" href="<?= base_url("Pemberhentian/pengajuan_pemberhentian"); ?>">Pengajuan</a></li>
+                <li class="nav-item"> <a class="nav-link" href="<?= base_url("Pemberhentian/berkas_pemberhentian"); ?>">Berkas Persyaratan</a></li>
+                <li class="nav-item"> <a class="nav-link" href="<?= base_url("Pemberhentian/usulan_pensiun"); ?>">Usulan Pensiun</a></li>
+                <li class="nav-item"> <a class="nav-link" href="<?= base_url("Pemberhentian/sk_pensiun"); ?>">SK Pensiun</a></li>
               </ul>
             </div>
           </li>
