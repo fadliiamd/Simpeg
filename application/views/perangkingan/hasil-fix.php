@@ -1,7 +1,9 @@
 <div class="row">
   <div class="col-lg-12">
     <h4>Hasil Perangkingan (Kepala Bagian Umum)</h4>
-
+    <a href="<?= base_url("hasil/perhitungan") ?>">
+      <button type="button" class="btn btn-primary">Hitung Hasil</button>
+    </a>
     <div class="table-responsive">
       <table id="list_hasil_perangkingan" class="table table-striped table-bordered">
         <thead class="thead-dark">

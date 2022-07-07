@@ -359,6 +359,12 @@
             <hr>
           </li>
           <li class="nav-item">
+            <a class="nav-link"  href="<?= base_url().'surat' ?>">
+              <i class="mdi mdi-email menu-icon"></i>
+              <span class="menu-title">Surat</span>              
+            </a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#perangkingan" aria-expanded="false" aria-controls="perangkingan">
               <i class="mdi mdi-trophy-variant menu-icon"></i>
               <span class="menu-title">Perangkingan</span>
@@ -366,9 +372,9 @@
             </a>
             <div class="collapse" id="perangkingan">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="#">Kriteria</a></li>
-                <li class="nav-item"> <a class="nav-link" href="#">Perhitungan</a></li>
-                <li class="nav-item"> <a class="nav-link"  href="#">Hasil</a></li>                
+                <li class="nav-item"> <a class="nav-link" href="<?= base_url("kriteria"); ?>">Kriteria</a></li>
+                <li class="nav-item"> <a class="nav-link" href="<?= base_url("subkriteria"); ?>">Sub Kriteria</a></li>                                
+                <li class="nav-item"> <a class="nav-link"  href="<?= base_url("hasil"); ?>">Hasil</a></li>                
               </ul>
             </div>
           </li>
