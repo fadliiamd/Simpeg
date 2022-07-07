@@ -42,9 +42,9 @@ class Subkriteria extends Roles {
     }
     
     public function update()
-    {        
+    {         
         $this->load->model('subkriteria_model');
-        $id = $this->input->post('id_subkriteria');
+        $id = $this->input->post('sub_id');
         $update = $this->subkriteria_model->update_one($id);
 
         if($update)

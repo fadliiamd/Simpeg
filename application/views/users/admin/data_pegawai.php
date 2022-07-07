@@ -87,11 +87,26 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <div class="col-md-6">
+                                <div class="col-md-3">
+                                    <label for="tgl_masuk">Tanggal Masuk (*)</label>
+                                    <input type="date" class="form-control" id="tgl_masuk" name="tgl_masuk">
+                                </div>
+                                <div class="col-md-3">
                                     <label for="jabatan">Jabatan</label>
                                     <input type="text" class="form-control" id="jabatan" name="jabatan">
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-3">
+                                    <label for="pendidikan">Pendidikan (*)</label>
+                                    <select class="form-control" id="pendidikan" name="pendidikan" required>
+                                        <option value="" selected hidden>-- Pilih Pendidikan --</option>
+                                        <option value="SMA">SMA</option>
+                                        <option value="D3">D3</option>
+                                        <option value="S1">S1</option>
+                                        <option value="S2">S2</option>
+                                        <option value="S3">S3</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
                                     <label for="gaji">Gaji</label>
                                     <input type="number" class="form-control" id="gaji" name="gaji" placeholder="Rp.">
                                 </div>
@@ -292,11 +307,26 @@
                                                         </div>
                                                     </div>
                                                     <div class="form-group row">
-                                                        <div class="col-md-6">
+                                                        <div class="col-md-3">
+                                                            <label for="tgl_masuk">Tanggal Masuk (*)</label>
+                                                            <input type="date" class="form-control" id="tgl_masuk" name="tgl_masuk" value="<?= date('Y-m-d',strtotime($value->tgl_masuk)) ?>">
+                                                        </div>
+                                                        <div class="col-md-3">
                                                             <label for="jabatan">Jabatan</label>
                                                             <input type="text" class="form-control" id="jabatan" name="jabatan" value="<?= $value->jabatan ?>">
                                                         </div>
-                                                        <div class="col-md-6">
+                                                        <div class="col-md-3">
+                                                            <label for="pendidikan">Pendidikan (*)</label>
+                                                            <select class="form-control" id="pendidikan" name="pendidikan" required>
+                                                                <option value="<?= $value->pendidikan ?>" selected hidden><?= $value->pendidikan ?></option>
+                                                                <option value="SMA">SMA</option>
+                                                                <option value="D3">D3</option>
+                                                                <option value="S1">S1</option>
+                                                                <option value="S2">S2</option>
+                                                                <option value="S3">S3</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-md-3">
                                                             <label for="gaji">Gaji</label>
                                                             <input type="number" class="form-control" id="gaji" name="gaji" value="<?= $value->gaji?>" placeholder="Rp.">
                                                         </div>

@@ -74,6 +74,20 @@ class Perhitungan extends Roles
         }        
     }
 
+    public function simpan_mna()
+    {
+        $this->load->model('nilaialternatif_model');
+        $add = $this->nilaialternatif_model->inserts();
+
+        if ($add) {
+            $this->session->set_flashdata('message_success', 'Behasil menyimpan data matriks perbandingan!');                
+            redirect("hasil/perhitungan");
+        } else {
+            $this->session->set_flashdata('message_error', 'Gagal menyimpan data matriks perbandingan!');
+            redirect("hasil/perhitungan");
+        }     
+    }
+
     public function simpan_nilai_prior()
     {
         if($_POST["jenis"] == "subkriteria"){

@@ -365,6 +365,12 @@
             </a>
           </li>
           <li class="nav-item">
+            <a class="nav-link"  href="<?= base_url().'sertifikat' ?>">
+              <i class="mdi mdi-certificate menu-icon"></i>
+              <span class="menu-title">Sertifikat</span>              
+            </a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#perangkingan" aria-expanded="false" aria-controls="perangkingan">
               <i class="mdi mdi-trophy-variant menu-icon"></i>
               <span class="menu-title">Perangkingan</span>
@@ -432,8 +438,7 @@
               <i class="menu-arrow"></i>
             </a>
             <div class="collapse" id="kepegawaian">
-              <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="#">Jenis Pegawai</a></li>                
+              <ul class="nav flex-column sub-menu">                
                 <li class="nav-item"> <a class="nav-link" href="<?= base_url("golpang"); ?>">Golongan/Pangkat</a></li>                  
               </ul>
             </div>
