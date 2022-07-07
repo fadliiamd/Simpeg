@@ -8,8 +8,24 @@ class Pegawai_model extends CI_Model
 
     public function get_all()
     {
-        $query = $this->db->get($this->table);
+        $this->db->select('*, pegawai.account_nip as account_nip, COUNT(*) as jmlh_serti');
+        $this->db->from($this->table);
+        $this->db->join('sertifikat', 'pegawai.account_nip = sertifikat.account_nip', 'left');        
+        $this->db->group_by('pegawai.account_nip');
+        $this->db->order_by('pegawai.account_nip', 'asc');
 
+        $query = $this->db->get();        
+        // var_dump($query->result());die();
+        return $query->result();
+    }
+
+    public function get_all_order($coloumn, $type_order){
+        $this->db->select('*');
+        $this->db->from($this->table);        
+        $this->db->order_by($coloumn, $type_order);
+
+        $query = $this->db->get();        
+        
         return $query->result();
     }
 
@@ -72,6 +88,8 @@ class Pegawai_model extends CI_Model
             $status_pegawai = $this->input->post('status_pegawai');
             $gaji = $this->input->post('gaji');
             $jabatan = $this->input->post('jabatan');
+            $tgl_masuk = $this->input->post('tgl_masuk');
+            $pendidikan = $this->input->post('pendidikan');
 
             $jurusan_id = $this->input->post('jurusan_id');
             $bagian_id = $this->input->post('bagian_id');
@@ -95,6 +113,8 @@ class Pegawai_model extends CI_Model
                 "status" => $status_pegawai,
                 "gaji" => $gaji,
                 "jabatan" => $jabatan,
+                "tgl_masuk" => $tgl_masuk,
+                "pendidikan" => $pendidikan,
                 "jurusan_id" => $jurusan_id,
                 "bagian_id" => $bagian_id,
                 "unit_id" => $unit_id,
@@ -140,6 +160,8 @@ class Pegawai_model extends CI_Model
             $status_pegawai = $this->input->post('status_pegawai');
             $gaji = $this->input->post('gaji');
             $jabatan = $this->input->post('jabatan');
+            $tgl_masuk = $this->input->post('tgl_masuk');
+            $pendidikan = $this->input->post('pendidikan');
 
             $jurusan_id = $this->input->post('jurusan_id');
             $bagian_id = $this->input->post('bagian_id');
@@ -162,6 +184,8 @@ class Pegawai_model extends CI_Model
                 "status" => $status_pegawai,
                 "gaji" => $gaji,
                 "jabatan" => $jabatan,
+                "tgl_masuk" => $tgl_masuk,
+                "pendidikan" => $pendidikan,
                 "jurusan_id" => $jurusan_id,
                 "bagian_id" => $bagian_id,
                 "unit_id" => $unit_id,

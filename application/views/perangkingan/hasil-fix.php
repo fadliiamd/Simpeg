@@ -1,9 +1,13 @@
 <div class="row">
   <div class="col-lg-12">
-    <h4>Hasil Perangkingan (Kepala Bagian Umum)</h4>
-    <a href="<?= base_url("hasil/perhitungan") ?>">
-      <button type="button" class="btn btn-primary">Hitung Hasil</button>
-    </a>
+    <h4>Hasil Perangkingan</h4>
+    
+    <div class="my-3">
+      <a href="<?= base_url("hasil/perhitungan") ?>">
+        <button type="button" class="btn btn-primary">Hitung Hasil</button>
+      </a>
+    </div>
+        
     <div class="table-responsive">
       <table id="list_hasil_perangkingan" class="table table-striped table-bordered">
         <thead class="thead-dark">
@@ -13,41 +17,28 @@
             <th>NIP</th>
             <th>Nama Pegawai</th>
             <th>Jenis Pegawai</th>
-            <th>Status</th>
+            <th>Nilai Rank</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td></td>
-            <td>1</td>
-            <td>012461017212</td>
-            <td>Dadang Suherman</td>
-            <td>Struktural</td>
-            <td>
-              <label class="badge badge-success">Unggul</label>
-            </td>
-          </tr>
-          <tr>
-            <td></td>
-            <td>2</td>
-            <td>812912012742</td>
-            <td>Rahmat Haris</td>
-            <td>Fungsional</td>
-            <td>
-              <label class="badge badge-success">Unggul</label>
-            </td>
-          </tr>
-        </tbody>
-        <tfoot class="thead-dark">
-          <tr>
-            <th>Pilih</th>
-            <th>No</th>
-            <th>NIP</th>
-            <th>Nama Pegawai</th>
-            <th>Jenis Pegawai</th>
-            <th>Status</th>
-          </tr>
-        </tfoot>
+          <?php 
+            $format = '';
+            $no = 1;
+            foreach ($pegawai as $key => $value){
+              $format .= '
+              <tr>
+                <td></td>
+                <td>'.$no.'</td>
+                <td>'.$value->account_nip.'</td>
+                <td>'.$value->nama.'</td>
+                <td>'.$value->jenis_pegawai.'</td>
+                <td>'.$value->nilai_rank.'</td>
+              </tr>';
+              $no++;
+            }
+            echo $format;
+          ?>
+        </tbody>        
       </table>
     </div>
   </div>
