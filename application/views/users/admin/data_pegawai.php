@@ -374,20 +374,20 @@
                                                             <label for="foto">Foto</label>
                                                             <input type="file" class="form-control-file" id="foto" name="foto">
                                                             <?php if( ! is_null($value->foto)) {?>
-                                                                <a href="<?= base_url().'uploads/'.$value->foto ?>" download>Download Foto</a>
+                                                                <a href="<?= base_url().'uploads/'.$value->foto ?>" target="_blank">Lihat Foto</a>
                                                             <?php
                                                             } ?>
                                                         </div>
                                                         <div class="col-md-4">
                                                             <label for="ijazah">Ijazah (*)</label>
                                                             <input type="file" class="form-control-file" id="ijazah" name="ijazah">
-                                                            <a href="<?= base_url().'uploads/'.$value->ijazah ?>" download>Download Ijazah</a>
+                                                            <a href="<?= base_url().'uploads/'.$value->ijazah ?>" target="_blank" >Lihat Ijazah</a>
                                                         </div>
                                                         <div class="col-md-4">
                                                             <label for="karpeg">Kartu Pegawai</label>
                                                             <input type="file" class="form-control-file" id="karpeg" name="karpeg">
                                                             <?php if( ! is_null($value->karpeg)) {?>
-                                                                <a href="<?= base_url().'uploads/'.$value->karpeg ?>" download>Download Kartu Pegawai</a>
+                                                                <a href="<?= base_url().'uploads/'.$value->karpeg ?>" target="_blank">Lihat Kartu Pegawai</a>
                                                             <?php
                                                             } ?>
                                                         </div>

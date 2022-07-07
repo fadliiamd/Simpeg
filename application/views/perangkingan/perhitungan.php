@@ -67,7 +67,7 @@
         }?>
         <div class="table-responsive pt-3 text-dark">
             <form id="mbp" class="forms-sample matriks d-none" action="<?= base_url('perhitungan/simpan_mpb') ?>" method="post" enctype="multipart/form-data">
-            <input type="hidden" name="kriteria_id" value="<?php if(isset($_GET["kriteria"])) echo $_GET["kriteria"]?>">
+                <input type="hidden" name="kriteria_id" value="<?php if(isset($_GET["kriteria"])) echo $_GET["kriteria"]?>">
                 <div class="form-group">
                     <table class="table table-bordered">
                         <thead>
