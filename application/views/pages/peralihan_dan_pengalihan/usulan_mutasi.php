@@ -208,7 +208,7 @@
                                 <?php }; ?>
 
                             </td>
-                            <td><?= $value->tgl_persetujuan ?></td>
+                            <td><?= ($value->tgl_persetujuan == null) ? "-" : $value->tgl_persetujuan ; ?></td>
                             <td>
                                 
                             <?php if($this->session->userdata("role") == "admin"){ ?>   
@@ -296,8 +296,7 @@
 
                             </td>
                         </tr>
-                    <?php } ?>
-
+                    <?php $i++; } ?>
                 </tbody>
                 <tfoot class="thead-dark">
                     <tr>

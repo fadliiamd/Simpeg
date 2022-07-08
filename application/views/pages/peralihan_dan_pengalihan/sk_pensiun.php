@@ -16,7 +16,7 @@
                                 <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
-                            <form class="forms-sample">
+                            <form class="forms-sample" action="<?= base_url("pemberhentian/create_data_sk_pemberhentian"); ?>" method="POST" enctype="multipart/form-data">
                                 <div class="modal-body">
                                     <div class="form-group">
                                         <label for="tgl_pensiun">Tanggal Pensiun</label>
@@ -29,8 +29,9 @@
                                     <div class="form-group">
                                         <label for="usulan_pensiun">Usulan Pensiun</label>
                                         <select class="form-control" id="usulan_pensiun" name="usulan_pensiun">
-                                            <option>A</option>
-                                            <option>B</option>
+                                            <?php foreach ($usulan as $key => $value) { ?>
+                                                <option value="<?= $value->id ?>"><?= $value->pegawai_nip ?> - <?= $value->alasan ?></option>
+                                            <?php } ?>
                                         </select>
                                     </div>
                                 </div>
@@ -45,6 +46,23 @@
                 <!-- End Modal -->
         <?php } ?>
 
+        <?php if ($this->session->flashdata('message_success')) : ?>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <?= $this->session->flashdata('message_success') ?>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        <?php endif ?>
+        <?php if ($this->session->flashdata('message_error')) : ?>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <?= $this->session->flashdata('message_error') ?>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        <?php endif ?>
+
         <div class="table-responsive">
             <table id="tbl-pengajuan-mutasi" class="table table-striped table-bordered">
                 <thead class="thead-dark">
@@ -56,11 +74,15 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <?php 
+                        $i = 1;
+                        foreach ($sk_pemberhentian as $key => $value) { 
+                    ?>
                     <tr>
-                        <td>1</td>
-                        <td>2011-06-27</td>
+                        <td><?= $i ?></td>
+                        <td><?= $value->tgl_pensiun ?></td>
                         <td>
-                            <button type="button" class="btn btn-info">Lihat</button> 
+                            <a href="<?= base_url().'uploads/'.$value->file_mutasi ?>" download class="btn btn-secondary">Unduh</a>    
                         </td>
                         <td>
                             <?php if($this->session->userdata("role") == "admin"){ ?>  
@@ -77,28 +99,21 @@
                                                 <span aria-hidden="true">&times;</span>
                                                 </button>
                                             </div>
-                                            <form class="forms-sample">
+                                            <form class="forms-sample" action="<?= base_url("pemberhentian/update_data_sk_pemberhentian"); ?>" method="POST" enctype="multipart/form-data">
                                                 <div class="modal-body">
+                                                    <input type="hidden" name="id" value="<?= $value->id ?>">
                                                     <div class="form-group">
-                                                        <label for="jenis_mutasi">Jenis Mutasi</label>
-                                                        <select class="form-control" id="jenis_mutasi" name="jenis_mutasi">
-                                                            <option>Mutasi Masuk</option>
-                                                            <option>Mutasi Keluar</option>
-                                                        </select>
+                                                        <label for="file_pensiun">File pensiun</label>
+                                                        <input type="file" class="form-control-file" id="file_pensiun" name="file_pensiun">
+                                                        <a href="<?= base_url().'uploads/'.$value->file_pensiun ?>" download>Download File pensiun</a>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label for="tgl_mutasi">Tanggal Mutasi</label>
-                                                        <input type="date" class="form-control" id="tgl_mutasi" name="tgl_mutasi">
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="file_mutasi">File Mutasi</label>
-                                                        <input type="file" class="form-control-file" id="file_mutasi" name="file_mutasi">
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="usulan_mutasi">Usulan Mutasi</label>
-                                                        <select class="form-control" id="usulan_mutasi" name="usulan_mutasi">
-                                                            <option>A</option>
-                                                            <option>B</option>
+                                                        <label for="usulan_pensiun">Usulan pensiun</label>
+                                                        <select class="form-control" id="usulan_pensiun" name="usulan_pensiun">
+                                                            <?php foreach ($usulan as $key => $b) {  
+                                                                if($value->usulanpensiun_id == $b->id)?>
+                                                                <option value="<?= $b->id ?>"><?= $b->pegawai_nip ?> - <?= $b->alasan ?></option>
+                                                            <?php } ?>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -116,27 +131,31 @@
                                 Hapus
                                 </button>
 
-                                    <!-- Modal -->
-                                    <div class="modal fade" id="deletetable" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
+                                <!-- Modal -->
+                                <div class="modal fade" id="deletetable" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <form class="forms-sample" action="<?= base_url("mutasi/delete_data_sk_mutasi"); ?>" method="POST">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel">Hapus Surat Keputusan Pensiun Id : <b>2</b> </h5>
+                                                    <h5 class="modal-title" id="exampleModalLabel">Hapus Surat Keputusan Mutasi Id : <b><?= $value->id ?><b></h5>
+                                                    <input type="hidden" name="id" value="<?= $value->id ?>">
                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
+                                                        <span aria-hidden="true">&times;</span>
                                                     </button>
                                                 </div>
                                                 <div class="modal-body">
                                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                    <button type="button" class="btn btn-danger">Hapus Surat Keputusan Pensiun</button>
+                                                    <button type="submit" class="btn btn-danger">Hapus Berkas</button>
                                                 </div>
-                                            </div>
+                                            </form>
                                         </div>
                                     </div>
+                                </div>
                             <?php } ?>
 
-                        </td>
-                    </tr>
+                            </td>
+                        </tr>
+                    <?php $i++; } ?>
                 </tbody>
                 <tfoot class="thead-dark">
                     <tr>
