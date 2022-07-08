@@ -4,6 +4,7 @@
         <!-- Large modal -->
         <button type="button" class="my-3 btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Tambah Mutasi</button>
 
+        <a href="<?= base_url().'assets/pdf/template-surat-mutasi.pdf'?>" download class="btn btn-secondary">Surat Pengajuan</a>    
         <!-- Modal -->
         <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
@@ -155,12 +156,12 @@
                         <td><?= ($value->tgl_persetujuan == null) ? "-" : $value->tgl_persetujuan ; ?></td>
                         <td>
 
-                            <?php if($this->session->userdata("role") == "pegawai"){ ?>       
+                            <!-- <?php if($this->session->userdata("role") == "pegawai"){ ?>       
                                 <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#uploadtable">
                                     Unggah
-                                </button>
+                                </button> -->
                             <!-- Modal -->
-                            <div class="modal fade" id="uploadtable" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <!-- <div class="modal fade" id="uploadtable" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
@@ -184,11 +185,12 @@
                                     </div>
                                 </div>
                             </div>  
-                            <?php }; ?>
+                            <?php }; ?> -->
                             
-                            <button type="button" class="btn btn-secondary" data-toggle="modal">
+                            <a href="<?= base_url().'uploads/'.$value->surat_pengajuan ?>" download class="btn btn-secondary">
                                 Unduh
-                            </button></td>
+                            </a>
+                        </td>
                         <td>
                             <!-- Large modal -->
                             <button type="button" class="btn btn-info" data-toggle="modal" data-target=".edittable">Edit</button>

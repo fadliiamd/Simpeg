@@ -1,28 +1,9 @@
 <?php
 
-class Mutasi_model extends CI_Model
+class Penerimaan_mutasi_model extends CI_Model
 {
 
-    public $table = "mutasi";
-
-    public function do_upload($file_type, $post_name)
-    {
-         // File
-            $config['upload_path']          = './uploads';
-            $config['allowed_types']        = $file_type;
-            $config['max_size']             = 2048;
-            $this->load->library('upload');
-    
-            $this->upload->initialize($config);
-
-            if (($this->upload->do_upload($post_name)))
-            {
-                $data = $this->upload->data();
-                $data = $data['file_name'];
-            }
-
-            return $data;
-    }
+    public $table = "penerimaanmutasi";
 
     public function get_all()
     {
@@ -43,20 +24,20 @@ class Mutasi_model extends CI_Model
             $_POST[$key] = $value;            
         }
         
-        date_default_timezone_set('Asia/Jakarta');
-        $date = date("Y-m-d H:i:s");
+        $instansi_asal = $this->input->post('instansi_asal');
+        $daerah_asal = $this->input->post('daerah_asal');
         $alasan = $this->input->post('alasan');
-        $pegawai_nip = $this->input->post('pegawai_nip');
-        $surat_pengajuan = $this->do_upload("jpg|png|pdf", "surat_pengajuan");
+        $direktur_nip = $this->input->post('direktur_nip');
+        $bagian_id = $this->input->post('bagian_id');
 
 
         $data_mutasi = array(
             "id" => "",
+            "instansi_asal" => $instansi_asal,
+            "daerah_asal" => $daerah_asal,
             "alasan" => $alasan,
-            "tgl_pengajuan" => $date,
-            "status_pengajuan" => "pending",
-            "pegawai_nip" => $pegawai_nip,
-            "surat_pengajuan" => $surat_pengajuan
+            "status_persetujuan" => "pending",
+            "bagian_id" => $bagian_id
         );
     
         $this->db->insert($this->table, $data_mutasi);
@@ -75,12 +56,18 @@ class Mutasi_model extends CI_Model
             $_POST[$key] = $value;            
         }
 
+        $instansi_asal = $this->input->post('instansi_asal');
+        $daerah_asal = $this->input->post('daerah_asal');
         $alasan = $this->input->post('alasan');
-        $surat_pengajuan = $this->do_upload("pdf|jpg|png", "surat_pengajuan");                    
+        $direktur_nip = $this->input->post('direktur_nip');
+        $bagian_id = $this->input->post('bagian_id');
+
 
         $data_mutasi = array(
+            "instansi_asal" => $instansi_asal,
+            "daerah_asal" => $daerah_asal,
             "alasan" => $alasan,
-            "surat_pengajuan" => $surat_pengajuan,
+            "bagian_id" => $bagian_id
         );
 
         $this->db->trans_start();
@@ -109,22 +96,18 @@ class Mutasi_model extends CI_Model
         return true;
     }
 
-    public function status_mutasi($id)
+    public function status_penerimaan_mutasi($id)
     {        
-        date_default_timezone_set('Asia/Jakarta');
-        $date = date("Y-m-d H:i:s");
-
         if ($this->input->post('status') == "tolak") {
             $data_mutasi = array(
-                "status_pengajuan" => $this->input->post('status')
-            ); 
+                "status_persetujuan" => $this->input->post('status'),
+            );
         }else{
             $data_mutasi = array(
-                "status_pengajuan" => $this->input->post('status'),
-                "tgl_persetujuan" => $date
+                "status_persetujuan" => $this->input->post('status'),
+                "direktur_nip" => $this->session->userdata("nip"),
             ); 
-        }
-
+        };
 
         $this->db->trans_start();
         $this->db->where('id', $id);
