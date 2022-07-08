@@ -414,6 +414,38 @@
           </li>
           <hr>
           <li class="nav-item">
+            <span class="font-weight-bold menu-title">Peningkatan Karir</span>
+            <hr>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#kenaikan_jabatan" aria-expanded="false" aria-controls="kenaikan_jabatan">
+              <i class="mdi mdi-chart-line menu-icon"></i>
+              <span class="menu-title">Kenaikan Jabatan</span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="kenaikan_jabatan">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="<?= base_url("kenaikan_jabatan/pengajuan_kenaikan"); ?>">Pengajuan</a></li>                
+                <li class="nav-item"> <a class="nav-link" href="<?= base_url("kenaikan_jabatan/progress"); ?>">Progress</a></li>                             
+              </ul>
+            </div>
+          </li>          
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#DUPAK" aria-expanded="false" aria-controls="DUPAK">
+              <i class="mdi mdi-file-document-box menu-icon"></i>
+              <span class="menu-title">DUPAK</span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="DUPAK">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="<?= base_url("dupak/pemberkasan"); ?>">Pemberkasan</a></li>                
+                <li class="nav-item"> <a class="nav-link" href="<?= base_url("dupak/riwayat_kinerja"); ?>">Riwayat Kinerja</a></li>                             
+                <li class="nav-item"> <a class="nav-link" href="<?= base_url("dupak/hasil_diklat"); ?>">Hasil Diklat</a></li>                             
+              </ul>
+            </div>
+          </li>
+          <hr>
+          <li class="nav-item">
             <span class="font-weight-bold menu-title">User dan Aplikasi</span>
             <hr>
           </li>
