@@ -41,7 +41,6 @@ class Penerimaan_mutasi_model extends CI_Model
         );
     
         $this->db->insert($this->table, $data_mutasi);
-    
         return ($this->db->affected_rows() != 1) ? false : true;
     
     }
