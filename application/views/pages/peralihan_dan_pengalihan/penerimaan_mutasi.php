@@ -34,8 +34,11 @@
                                 <div class="form-group">
                                     <label for="bagian_id">Bagian</label>
                                     <select class="form-control" id="bagian_id" name="bagian_id">
-                                        <?php foreach ($bagian as $key => $value) { ?>
-                                            <option value="<?= $value->id ?>"><?= $value->jmlh_maksimal ?> - <?= $value->nama ?></option>
+                                        <?php foreach ($bagian as $key => $value) {
+                                            $banyak = 0;
+                                            if ($value->id == 1) $banyak = $b_keuangan;
+                                            if ($value->id == 2) $banyak = $b_kepegawaian; ?>
+                                            <option value="<?= $value->id ?>"><?=$banyak?>/<?= $value->jmlh_maksimal ?> - <?= $value->nama ?></option>
                                         <?php } ?>
                                     </select>
                                 </div>

@@ -255,11 +255,16 @@ class Mutasi extends Roles {
         $direktur = $this->direktur_model->get_all();
         $penerimaan_mutasi = $this->penerimaan_mutasi_model->get_all();
 
+        $b_keuangan = $this->penerimaan_mutasi_model->get_bagian_by_id(1);
+        $b_kepegawaian = $this->penerimaan_mutasi_model->get_bagian_by_id(2);
+
 		$this->load->view('partials/main-header');
 		$this->load->view('pages/peralihan_dan_pengalihan/penerimaan_mutasi',[
             "bagian" => $bagian,
 			"direktur" => $direktur,
             "penerimaan_mutasi" => $penerimaan_mutasi,
+            "b_keuangan" => $b_keuangan,
+            "b_kepegawaian" => $b_kepegawaian,
         ]);
 		$this->load->view('partials/main-footer');
 	}

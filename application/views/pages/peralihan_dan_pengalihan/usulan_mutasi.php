@@ -5,7 +5,7 @@
         <?php if($this->session->userdata("role") == "admin"){ ?>       
             <!-- Large modal -->
             <button type="button" class="my-3 btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Tambah Usulan Mutasi Mutasi</button>
-            <a type="button" class="my-3 btn btn-primary" href="<?= base_url("send_email") ?>" >Coba</a>
+            <!-- <a type="button" class="my-3 btn btn-primary" href="<?= base_url("send_email") ?>" >Coba</a> -->
 
             <!-- Modal -->
             <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">

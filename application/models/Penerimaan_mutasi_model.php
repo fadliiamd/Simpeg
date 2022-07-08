@@ -12,6 +12,13 @@ class Penerimaan_mutasi_model extends CI_Model
         return $query->result();
     }
 
+    public function get_bagian_by_id($id)
+    {
+        $this->db->select('*');
+        $this->db->from('penerimaanmutasi');
+        $this->db->where('bagian_id',$id);
+        return  $this->db->get()->num_rows();
+    }    
 
     public function insert_one()
     {
@@ -41,7 +48,7 @@ class Penerimaan_mutasi_model extends CI_Model
         );
     
         $this->db->insert($this->table, $data_mutasi);
-    
+
         return ($this->db->affected_rows() != 1) ? false : true;
     
     }
@@ -107,6 +114,21 @@ class Penerimaan_mutasi_model extends CI_Model
                 "status_persetujuan" => $this->input->post('status'),
                 "direktur_nip" => $this->session->userdata("nip"),
             ); 
+
+            // $data_pegawai = array(
+            //     "bagian_id" => $bagian_id
+            // );
+    
+            // $bagian_id = $this->input->post('bagian_id');
+
+            // $this->db->trans_start();
+            // $this->db->where('account_nip', $account_nip);
+            // $this->db->update('pegawai', $data_pegawai);
+            // $this->db->trans_complete();
+    
+            // if ($this->db->trans_status() === FALSE) {
+            //     return false;
+            // }
         };
 
         $this->db->trans_start();
