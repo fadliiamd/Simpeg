@@ -1,9 +1,9 @@
 <?php
 
-class Mutasi_model extends CI_Model
+class Sk_mutasi_model extends CI_Model
 {
 
-    public $table = "mutasi";
+    public $table = "skmutasi";
 
     public function do_upload($file_type, $post_name)
     {
@@ -31,6 +31,23 @@ class Mutasi_model extends CI_Model
         return $query->result();
     }
 
+    public function get_all_with_join()
+    {
+        $this->db->select(
+            'skmutasi.id, skmutasi.jenis_mutasi, skmutasi.tgl_mutasi, skmutasi.file_mutasi,
+            usulanmutasi.id AS id_usulan,usulanmutasi.tgl_usulan,usulanmutasi.status_persetujuan,usulanmutasi.tgl_persetujuan,
+            berkasmutasi.id As id_berkas, berkasmutasi.sk_cpns, berkasmutasi.sk_pns, berkasmutasi.pangkat_akhir, berkasmutasi.karpeg, berkasmutasi.dp3_akhir, berkasmutasi.ijazah, berkasmutasi.riwayat_hidup, 
+            mutasi.pegawai_nip, mutasi.alasan, mutasi.id AS id_mutasi'
+        );
+        $this->db->from($this->table);
+        $this->db->join('usulanmutasi', 'usulanmutasi.id = skmutasi.usulanmutasi_id');
+        $this->db->join('berkasmutasi', 'berkasmutasi.id = usulanmutasi.berkasmutasi_id');
+        $this->db->join('mutasi', 'mutasi.id = usulanmutasi.mutasi_id');
+
+        $query = $this->db->get();
+
+        return $query->result();
+    }
 
     public function insert_one()
     {
@@ -42,24 +59,22 @@ class Mutasi_model extends CI_Model
             }
             $_POST[$key] = $value;            
         }
-        
+
         date_default_timezone_set('Asia/Jakarta');
         $date = date("Y-m-d H:i:s");
-        $alasan = $this->input->post('alasan');
-        $pegawai_nip = $this->input->post('pegawai_nip');
-        $surat_pengajuan = $this->do_upload("jpg|png|pdf", "surat_pengajuan");
+        $jenis_mutasi = $this->input->post('jenis_mutasi');
+        $file_mutasi = $this->do_upload("jpg|png|pdf", "file_mutasi");
+        $usulanmutasi_id = $this->input->post('usulanmutasi_id');
 
-
-        $data_mutasi = array(
+        $data_sk_mutasi = array(
             "id" => "",
-            "alasan" => $alasan,
-            "tgl_pengajuan" => $date,
-            "status_pengajuan" => "pending",
-            "pegawai_nip" => $pegawai_nip,
-            "surat_pengajuan" => $surat_pengajuan
+            "jenis_mutasi" => $jenis_mutasi,
+            "tgl_mutasi" => $date,
+            "file_mutasi" => $file_mutasi,
+            "usulanmutasi_id" => $usulanmutasi_id,
         );
     
-        $this->db->insert($this->table, $data_mutasi);
+        $this->db->insert($this->table, $data_sk_mutasi);
     
         return ($this->db->affected_rows() != 1) ? false : true;
     
@@ -74,18 +89,23 @@ class Mutasi_model extends CI_Model
             }
             $_POST[$key] = $value;            
         }
+ 
+        date_default_timezone_set('Asia/Jakarta');
+        $date = date("Y-m-d H:i:s");
+        $jenis_mutasi = $this->input->post('jenis_mutasi');
+        $file_mutasi = $this->do_upload("jpg|png|pdf", "file_mutasi");
+        $usulanmutasi_id = $this->input->post('usulanmutasi_id');
 
-        $alasan = $this->input->post('alasan');
-        $surat_pengajuan = $this->do_upload("pdf|jpg|png", "surat_pengajuan");                    
-
-        $data_mutasi = array(
-            "alasan" => $alasan,
-            "surat_pengajuan" => $surat_pengajuan,
+        $data_sk_mutasi = array(
+            "jenis_mutasi" => $jenis_mutasi,
+            "tgl_mutasi" => $date,
+            "file_mutasi" => $file_mutasi,
+            "usulanmutasi_id" => $usulanmutasi_id,
         );
 
         $this->db->trans_start();
         $this->db->where('id', $id);
-        $this->db->update($this->table, $data_mutasi);
+        $this->db->update($this->table, $data_sk_mutasi);
         $this->db->trans_complete();
 
         if ($this->db->trans_status() === FALSE) {
@@ -109,26 +129,25 @@ class Mutasi_model extends CI_Model
         return true;
     }
 
-    public function status_mutasi($id)
+    public function status_usulan_mutasi($id)
     {        
+
         date_default_timezone_set('Asia/Jakarta');
         $date = date("Y-m-d H:i:s");
-
         if ($this->input->post('status') == "tolak") {
-            $data_mutasi = array(
-                "status_pengajuan" => $this->input->post('status')
+            $data_sk_mutasi = array(
+                "status_persetujuan" => $this->input->post('status')
             ); 
         }else{
-            $data_mutasi = array(
-                "status_pengajuan" => $this->input->post('status'),
+            $data_sk_mutasi = array(
+                "status_persetujuan" => $this->input->post('status'),
                 "tgl_persetujuan" => $date
             ); 
         }
 
-
         $this->db->trans_start();
         $this->db->where('id', $id);
-        $this->db->update($this->table, $data_mutasi);
+        $this->db->update($this->table, $data_sk_mutasi);
         $this->db->trans_complete();
 
         if ($this->db->trans_status() === FALSE) {
