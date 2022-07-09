@@ -68,4 +68,25 @@ class Surat extends Roles {
             redirect("surat");
         }
     }
+
+    public function get_pegawai($jenis)
+    {
+        $this->load->model("pegawai_model");
+        $where = array('jenis_pegawai' => $jenis);
+        echo json_encode($this->pegawai_model->get_all_where($where));
+    }
+
+    public function get_divisi($divisi)
+    {
+        if($divisi == "jurusan") {
+            $this->load->model("jurusan_model");
+            echo json_encode($this->jurusan_model->get_all());
+        } else if($divisi == "bagian") {
+            $this->load->model("bagian_model");
+            echo json_encode($this->bagian_model->get_all());
+        } else if($divisi == "unit") {
+            $this->load->model("unit_model");
+            echo json_encode($this->unit_model->get_all());
+        }
+    }
 }
