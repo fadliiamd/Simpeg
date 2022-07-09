@@ -36,9 +36,18 @@
                 </div>
               </div>
               <div class="form-group">
-                <label for="tujuan">Tujuan Surat (*)</label>
-                <input class="form-control" id="tujuan" name="tujuan" placeholder="Masukan tujuan surat secara singkat" required>
+                <label for="jenis_tujuan">Jenis Pegawai Tujuan Surat (*)</label>
+                <select class="form-control" id="jenis_tujuan" name="jenis_tujuan" required>
+                  <option value="">--- Jenis Pegawai Tujuan Surat ---</option>
+                  <option value="semua">Semua</option>
+                  <option value="divisi">Divisi</option>
+                  <option value="perorangan">Perorangan</option>
+                </select>
               </div>
+              <div id="detail_tujuan">
+                
+              </div>
+              
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Kembali</button>

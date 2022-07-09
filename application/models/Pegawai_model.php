@@ -19,6 +19,22 @@ class Pegawai_model extends CI_Model
         return $query->result();
     }
 
+    public function get_one($where)
+    {
+        return $this->db->get_where($this->table, $where)->row();
+    }
+
+    public function get_all_where($where, $limit = 0)
+    {
+        $this->db->select('*');
+        if($limit == 0) {
+            $query = $this->db->get_where($this->table, $where);
+        } else {
+            $query = $this->db->get_where($this->table, $where, $limit);
+        }
+        return $query->result();
+    }
+
     public function get_all_order($coloumn, $type_order){
         $this->db->select('*');
         $this->db->from($this->table);        
