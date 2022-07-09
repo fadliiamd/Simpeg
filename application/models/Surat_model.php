@@ -12,6 +12,12 @@ class Surat_model extends CI_Model
         return $query->result();
     }
 
+    public function get_all_where($where)
+    {
+        $query = $this->db->get_where($this->table, $where);
+        return $query->result();
+    }
+
     public function do_upload($file_type, $post_name)
     {
          // File
@@ -36,7 +42,19 @@ class Surat_model extends CI_Model
     public function insert_one()
     {
         $no = $this->input->post('no_surat');
-        $tujuan = $this->input->post('tujuan');
+        $jenis_tujuan = $this->input->post('jenis_tujuan');
+        if ($jenis_tujuan == 'divisi') {
+            $data_additional = array(
+                "tujuan" => $this->input->post('divisi'),
+                "detail_tujuan" => implode(',', $this->input->post('tujuan'))
+            );
+        } else if ($jenis_tujuan == 'perorangan') {
+            $data_additional = array(
+                "tujuan" => $this->input->post('jenis_pegawai'),
+                "detail_tujuan" => implode(',', $this->input->post('pegawai'))
+            );
+        }
+
         $jenis = $this->input->post('jenis');
 
         $file_name = $this->do_upload("pdf", "file_surat");
@@ -55,12 +73,13 @@ class Surat_model extends CI_Model
 
         $data = array(
             "no" => $no,
-            "tujuan" => $tujuan,
+            "jenis_tujuan" => $jenis_tujuan,
             "tgl_upload" => $tgl_upload,
             "jenis" => $jenis,
             "admin_nip" => $admin_nip,
             "file_name" => $file_name
         );
+        $data = array_merge($data, $data_additional);
 
         $this->db->insert($this->table, $data);
 
