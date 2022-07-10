@@ -93,7 +93,16 @@
                                 </div>
                                 <div class="col-md-3">
                                     <label for="jabatan">Jabatan</label>
-                                    <input type="text" class="form-control" id="jabatan" name="jabatan">
+                                    <select class="form-control" id="jabatan" name="jabatan">
+                                        <option value="" selected>-- Pilih Jabatan --</option>
+                                        <?php
+                                            $option = '';
+                                            foreach ($jabatan as $key => $value){
+                                                $option .= '<option value="'.$value->id.'">'.$value->nama_jabatan.' - '.$value->jenis_jabatan.'</option>';
+                                            }
+                                            echo $option;
+                                        ?>
+                                    </select>
                                 </div>
                                 <div class="col-md-3">
                                     <label for="pendidikan">Pendidikan (*)</label>
@@ -128,8 +137,8 @@
                                     <label for="jenis_pegawai">Jenis Pegawai (*)</label>
                                     <select class="form-control" id="jenis_pegawai" name="jenis_pegawai" required>
                                     <option value="" selected disabled hidden>-- Pilih Jenis Pegawai --</option>
-                                        <option value="1">Struktural</option>
-                                        <option value="2">Non Struktural</option>
+                                        <option value="struktural">Struktural</option>
+                                        <option value="fungsional">Fungsional</option>
                                     </select>
                                 </div>
                                 <div class="col-md-4">
@@ -213,7 +222,7 @@
                         <th>NIP</th>
                         <th>Nama</th>
                         <th>Email</th>
-                        <th>Status</th>
+                        <th>Status Kepegawaian</th>
                         <th>Pangkat Golongan</th>
                         <th>Jurusan</th>
                         <th>Unit</th>
@@ -313,7 +322,21 @@
                                                         </div>
                                                         <div class="col-md-3">
                                                             <label for="jabatan">Jabatan</label>
-                                                            <input type="text" class="form-control" id="jabatan" name="jabatan" value="<?= $value->jabatan ?>">
+                                                            <select class="form-control" id="jabatan" name="jabatan">
+                                                                <option value="">-- Pilih Jabatan --</option>
+                                                                <?php
+                                                                    $option = '';
+                                                                    foreach ($jabatan as $k => $v){
+                                                                        if($value->jabatan_id == $v->id){
+                                                                            $selected = 'selected';
+                                                                        }else{
+                                                                            $selected = '';
+                                                                        }
+                                                                        $option .= '<option value="'.$v->id.'" '.$selected.'>'.$v->nama_jabatan.' - '.$v->jenis_jabatan.'</option>';
+                                                                    }
+                                                                    echo $option;
+                                                                ?>
+                                                            </select>                 
                                                         </div>
                                                         <div class="col-md-3">
                                                             <label for="pendidikan">Pendidikan (*)</label>

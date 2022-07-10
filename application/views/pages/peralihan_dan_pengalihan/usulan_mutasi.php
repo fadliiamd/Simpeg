@@ -298,17 +298,6 @@
                         </tr>
                     <?php $i++; } ?>
                 </tbody>
-                <tfoot class="thead-dark">
-                    <tr>
-                        <th>No</th>
-                        <th>NIP</th>
-                        <th>Alasan</th>
-                        <th>Tanggal Pengajuan</th>
-                        <th>Status Pengajuan</th>
-                        <th>Tanggal Persetujuan</th>
-                        <th>Action</th>
-                    </tr>
-                </tfoot>
             </table>
         </div>
     </div>

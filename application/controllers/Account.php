@@ -6,6 +6,14 @@ class Account extends Admin {
 	public function __construct()
 	{
 		parent::__construct();
+        $this->load->model([
+            'jurusan_model',
+            'bagian_model',
+            'unit_model',
+            'golpang_model',
+            'pegawai_model',
+            'jabatan_model'
+        ]);
 	}
 
 	/*===========
@@ -13,20 +21,16 @@ class Account extends Admin {
 	=============*/
     public function data_pegawai()
     {
-		$this->load->model('jurusan_model');
-		$this->load->model('bagian_model');
-		$this->load->model('unit_model');
-		$this->load->model('golpang_model');
-		$this->load->model('pegawai_model');
-
         $golpang = $this->golpang_model->get_all();
         $jurusan = $this->jurusan_model->get_all();
         $bagian = $this->bagian_model->get_all();
         $unit = $this->unit_model->get_all();
 		$pegawai = $this->pegawai_model->get_all_with_join();
+		$jabatan = $this->jabatan_model->get_all();
 	
         $this->load->view('partials/main-header');
 		$this->load->view('users/admin/data_pegawai', [
+            "jabatan" => $jabatan,
 			"jurusan" => $jurusan,
 			"bagian" => $bagian,
 			"unit" => $unit,
@@ -37,8 +41,7 @@ class Account extends Admin {
     }
     
 	public function create_data_pegawai()
-    {
-		$this->load->model('pegawai_model');
+    {		
         $add = $this->pegawai_model->insert_one();
 
         if($add)
@@ -53,8 +56,7 @@ class Account extends Admin {
     }
 	
 	public function update_data_pegawai()
-    {
-		$this->load->model('pegawai_model');
+    {		
         $delete = $this->pegawai_model->update_one($this->input->post('nip_old'));
 
         if($delete)
@@ -69,8 +71,7 @@ class Account extends Admin {
     }
 	
 	public function delete_data_pegawai()
-    {
-		$this->load->model('pegawai_model');
+    {		
         $delete = $this->pegawai_model->delete_one($this->input->post('nip'));
 
         if($delete)
@@ -89,12 +90,6 @@ class Account extends Admin {
 	=============*/
 	public function data_direktur()
     {
-		$this->load->model('jurusan_model');
-		$this->load->model('bagian_model');
-		$this->load->model('unit_model');
-		$this->load->model('golpang_model');
-		$this->load->model('direktur_model');
-
         $golpang = $this->golpang_model->get_all();
         $jurusan = $this->jurusan_model->get_all();
         $bagian = $this->bagian_model->get_all();
