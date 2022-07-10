@@ -19,16 +19,12 @@
                             <form class="forms-sample" action="<?= base_url("pemberhentian/create_data_sk_pemberhentian"); ?>" method="POST" enctype="multipart/form-data">
                                 <div class="modal-body">
                                     <div class="form-group">
-                                        <label for="tgl_pensiun">Tanggal Pensiun</label>
-                                        <input type="date" class="form-control" id="tgl_pensiun" name="tgl_pensiun">
-                                    </div>
-                                    <div class="form-group">
                                         <label for="file_pensiun">File Pensiun</label>
                                         <input type="file" class="form-control-file" id="file_pensiun" name="file_pensiun">
                                     </div>
                                     <div class="form-group">
-                                        <label for="usulan_pensiun">Usulan Pensiun</label>
-                                        <select class="form-control" id="usulan_pensiun" name="usulan_pensiun">
+                                        <label for="usulanpensiun_id">Usulan Pensiun</label>
+                                        <select class="form-control" id="usulanpensiun_id" name="usulanpensiun_id">
                                             <?php foreach ($usulan as $key => $value) { ?>
                                                 <option value="<?= $value->id ?>"><?= $value->pegawai_nip ?> - <?= $value->alasan ?></option>
                                             <?php } ?>
@@ -82,7 +78,7 @@
                         <td><?= $i ?></td>
                         <td><?= $value->tgl_pensiun ?></td>
                         <td>
-                            <a href="<?= base_url().'uploads/'.$value->file_mutasi ?>" download class="btn btn-secondary">Unduh</a>    
+                            <a href="<?= base_url().'uploads/'.$value->file_pensiun ?>" download class="btn btn-secondary">Unduh</a>    
                         </td>
                         <td>
                             <?php if($this->session->userdata("role") == "admin"){ ?>  

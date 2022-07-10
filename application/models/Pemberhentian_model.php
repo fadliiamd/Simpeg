@@ -43,25 +43,27 @@ class Pemberhentian_model extends CI_Model
             $_POST[$key] = $value;            
         }
         
+        $mpp = $this->input->post('mpp');
+        $tunjangan = ($mpp == "Ya") ?  "Tidak" : "Ya";
+        
         date_default_timezone_set('Asia/Jakarta');
         $date = date("Y-m-d H:i:s");
         $jenis_berhenti = $this->input->post('jenis_berhenti');
         $alasan = $this->input->post('alasan');
-        $mpp = $this->input->post('mpp');
-        $tunjangan = $this->input->post('tunjangan');
         $pegawai_nip = $this->input->post('pegawai_nip');
-        // $surat_pengajuan = $this->do_upload("jpg|png|pdf", "surat_pengajuan");
+        $surat_pengunduran_diri = $this->do_upload("pdf", "surat_pengunduran_diri");
 
 
         $data_pemberhentian = array(
             "id" => "",
-            "jenis_pemberhentian" => $jenis_pemberhentian,
+            "jenis_berhenti" => $jenis_berhenti,
             "alasan" => $alasan,
             "tgl_pengajuan" => $date,
             "status_pengajuan" => "pending",
             "mpp" => $mpp,
             "tunjangan" => $tunjangan,
             "pegawai_nip" => $pegawai_nip,
+            "surat_pengunduran_diri" => $surat_pengunduran_diri,
         );
     
         $this->db->insert($this->table, $data_pemberhentian);
@@ -71,7 +73,19 @@ class Pemberhentian_model extends CI_Model
     }
 
     public function update_one($id)
-    {        
+    {   
+                
+        //check empty string for nullable
+        foreach( $this->input->post() as $key => $value) {
+            if($value === ""){
+                $value = null;
+            }
+            $_POST[$key] = $value;            
+        }
+        
+        $mpp = $this->input->post('mpp');
+        $tunjangan = ($mpp == "Ya") ?  "Tidak" : "Ya";
+
         date_default_timezone_set('Asia/Jakarta');
         $date = date("Y-m-d H:i:s");
         $jenis_berhenti = $this->input->post('jenis_berhenti');
@@ -79,17 +93,18 @@ class Pemberhentian_model extends CI_Model
         $mpp = $this->input->post('mpp');
         $tunjangan = $this->input->post('tunjangan');
         $pegawai_nip = $this->input->post('pegawai_nip');
-        // $surat_pengajuan = $this->do_upload("jpg|png|pdf", "surat_pengajuan");
+        $surat_pengajuan = $this->do_upload("pdf", "surat_pengajuan");
 
 
         $data_pemberhentian = array(
-            "jenis_pemberhentian" => $jenis_pemberhentian,
+            "jenis_berhenti" => $jenis_berhenti,
             "alasan" => $alasan,
             "tgl_pengajuan" => $date,
             "status_pengajuan" => "pending",
             "mpp" => $mpp,
             "tunjangan" => $tunjangan,
             "pegawai_nip" => $pegawai_nip,
+            "surat_pengunduran_diri" => $surat_pengunduran_diri,
         );
 
         $this->db->trans_start();

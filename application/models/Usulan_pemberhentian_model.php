@@ -16,12 +16,12 @@ class Usulan_pemberhentian_model extends CI_Model
     {
         $this->db->select(
             'usulanpensiun.id,usulanpensiun.tgl_pensiun,usulanpensiun.tgl_usulan,usulanpensiun.status_persetujuan,usulanpensiun.tgl_persetujuan,
-            berkaspensiun.id AS id_berkas, berkaspensiun.sk_cpns, berkaspensiun.sk_pns, berkaspensiun.kgb, berkaspensiun.kp, berkaspensiun.dp3_akhir, berkaspensiun.pangkat_akhir, berkaspensiun.kartu_keluarga, berkaspensiun.pas_foto, 
+            berkaspensiun.id AS id_berkas, berkaspensiun.sk_cpns, berkaspensiun.sk_pns, berkaspensiun.sk_kgb, berkaspensiun.sk_kp, berkaspensiun.dp3_akhir, berkaspensiun.pangkat_akhir, berkaspensiun.kartu_keluarga, berkaspensiun.pas_foto,
             pemberhentian.pegawai_nip, pemberhentian.alasan, pemberhentian.id AS id_pemberhentian'
         );
         $this->db->from($this->table);
         $this->db->join('berkaspensiun', 'berkaspensiun.id = usulanpensiun.berkaspensiun_id');
-        $this->db->join('pemberhentian', 'pemberhentian.id = usulanpemberhentian.pemberhentian_id');
+        $this->db->join('pemberhentian', 'pemberhentian.id = usulanpensiun.pemberhentian_id');
 
         $query = $this->db->get();
 
