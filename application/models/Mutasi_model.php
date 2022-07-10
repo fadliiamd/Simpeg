@@ -31,6 +31,12 @@ class Mutasi_model extends CI_Model
         return $query->result();
     }
 
+    public function get_condition($query,$search)
+    {
+        $query = $this->db->where($query, $search)->get("mutasi");
+
+        return $query->result();
+    }
 
     public function insert_one()
     {

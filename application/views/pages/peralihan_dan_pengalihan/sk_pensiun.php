@@ -131,9 +131,9 @@
                                 <div class="modal fade" id="deletetable" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
-                                            <form class="forms-sample" action="<?= base_url("mutasi/delete_data_sk_mutasi"); ?>" method="POST">
+                                            <form class="forms-sample" action="<?= base_url("pemberhentian/delete_data_sk_pemberhentian"); ?>" method="POST">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel">Hapus Surat Keputusan Mutasi Id : <b><?= $value->id ?><b></h5>
+                                                    <h5 class="modal-title" id="exampleModalLabel">Hapus Surat Keputusan pemberhentian Id : <b><?= $value->id ?><b></h5>
                                                     <input type="hidden" name="id" value="<?= $value->id ?>">
                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                         <span aria-hidden="true">&times;</span>

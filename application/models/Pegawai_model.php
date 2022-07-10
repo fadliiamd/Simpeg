@@ -24,6 +24,13 @@ class Pegawai_model extends CI_Model
         return $this->db->get_where($this->table, $where)->row();
     }
 
+    public function get_condition($query,$search)
+    {
+        $query = $this->db->where($query, $search)->get("pegawai");
+
+        return $query->result();
+    }
+
     public function get_all_where($where, $limit = 0)
     {
         $this->db->select('*');
