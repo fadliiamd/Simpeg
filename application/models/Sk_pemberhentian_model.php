@@ -71,11 +71,11 @@ class Sk_pemberhentian_model extends CI_Model
             "file_pensiun" => $file_pensiun,
             "usulanpensiun_id" => $usulanpensiun_id,
         );
-    
-        $this->db->insert($this->table, $data_sk_mutasi);
-    
+
+        $this->db->insert($this->table, $data_sk_pensiun);
+
         return ($this->db->affected_rows() != 1) ? false : true;
-    
+
     }
 
     public function update_one($id)

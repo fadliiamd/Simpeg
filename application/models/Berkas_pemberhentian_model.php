@@ -34,7 +34,7 @@ class Berkas_pemberhentian_model extends CI_Model
     public function get_all_with_join()
     {
         $this->db->select(
-            'berkaspensiun.id, berkaspensiun.sk_cpns, berkaspensiun.sk_pns, berkaspensiun.kgb, berkaspensiun.kp, berkaspensiun.dp3_akhir, berkaspensiun.pangkat_akhir, berkaspensiun.kartu_keluarga, berkaspensiun.pas_foto, 
+            'berkaspensiun.id, berkaspensiun.sk_cpns, berkaspensiun.sk_pns, berkaspensiun.sk_kgb, berkaspensiun.sk_kp, berkaspensiun.dp3_akhir, berkaspensiun.pangkat_akhir, berkaspensiun.kartu_keluarga, berkaspensiun.pas_foto, berkaspensiun.status_persetujuan,
             pemberhentian.pegawai_nip, pemberhentian.alasan, pemberhentian_id AS id_pemberhentian'
         );
         $this->db->from($this->table);
@@ -63,7 +63,7 @@ class Berkas_pemberhentian_model extends CI_Model
         $dp3_akhir = $this->do_upload("pdf", "dp3_akhir");
         $pangkat_akhir = $this->do_upload("pdf", "pangkat_akhir");
         $kartu_keluarga = $this->do_upload("pdf", "kartu_keluarga");
-        $pas_foto = $this->do_upload("jpg|png", "pas_foto");
+        $pas_foto = $this->do_upload("jpeg|jpg|png", "pas_foto");
         $pemberhentian_id = $this->input->post('pemberhentian_id');
 
 
@@ -77,7 +77,8 @@ class Berkas_pemberhentian_model extends CI_Model
             "pangkat_akhir" => $pangkat_akhir,
             "kartu_keluarga" => $kartu_keluarga,
             "pas_foto" => $pas_foto,
-            "pemberhentian_id" => $pemberhentian_id
+            "pemberhentian_id" => $pemberhentian_id,
+            "status_persetujuan" => "pending"
         );
     
         $this->db->insert($this->table, $data_berkas_pemberhentian);

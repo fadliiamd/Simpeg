@@ -29,13 +29,15 @@
                         <th>Status Persetujuan</th>
                         <th>Tanggal Persetujuan</th>
                         <th>Surat Usulan</th>
-                        <th>Action</th>
+                        <?php if($this->session->userdata("role") == "admin"){ ?>
+                            <th>Action</th>
+                        <?php } ?>
                     </tr>
                 </thead>
                 <tbody>
                     <?php 
                         $i = 1;
-                        foreach ($usulan_mutasi as $key => $value) { 
+                        foreach ($usulan_pensiun as $key => $value) { 
                     ?>
                         <tr>
                             <td><?= $i ?></td>
@@ -54,7 +56,7 @@
                                             <div class="modal fade" id="approvetable" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                 <div class="modal-dialog" role="document">
                                                     <div class="modal-content">
-                                                        <form class="forms-sample" action="<?= base_url("mutasi/status_usulan"); ?>" method="POST">
+                                                        <form class="forms-sample" action="<?= base_url("pemberhentian/status_usulan"); ?>" method="POST">
                                                             <div class="modal-header">
                                                                 <input type="hidden" name="id" value="<?= $value->id ?>">
                                                                 <input type="hidden" name="status" value="setujui">
@@ -116,72 +118,34 @@
                                 Unduh
                                 </button>
                             </td>
-                            <td>
-
-                                <?php if($this->session->userdata("role") == "admin"){ ?>  
-                                    <!-- Large modal -->
-                                    <button type="button" class="btn btn-info" data-toggle="modal" data-target=".edittable">Edit</button>
-
-                                    <!-- Modal -->
-                                    <div class="modal fade edittable" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog modal-lg">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel">Edit Pengajuan pensiun Id : <b>2<b></h5>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <form class="forms-sample">
-                                                    <div class="modal-body">
-                                                        <div class="form-group">
-                                                            <label for="tgl_pensiun">Tanggal Pensiun</label>
-                                                            <input type="date" class="form-control" id="tgl_pensiun" name="tgl_pensiun">
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="tgl_usulan">Usulan</label>
-                                                            <select class="form-control" id="tgl_usulan" name="tgl_usulan">
-                                                                <option>A</option>
-                                                                <option>B</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Kembali</button>
-                                                        <button type="submit" class="btn btn-primary">Edit Usulan Pensiun</button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- End Modal -->
-
+                            <?php if($this->session->userdata("role") == "admin"){ ?>  
+                                <td>
                                     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deletetable">
                                     Hapus
                                     </button>
 
                                     <!-- Modal -->
                                     <div class="modal fade" id="deletetable" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog" role="document">
-                                                <div class="modal-content">
-                                                    <form class="forms-sample" action="<?= base_url("pemberhentian/delete_data_usulan"); ?>" method="POST">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title" id="exampleModalLabel">Hapus Usulan Mutasi Id : <b><?= $value->id ?><b></h5>
-                                                            <input type="hidden" name="id" value="<?= $value->id ?>">
-                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                <span aria-hidden="true">&times;</span>
-                                                            </button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                            <button type="submit" class="btn btn-danger">Hapus Berkas</button>
-                                                        </div>
-                                                    </form>
-                                                </div>
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <form class="forms-sample" action="<?= base_url("pemberhentian/delete_data_usulan"); ?>" method="POST">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel">Hapus Usulan Mutasi Id : <b><?= $value->id ?><b></h5>
+                                                        <input type="hidden" name="id" value="<?= $value->id ?>">
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                        <button type="submit" class="btn btn-danger">Hapus Berkas</button>
+                                                    </div>
+                                                </form>
                                             </div>
                                         </div>
-                                <?php } ?>
-                            </td>
+                                    </div>
+                                </td>
+                            <?php } ?>
                         </tr>
                     <?php $i++; } ?>
                 </tbody>
@@ -193,7 +157,9 @@
                         <th>Status Persetujuan</th>
                         <th>Tanggal Persetujuan</th>
                         <th>Surat Usulan</th>
-                        <th>Action</th>
+                        <?php if($this->session->userdata("role") == "admin"){ ?>
+                            <th>Action</th>
+                        <?php } ?>
                     </tr>
                 </tfoot>
             </table>
