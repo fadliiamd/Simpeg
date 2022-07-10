@@ -299,24 +299,6 @@
                         </tr>
                     <?php $i++; } ?>
                 </tbody>
-                <tfoot class="thead-dark">               
-                    <tr>
-                        <th>No</th>
-                        <th>NIP</th>
-                        <th>SK CPNS</th>
-                        <th>SK PNS</th>
-                        <th>Pangkat Akhir</th>
-                        <th>Karpeg</th>
-                        <th>DP3 Akhir</th>
-                        <th>Ijazah</th>
-                        <th>Riwayat Hidup</th>
-                        <th>Status Persetujuan</th>
-                        
-                        <?php if($this->session->userdata("role") == "pegawai"){ ?>   
-                            <th>Action</th>
-                        <?php } ?>
-                    </tr>
-                </tfoot>
             </table>
         </div>
     </div>

@@ -15,7 +15,7 @@ class Penerimaan_mutasi_model extends CI_Model
     public function get_bagian_by_id($id)
     {
         $this->db->select('*');
-        $this->db->from('penerimaanmutasi');
+        $this->db->from('pegawai');
         $this->db->where('bagian_id',$id);
         return  $this->db->get()->num_rows();
     }    

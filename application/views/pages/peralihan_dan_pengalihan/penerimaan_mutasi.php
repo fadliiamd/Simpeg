@@ -254,21 +254,7 @@
                         </tr>
 
                     <?php } ?>
-                </tbody>
-                <tfoot class="thead-dark">
-                    <tr>
-                        <th>No</th>
-                        <th>Instantsi Asal</th>
-                        <th>Daerah Asal</th>
-                        <th>Alasan</th>
-                        <th>Bagian</th>
-                        <th>Status</th>
-                        <th>Nama Direktur</th>
-                        <?php if($this->session->userdata("role") == "admin"){ ?>
-                            <th>Action</th>
-                        <?php } ?>
-                    </tr>
-                </tfoot>
+                </tbody>                
             </table>
         </div>
     </div>

@@ -185,15 +185,6 @@
                         </tr>
                     <?php } ?>
                 </tbody>
-                <tfoot class="thead-dark">
-                    <tr>
-                        <th>No</th>
-                        <th>Jenis Mutasi</th>
-                        <th>Tanggal Mutasi</th>
-                        <th>File Mutasi</th>
-                        <th>Action</th>
-                    </tr>
-                </tfoot>
             </table>
         </div>
     </div>

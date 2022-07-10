@@ -480,6 +480,20 @@
             <div class="collapse" id="kepegawaian">
               <ul class="nav flex-column sub-menu">                
                 <li class="nav-item"> <a class="nav-link" href="<?= base_url("golpang"); ?>">Golongan/Pangkat</a></li>                  
+                <li class="nav-item"> <a class="nav-link" href="<?= base_url("jabatan"); ?>">Jabatan</a></li>                  
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#PAK" aria-expanded="false" aria-controls="PAK">
+              <i class="icon-paper menu-icon"></i>
+              <span class="menu-title">PAK</span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="PAK">
+              <ul class="nav flex-column sub-menu">                
+                <li class="nav-item"> <a class="nav-link" href="<?= base_url("pak/unsur"); ?>">Unsur</a></li>
+                <li class="nav-item"> <a class="nav-link" href="<?= base_url("pak/unsur_kegiatan"); ?>">Unsur Kegiatan</a></li>
               </ul>
             </div>
           </li>
