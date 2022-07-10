@@ -37,6 +37,7 @@
                                 <select class="form-control" name="unsur" required>
                                     <option value="" selected hidden>--- Pilih Unsur ---</option>
                                     <option value="pendidikan">Pendidikan</option>
+                                    <option value="pelaksanaan pendidikan">Pelaksanaan Pendidikan</option>
                                     <option value="pkm">Pendabdian Kepada Masyarakat</option>
                                     <option value="penelitian">Penilitan</option>
                                     <option value="unsur penunjang">Unsur Penunjang</option>
@@ -102,6 +103,7 @@
                                                     <select class="form-control" name="unsur" required>
                                                         <option value="<?= $value->unsur ?>" selected hidden><?= $value->unsur ?></option>
                                                         <option value="pendidikan">Pendidikan</option>
+                                                        <option value="pelaksanaan pendidikan">Pelaksanaan Pendidikan</option>
                                                         <option value="pkm">Pengabdian Kepada Masyarakat</option>
                                                         <option value="penelitian">Penilitan</option>
                                                         <option value="unsur penunjang">Unsur Penunjang</option>

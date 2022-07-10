@@ -318,7 +318,7 @@
           </li>
           <hr>
           <li class="nav-item">
-            <span class="font-weight-bold menu-title">Peralihan dan Pengalihan</span>
+            <span class="font-weight-bold menu-title" style="word-wrap: break-word;white-space:normal;">Peralihan dan Pengalihan</span>
             <hr>
           </li>
           <li class="nav-item">
@@ -363,7 +363,7 @@
           </li>
           <hr>
           <li class="nav-item">
-            <span class="font-weight-bold menu-title">Kepegawaian</span>
+            <span class="font-weight-bold menu-title" style="word-wrap: break-word;white-space:normal;">Kepegawaian</span>
             <hr>
           </li>
           <li class="nav-item">
@@ -422,7 +422,7 @@
           </li>
           <hr>
           <li class="nav-item">
-            <span class="font-weight-bold menu-title">Peningkatan Karir</span>
+            <span class="font-weight-bold menu-title" style="word-wrap: break-word;white-space:normal;">Peningkatan Karir</span>
             <hr>
           </li>
           <li class="nav-item">
@@ -454,7 +454,7 @@
           </li>
           <hr>
           <li class="nav-item">
-            <span class="font-weight-bold menu-title">User dan Aplikasi</span>
+            <span class="font-weight-bold menu-title" style="word-wrap: break-word;white-space:normal;">User dan Aplikasi</span>
             <hr>
           </li>
           <li class="nav-item">

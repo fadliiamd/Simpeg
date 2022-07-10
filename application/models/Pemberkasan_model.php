@@ -1,9 +1,9 @@
 <?php
 
-class Unsur_model extends CI_Model
+class Pemberkasan_model extends CI_Model
 {
 
-    public $table = "unsur";
+    public $table = "rekap_nilai";
 
     public function get_all()
     {
@@ -12,21 +12,14 @@ class Unsur_model extends CI_Model
         return $query->result();
     }
 
-    public function get_all_with_group_by($coloumn)
-    {
-        $this->db->select('*');
-        $this->db->from('unsur');        
-        $this->db->group_by($coloumn); 
-        $query = $this->db->get();
-
-        return $query->result();
-    }
-
     public function insert_one()
     {    
         $data = array(
-            "unsur" => $this->input->post('unsur'),
-            "sub_unsur" => $this->input->post('sub_unsur')
+            "kode" => $this->input->post("kode"),            
+            "unsur_id" => $this->input->post('unsur_id'),
+            "kegiatan" => $this->input->post("kegiatan"),
+            "angka_kredit" => $this->input->post("angka_kredit"),
+            "satuan" => $this->input->post("satuan")
         );
 
         $this->db->insert($this->table, $data);
@@ -38,8 +31,11 @@ class Unsur_model extends CI_Model
     {
         $this->db->trans_start();
         $data = array(
-            "unsur" => $this->input->post('unsur'),
-            "sub_unsur" => $this->input->post('sub_unsur')
+            "kode" => $this->input->post("kode"),            
+            "unsur_id" => $this->input->post('unsur_id'),
+            "kegiatan" => $this->input->post("kegiatan"),
+            "angka_kredit" => $this->input->post("angka_kredit"),
+            "satuan" => $this->input->post("satuan")
         );
         $this->db->where('id', $id);
         $this->db->update($this->table, $data);
