@@ -101,7 +101,7 @@ class Sk_pemberhentian_model extends CI_Model
 
         $this->db->trans_start();
         $this->db->where('id', $id);
-        $this->db->update($this->table, $data_sk_mutasi);
+        $this->db->update($this->table, $data_sk_pensiun);
         $this->db->trans_complete();
 
         if ($this->db->trans_status() === FALSE) {

@@ -34,24 +34,16 @@
                         <div class="modal-body">
                             <div class="form-group row">
                                 <div class="col-md-6">
-                                    <label for="accpunt_nip">Pegawai</label>        
-                                    <select name="account_nip" class="form-control text-dark" required>
-                                        <option value="" selected hidden>---Pilih Pegawai---</option>
+                                    <label for="nama">Pengajuan</label>        
+                                    <select name="jabatan" class="form-control text-dark" required>
+                                        <option value="" selected hidden>---Pilih Daftar Pengajuan---</option>
                                         <?php 
                                         $option = '';
-                                            foreach($pegawai as $p){
-                                                $option .= '<option value="'.$p->account_nip.'">'.$p->account_nip.' - '.$p->nama.'</option>';
+                                            foreach($pengajuan as $p){
+                                                $option .= '<option value="'.$p->id.'">'.$p->account_nip.' Mengajukan Menjadi '.$p->jabatan_tujuan.'</option>';
                                             }
                                         echo $option;
                                         ?>
-                                    </select>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="nama">Jabatan</label>        
-                                    <select name="jabatan" class="form-control text-dark" required>
-                                        <option value="" selected hidden>---Pilih Jabatan Yang Dituju---</option>
-                                        <option value="asisten ahli">Asisten Ahli</option>
-                                        <option value="lektor">Lektor</option>
                                     </select>
                                 </div>
                             </div>                                         
@@ -77,12 +69,10 @@
                 <thead>
                     <tr>
                         <th>No</th>
-                        <th>ID</th>
-                        <th>NIP</th>
-                        <th>Jabatan Tujuan</th>
-                        <th>Bukti 1</th>
-                        <th>Bukti 2</th>
-                        <th>Bukti Jurnal Nasional</th>
+                        <th>ID Usulan</th>
+                        <th>NIP Pengusul</th>                        
+                        <th>Tanggal Usulan</th>                        
+                        <th>Hasil Angka Kredit</th>
                         <th>Status</th>
                         <th>Action</th>
                     </tr>
@@ -90,20 +80,14 @@
                 <tbody>
                     <?php $no = 1; ?>
                     <?php
-                    $label_bukti_1 = [
-                        'asisten ahli' => 'Ijazah Magister',
-                        'lektor' => 'Bukti PKM'                        
-                    ];
-                    $label_bukti_2 = [
-                        'asisten ahli' => 'Bukti SKP',
-                        'lektor' => 'Bukti Asisten Ahli'                        
-                    ];
-                    foreach ($pengajuan as $key => $value) { ?>
+                    foreach ($nilai_rekap as $key => $value) { ?>
                         <tr>
                             <td><?php echo $no ?></td>
                             <td><?php echo $value->id; ?></td>
                             <td><?php echo $value->account_nip; ?></td>
-                            <td><?= $value->jabatan_tujuan ?></td>
+                            <td><?php echo $value->tgl_usulan; ?></td>
+                            <td><?= $value->hasil_akk ?></td>
+                            <td><?= $value->status ?></td>
                             <td>
                                 <a target="_blank" href="<?=base_url('uploads/'.$value->bukti_1) ?>">
                                     Lihat <?= $label_bukti_1[$value->jabatan_tujuan] ?>

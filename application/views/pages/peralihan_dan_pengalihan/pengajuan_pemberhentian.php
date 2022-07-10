@@ -93,6 +93,7 @@
                 <thead>
                     <tr class="thead-dark">
                         <th>No</th>
+                        <th>NIP Pengaju</th>                        
                         <th>Jenis Berhenti</th>
                         <th>Alasan</th>
                         <th>Status Pengajuan</th>
@@ -112,6 +113,7 @@
                     foreach ($pemberhentian as $key => $value) { ?>
                         <tr>
                             <td><?= $i ?></td>
+                            <td><?= $value->pegawai_nip ?></td>                            
                             <td><?= $value->jenis_berhenti ?></td>
                             <td><?= $value->alasan ?></td>
                             <td>
@@ -279,22 +281,6 @@
                         </tr>
                     <?php $i++; } ?>
                 </tbody>           
-                <tfoot>
-                    <tr class="thead-dark">
-                        <th>No</th>
-                        <th>Jenis Berhenti</th>
-                        <th>Alasan</th>
-                        <th>Status Pengajuan</th>
-                        <th>Tanggal Pengajuan</th>
-                        <th>Tanggal Persetujuan</th>
-                        <th>MPP</th>
-                        <th>Tunjangan</th>
-                        <?php if($this->session->userdata("role") == "pegawai"){ ?>   
-                            <th>Surat Pengunduran Diri</th>
-                        <?php } ?>
-                        <th>Action</th>
-                    </tr>
-                </tfoot> 
             </table>
         </div>
     </div>

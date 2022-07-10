@@ -104,7 +104,7 @@ class Pemberhentian_model extends CI_Model
             "mpp" => $mpp,
             "tunjangan" => $tunjangan,
             "pegawai_nip" => $pegawai_nip,
-            "surat_pengunduran_diri" => $surat_pengunduran_diri,
+            "surat_pengunduran_diri" => $surat_pengajuan,
         );
 
         $this->db->trans_start();
