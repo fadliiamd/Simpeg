@@ -35,7 +35,7 @@ class Berkas_pemberhentian_model extends CI_Model
     {
         $this->db->select(
             'berkaspensiun.id, berkaspensiun.sk_cpns, berkaspensiun.sk_pns, berkaspensiun.sk_kgb, berkaspensiun.sk_kp, berkaspensiun.dp3_akhir, berkaspensiun.pangkat_akhir, berkaspensiun.kartu_keluarga, berkaspensiun.pas_foto, berkaspensiun.status_persetujuan,
-            pemberhentian.pegawai_nip, pemberhentian.alasan, pemberhentian_id AS id_pemberhentian'
+            pemberhentian.pegawai_nip, pemberhentian.alasan,pemberhentian.status_pengajuan,pemberhentian.tgl_pengajuan ,pemberhentian.id AS id_pemberhentian'
         );
         $this->db->from($this->table);
         $this->db->join('pemberhentian', 'berkaspensiun.pemberhentian_id = pemberhentian.id');
@@ -148,10 +148,15 @@ class Berkas_pemberhentian_model extends CI_Model
 
     public function status_berkas_pemberhentian($id)
     {        
-
-        $data_berkas_pemberhentian = array(
-            "status_persetujuan" => $this->input->post('status')
-        ); 
+        if ($this->input->post('status') == "tolak") {
+            $data_berkas_pemberhentian = array(
+                "status_persetujuan" => $this->input->post('status')
+            ); 
+        }else{
+            $data_berkas_pemberhentian = array(
+                "status_persetujuan" => $this->input->post('status')
+            );
+        }
 
         $this->db->trans_start();
         $this->db->where('id', $id);

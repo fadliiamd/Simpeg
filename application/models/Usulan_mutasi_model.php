@@ -12,13 +12,6 @@ class Usulan_mutasi_model extends CI_Model
         return $query->result();
     }
 
-    public function get_count_bagian($bagian)
-    {
-        $query = $this->db->where('id', $bagian)->get("bagian")->count_all();
-
-        return $query->result();
-    }
-
     public function get_all_with_join()
     {
         $this->db->select(
@@ -48,15 +41,15 @@ class Usulan_mutasi_model extends CI_Model
 
         date_default_timezone_set('Asia/Jakarta');
         $date = date("Y-m-d H:i:s");
-        $mutasi_id = $this->input->post('mutasi_id');
-        list($berkas,$mutasi) = explode(" - ",$mutasi_id);
+        $berkas_id = $this->input->post('id');
+        $mutasi_id = $this->input->post('id_mutasi');
 
         $data_usulan_mutasi = array(
             "id" => "",
             "tgl_usulan" => $date,
             "status_persetujuan" => "pending",
-            "berkasmutasi_id" => $berkas,
-            "mutasi_id" => $mutasi
+            "berkasmutasi_id" => $berkas_id,
+            "mutasi_id" => $mutasi_id
         );
     
         $this->db->insert($this->table, $data_usulan_mutasi);

@@ -152,6 +152,7 @@
                                                         <form class="forms-sample" action="<?= base_url("mutasi/status_berkas"); ?>" method="POST">
                                                             <div class="modal-header">
                                                                 <input type="hidden" name="id" value="<?= $value->id ?>">
+                                                                <input type="hidden" name="id_mutasi" value="<?= $value->id_mutasi ?>">
                                                                 <input type="hidden" name="status" value="setujui">
                                                                 <h5 class="modal-title" id="exampleModalLabel">Setujui Pengajuan Mutasi Id : <b><?= $value->id ?></b> </h5>
                                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">

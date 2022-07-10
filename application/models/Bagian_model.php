@@ -12,6 +12,13 @@ class Bagian_model extends CI_Model
         return $query->result();
     }
 
+    public function get_count_bagian($bagian)
+    {
+        $query = $this->db->where('id', $bagian)->get("bagian")->count_all();
+
+        return $query->result();
+    }
+
     public function insert_one()
     {
         $nama = $this->input->post('nama');

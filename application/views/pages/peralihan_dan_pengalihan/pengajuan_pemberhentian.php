@@ -52,10 +52,18 @@
                                 <label for="surat_pengunduran_diri">Surat Pengajuan</label>
                                 <input type="file" class="form-control" id="surat_pengunduran_diri" name="surat_pengunduran_diri">
                             </div>
-                            <div class="form-group">
+                            <!-- <div class="form-group pegawai_nip_pns">
                                 <label for="pegawai_nip">Pegawai</label>
                                 <select class="form-control" id="pegawai_nip" name="pegawai_nip">
-                                    <?php foreach ($pegawai as $key => $value) { ?>
+                                    <?php foreach ($pegawaiPNS as $key => $value) { ?>
+                                        <option value="<?= $value->account_nip ?>"><?= $value->account_nip ?> - <?= $value->nama ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div> -->
+                            <div class="form-group pegawai_nip_non_pns">
+                                <label for="pegawai_nip">Pegawai</label>
+                                <select class="form-control" id="pegawai_nip" name="pegawai_nip">
+                                    <?php foreach ($pegawaiNonPNS as $key => $value) { ?>
                                         <option value="<?= $value->account_nip ?>"><?= $value->account_nip ?> - <?= $value->nama ?></option>
                                     <?php } ?>
                                 </select>
@@ -285,3 +293,17 @@
         </div>
     </div>
 </div>
+
+<script>
+    // $( ".pegawai_nip_non_pns").hide();
+
+    // $( "#jenis_berhenti" ).change(function() {
+    //     if ($( "#jenis_berhenti" ).val() == "Pensiun") {
+    //         $( ".pegawai_nip_pns").toggle();
+    //         $( ".pegawai_nip_non_pns").toggle();
+    //     }else{
+    //         $( ".pegawai_nip_pns").toggle();
+    //         $( ".pegawai_nip_non_pns").toggle();
+    //     }
+    // });
+</script>

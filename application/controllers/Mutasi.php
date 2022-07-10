@@ -97,7 +97,7 @@ class Mutasi extends Roles {
 	public function berkas_mutasi()
 	{
 		$berkas_mutasi = $this->berkas_mutasi_model->get_all_with_join();
-        $mutasi = $this->mutasi_model->get_all();
+        $mutasi = $this->mutasi_model->get_condition("status_pengajuan","setujui");
         $pegawai = $this->pegawai_model->get_all();
 
 		$this->load->view('partials/main-header');
@@ -160,6 +160,7 @@ class Mutasi extends Roles {
         if($update)
         {
             $this->session->set_flashdata('message_success', 'Berhasil mengupdate data mutasi!');
+            $this->create_data_usulan();
             redirect("mutasi/berkas_mutasi");
         }else
         {
