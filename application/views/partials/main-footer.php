@@ -33,7 +33,6 @@
   <script>
     $(document).ready( function () {
       $('#list_surat').DataTable({
-        select: true,
       });
       $(".table-datatable").DataTable({});
     } );    
