@@ -42,16 +42,16 @@ class Usulan_pemberhentian_model extends CI_Model
         date_default_timezone_set('Asia/Jakarta');
         $date = date("Y-m-d H:i:s");
         $tgl_pensiun = $this->input->post('tgl_pensiun');
+        $berkaspensiun_id = $this->input->post('id');
         $pemberhentian_id = $this->input->post('pemberhentian_id');
-        list($berkas,$pemberhentian) = explode(" - ",$pemberhentian_id);
 
         $data_usulan_pensiun = array(
             "id" => "",
             "tgl_pensiun" => $tgl_pensiun,
             "tgl_usulan" => $date,
             "status_persetujuan" => "pending",
-            "berkaspensiun_id" => $berkas,
-            "pemberhentian_id" => $pemberhentian
+            "berkaspensiun_id" => $berkaspensiun_id,
+            "pemberhentian_id" => $pemberhentian_id
         );
     
         $this->db->insert($this->table, $data_usulan_pensiun);

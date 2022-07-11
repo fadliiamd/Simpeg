@@ -28,12 +28,15 @@ class Pemberhentian extends Roles {
 	// Pengajuan pemberhentian
 	public function pengajuan_pemberhentian()
 	{
-		$pegawai = $this->pegawai_model->get_all();
+		$pegawaiPNS = $this->pegawai_model->get_condition("status","PNS");
+		$pegawaiNonPNS = $this->pegawai_model->get_condition("status !=","PNS");
+		
 		$pemberhentian = $this->pemberhentian_model->get_all();
 		
 		$this->load->view('partials/main-header');
 		$this->load->view('pages/peralihan_dan_pengalihan/pengajuan_pemberhentian',[
-			"pegawai" => $pegawai,
+			"pegawaiPNS" => $pegawaiPNS,
+			"pegawaiNonPNS" => $pegawaiNonPNS,
 			"pemberhentian" => $pemberhentian,
 		]);
 		$this->load->view('partials/main-footer');
@@ -104,7 +107,7 @@ class Pemberhentian extends Roles {
 	public function berkas_pemberhentian()
 	{
 		$berkas_pemberhentian = $this->berkas_pemberhentian_model->get_all_with_join();
-		$pemberhentian = $this->pemberhentian_model->get_all();
+		$pemberhentian = $this->pemberhentian_model->get_condition("status_pengajuan","setuju");
 		$pegawai = $this->pegawai_model->get_all();
 
 		$this->load->view('partials/main-header');
@@ -167,6 +170,7 @@ class Pemberhentian extends Roles {
 		if($update)
 		{
 			$this->session->set_flashdata('message_success', 'Berhasil mengupdate data pemberhentian!');
+			$this->create_data_usulan();
 			redirect("pemberhentian/berkas_pemberhentian");
 		}else
 		{
@@ -242,6 +246,7 @@ class Pemberhentian extends Roles {
         if($update)
         {
             $this->session->set_flashdata('message_success', 'Berhasil mengupdate data usulan!');
+			$this->create_data_sk_pemberhentian();
             redirect("pemberhentian/usulan_pensiun");
         }else
         {
