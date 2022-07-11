@@ -10,7 +10,6 @@ $(document).ready(function () {
 	});
 
 	$('#list_table').DataTable({
-		select: true,
 		'columnDefs': [{
 		 'targets': 0,
 		 'searchable': false,
@@ -21,14 +20,13 @@ $(document).ready(function () {
 	});
 
 	$('#list_hasil_perangkingan').DataTable({
-		select: true,
 		'columnDefs': [{
 		 'targets': 0,
 		 'searchable': false,
 		 'orderable': false,
 		 'className': 'dt-body-center',
 		 'render': function (data, type, full, meta){
-				 return '<input type="checkbox" name="checklist_id[]" value="' + $('<div/>').text(data).html() + '">';
+				return '<input type="checkbox" name="checklist_id[]" value="' + $('<div/>').text(data).html() + '">';
 			}
 		}],
 		'order': [[1, 'asc']]
@@ -65,6 +63,23 @@ $(document).ready(function () {
 	
 	$('#kriteria_section').on('click', '#tambah_kriteria', function() {
 		$("#kriteria_section").append(tambah_kriteria);
+	});
+
+	$('#jenis_kegiatan').change(function() {
+		if($(this).val() == 'diklat') {
+			$("#detail_jenis_kegiatan").empty();
+			$("#detail_jenis_kegiatan").append(`
+				<label for="jenis_diklat">Jenis Diklat (*)</label>
+				<select class="form-control" id="jenis_diklat" name="jenis_diklat" required>
+					<option value="" selected hidden>--- Jenis Diklat ---</option>
+					<option value="teknis">Teknis</option>
+					<option value="fungsional">Fungsional</option>
+					<option value="unit">Unit</option>
+				</select>
+			`);
+		} else {
+			$("#detail_jenis_kegiatan").empty();
+		}
 	});
 	
 	$('#jenis_tujuan').change(function() {

@@ -388,7 +388,8 @@
               <ul class="nav flex-column sub-menu">
                 <li class="nav-item"> <a class="nav-link" href="<?= base_url("kriteria"); ?>">Kriteria</a></li>
                 <li class="nav-item"> <a class="nav-link" href="<?= base_url("subkriteria"); ?>">Sub Kriteria</a></li>                                
-                <li class="nav-item"> <a class="nav-link"  href="<?= base_url("hasil"); ?>">Hasil</a></li>                
+                <li class="nav-item"> <a class="nav-link"  href="<?= base_url("hasil"); ?>">Hasil</a></li>    
+                <li class="nav-item"> <a class="nav-link"  href="<?= base_url("hasil/persetujuan"); ?>">Persetujuan</a></li>            
               </ul>
             </div>
           </li>
@@ -400,9 +401,9 @@
             </a>
             <div class="collapse" id="kegiatan">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="#">Diklat</a></li>
-                <li class="nav-item"> <a class="nav-link" href="#">Bimtek</a></li>
-                <li class="nav-item"> <a class="nav-link"  href="#">Prajabatan</a></li>                
+                <li class="nav-item"> <a class="nav-link" href="<?= base_url("diklat"); ?>">Diklat</a></li>
+                <li class="nav-item"> <a class="nav-link" href="<?= base_url("bimtek"); ?>">Bimtek</a></li>
+                <li class="nav-item"> <a class="nav-link"  href="<?= base_url("prajabatan"); ?>">Prajabatan</a></li>                
               </ul>
             </div>
           </li>
