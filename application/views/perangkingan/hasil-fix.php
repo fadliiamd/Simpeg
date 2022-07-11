@@ -48,7 +48,7 @@
                   <td>'.$no.'</td>
                   <td>'.$value->account_nip.'</td>
                   <td>'.$value->nama.'</td>
-                  <td>'.$value->jenis_pegawai.'</td>
+                  <td>'.ucwords($value->jenis_pegawai).'</td>
                   <td>'.$value->nilai_rank.'</td>
                 </tr>';
                 $no++;
