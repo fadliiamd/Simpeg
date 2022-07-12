@@ -4,28 +4,33 @@
 
         <?php if($this->session->userdata("role") == "pegawai"){ ?>       
             <!-- Large modal -->
-            <button type="button" class="my-3 btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Tambah Berkas Persyaratan</button>
+            <?php if (($this->session->userdata("role") == "pegawai" && !$berkas_pemberhentian)) { ?>
+                <button type="button" class="my-3 btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Tambah Berkas Persyaratan</button>
+            <?php } ?>
 
             <!-- Modal -->
             <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Berkas Persyaratan</h5>
+                            <h5 class="modal-title" id="exampleModalLabel">Berkas Persyaratan NIP : <b><?= $this->session->userdata("nip") ?></b></h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <form class="forms-sample" action="<?= base_url("pemberhentian/create_data_berkas"); ?>" method="POST" enctype="multipart/form-data">
                             <div class="modal-body">
-                                <div class="form-group">
+                            <?php foreach ($pemberhentian as $key => $value) { ?>
+                                <input type="hidden" name="pemberhentian_id" value="<?= $value->id ?>">
+                            <?php } ?>
+                                <!-- <div class="form-group">
                                     <label for="pemberhentian_id">NIP</label>
-                                    <select class="form-control" pemberhentian_id="pemberhentian_id" name="pemberhentian_id">
+                                    <select class="form-control" id="pemberhentian_id" name="pemberhentian_id">
                                         <?php foreach ($pemberhentian as $key => $value) { ?>
                                             <option value="<?= $value->id ?>"><?= $value->pegawai_nip ?> - <?= $value->alasan ?></option>
                                         <?php } ?>
                                     </select>
-                                </div>
+                                </div> -->
                                 <div class="form-group row">
                                     <div class="col-md-3">
                                         <label for="sk_cpns">SK CPNS</label>
@@ -92,7 +97,7 @@
         <?php endif ?>
 
         <div class="table-responsive">
-            <table id="tbl-pengajuan-mutasi" class="table table-striped table-bordered">
+            <table class="table table-striped table-bordered table-datatable">
                 <thead class="thead-dark">
                     <tr>
                         <th>No</th>
@@ -161,7 +166,6 @@
                                                             <div class="modal-header">
                                                                 <input type="hidden" name="id" value="<?= $value->id ?>">
                                                                 <input type="hidden" name="pemberhentian_id" value="<?= $value->id_pemberhentian ?>">
-                                                                <input type="hidden" name="tgl_pensiun" value="<?= $value->tgl_pengajuan ?>">
                                                                 <input type="hidden" name="status" value="setujui">
                                                                 <h5 class="modal-title" id="exampleModalLabel">Setujui Pengajuan Mutasi Id : <b><?= $value->id ?></b> </h5>
                                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">

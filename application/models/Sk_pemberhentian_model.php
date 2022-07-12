@@ -34,15 +34,15 @@ class Sk_pemberhentian_model extends CI_Model
     public function get_all_with_join()
     {
         $this->db->select(
-            'skmutasi.id, skmutasi.tgl_mutasi, skmutasi.file_mutasi,
+            'skpensiun.id, skpensiun.tgl_pensiun, skpensiun.file_pensiun,
             usulanpensiun.id AS id_usulan,usulanpensiun.tgl_pensiun,usulanpensiun.tgl_usulan,usulanpensiun.status_persetujuan,usulanpensiun.tgl_persetujuan,
-            berkaspensiun.id AS id_berkas, berkaspensiun.sk_cpns, berkaspensiun.sk_pns, berkaspensiun.kgb, berkaspensiun.kp, berkaspensiun.dp3_akhir, berkaspensiun.pangkat_akhir, berkaspensiun.kartu_keluarga, berkaspensiun.pas_foto, 
+            berkaspensiun.id AS id_berkas, berkaspensiun.sk_cpns, berkaspensiun.sk_pns, berkaspensiun.sk_kgb, berkaspensiun.sk_kp, berkaspensiun.dp3_akhir, berkaspensiun.pangkat_akhir, berkaspensiun.kartu_keluarga, berkaspensiun.pas_foto, 
             pemberhentian.pegawai_nip, pemberhentian.alasan, pemberhentian.id AS id_pemberhentian'
         );
         $this->db->from($this->table);
-        $this->db->join('usulanpenisun', 'usulanpensiun.id = skmutasi.usulanpensiun_id');
+        $this->db->join('usulanpensiun', 'usulanpensiun.id = skpensiun.usulanpensiun_id');
         $this->db->join('berkaspensiun', 'berkaspensiun.id = usulanpensiun.berkaspensiun_id');
-        $this->db->join('pemberhentian', 'pemberhentian.id = usulanpemberhentian.pemberhentian_id');
+        $this->db->join('pemberhentian', 'pemberhentian.id = usulanpensiun.pemberhentian_id');
 
         $query = $this->db->get();
 
@@ -60,15 +60,14 @@ class Sk_pemberhentian_model extends CI_Model
             $_POST[$key] = $value;            
         }
 
-        date_default_timezone_set('Asia/Jakarta');
-        $date = date("Y-m-d H:i:s");
-        $file_pensiun = $this->do_upload("pdf", "file_pensiun");
+        // $file_pensiun = $this->do_upload("pdf", "file_pensiun");
+        $tgl_pensiun = $this->input->post('tgl_pensiun');
         $usulanpensiun_id = $this->input->post('usulanpensiun_id');
 
         $data_sk_pensiun = array(
             "id" => "",
-            "tgl_pensiun" => $date,
-            "file_pensiun" => $file_pensiun,
+            "tgl_pensiun" => $tgl_pensiun,
+            // "file_pensiun" => $file_pensiun,
             "usulanpensiun_id" => $usulanpensiun_id,
         );
 
@@ -144,6 +143,34 @@ class Sk_pemberhentian_model extends CI_Model
         $this->db->trans_start();
         $this->db->where('id', $id);
         $this->db->update($this->table, $data_sk_mutasi);
+        $this->db->trans_complete();
+
+        if ($this->db->trans_status() === FALSE) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public function upload_surat($id)
+    {        
+         //check empty string for nullable
+        foreach( $this->input->post() as $key => $value) {
+            if($value === ""){
+                $value = null;
+            }
+            $_POST[$key] = $value;            
+        }
+
+        $surat_usulan = $this->do_upload("pdf", "file_pensiun");
+
+        $data_usulan_pensiun = array(
+            "file_pensiun" => $surat_usulan,
+        );
+
+        $this->db->trans_start();
+        $this->db->where('id', $id);
+        $this->db->update($this->table, $data_usulan_pensiun);
         $this->db->trans_complete();
 
         if ($this->db->trans_status() === FALSE) {

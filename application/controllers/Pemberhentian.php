@@ -20,23 +20,35 @@ class Pemberhentian extends Roles {
 	
     public function riwayat_pemberhentian()
 	{
+		$pemberhentian = $this->pemberhentian_model->get_condition("jenis_berhenti","Pengunduran Diri");
+
 		$this->load->view('partials/main-header');
-		$this->load->view('pages/peralihan_dan_pengalihan/daftar_pemberhentian');
+		$this->load->view('pages/peralihan_dan_pengalihan/daftar_pemberhentian',[
+			"pemberhentian" => $pemberhentian
+		]);
 		$this->load->view('partials/main-footer');
 	}
 
 	// Pengajuan pemberhentian
 	public function pengajuan_pemberhentian()
 	{
-		$pegawaiPNS = $this->pegawai_model->get_condition("status","PNS");
-		$pegawaiNonPNS = $this->pegawai_model->get_condition("status !=","PNS");
+		if ($this->session->userdata("role") == "admin") {
+			$pegawai = $this->pegawai_model->get_all();
+			$users = $this->pegawai_model->get_condition("account_nip",$this->session->userdata("nip"));
+			$pemberhentian = $this->pemberhentian_model->get_all_with_join_pegawai();
+		}
+
+		if ($this->session->userdata("role") == "pegawai") {
+			$pegawai = $this->pegawai_model->get_condition("status !=","PNS");
+			$users = $this->pegawai_model->get_condition("account_nip",$this->session->userdata("nip"));
+			$pemberhentian = $this->pemberhentian_model->get_condition("pegawai_nip",$this->session->userdata("nip"));
+		}
 		
-		$pemberhentian = $this->pemberhentian_model->get_all();
 		
 		$this->load->view('partials/main-header');
 		$this->load->view('pages/peralihan_dan_pengalihan/pengajuan_pemberhentian',[
-			"pegawaiPNS" => $pegawaiPNS,
-			"pegawaiNonPNS" => $pegawaiNonPNS,
+			"pegawai" => $pegawai,
+			"users" => $users,
 			"pemberhentian" => $pemberhentian,
 		]);
 		$this->load->view('partials/main-footer');
@@ -106,13 +118,18 @@ class Pemberhentian extends Roles {
 	// Berkas Pemberhentian
 	public function berkas_pemberhentian()
 	{
-		$berkas_pemberhentian = $this->berkas_pemberhentian_model->get_all_with_join();
-		$pemberhentian = $this->pemberhentian_model->get_condition("status_pengajuan","setuju");
-		$pegawai = $this->pegawai_model->get_all();
+		if ($this->session->userdata("role") == "admin") {	
+			$berkas_pemberhentian = $this->berkas_pemberhentian_model->get_all_with_join();
+		}
+
+		if ($this->session->userdata("role") == "pegawai") {
+			$berkas_pemberhentian = $this->berkas_pemberhentian_model->get_all_with_join_pegawai();
+		}
+		
+		$pemberhentian = $this->pemberhentian_model->get_pegawai_berkas();
 
 		$this->load->view('partials/main-header');
 		$this->load->view('pages/peralihan_dan_pengalihan/berkas_pemberhentian',[
-			"pegawai" => $pegawai,
 			"pemberhentian" => $pemberhentian,
 			"berkas_pemberhentian" => $berkas_pemberhentian,
 		]);
@@ -125,11 +142,11 @@ class Pemberhentian extends Roles {
 
 		if($add)
 		{
-			$this->session->set_flashdata('message_success', 'Behasil menambahkan data pemberhentian!');
+			$this->session->set_flashdata('message_success', 'Behasil menambahkan data berkas pemberhentian!');
 			redirect("pemberhentian/berkas_pemberhentian");
 		}else
 		{
-			$this->session->set_flashdata('message_error', 'Gagal menambahkan data pemberhentian!');
+			$this->session->set_flashdata('message_error', 'Gagal menambahkan data berkas pemberhentian!');
 			redirect("pemberhentian/berkas_pemberhentian");
 		}
 	}
@@ -169,9 +186,12 @@ class Pemberhentian extends Roles {
 
 		if($update)
 		{
-			$this->session->set_flashdata('message_success', 'Berhasil mengupdate data pemberhentian!');
-			$this->create_data_usulan();
-			redirect("pemberhentian/berkas_pemberhentian");
+			if ($update == "setujui") {
+				$this->create_data_usulan();
+			}else {
+				$this->session->set_flashdata('message_success', 'Berhasil mengupdate data pemberhentian!');
+				redirect("pemberhentian/berkas_pemberhentian");
+			}
 		}else
 		{
 			$this->session->set_flashdata('message_error', 'Gagal mengupdate data pemberhentian!');
@@ -245,12 +265,30 @@ class Pemberhentian extends Roles {
 
         if($update)
         {
-            $this->session->set_flashdata('message_success', 'Berhasil mengupdate data usulan!');
-			$this->create_data_sk_pemberhentian();
-            redirect("pemberhentian/usulan_pensiun");
+			if ($update == "setujui") {
+				$this->create_data_sk_pemberhentian();
+			}else {
+				$this->session->set_flashdata('message_success', 'Berhasil mengupdate data usulan!');
+				redirect("pemberhentian/usulan_pensiun");
+			}
         }else
         {
             $this->session->set_flashdata('message_error', 'Gagal mengupdate data usulan!');
+            redirect("pemberhentian/usulan_pensiun");
+        }
+    }
+
+	public function upload_data_usulan()
+    {
+        $update = $this->usulan_pemberhentian_model->upload_surat($this->input->post('id'));
+
+        if($update)
+        {
+            $this->session->set_flashdata('message_success', 'Berhasil mengupload file usulan!');
+            redirect("pemberhentian/usulan_pensiun");
+        }else
+        {
+            $this->session->set_flashdata('message_error', 'Gagal mengupload file usulan!');
             redirect("pemberhentian/usulan_pensiun");
         }
     }
@@ -259,12 +297,10 @@ class Pemberhentian extends Roles {
 	// SK Pensiun
 	public function sk_pensiun()
 	{
-		$usulan = $this->usulan_pemberhentian_model->get_all_with_join();
-		$sk_pemberhentian = $this->sk_pemberhentian_model->get_all();
+		$sk_pemberhentian = $this->sk_pemberhentian_model->get_all_with_join();
 
 		$this->load->view('partials/main-header');
 		$this->load->view('pages/peralihan_dan_pengalihan/sk_pensiun',[
-			"usulan" => $usulan,
 			"sk_pemberhentian" => $sk_pemberhentian,
 		]);
 		$this->load->view('partials/main-footer');
@@ -313,5 +349,20 @@ class Pemberhentian extends Roles {
 			redirect("pemberhentian/sk_pensiun");
 		}
 	}
+
+	public function upload_data_sk()
+    {
+        $update = $this->sk_pemberhentian_model->upload_surat($this->input->post('id'));
+
+        if($update)
+        {
+            $this->session->set_flashdata('message_success', 'Berhasil mengupload file usulan!');
+            redirect("pemberhentian/sk_pensiun");
+        }else
+        {
+            $this->session->set_flashdata('message_error', 'Gagal mengupload file usulan!');
+            redirect("pemberhentian/sk_pensiun");
+        }
+    }
 	// end sk pensiun
 }

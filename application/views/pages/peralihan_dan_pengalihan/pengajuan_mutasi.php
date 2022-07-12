@@ -27,11 +27,11 @@
                             </div>
                             <div class="form-group">
                                 <label for="alasan">Alasan</label>
-                                <textarea class="form-control" id="alasan" rows="4" name="alasan"></textarea>
+                                <textarea class="form-control" id="alasan" rows="4" name="alasan" required></textarea>
                             </div>
                             <div class="form-group">
                                 <label for="surat_pengajuan">Surat Pengajuan</label>
-                                <input type="file" class="form-control" id="surat_pengajuan" name="surat_pengajuan">
+                                <input type="file" class="form-control" id="surat_pengajuan" name="surat_pengajuan" required = 'required'/>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -62,7 +62,7 @@
         <?php endif ?>
 
         <div class="table-responsive">
-            <table id="tbl-pengajuan-mutasi" class="table table-striped table-bordered">
+            <table class="table table-striped table-bordered table-datatable">
                 <thead class="thead-dark">
                     <tr>
                         <th>No</th>
