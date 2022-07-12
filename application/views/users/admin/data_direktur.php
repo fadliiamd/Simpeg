@@ -164,6 +164,7 @@
                                                         <div class="col-md-6">
                                                             <label for="email">Email (*)</label>
                                                             <input class="form-control" id="email" name="email" value="<?= $value->email ?>" required>
+                                                            <input type="hidden" class="form-control" id="email_old" name="email_old" value="<?= $value->email ?>">
                                                         </div>
                                                         <div class="col-md-6">
                                                             <label for="password">Password</label>

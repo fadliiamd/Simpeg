@@ -58,24 +58,24 @@ class Account extends Roles
     {
         $data = $this->pegawai_model->get_one_with_join(array('pegawai.account_nip' => $id));
 
-        $this->load->view('partials/main-header', ['title' => ': Profile '.$id]);
+        $this->load->view('partials/main-header', ['title' => ': Profile ' . $id]);
         $this->load->view('users/pegawai/profile', [
             "profiles" => $data,
             "id" => $id
         ]);
-        $this->load->view('partials/main-footer');        
+        $this->load->view('partials/main-footer');
     }
-    
+
     public function profile_direktur($id)
     {
         $data = $this->direktur_model->get_one_with_join(array('direktur.account_nip' => $id));
 
-        $this->load->view('partials/main-header', ['title' => ': Profile '.$id]);
+        $this->load->view('partials/main-header', ['title' => ': Profile ' . $id]);
         $this->load->view('users/direktur/profile', [
             "profiles" => $data,
             "id" => $id
         ]);
-        $this->load->view('partials/main-footer');        
+        $this->load->view('partials/main-footer');
     }
 
     /*===========
@@ -105,20 +105,26 @@ class Account extends Roles
 
     public function create_data_pegawai()
     {
-        //validation form
-        $this->load->library('form_validation');
-        $this->form_validation->set_rules('nip', 'nip', 'callback_nip_check|is_unique[pegawai.account_nip]', 
+        //validation form        
+        $this->load->library('form_validation');        
+        $this->form_validation->set_rules(
+            'nip',
+            'nip',
+            'callback_nip_check|is_unique[account.nip]',
             array(
                 'nip_check' => 'Pastikan NIK berjumlah 8 Angka atau NIP berjumlah 18!',
                 'is_unique' => 'Mohon maaf %s telah terdaftar!'
             )
-        );
-        $this->form_validation->set_rules('email', 'email', 'is_unique[account.email]', 
+        );        
+        $this->form_validation->set_rules(
+            'email',
+            'email',
+            'is_unique[pegawai.email]',
             array(
                 'is_unique' => 'Mohon maaf %s telah terdaftar!'
             )
         );
-        if ($this->form_validation->run() == FALSE) {            
+        if ($this->form_validation->run() == FALSE) {
             $this->session->set_flashdata('message_error', validation_errors());
             redirect("account/data_pegawai");
         }
@@ -135,38 +141,43 @@ class Account extends Roles
     }
 
     public function update_data_pegawai()
-    {                
-        $this->load->library('form_validation');     
-
-        //check jika ada perubahan nip
-        if($this->input->post('nip') != $this->input->post('nip_old')){            
-            $is_unique = '|is_unique[pegawai.account_nip]';
-        }else{
-            $is_unique = '';
-        }        
-        $this->form_validation->set_rules('nip', 'nip', 'callback_nip_check'.$is_unique, 
+    {
+        //form validation
+        //validation form
+        $this->load->library('form_validation');
+        if ($this->input->post('nip') != $this->input->post('nip_old')) {            
+            $is_unique = '|is_unique[account.nip]';
+        } else {
+            $is_unique = '';         
+        }
+        $this->form_validation->set_rules(
+            'nip',
+            'nip',
+            'callback_nip_check'.$is_unique,
             array(
                 'nip_check' => 'Pastikan NIK berjumlah 8 Angka atau NIP berjumlah 18!',
                 'is_unique' => 'Mohon maaf %s telah terdaftar!'
             )
         );
 
-        //check jika ada perubahan email
-        if($this->input->post('email') != $this->input->post('email_old')){            
-            $is_unique = '|is_unique[account.email]';
-        }else{
-            $is_unique = '';
-        }        
-        $this->form_validation->set_rules('email', 'email', $is_unique, 
+        if ($this->input->post('email') != $this->input->post('email_old')) {            
+            $is_unique = 'is_unique[pegawai.email]';
+        } else {
+            $is_unique = '';         
+        }
+        $this->form_validation->set_rules(
+            'email',
+            'email',
+            $is_unique,
             array(
                 'is_unique' => 'Mohon maaf %s telah terdaftar!'
             )
         );
 
-        if ($this->form_validation->run() == FALSE) {            
+        if ($this->form_validation->run() == FALSE) {
             $this->session->set_flashdata('message_error', validation_errors());
-            redirect("account/data_pegawai");
-        }
+            redirect("account/data_direktur");
+        }        
 
         //update everything change
         $delete = $this->pegawai_model->update_one($this->input->post('nip_old'));
@@ -218,9 +229,32 @@ class Account extends Roles
 
     public function create_data_direktur()
     {
+        //validation form
+        $this->load->library('form_validation');        
+        $this->form_validation->set_rules(
+            'nip',
+            'nip',
+            'callback_nip_check|is_unique[account.nip]',
+            array(
+                'nip_check' => 'Pastikan NIK berjumlah 8 Angka atau NIP berjumlah 18!',
+                'is_unique' => 'Mohon maaf %s telah terdaftar!'
+            )
+        );        
+        $this->form_validation->set_rules(
+            'email',
+            'email',
+            'is_unique[direktur.email]',
+            array(
+                'is_unique' => 'Mohon maaf %s telah terdaftar!'
+            )
+        );
+        if ($this->form_validation->run() == FALSE) {
+            $this->session->set_flashdata('message_error', validation_errors());
+            redirect("account/data_direktur");
+        }
+
         $this->load->model('direktur_model');
         $add = $this->direktur_model->insert_one();
-
         if ($add) {
             $this->session->set_flashdata('message_success', 'Behasil menambahkan data direktur!');
             redirect("account/data_direktur");
@@ -232,6 +266,42 @@ class Account extends Roles
 
     public function update_data_direktur()
     {
+        //validation form
+        $this->load->library('form_validation');
+        if ($this->input->post('nip') != $this->input->post('nip_old')) {            
+            $is_unique = '|is_unique[account.nip]';
+        } else {
+            $is_unique = '';         
+        }
+        $this->form_validation->set_rules(
+            'nip',
+            'nip',
+            'callback_nip_check'.$is_unique,
+            array(
+                'nip_check' => 'Pastikan NIK berjumlah 8 Angka atau NIP berjumlah 18!',
+                'is_unique' => 'Mohon maaf %s telah terdaftar!'
+            )
+        );
+
+        if ($this->input->post('email') != $this->input->post('email_old')) {            
+            $is_unique = 'is_unique[direktur.email]';
+        } else {
+            $is_unique = '';         
+        }
+        $this->form_validation->set_rules(
+            'email',
+            'email',
+            $is_unique,
+            array(
+                'is_unique' => 'Mohon maaf %s telah terdaftar!'
+            )
+        );
+
+        if ($this->form_validation->run() == FALSE) {
+            $this->session->set_flashdata('message_error', validation_errors());
+            redirect("account/data_direktur");
+        }        
+
         $this->load->model('direktur_model');
         $delete = $this->direktur_model->update_one($this->input->post('nip_old'));
 
@@ -264,10 +334,28 @@ class Account extends Roles
     public function nip_check()
     {
         $length_nip = strlen($this->input->post('nip'));
-        if($length_nip == 8 || $length_nip == 18){
+        if ($length_nip == 8 || $length_nip == 18) {
             return true;
-        }else{
+        } else {
             return false;
         }
+    }
+    
+    private function _check_unique($by)
+    {
+        if($by != 'email'){
+            if ($this->input->post($by) != $this->input->post($by.'_old')) {            
+                $is_unique = '|is_unique[account.'.$by.']';
+            } else {
+                $is_unique = '';         
+            }
+        }else{
+            if ($this->input->post($by) != $this->input->post($by.'_old')) {            
+                $is_unique = '|is_unique[account.'.$by.']';
+            } else {
+                $is_unique = '';         
+            }
+        }    
+        return $is_unique;
     }
 }

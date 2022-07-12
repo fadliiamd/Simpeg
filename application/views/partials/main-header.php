@@ -316,7 +316,7 @@
                 <ul class="nav flex-column sub-menu">
                   <li class="nav-item"> <a class="nav-link" href="<?= base_url("account/data_pegawai"); ?>">Pegawai</a></li>
                   <li class="nav-item"> <a class="nav-link" href="<?= base_url("account/data_direktur"); ?>">Direktur</a></li>
-                  <li class="nav-item"> <a class="nav-link" href="#">Admin</a></li>
+                  <!-- <li class="nav-item"> <a class="nav-link" href="#">Admin</a></li> -->
                 </ul>
               </div>
             </li>

@@ -120,10 +120,6 @@ class Pegawai_model extends CI_Model
         $this->load->model('account_model');        
         $add = $this->account_model->register("pegawai");        
 
-        if($this->form_validation->run() == FALSE){
-            return false;
-        }
-
         if($add){
             $nip = $this->input->post('nip');
             $nama = $this->input->post('nama');
