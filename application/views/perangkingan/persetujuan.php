@@ -17,7 +17,6 @@
         </div>
     <?php endif ?>
     <h4>Daftar Hasil Perangkingan</h4>
-        
     <form action="<?= base_url("hasil/pengajuan") ?>" method="POST" enctype="multipart/form-data">
       <div class="table-responsive">
         <table class="table table-striped table-bordered table-datatable">
@@ -33,12 +32,12 @@
           <tbody>
             <?php 
             $no = 1;
-            foreach ($list_perangkingan as $key => $value){
+            foreach ($list_perangkingan as $key => $value) {
             ?>
               <tr>
-                <td><?=$value->surat_id; ?></td>
-                <td><?=$value->created_by; ?></td>
-                <td><?=$value->created_at; ?></td>
+                <td><?= $list_surat[$value->surat_id]->no ?></td>
+                <td><?= $value->created_by ?></td>
+                <td><?= date_indo($value->created_at) ?></td>
                 <td>
                   <!-- Large modal -->
                 <button type="button" class="btn btn-info" data-toggle="modal" data-target="#read-act-<?= $value->id ?>">Lihat</button>
@@ -67,14 +66,19 @@
                                 </tr>
                               </thead>
                               <tbody>
-                                <tr>
-                                  <td>'.$no.'</td>
-                                  <td>'.$value->account_nip.'</td>
-                                  <td>'.$value->nama.'</td>
-                                  <td>'.$value->jenis_pegawai.'</td>
-                                  <td>'.$value->nilai_rank.'</td>
-                                </tr>
-                              </tbody>        
+                                <?php
+                                $no2 = 1;
+                                foreach($list_hasilperangkingan[$value->id] as $key2 => $value2) { ?>
+                                  <tr>
+                                    <td><?=$no2 ?></td>
+                                    <td><?=$value2->account_nip ?></td>
+                                    <td><?=$value2->nama ?></td>
+                                    <td><?=ucwords($value2->jenis_pegawai) ?></td>
+                                    <td><?=$value2->nilai_rank ?></td>
+                                  </tr>
+                                <?php $no2++;
+                                } ?>
+                              </tbody>      
                             </table>
                           </div>
                         </div>

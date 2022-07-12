@@ -11,15 +11,22 @@ class Perangkingan_model extends CI_Model
         return $query->result();
     }
 
-    public function get_all_order($coloumn, $type_order){
-      $this->db->select('*');
-      $this->db->from($this->table);        
-      $this->db->order_by($coloumn, $type_order);
+    public function get_all_order($coloumn, $type_order)
+    {
+        $this->db->select('*');
+        $this->db->from($this->table);
+        $this->db->order_by($coloumn, $type_order);
+        $query = $this->db->get();
+        return $query->result();
+    }
 
-      $query = $this->db->get();        
-      
-      return $query->result();
-  }
+    public function get_one($where, $order_by = NULL)
+    {
+        if($order_by != NULL) {
+            $this->db->order_by($order_by['column'], $order_by['order']);
+        }
+        return $this->db->get_where($this->table, $where)->row();
+    }
 
     public function insert_one($data)
     {
@@ -37,7 +44,6 @@ class Perangkingan_model extends CI_Model
         if ($this->db->trans_status() === FALSE) {
             return false;
         }
-
         return true;
     }
 }

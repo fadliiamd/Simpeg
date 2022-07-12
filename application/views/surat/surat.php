@@ -35,10 +35,24 @@
                   </select>
                 </div>
               </div>
+              <div class="form-group row">
+                <div class="col-md-6">
+                  <label for="jenis_kegiatan">Jenis Kegiatan (*)</label>
+                  <select class="form-control" id="jenis_kegiatan" name="jenis_kegiatan" required>
+                    <option value="" selected hidden>--- Jenis Kegiatan ---</option>
+                    <option value="diklat">Diklat</option>
+                    <option value="bimtek">Bimbingan Teknis (Bimtek)</option>
+                    <option value="prajabatan">Prajabatan</option>
+                  </select>
+                </div> 
+                <div class="col-md-6" id="detail_jenis_kegiatan">
+                  
+                </div>
+              </div>
               <div class="form-group">
                 <label for="jenis_tujuan">Jenis Pegawai Tujuan Surat (*)</label>
                 <select class="form-control" id="jenis_tujuan" name="jenis_tujuan" required>
-                  <option value="">--- Jenis Pegawai Tujuan Surat ---</option>
+                  <option value="" selected hidden>--- Jenis Pegawai Tujuan Surat ---</option>
                   <option value="semua">Semua</option>
                   <option value="divisi">Divisi</option>
                   <option value="perorangan">Perorangan</option>
@@ -78,9 +92,11 @@
               <!-- <td>2000201</td>             -->
               <td><a href="<?= base_url() ?>uploads/<?= $value->file_name ?>" target="_blank">Lihat</a></td>
               <td><?= $value->no ?></td>
-              <td><?= $value->tujuan ?></td>
+              <td>
+                <?= ucwords($value->jenis_tujuan) ?>
+              </td>
               <td><?= $value->tgl_upload ?></td>
-              <td><label class="badge badge-light">Surat <?= $value->jenis ?></label></td>
+              <td><label class="badge badge-light">Surat <?= ucwords($value->jenis) ?></label></td>
               <td>
                 <!-- Large modal -->
                 <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#edittable-<?= $value->id ?>">Edit</button>
@@ -109,23 +125,57 @@
                           <div class="form-group row">
                             <div class="col-md-6">
                               <label for="no_surat">Nomor Surat (*)</label>
-                              <input type="text" class="form-control" id="no_surat" name="no_surat" placeholder="Nomor Surat" value="<?= $value->no ?>" required>
-                              <input type="hidden" name="id_surat" value="<?= $value->id ?>">
-                              <input type="hidden" name="tgl_upload_old" value="<?= $value->tgl_upload ?>">
-                              <input type="hidden"  name="file_surat_old" value="<?= $value->file_name ?>">
+                              <input type="text" class="form-control" id="no_surat" name="no_surat" value=<?=$value->no; ?> required>
                             </div>
                             <div class="col-md-6">
                               <label for="jenis_surat">Jenis Surat (*)</label>
                               <select class="form-control" id="jenis_surat" name="jenis" required>
-                                <option value="" selected hidden>--- Jenis Surat ---</option>
-                                <option value="tugas" <?php if ($value->jenis === 'tugas')  echo "selected"; ?>>Surat Tugas</option>
-                                <option value="undangan" <?php if ($value->jenis === 'undangan')  echo "selected"; ?>>Surat Undangan</option>
+                                <option value="tugas" <?php if($value->jenis === 'tugas') echo "selected"; ?>>Surat Tugas</option>
+                                <option value="undangan" <?php if($value->jenis === 'undangan') echo "selected"; ?>>Surat Undangan</option>
                               </select>
                             </div>
                           </div>
-                          <div class="form-group">
-                            <label for="tujuan">Tujuan Surat (*)</label>
-                            <input class="form-control" id="tujuan" name="tujuan" placeholder="Masukan tujuan surat secara singkat" value="<?= $value->tujuan ?>" required>
+                          <div class="form-group row">
+                            <div class="col-md-6">
+                              <label for="jenis_kegiatan">Jenis Kegiatan (*)</label>
+                              <select class="form-control" id="jenis_kegiatan" name="jenis_kegiatan" required>
+                                <option value="diklat" <?php if($value->jenis_kegiatan === 'diklat') echo "selected"; ?>>Diklat</option>
+                                <option value="bimtek" <?php if($value->jenis_kegiatan === 'bimtek') echo "selected"; ?>>Bimbingan Teknis (Bimtek)</option>
+                                <option value="prajabatan" <?php if($value->jenis_kegiatan === 'prajabatan') echo "selected"; ?>>Prajabatan</option>
+                              </select>
+                            </div> 
+                            <div class="col-md-6">
+                              <label for="jenis_tujuan">Jenis Pegawai Tujuan Surat (*)</label>
+                              <select class="form-control" id="jenis_tujuan" name="jenis_tujuan" required>
+                                <option value="semua" <?php if($value->jenis_tujuan === 'semua') echo "selected"; ?>>Semua</option>
+                                <option value="divisi" <?php if($value->jenis_tujuan === 'divisi') echo "selected"; ?>>Divisi</option>
+                                <option value="perorangan" <?php if($value->jenis_tujuan === 'perorangan') echo "selected"; ?>>Perorangan</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div id="detail_tujuan">
+                            <?php if($value->jenis_tujuan === 'divisi') { ?>
+                              <div class="form-group row">
+                                <div class="col-md-6">
+                                  <label for="divisi">Divisi Tujuan (*)</label>
+                                  <select class="form-control" id="divisi" name="divisi" required>
+                                    <option value="jurusan" <?php if($value->tujuan === 'jurusan') echo "selected"; ?>>Jurusan</option>
+                                    <option value="bagian" <?php if($value->tujuan === 'bagian') echo "selected"; ?>>Bagian</option>
+                                    <option value="unit" <?php if($value->tujuan === 'unit') echo "selected"; ?>>Unit</option>
+                                  </select>
+                                </div>
+                                <div class="col-md-6">
+                                  <label for="tujuan">Tujuan (*)</label>
+                                  <select class="form-control" id="tujuan" name="tujuan[]" multiple="multiple" required>
+                                    <?php ?>
+                                    <option value="" selected hidden>--- Tujuan ---</option>
+                                    <?php ?>
+                                  </select>
+                                </div>
+                              </div>
+                            <?php } else if($value->jenis_tujuan === 'perorangan') { ?>
+                              
+                            <?php } ?>
                           </div>
                         </div>
                         <div class="modal-footer">
