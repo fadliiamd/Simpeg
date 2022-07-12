@@ -41,7 +41,7 @@
                   </div>
                 <?php endif ?>
                 <div class="form-group">
-                  <input type="text" name="nip" class="form-control form-control-lg" id="exampleInputEmail1" placeholder="NIP">
+                  <input type="text" name="nip" class="form-control form-control-lg" id="exampleInputEmail1" placeholder="NIP / NIK">
                 </div>
                 <div class="form-group">
                   <input type="password" name="password" class="form-control form-control-lg" id="exampleInputPassword1" placeholder="Password">

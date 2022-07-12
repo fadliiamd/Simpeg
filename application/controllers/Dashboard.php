@@ -33,9 +33,9 @@ class Dashboard extends Authentication
 			$data['total_mutasi'] = $this->mutasi_model->get_num_rows();
 			$data['total_mutasi'] += $this->penerimaan_mutasi_model->get_num_rows();
 
-			$data['total_pemberhentian'] = $this->pemberhentian_model->get_num_rows();
+			$data['total_pemberhentian'] = $this->pemberhentian_model->get_num_rows();			
 
-			$this->load->view('partials/main-header');
+			$this->load->view('partials/main-header', ['title' => ': Dashboard']);
 			$this->load->view('users/admin/index', $data);
 			$this->load->view('partials/main-footer');
 		}else{
@@ -51,9 +51,9 @@ class Dashboard extends Authentication
 			$data['total_diklat']	= $this->diklat_model->get_num_rows_by(array('pegawai_nip' => $_SESSION['nip']));
 			$data['total_bimtek']	= $this->bimtek_model->get_num_rows_by(array('pegawai_nip' => $_SESSION['nip']));			
 			$data['total_prajabatan']	= $this->prajabatan_model->get_num_rows_by(array('pegawai_nip' => $_SESSION['nip']));			
-			$data['akk_terakhir'] = $this->rekap_nilai_model->get_akk_terakhir(array('account_nip' => $_SESSION['nip']));
+			$data['akk_terakhir'] = $this->rekap_nilai_model->get_akk_terakhir(array('account_nip' => $_SESSION['nip']));			
 
-			$this->load->view('partials/main-header');
+			$this->load->view('partials/main-header', ['title' => ': Dashboard']);
 			$this->load->view('users/pegawai/index', $data);
 			$this->load->view('partials/main-footer');
 		}else{
@@ -77,7 +77,7 @@ class Dashboard extends Authentication
 
 			$data['total_pemberhentian'] = $this->pemberhentian_model->get_num_rows();
 
-			$this->load->view('partials/main-header');
+			$this->load->view('partials/main-header', ['title' => ': Dashboard']);
 			$this->load->view('users/direktur/index', $data);
 			$this->load->view('partials/main-footer');
 		}else{

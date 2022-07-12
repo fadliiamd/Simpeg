@@ -1,15 +1,15 @@
 <div class="container">
     <div class="main-body">
-        <h1> My Profile</h1>
+        <h1><?php echo ($id === $_SESSION['nip'] ?'My' : '');?> Profile</h1>
         <div class="row gutters-sm">
             <div class="col-md-4 mb-3">
                 <div class="card">
                     <div class="card-body">
                         <div class="d-flex flex-column align-items-center text-center">
-                            <img src="<?= base_url('uploads/' . $profiles->foto) ?>" alt="Admin" class="rounded-circle" width="150">
+                            <img src="<?= base_url('uploads/' . $profiles->foto) ?>" alt="FOTO PROFILE" class="rounded-circle" width="150">
                             <div class="mt-3">
                                 <h4><?= explode(' ', $profiles->nama)[0] ?></h4>
-                                <p class="text-secondary mb-1 text-capitalize"><?= $_SESSION['role'] ?> SPK POLSUB</p>
+                                <p class="text-secondary mb-1 text-capitalize"><?= $profiles->role ?> SPK POLSUB</p>
                                 <!-- <p class="text-muted font-size-sm">Bay Area, San Francisco, CA</p> -->
                                 <!-- <button class="btn btn-primary">Follow</button>
                                 <button class="btn btn-outline-primary">Message</button> -->
@@ -18,6 +18,7 @@
                     </div>
                 </div>
                 <div class="card mt-3">
+                    <h6>Dokumen :</h6>
                     <ul class="list-group list-group-flush">
                         <?php
                         if (!is_null($profiles->ijazah)) { ?>

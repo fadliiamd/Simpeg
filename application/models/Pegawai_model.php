@@ -74,11 +74,12 @@ class Pegawai_model extends CI_Model
 
     public function get_one_with_join($id)
     {
-        $this->db->select('pegawai.*, jabatan.*, jurusan.nama as nama_jurusan, bagian.nama as nama_bagian, unit.nama as nama_unit');        
+        $this->db->select('pegawai.*, jabatan.*, account.role as role, jurusan.nama as nama_jurusan, bagian.nama as nama_bagian, unit.nama as nama_unit');
         $this->db->join('jabatan', 'pegawai.jabatan_id = jabatan.id', 'left');
         $this->db->join('jurusan', 'pegawai.jurusan_id = jurusan.id', 'left');
         $this->db->join('bagian', 'pegawai.bagian_id = bagian.id', 'left');
         $this->db->join('unit', 'pegawai.unit_id = unit.id', 'left');        
+        $this->db->join('account', 'pegawai.account_nip = account.nip');        
 
         $query = $this->db->get_where($this->table, $id);
 
@@ -94,6 +95,8 @@ class Pegawai_model extends CI_Model
             $this->load->library('upload');
     
             $this->upload->initialize($config);
+
+            $data = null;
 
             if (($this->upload->do_upload($post_name)))
             {
@@ -116,6 +119,10 @@ class Pegawai_model extends CI_Model
         // Create account first
         $this->load->model('account_model');        
         $add = $this->account_model->register("pegawai");        
+
+        if($this->form_validation->run() == FALSE){
+            return false;
+        }
 
         if($add){
             $nip = $this->input->post('nip');
@@ -229,6 +236,7 @@ class Pegawai_model extends CI_Model
                 "bagian_id" => $bagian_id,
                 "unit_id" => $unit_id,
             );
+            
             if(!is_null($foto)){
                 $data_pegawai += array(
                     'foto' => $foto

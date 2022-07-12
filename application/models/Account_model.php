@@ -43,7 +43,7 @@ class Account_model extends CI_Model
     public function register($role)
     {
         $nip = $this->input->post('nip');
-        $password = password_hash($this->input->post('password'), PASSWORD_DEFAULT);
+        $password = password_hash($this->input->post('password'), PASSWORD_DEFAULT);                
 
         $data_account = array(
             "nip" => $nip,

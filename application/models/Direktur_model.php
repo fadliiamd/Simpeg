@@ -12,6 +12,15 @@ class Direktur_model extends CI_Model
 
         return $query->result();
     }
+    
+    public function get_all_with_join()
+    {
+        $this->db->select('direktur.*, jabatan.nama_jabatan as nama_jabatan');
+        $this->db->join('jabatan', 'direktur.jabatan_id = jabatan.id');
+        $query = $this->db->get($this->table);
+
+        return $query->result();
+    }
 
     public function do_upload($file_type, $post_name)
     {
@@ -30,6 +39,17 @@ class Direktur_model extends CI_Model
             }
 
             return $data;
+    }
+
+    public function get_one_with_join($id)
+    {
+        $this->db->select('direktur.*, jabatan.*, account.role as role');
+        $this->db->join('jabatan', 'direktur.jabatan_id = jabatan.id', 'left');       
+        $this->db->join('account', 'direktur.account_nip = account.nip');        
+
+        $query = $this->db->get_where($this->table, $id);
+
+        return $query->row();
     }
 
     public function insert_one()
@@ -67,7 +87,7 @@ class Direktur_model extends CI_Model
                 "tgl_lahir" => $tgl_lahir,
                 "alamat" => $alamat,
                 "email" => $email,                
-                "jabatan" => $jabatan,                
+                "jabatan_id" => $jabatan,                
                 "foto" => $foto                
             );
     

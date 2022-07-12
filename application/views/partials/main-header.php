@@ -5,7 +5,7 @@
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Skydash Admin</title>
+  <title>SPK POLSUB <?= $title ?></title>
   <!-- plugins:css -->
   <link rel="stylesheet" href="<?= base_url(); ?>assets/vendors/feather/feather.css">
   <link rel="stylesheet" href="<?= base_url(); ?>assets/vendors/ti-icons/css/themify-icons.css">
@@ -266,24 +266,7 @@
                 <li class="nav-item"> <a class="nav-link" href="<?= base_url("prajabatan"); ?>">Prajabatan</a></li>
               </ul>
             </div>
-          </li>
-          <?php if ($_SESSION['role'] !== 'pegawai') { ?>
-            <li class="nav-item">
-              <a class="nav-link" data-toggle="collapse" href="#Divisi" aria-expanded="false" aria-controls="Divisi">
-                <i class="fa-solid fa-building-columns menu-icon"></i>
-                <span class="menu-title">Divisi</span>
-                <i class="menu-arrow"></i>
-              </a>
-              <div class="collapse" id="Divisi">
-                <ul class="nav flex-column sub-menu">
-                  <li class="nav-item"> <a class="nav-link" href="<?= base_url("jurusan"); ?>">Jurusan</a></li>
-                  <li class="nav-item"> <a class="nav-link" href="<?= base_url("bagian"); ?>">Bagian</a></li>
-                  <li class="nav-item"> <a class="nav-link" href="<?= base_url("unit"); ?>">Unit</a></li>
-                </ul>
-              </div>
-            </li>
-          <?php
-          } ?>
+          </li>          
 
           <hr>
           <li class="nav-item">
@@ -321,7 +304,7 @@
           <li class="nav-item">
             <span class="font-weight-bold nav-link p-0 disable menu-title" style="word-wrap: break-word;white-space:normal;">User dan Aplikasi</span>
             <hr>
-          </li>
+          </li>          
           <?php if ($_SESSION['role'] !== 'pegawai') { ?>
             <li class="nav-item">
               <a class="nav-link" data-toggle="collapse" href="#Account" aria-expanded="false" aria-controls="Account">
@@ -334,6 +317,20 @@
                   <li class="nav-item"> <a class="nav-link" href="<?= base_url("account/data_pegawai"); ?>">Pegawai</a></li>
                   <li class="nav-item"> <a class="nav-link" href="<?= base_url("account/data_direktur"); ?>">Direktur</a></li>
                   <li class="nav-item"> <a class="nav-link" href="#">Admin</a></li>
+                </ul>
+              </div>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-toggle="collapse" href="#Divisi" aria-expanded="false" aria-controls="Divisi">
+                <i class="fa-solid fa-building-columns menu-icon"></i>
+                <span class="menu-title">Divisi</span>
+                <i class="menu-arrow"></i>
+              </a>
+              <div class="collapse" id="Divisi">
+                <ul class="nav flex-column sub-menu">
+                  <li class="nav-item"> <a class="nav-link" href="<?= base_url("jurusan"); ?>">Jurusan</a></li>
+                  <li class="nav-item"> <a class="nav-link" href="<?= base_url("bagian"); ?>">Bagian</a></li>
+                  <li class="nav-item"> <a class="nav-link" href="<?= base_url("unit"); ?>">Unit</a></li>
                 </ul>
               </div>
             </li>
