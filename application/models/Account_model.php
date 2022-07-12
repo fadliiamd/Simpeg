@@ -14,6 +14,13 @@ class Account_model extends CI_Model
         return $query->row()->role;
     }
 
+    public function get_num_rows()
+    {
+        $query = $this->db->get($this->table);
+
+        return $query->num_rows();
+    }
+
     public function get_redirect_role($nip)
     {
         $role = $this->get_role($nip);

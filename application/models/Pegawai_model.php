@@ -23,6 +23,13 @@ class Pegawai_model extends CI_Model
     {
         return $this->db->get_where($this->table, $where)->row();
     }
+    
+    public function get_num_rows()
+    {
+        $query = $this->db->get($this->table);
+
+        return $query->num_rows();
+    }
 
     public function get_condition($query,$search)
     {

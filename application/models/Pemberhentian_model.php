@@ -23,6 +23,12 @@ class Pemberhentian_model extends CI_Model
 
             return $data;
     }
+    
+    public function get_num_rows()
+    {
+        $query = $this->db->get($this->table);
+        return $query->num_rows();
+    }
 
     public function get_all()
     {

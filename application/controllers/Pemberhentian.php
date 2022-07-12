@@ -17,7 +17,6 @@ class Pemberhentian extends Roles {
         ]);
 	}
 
-	
     public function riwayat_pemberhentian()
 	{
 		$this->load->view('partials/main-header');
