@@ -135,25 +135,14 @@ class Prajabatan extends CI_Controller {
         $file_ktp_name = $this->do_upload("pdf", "file_ktp");
         $file_kk_name = $this->do_upload("pdf", "file_kk");
         $file_ijazah_name = $this->do_upload("pdf", "file_ijazah");
+        $file_surat_sehat_name = $this->do_upload("pdf", "file_surat_sehat");
+        $file_tambahan_name = $this->do_upload("pdf", "file_tambahan");
 
-        if(is_null($file_foto_name)) {
-            echo $this->input->post('file_foto');
-            die();
-        }
-        if(is_null($file_ktp_name)) {
-            echo $this->input->post('file_ktp');
-            die();
-        }
-        if(is_null($file_kk_name)) {
-            echo $this->input->post('file_kk');
-            die();
-        }
-        if(is_null($file_ijazah_name)) {
-            echo $this->input->post('file_ijazah');
+        // Validation
+        if(is_null($file_foto_name && $file_ktp_name && $file_kk_name && $file_ijazah_name)) {
             die();
         }
 
-        date_default_timezone_set('Asia/Jakarta');
         $date =  date("Y/m/d h:i:s");
         $tgl_upload =  $date;
 
@@ -162,6 +151,8 @@ class Prajabatan extends CI_Controller {
             "ktp" => $file_ktp_name,
             "kk" => $file_kk_name,
             "ijazah" => $file_ijazah_name,
+            "surat_sehat" => $file_surat_sehat_name,
+            "tambahan" => $file_tambahan_name,
             "surat_id" => $surat_id,
             "pegawai_nip" => $this->session->userdata('nip'),
             "created_at" => $tgl_upload

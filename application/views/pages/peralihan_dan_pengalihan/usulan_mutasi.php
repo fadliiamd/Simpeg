@@ -64,7 +64,7 @@
         <?php endif ?>
 
         <div class="table-responsive">
-            <table id="tbl-pengajuan-mutasi" class="table table-striped table-bordered">
+            <table class="table table-striped table-bordered table-datatable">
                 <thead class="thead-dark">
                     <tr>
                         <th>No</th>
@@ -220,7 +220,7 @@
                                     <div class="modal-dialog modal-lg">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">Edit Pengajuan Mutasi Id : <b>2<b></h5>
+                                                <h5 class="modal-title" id="exampleModalLabel">Edit Usulan Mutasi No : <b><?= $i ?><b></h5>
                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                                 </button>

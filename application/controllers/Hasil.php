@@ -103,6 +103,7 @@ class Hasil extends CI_Controller {
         $this->load->model("surat_model");
         $this->load->model("hasil_model");
         $this->load->model("pegawai_model");
+        $this->load->model("notifikasi_model");
 
         // If POST Request Exist
         if(!empty($this->input->post('aksi') && $this->input->post('perangkingan_id'))){
@@ -115,6 +116,11 @@ class Hasil extends CI_Controller {
             $surat_data = $this->surat_model->get_one(array(
                 "id" => $perangkingan_data->surat_id,
             ));
+
+            $jenis_diklat = "";
+            if($surat_data->jenis_kegiatan == 'diklat') {
+                $jenis_diklat = $surat_data->jenis_diklat;
+            }
 
             $this->db->trans_start();
             if($this->input->post('aksi') == "setujui") {
@@ -139,9 +145,25 @@ class Hasil extends CI_Controller {
                     "tgl_upload" => $surat_data->tgl_upload,
                     "jenis" => "tugas",
                     "jenis_kegiatan" => $surat_data->jenis_kegiatan,
+                    "jenis_diklat" => $jenis_diklat,
                     "admin_nip" => $surat_data->admin_nip,
                     "file_name" => $surat_data->file_name,
                 ));
+
+                $create_notif = $this->notifikasi_model->create_notification(array(
+                    "judul" => "Undangan ".ucwords($surat_data->jenis_kegiatan),
+                    "pesan" => "Anda mendapatkan undangan kegiatan ".ucwords($surat_data->jenis_kegiatan).". Silahkan segera melakukan proses pemberkasan pada laman kegiatan".$surat_data->jenis_kegiatan,
+                    "redirect_to" => "diklat"
+                ));
+
+                foreach($accepted_pegawai as $target) {
+                    $this->notifikasi_model->pair_notification(array(
+                        "account_nip" => $target,
+                        "notifikasi_id" => $create_notif,
+                        "status" => "Unseen",
+                        "created_at" => date("Y/m/d h:i:s")
+                    ));
+                }
             } else {
                 // Reject "Perangkingan"
                 $this->perangkingan_model->update_one($this->input->post('perangkingan_id'), array(
@@ -152,10 +174,10 @@ class Hasil extends CI_Controller {
             
             // Set Message and Redirect
             if($this->db->trans_status()) {
-                $this->session->set_flashdata('message_success', 'Berhasil menerapkan aksi hasil perankingan!');
+                $this->session->set_flashdata('message_success', 'Berhasil menyetujui perangkingan!');
                 redirect("hasil/persetujuan");
             } else {
-                $this->session->set_flashdata('message_error', 'Gagal menerapkan aksi hasil perankingan!');
+                $this->session->set_flashdata('message_error', 'Gagal menyetujui perangkingan!');
                 redirect("hasil/persetujuan");
             }
         }

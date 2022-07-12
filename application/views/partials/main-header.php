@@ -7,32 +7,32 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>SPK POLSUB <?= $title ?></title>
   <!-- plugins:css -->
-  <link rel="stylesheet" href="<?= base_url(); ?>assets/vendors/feather/feather.css">
-  <link rel="stylesheet" href="<?= base_url(); ?>assets/vendors/ti-icons/css/themify-icons.css">
-  <link rel="stylesheet" href="<?= base_url(); ?>assets/vendors/css/vendor.bundle.base.css">
-  <link rel="stylesheet" href="<?= base_url(); ?>assets/vendors/mdi/css/materialdesignicons.min.css">
+  <link rel="stylesheet" href="<?= base_url() ?>assets/vendors/feather/feather.css">
+  <link rel="stylesheet" href="<?= base_url() ?>assets/vendors/ti-icons/css/themify-icons.css">
+  <link rel="stylesheet" href="<?= base_url() ?>assets/vendors/css/vendor.bundle.base.css">
+  <link rel="stylesheet" href="<?= base_url() ?>assets/vendors/mdi/css/materialdesignicons.min.css">
   <script src="https://kit.fontawesome.com/48c190b106.js" crossorigin="anonymous"></script>
   <!-- endinject -->
   <!-- Plugin css for this page -->
-  <link rel="stylesheet" href="<?= base_url(); ?>assets/vendors/datatables.net-bs4/dataTables.bootstrap4.css">
-  <link rel="stylesheet" href="<?= base_url(); ?>assets/vendors/ti-icons/css/themify-icons.css">
+  <link rel="stylesheet" href="<?= base_url() ?>assets/vendors/datatables.net-bs4/dataTables.bootstrap4.css">
+  <link rel="stylesheet" href="<?= base_url() ?>assets/vendors/ti-icons/css/themify-icons.css">
   <link rel="stylesheet" type="text/css" href="<?= base_url(); ?>assets/js/select.dataTables.min.css">
   <!-- End plugin css for this page -->
   <!-- inject:css -->
-  <link rel="stylesheet" href="<?= base_url(); ?>assets/css/vertical-layout-light/style.css">
+  <link rel="stylesheet" href="<?= base_url() ?>assets/css/vertical-layout-light/style.css">
   <!-- endinject -->
   <link rel="shortcut icon" href="<?= base_url(); ?>assets/images/favicon.png" />
 
   <!-- plugins:js -->
-  <script src="<?= base_url(); ?>assets/vendors/js/vendor.bundle.base.js"></script>
+  <script src="<?= base_url() ?>assets/vendors/js/vendor.bundle.base.js"></script>
   <!-- endinject -->
 
   <!-- Plugin js for this page -->
-  <script src="<?= base_url(); ?>assets/vendors/chart.js/Chart.min.js"></script>
-  <script src="<?= base_url(); ?>assets/vendors/datatables.net/jquery.dataTables.js"></script>
-  <script src="<?= base_url(); ?>assets/vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
-  <script src="<?= base_url(); ?>assets/js/dataTables.select.min.js"></script>
-  <script src="<?= base_url(); ?>assets/js/dataTables.buttons.min.js"></script>
+  <script src="<?= base_url() ?>assets/vendors/chart.js/Chart.min.js"></script>
+  <script src="<?= base_url() ?>assets/vendors/datatables.net/jquery.dataTables.js"></script>
+  <script src="<?= base_url() ?>assets/vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+  <script src="<?= base_url() ?>assets/js/dataTables.select.min.js"></script>
+  <script src="<?= base_url() ?>assets/js/dataTables.buttons.min.js"></script>
   <!-- End plugin js for this page -->
   <?PHP
   header('Access-Control-Allow-Origin: *');
@@ -69,47 +69,8 @@
               <i class="mx-0 icon-bell"></i>
               <span class="count"></span>
             </a>
-            <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="notificationDropdown">
-              <p class="float-left mb-0 font-weight-normal dropdown-header">Notifications</p>
-              <a class="dropdown-item preview-item">
-                <div class="preview-thumbnail">
-                  <div class="preview-icon bg-success">
-                    <i class="mx-0 ti-info-alt"></i>
-                  </div>
-                </div>
-                <div class="preview-item-content">
-                  <h6 class="preview-subject font-weight-normal">Application Error</h6>
-                  <p class="mb-0 font-weight-light small-text text-muted">
-                    Just now
-                  </p>
-                </div>
-              </a>
-              <a class="dropdown-item preview-item">
-                <div class="preview-thumbnail">
-                  <div class="preview-icon bg-warning">
-                    <i class="mx-0 ti-settings"></i>
-                  </div>
-                </div>
-                <div class="preview-item-content">
-                  <h6 class="preview-subject font-weight-normal">Settings</h6>
-                  <p class="mb-0 font-weight-light small-text text-muted">
-                    Private message
-                  </p>
-                </div>
-              </a>
-              <a class="dropdown-item preview-item">
-                <div class="preview-thumbnail">
-                  <div class="preview-icon bg-info">
-                    <i class="mx-0 ti-user"></i>
-                  </div>
-                </div>
-                <div class="preview-item-content">
-                  <h6 class="preview-subject font-weight-normal">New user registration</h6>
-                  <p class="mb-0 font-weight-light small-text text-muted">
-                    2 days ago
-                  </p>
-                </div>
-              </a>
+            <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" id="notification_list" aria-labelledby="notificationDropdown">
+              <!-- Notification List -->
             </div>
           </li>
           <li class="nav-item nav-profile dropdown">

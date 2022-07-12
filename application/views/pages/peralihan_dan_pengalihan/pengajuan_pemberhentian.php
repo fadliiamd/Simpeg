@@ -1,17 +1,25 @@
 <div class="row">
     <div class="col-lg-12">
-        <h4>Pengajuan Pemberhentian</h4>
+        <h4>Pengajuan Pemberhentian <?= $this->session->userdata("nip"); ?></h4>
 
         <!-- Large modal -->
-        <button type="button" class="my-3 btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Tambah Pemberhentian</button>
+        <?php foreach ($users as $key => $value) { ?>
+            <?php if ($this->session->userdata("role") == "pegawai" && !$pemberhentian && $value->status != "PNS"){ ?>
+                <button type="button" class="my-3 btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Tambah Pemberhentian</button>
+            <?php } ?>
+        <?php } ?>
+                
+        <?php if  ($this->session->userdata("role") == "admin"){ ?>
+            <button type="button" class="my-3 btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Tambah Pemberhentian</button>
+        <?php } ?>
 
-        <a href="<?= base_url().'assets/pdf/template-surat-pengunduran-diri.pdf'?>" download class="btn btn-secondary">Surat Pengunduran Diri</a>    
+        <a href="<?= base_url().'assets/pdf/template-surat-pengunduran-diri.pdf'?>" download class="my-3 btn btn-secondary">Surat Pengunduran Diri</a>    
         <!-- Modal -->
         <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Pengajuan Pemberhentian</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Pengajuan Pemberhentian NIP : <b><?= $this->session->userdata("nip") ?></b></h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -52,21 +60,19 @@
                                 <label for="surat_pengunduran_diri">Surat Pengajuan</label>
                                 <input type="file" class="form-control" id="surat_pengunduran_diri" name="surat_pengunduran_diri">
                             </div>
-                            <!-- <div class="form-group pegawai_nip_pns">
-                                <label for="pegawai_nip">Pegawai</label>
-                                <select class="form-control" id="pegawai_nip" name="pegawai_nip">
-                                    <?php foreach ($pegawaiPNS as $key => $value) { ?>
-                                        <option value="<?= $value->account_nip ?>"><?= $value->account_nip ?> - <?= $value->nama ?></option>
+                            <div class="form-group">
+                                <?php if ($this->session->userdata("role") == "pegawai") { ?>
+                                    <?php foreach ($pegawai as $key => $value) { ?>
+                                        <input type="hidden" name="pegawai_nip" value="<?= $this->session->userdata("nip") ?>">
                                     <?php } ?>
-                                </select>
-                            </div> -->
-                            <div class="form-group pegawai_nip_non_pns">
-                                <label for="pegawai_nip">Pegawai</label>
-                                <select class="form-control" id="pegawai_nip" name="pegawai_nip">
-                                    <?php foreach ($pegawaiNonPNS as $key => $value) { ?>
-                                        <option value="<?= $value->account_nip ?>"><?= $value->account_nip ?> - <?= $value->nama ?></option>
-                                    <?php } ?>
-                                </select>
+                                <?php } else { ?>
+                                    <label for="pegawai_nip">Pegawai</label>
+                                    <select class="form-control" id="pegawai_nip" name="pegawai_nip">
+                                        <?php foreach ($pegawai as $key => $value) { ?>
+                                            <option value="<?= $value->account_nip ?> - <?= $value->email ?>"><?= $value->account_nip ?> - <?= $value->nama ?></option>
+                                        <?php } ?>
+                                    </select>
+                                <?php } ?>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -97,7 +103,7 @@
         <?php endif ?>
 
         <div class="table-responsive">
-            <table id="tbl-pengajuan-mutasi" class="table table-striped table-bordered">
+            <table class="table table-striped table-bordered table-datatable">
                 <thead>
                     <tr class="thead-dark">
                         <th>No</th>
@@ -109,9 +115,6 @@
                         <th>Tanggal Persetujuan</th>
                         <th>MPP</th>
                         <th>Tunjangan</th>
-                        <?php if($this->session->userdata("role") == "pegawai"){ ?>   
-                            <th>Surat Pengunduran Diri</th>
-                        <?php } ?>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -141,6 +144,7 @@
                                                             <div class="modal-header">
                                                                 <input type="hidden" name="id" value="<?= $value->id ?>">
                                                                 <input type="hidden" name="status" value="setuju">
+                                                                <input type="hidden" name="email" value="<?= $value->email ?>">
                                                                 <h5 class="modal-title" id="exampleModalLabel">Setujui Pengajuan Mutasi NIP : <b><?= $value->pegawai_nip ?></b> </h5>
                                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                                     <span aria-hidden="true">&times;</span>
@@ -293,17 +297,3 @@
         </div>
     </div>
 </div>
-
-<script>
-    // $( ".pegawai_nip_non_pns").hide();
-
-    // $( "#jenis_berhenti" ).change(function() {
-    //     if ($( "#jenis_berhenti" ).val() == "Pensiun") {
-    //         $( ".pegawai_nip_pns").toggle();
-    //         $( ".pegawai_nip_non_pns").toggle();
-    //     }else{
-    //         $( ".pegawai_nip_pns").toggle();
-    //         $( ".pegawai_nip_non_pns").toggle();
-    //     }
-    // });
-</script>
