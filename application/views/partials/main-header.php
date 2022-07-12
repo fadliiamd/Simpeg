@@ -117,9 +117,9 @@
               <img src="<?= base_url(); ?>assets/images/faces/face28.jpg" alt="profile" />
             </a>
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-              <a class="dropdown-item">
-                <i class="ti-settings text-primary"></i>
-                Settings
+              <a class="dropdown-item" href="<?= base_url('account/profile/'.$_SESSION['nip'] ) ?>">
+                <i class="mdi mdi-account-outline text-primary"></i>
+                Profile
               </a>
               <a href="<?= site_url('auth/logout') ?>" class="dropdown-item">
                 <i class="ti-power-off text-primary"></i>
@@ -367,7 +367,7 @@
           } ?>
           <?php if ($_SESSION['role'] === 'pegawai') { ?>
             <li class="nav-item">
-              <a class="nav-link" href="<?= base_url() . 'pegawai/profile/'.$_SESSION['nip'] ?>">
+              <a class="nav-link" href="<?= base_url() . 'account/profile/'.$_SESSION['nip'] ?>">
                 <i class="mdi mdi-account-outline menu-icon"></i>
                 <span class="menu-title">Profile</span>
               </a>

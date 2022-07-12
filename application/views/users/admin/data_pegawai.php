@@ -87,24 +87,11 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     <label for="tgl_masuk">Tanggal Masuk (*)</label>
                                     <input type="date" class="form-control" id="tgl_masuk" name="tgl_masuk">
-                                </div>
-                                <div class="col-md-3">
-                                    <label for="jabatan">Jabatan</label>
-                                    <select class="form-control" id="jabatan" name="jabatan">
-                                        <option value="" selected>-- Pilih Jabatan --</option>
-                                        <?php
-                                            $option = '';
-                                            foreach ($jabatan as $key => $value){
-                                                $option .= '<option value="'.$value->id.'">'.$value->nama_jabatan.' - '.$value->jenis_jabatan.'</option>';
-                                            }
-                                            echo $option;
-                                        ?>
-                                    </select>
-                                </div>
-                                <div class="col-md-3">
+                                </div>                                
+                                <div class="col-md-4">
                                     <label for="pendidikan">Pendidikan (*)</label>
                                     <select class="form-control" id="pendidikan" name="pendidikan" required>
                                         <option value="" selected hidden>-- Pilih Pendidikan --</option>
@@ -115,7 +102,7 @@
                                         <option value="S3">S3</option>
                                     </select>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     <label for="gaji">Gaji</label>
                                     <input type="number" class="form-control" id="gaji" name="gaji" placeholder="Rp.">
                                 </div>
@@ -132,21 +119,26 @@
                                         <?php
                                         } ?>
                                     </select>
-                                </div>
+                                </div>                          
                                 <div class="col-md-4">
-                                    <label for="jenis_pegawai">Jenis Pegawai (*)</label>
-                                    <select class="form-control" id="jenis_pegawai" name="jenis_pegawai" required>
-                                    <option value="" selected disabled hidden>-- Pilih Jenis Pegawai --</option>
-                                        <option value="struktural">Struktural</option>
-                                        <option value="fungsional">Fungsional</option>
+                                    <label for="status_pegawai">Status Pegawai (*)</label>
+                                    <select class="form-control" id="status_pegawai" name="status_pegawai" required>
+                                        <option value="" selected hidden>-- Pilih Status Pegawai --</option>
+                                        <option value="1">PNS</option>
+                                        <option value="2">Honorer</option>
                                     </select>
                                 </div>
                                 <div class="col-md-4">
-                                    <label for="status_pegawai">Status Pegawai</label>
-                                    <select class="form-control" id="status_pegawai" name="status_pegawai">
-                                        <option value="">-- Pilih Status Pegawai --</option>
-                                        <option value="1">PNS</option>
-                                        <option value="2">Honorer</option>
+                                    <label for="jabatan">Jabatan</label>
+                                    <select class="form-control" id="jabatan" name="jabatan">
+                                        <option value="" selected>-- Pilih Jabatan --</option>
+                                        <?php
+                                            $option = '';
+                                            foreach ($jabatan as $key => $value){
+                                                $option .= '<option value="'.$value->id.'">'.$value->nama_jabatan.' - '.$value->jenis_jabatan.'</option>';
+                                            }
+                                            echo $option;
+                                        ?>
                                     </select>
                                 </div>
                             </div>
@@ -316,29 +308,11 @@
                                                         </div>
                                                     </div>
                                                     <div class="form-group row">
-                                                        <div class="col-md-3">
+                                                        <div class="col-md-4">
                                                             <label for="tgl_masuk">Tanggal Masuk (*)</label>
                                                             <input type="date" class="form-control" id="tgl_masuk" name="tgl_masuk" value="<?= date('Y-m-d',strtotime($value->tgl_masuk)) ?>">
-                                                        </div>
-                                                        <div class="col-md-3">
-                                                            <label for="jabatan">Jabatan</label>
-                                                            <select class="form-control" id="jabatan" name="jabatan">
-                                                                <option value="">-- Pilih Jabatan --</option>
-                                                                <?php
-                                                                    $option = '';
-                                                                    foreach ($jabatan as $k => $v){
-                                                                        if($value->jabatan_id == $v->id){
-                                                                            $selected = 'selected';
-                                                                        }else{
-                                                                            $selected = '';
-                                                                        }
-                                                                        $option .= '<option value="'.$v->id.'" '.$selected.'>'.$v->nama_jabatan.' - '.$v->jenis_jabatan.'</option>';
-                                                                    }
-                                                                    echo $option;
-                                                                ?>
-                                                            </select>                 
-                                                        </div>
-                                                        <div class="col-md-3">
+                                                        </div>                                                        
+                                                        <div class="col-md-4">
                                                             <label for="pendidikan">Pendidikan (*)</label>
                                                             <select class="form-control" id="pendidikan" name="pendidikan" required>
                                                                 <option value="<?= $value->pendidikan ?>" selected hidden><?= $value->pendidikan ?></option>
@@ -349,7 +323,7 @@
                                                                 <option value="S3">S3</option>
                                                             </select>
                                                         </div>
-                                                        <div class="col-md-3">
+                                                        <div class="col-md-4">
                                                             <label for="gaji">Gaji</label>
                                                             <input type="number" class="form-control" id="gaji" name="gaji" value="<?= $value->gaji?>" placeholder="Rp.">
                                                         </div>
@@ -368,20 +342,29 @@
                                                             </select>
                                                         </div>
                                                         <div class="col-md-4">
-                                                            <label for="jenis_pegawai">Jenis Pegawai (*)</label>
-                                                            <select class="form-control" id="jenis_pegawai" name="jenis_pegawai">
-                                                                <option value="">-- Pilih Jenis Pegawai --</option>
-                                                                <option value="struktural" <?php if ($value->jenis_pegawai === 'struktural')  echo "selected"; ?>>Struktural</option>
-                                                                <option value="non struktural" <?php if ($value->jenis_pegawai === 'non struktural')  echo "selected"; ?>>Non-Struktural</option>
+                                                            <label for="status_pegawai">Status Pegawai (*)</label>
+                                                            <select class="form-control" id="status_pegawai" name="status_pegawai" required>                                                                
+                                                                <option value="PNS" <?php if ($value->status === 'PNS')  echo "selected"; ?>>PNS</option>
+                                                                <option value="Honorer" <?php if ($value->status === 'Honorer')  echo "selected"; ?>>Honorer</option>
                                                             </select>
                                                         </div>
                                                         <div class="col-md-4">
-                                                            <label for="status_pegawai">Status Pegawai</label>
-                                                            <select class="form-control" id="status_pegawai" name="status_pegawai">
-                                                                <option value="">-- Pilih Status Pegawai --</option>
-                                                                <option value="PNS" <?php if ($value->status_pegawai === 'PNS')  echo "selected"; ?>>PNS</option>
-                                                                <option value="Honorer" <?php if ($value->status_pegawai === 'Honorer')  echo "selected"; ?>>Honorer</option>
-                                                            </select>
+                                                            <label for="jabatan">Jabatan</label>
+                                                            <select class="form-control" id="jabatan" name="jabatan">
+                                                                <option value="">-- Pilih Jabatan --</option>
+                                                                <?php
+                                                                    $option = '';
+                                                                    foreach ($jabatan as $k => $v){
+                                                                        if($value->jabatan_id == $v->id){
+                                                                            $selected = 'selected';
+                                                                        }else{
+                                                                            $selected = '';
+                                                                        }
+                                                                        $option .= '<option value="'.$v->id.'" '.$selected.'>'.$v->nama_jabatan.' - '.$v->jenis_jabatan.'</option>';
+                                                                    }
+                                                                    echo $option;
+                                                                ?>
+                                                            </select>                 
                                                         </div>
                                                     </div>
                                                     <div class="form-group row">
