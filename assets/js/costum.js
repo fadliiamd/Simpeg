@@ -1,42 +1,43 @@
 $(document).ready(function () {
-	$("#tbl-pengajuan-mutasi").DataTable({
-		dom: "Bfrtip",
-		buttons: ["copy", "csv", "excel", "pdf", "print"],
-	});
+	$("#tbl-pengajuan-mutasi").DataTable({});
 
-	$("#tbl-sk-mutasi").DataTable({
-		dom: "Bfrtip",
-		buttons: ["copy", "csv", "excel", "pdf", "print"],
-	});
+	$("#tbl-sk-mutasi").DataTable({});
 
-	$('#list_table').DataTable({
+	$("#list_table").DataTable({
 		select: true,
-		'columnDefs': [{
-		 'targets': 0,
-		 'searchable': false,
-		 'orderable': false,
-		 'className': 'dt-body-center'
-		}],
-		'order': [[1, 'asc']]
+		columnDefs: [
+			{
+				targets: 0,
+				searchable: false,
+				orderable: false,
+				className: "dt-body-center",
+			},
+		],
+		order: [[1, "asc"]],
 	});
 
-	$('#list_hasil_perangkingan').DataTable({
+	$("#list_hasil_perangkingan").DataTable({
 		select: true,
-		'columnDefs': [{
-		 'targets': 0,
-		 'searchable': false,
-		 'orderable': false,
-		 'className': 'dt-body-center',
-		 'render': function (data, type, full, meta){
-				 return '<input type="checkbox" name="checklist_id[]" value="' + $('<div/>').text(data).html() + '">';
-			}
-		}],
-		'order': [[1, 'asc']]
+		columnDefs: [
+			{
+				targets: 0,
+				searchable: false,
+				orderable: false,
+				className: "dt-body-center",
+				render: function (data, type, full, meta) {
+					return (
+						'<input type="checkbox" name="checklist_id[]" value="' +
+						$("<div/>").text(data).html() +
+						'">'
+					);
+				},
+			},
+		],
+		order: [[1, "asc"]],
 	});
-	
+
 	var title = `<h4 class="card-title">Kriteria Undangan</h4>`;
-	var kriteria = 
-		`<div class="form-group row">
+	var kriteria = `<div class="form-group row">
 			<div class="col-10">
 				<label>Kriteria</label>
 				<input type="text" class="form-control" name="kriteria[]" placeholder="Nama Kriteria">
@@ -46,33 +47,32 @@ $(document).ready(function () {
 				<button type="button" class="btn btn-success" id="tambah_kriteria">Tambah Kriteria</button>
 			</div>
 		</div>`;
-	var tambah_kriteria = 
-		`<div class="form-group row">
+	var tambah_kriteria = `<div class="form-group row">
 			<div class="col-10">
 				<label>Kriteria</label>
 				<input type="text" class="form-control" name="kriteria[]" placeholder="Nama Kriteria">
 			</div>
 		</div>`;
-	
-	$('#jenis_surat').change(function() {
-		if($('#jenis_surat').val() == "undangan") {
+
+	$("#jenis_surat").change(function () {
+		if ($("#jenis_surat").val() == "undangan") {
 			$("#kriteria_section").append(title);
 			$("#kriteria_section").append(kriteria);
 		} else {
-			$("#kriteria_section").empty()
+			$("#kriteria_section").empty();
 		}
 	});
-	
-	$('#kriteria_section').on('click', '#tambah_kriteria', function() {
+
+	$("#kriteria_section").on("click", "#tambah_kriteria", function () {
 		$("#kriteria_section").append(tambah_kriteria);
 	});
-	
-	$('#jenis_tujuan').change(function() {
+
+	$("#jenis_tujuan").change(function () {
 		switch ($(this).val()) {
-			case 'semua':
+			case "semua":
 				$("#detail_tujuan").empty();
 				break;
-			case 'perorangan':
+			case "perorangan":
 				$("#detail_tujuan").empty();
 				$("#detail_tujuan").append(`
 					<div class="form-group row">
@@ -93,7 +93,7 @@ $(document).ready(function () {
 					</div>
 				`);
 				break;
-			case 'divisi':
+			case "divisi":
 				$("#detail_tujuan").empty();
 				$("#detail_tujuan").append(`
 					<div class="form-group row">
@@ -117,39 +117,41 @@ $(document).ready(function () {
 				break;
 		}
 	});
-	
+
 	// AJAX Get Data Divisi dari Database
-	$('#detail_tujuan').on('change', '#divisi', function() {
+	$("#detail_tujuan").on("change", "#divisi", function () {
 		$.ajax({
 			type: "GET",
 			url: "surat/get_divisi/" + $(this).val(),
-			success: function(data) {
+			success: function (data) {
 				data = JSON.parse(data);
 				$("#tujuan").empty();
-				for(let i=0; i<data.length; i++) {
+				for (let i = 0; i < data.length; i++) {
 					var id = data[i].id;
 					var nama = data[i].nama;
-					$("#tujuan").append("<option value="+id+">"+nama+"</option>");
+					$("#tujuan").append("<option value=" + id + ">" + nama + "</option>");
 				}
-			}
+			},
 		});
 	});
 
 	// AJAX Get Data Pegawai dari Database
-	$('#detail_tujuan').on('change', '#jenis_pegawai', function() {
-		if($(this).val !== 'semua') {
+	$("#detail_tujuan").on("change", "#jenis_pegawai", function () {
+		if ($(this).val !== "semua") {
 			$.ajax({
 				type: "GET",
 				url: "surat/get_pegawai/" + $(this).val(),
-				success: function(data) {
+				success: function (data) {
 					data = JSON.parse(data);
 					$("#pegawai").empty();
-					for(let i=0; i<data.length; i++) {
+					for (let i = 0; i < data.length; i++) {
 						var nip = data[i].account_nip;
 						var nama = data[i].nama;
-						$("#pegawai").append("<option value="+nip+">"+nama+"</option>");
+						$("#pegawai").append(
+							"<option value=" + nip + ">" + nama + "</option>"
+						);
 					}
-				}
+				},
 			});
 		}
 	});

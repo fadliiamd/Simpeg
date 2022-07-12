@@ -35,11 +35,29 @@ class Berkas_pemberhentian_model extends CI_Model
     {
         $this->db->select(
             'berkaspensiun.id, berkaspensiun.sk_cpns, berkaspensiun.sk_pns, berkaspensiun.sk_kgb, berkaspensiun.sk_kp, berkaspensiun.dp3_akhir, berkaspensiun.pangkat_akhir, berkaspensiun.kartu_keluarga, berkaspensiun.pas_foto, berkaspensiun.status_persetujuan,
-            pemberhentian.pegawai_nip, pemberhentian.alasan,pemberhentian.status_pengajuan,pemberhentian.tgl_pengajuan ,pemberhentian.id AS id_pemberhentian'
+            pemberhentian.pegawai_nip, pemberhentian.jenis_berhenti, pemberhentian.alasan,pemberhentian.status_pengajuan,pemberhentian.tgl_pengajuan ,pemberhentian.id AS id_pemberhentian'
         );
         $this->db->from($this->table);
         $this->db->join('pemberhentian', 'berkaspensiun.pemberhentian_id = pemberhentian.id');
 
+        $query = $this->db->where('pemberhentian.jenis_berhenti', "Pensiun");
+        $query = $this->db->get();
+
+        return $query->result();
+    }
+
+    public function get_all_with_join_pegawai()
+    {
+        $this->db->select(
+            'berkaspensiun.id, berkaspensiun.sk_cpns, berkaspensiun.sk_pns, berkaspensiun.sk_kgb, berkaspensiun.sk_kp, berkaspensiun.dp3_akhir, berkaspensiun.pangkat_akhir, berkaspensiun.kartu_keluarga, berkaspensiun.pas_foto, berkaspensiun.status_persetujuan,
+            pemberhentian.pegawai_nip, pemberhentian.jenis_berhenti, pemberhentian.alasan,pemberhentian.status_pengajuan,pemberhentian.tgl_pengajuan ,pemberhentian.id AS id_pemberhentian'
+        );
+
+        $this->db->from($this->table);
+        $this->db->join('pemberhentian', 'berkaspensiun.pemberhentian_id = pemberhentian.id');
+
+        $query = $this->db->where('pemberhentian.jenis_berhenti', "Pensiun");
+        $query = $this->db->where('pemberhentian.pegawai_nip',$this->session->userdata("nip"));
         $query = $this->db->get();
 
         return $query->result();
@@ -149,19 +167,28 @@ class Berkas_pemberhentian_model extends CI_Model
     public function status_berkas_pemberhentian($id)
     {        
         if ($this->input->post('status') == "tolak") {
-            $data_berkas_pemberhentian = array(
+            $data_usulan_pensiun = array(
                 "status_persetujuan" => $this->input->post('status')
             ); 
-        }else{
-            $data_berkas_pemberhentian = array(
-                "status_persetujuan" => $this->input->post('status')
-            );
-        }
 
-        $this->db->trans_start();
-        $this->db->where('id', $id);
-        $this->db->update($this->table, $data_berkas_pemberhentian);
-        $this->db->trans_complete();
+            $this->db->trans_start();
+            $this->db->where('id', $id);
+            $this->db->update($this->table, $data_usulan_pensiun);
+            $this->db->trans_complete();
+
+            return "tolak";
+        }else{
+            $data_usulan_pensiun = array(
+                "status_persetujuan" => $this->input->post('status'),
+            );
+
+            $this->db->trans_start();
+            $this->db->where('id', $id);
+            $this->db->update($this->table, $data_usulan_pensiun);
+            $this->db->trans_complete();
+
+            return "setujui";
+        }
 
         if ($this->db->trans_status() === FALSE) {
             return false;

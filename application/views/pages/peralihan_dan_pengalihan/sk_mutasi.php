@@ -68,7 +68,7 @@
         <?php endif ?>
 
         <div class="table-responsive">
-            <table id="tbl-pengajuan-mutasi" class="table table-striped table-bordered">
+            <table class="table table-striped table-bordered table-datatable">
                 <thead class="thead-dark">
                     <tr>
                         <th>No</th>
