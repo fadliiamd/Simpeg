@@ -9,6 +9,18 @@ class Bimtek_model extends CI_Model
         $query = $this->db->get($this->table);
         return $query->result();
     }
+    
+    public function get_num_rows()
+    {
+        $query = $this->db->get($this->table);
+        return $query->num_rows();
+    }
+    
+    public function get_num_rows_by($nip)
+    {
+        $query = $this->db->get_where($this->table, $nip);
+        return $query->num_rows();
+    }
 
     public function get_all_where($where)
     {
