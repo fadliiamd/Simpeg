@@ -64,6 +64,16 @@
                               <input type="file" class="form-control-file" id="file_ijazah" name="file_ijazah">  
                             </div>
                           </div>
+                          <div class="form-group row">
+                            <div class="col-md-6">
+                              <label for="file_surat_sehat">Surat Sehat (opsional)</label>
+                              <input type="file" class="form-control-file" id="file_surat_sehat" name="file_surat_sehat">  
+                            </div>
+                            <div class="col-md-6">
+                              <label for="file_tambahan">Dokumen Lainnya (opsional)</label>
+                              <input type="file" class="form-control-file" id="file_tambahan" name="file_tambahan">  
+                            </div>
+                          </div>
                         </div>
                         <div class="modal-footer">
                           <button type="button" class="btn btn-secondary" data-dismiss="modal">Kembali</button>
