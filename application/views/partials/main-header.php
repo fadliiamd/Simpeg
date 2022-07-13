@@ -208,6 +208,11 @@
                   <li class="nav-item"> <a class="nav-link" href="<?= base_url("kriteria"); ?>">Kriteria</a></li>
                   <li class="nav-item"> <a class="nav-link" href="<?= base_url("subkriteria"); ?>">Sub Kriteria</a></li>
                   <li class="nav-item"> <a class="nav-link" href="<?= base_url("hasil"); ?>">Hasil</a></li>
+                  <?php 
+                  if($_SESSION['role'] !== 'pegawai'){
+                    
+                  }
+                  ?>
                   <li class="nav-item"> <a class="nav-link" href="<?= base_url("hasil/persetujuan"); ?>">Persetujuan</a></li>
                 </ul>
               </div>
