@@ -4,8 +4,9 @@
 
         <?php if($this->session->userdata("role") == "pegawai"){ ?>
             <!-- Large modal -->
-            <button type="button" class="my-3 btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Tambah Berkas Persyaratan</button>
-
+            <?php if (($this->session->userdata("role") == "pegawai" && !$berkas_mutasi)) { ?>
+                <button type="button" class="my-3 btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Tambah Berkas Persyaratan</button>
+            <?php } ?>
             <!-- Modal -->
             <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-lg">
@@ -18,14 +19,9 @@
                         </div>
                         <form class="forms-sample" action="<?= base_url("mutasi/create_data_berkas"); ?>" method="POST" enctype="multipart/form-data">
                             <div class="modal-body">
-                                <div class="form-group">
-                                    <label for="mutasi_id">NIP</label>
-                                    <select class="custom-select" id="mutasi_id" name="mutasi_id">
-                                    <?php foreach ($mutasi as $key => $value) { ?>
-                                        <option value="<?= $value->id ?>"><?= $value->pegawai_nip ?> - <?= $value->alasan ?></option>
-                                    <?php } ?>
-                                </select>
-                                </div>
+                                <?php foreach ($mutasi as $key => $value) { ?>
+                                    <input type="hidden" name="mutasi_id" value="<?= $value->id ?>">
+                                <?php } ?>
                                 <div class="form-group row">
                                     <div class="col-md-3">
                                         <label for="sk_cpns">SK CPNS</label>

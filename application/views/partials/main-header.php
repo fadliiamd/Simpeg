@@ -167,8 +167,9 @@
             </a>
             <div class="collapse" id="pemberhentian">
               <ul class="nav flex-column sub-menu">
-                <?php if ($this->session->userdata("role") == "admin" || $this->session->userdata("role") == "pegawai") { ?>
-                  <li class="nav-item"> <a class="nav-link" href="<?= base_url("Pemberhentian/pengajuan_pemberhentian"); ?>">Pengajuan</a></li>
+                <li class="nav-item"> <a class="nav-link" href="<?= base_url("Pemberhentian/pengajuan_pemberhentian"); ?>">Pengajuan</a></li>
+                <?php if($this->session->userdata("role") == "admin" || $this->session->userdata("role") == "pegawai"){ ?>
+
                   <li class="nav-item"> <a class="nav-link" href="<?= base_url("Pemberhentian/berkas_pemberhentian"); ?>">Berkas Persyaratan</a></li>
                 <?php } ?>
                 <?php if ($this->session->userdata("role") == "admin" || $this->session->userdata("role") == "direktur") { ?>

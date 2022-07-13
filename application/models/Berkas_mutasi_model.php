@@ -45,6 +45,21 @@ class Berkas_mutasi_model extends CI_Model
         return $query->result();
     }
 
+    public function get_all_with_join_pegawai()
+    {
+        $this->db->select(
+            'berkasmutasi.id, berkasmutasi.sk_cpns, berkasmutasi.sk_pns, berkasmutasi.pangkat_akhir, berkasmutasi.karpeg, berkasmutasi.dp3_akhir, berkasmutasi.ijazah, berkasmutasi.riwayat_hidup, berkasmutasi.status_persetujuan, 
+            mutasi.pegawai_nip, mutasi.alasan, mutasi_id AS id_mutasi'
+        );
+        $this->db->from($this->table);
+        $this->db->join('mutasi', 'berkasmutasi.mutasi_id = mutasi.id');
+
+        $query = $this->db->where('mutasi.pegawai_nip',$this->session->userdata("nip"));
+        $query = $this->db->get();
+
+        return $query->result();
+    }
+
     public function insert_one()
     {
         
@@ -56,13 +71,13 @@ class Berkas_mutasi_model extends CI_Model
             $_POST[$key] = $value;            
         }
 
-        $sk_cpns = $this->do_upload("jpg|png|pdf", "sk_cpns");
-        $sk_pns = $this->do_upload("jpg|png|pdf", "sk_pns");
-        $pangkat_akhir = $this->do_upload("jpg|png|pdf", "pangkat_akhir");
-        $karpeg = $this->do_upload("jpg|png|pdf", "karpeg");
-        $dp3_akhir = $this->do_upload("jpg|png|pdf", "dp3_akhir");
-        $ijazah = $this->do_upload("jpg|png|pdf", "ijazah");
-        $riwayat_hidup = $this->do_upload("jpg|png|pdf", "riwayat_hidup");
+        $sk_cpns = $this->do_upload("pdf", "sk_cpns");
+        $sk_pns = $this->do_upload("pdf", "sk_pns");
+        $pangkat_akhir = $this->do_upload("pdf", "pangkat_akhir");
+        $karpeg = $this->do_upload("pdf", "karpeg");
+        $dp3_akhir = $this->do_upload("pdf", "dp3_akhir");
+        $ijazah = $this->do_upload("pdf", "ijazah");
+        $riwayat_hidup = $this->do_upload("pdf", "riwayat_hidup");
         $mutasi_id = $this->input->post('mutasi_id');
 
 
@@ -141,16 +156,29 @@ class Berkas_mutasi_model extends CI_Model
 
     public function status_berkas_mutasi($id)
     {        
+        if ($this->input->post('status') == "tolak") {
+            $data_berkas_mutasi = array(
+                "status_persetujuan" => $this->input->post('status')
+            ); 
 
-        $data_berkas_mutasi = array(
-            "status_persetujuan" => $this->input->post('status')
-        ); 
+            $this->db->trans_start();
+            $this->db->where('id', $id);
+            $this->db->update($this->table, $data_berkas_mutasi);
+            $this->db->trans_complete();
 
-        $this->db->trans_start();
-        $this->db->where('id', $id);
-        $this->db->update($this->table, $data_berkas_mutasi);
-        $this->db->trans_complete();
+            return "tolak";
+        }else{
+            $data_berkas_mutasi = array(
+                "status_persetujuan" => $this->input->post('status')
+            ); 
 
+            $this->db->trans_start();
+            $this->db->where('id', $id);
+            $this->db->update($this->table, $data_berkas_mutasi);
+            $this->db->trans_complete();
+
+            return "setujui";
+        }
         if ($this->db->trans_status() === FALSE) {
             return false;
         }

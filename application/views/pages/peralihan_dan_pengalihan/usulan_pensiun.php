@@ -2,7 +2,7 @@
 	<div class="col-lg-12">
         <h4>Usulan Pensiun</h4>
 
-        <a href="<?= base_url().'assets/pdf/template-surat-pengunduran-diri.pdf'?>" download class="my-3 btn btn-secondary">Surat Usulan Pensiun</a>    
+        <!-- <a href="<?= base_url().'assets/pdf/template-surat-pengunduran-diri.pdf'?>" download class="my-3 btn btn-secondary">Surat Usulan Pensiun</a>     -->
 
         <?php if ($this->session->flashdata('message_success')) : ?>
             <div class="alert alert-success alert-dismissible fade show" role="alert">

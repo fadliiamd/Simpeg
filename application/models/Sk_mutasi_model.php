@@ -63,14 +63,14 @@ class Sk_mutasi_model extends CI_Model
         date_default_timezone_set('Asia/Jakarta');
         $date = date("Y-m-d H:i:s");
         $jenis_mutasi = $this->input->post('jenis_mutasi');
-        $file_mutasi = $this->do_upload("jpg|png|pdf", "file_mutasi");
+        $tgl_mutasi = $this->input->post('tgl_mutasi');
         $usulanmutasi_id = $this->input->post('usulanmutasi_id');
 
         $data_sk_mutasi = array(
             "id" => "",
             "jenis_mutasi" => $jenis_mutasi,
-            "tgl_mutasi" => $date,
-            "file_mutasi" => $file_mutasi,
+            "tgl_mutasi" => $tgl_mutasi,
+            // "file_mutasi" => $file_mutasi,
             "usulanmutasi_id" => $usulanmutasi_id,
         );
     
@@ -148,6 +148,34 @@ class Sk_mutasi_model extends CI_Model
         $this->db->trans_start();
         $this->db->where('id', $id);
         $this->db->update($this->table, $data_sk_mutasi);
+        $this->db->trans_complete();
+
+        if ($this->db->trans_status() === FALSE) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public function upload_surat($id)
+    {        
+         //check empty string for nullable
+        foreach( $this->input->post() as $key => $value) {
+            if($value === ""){
+                $value = null;
+            }
+            $_POST[$key] = $value;            
+        }
+
+        $surat_mutasi = $this->do_upload("pdf", "file_mutasi");
+
+        $data_mutasi_mutasi = array(
+            "file_mutasi" => $surat_mutasi,
+        );
+
+        $this->db->trans_start();
+        $this->db->where('id', $id);
+        $this->db->update($this->table, $data_mutasi_mutasi);
         $this->db->trans_complete();
 
         if ($this->db->trans_status() === FALSE) {

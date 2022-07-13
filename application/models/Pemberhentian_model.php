@@ -52,7 +52,7 @@ class Pemberhentian_model extends CI_Model
         $this->db->from($this->table);
         $this->db->join('pegawai', 'pegawai.account_nip = pemberhentian.pegawai_nip');
 
-        $query = $this->db->where('pemberhentian.jenis_berhenti', "Pensiun");
+        // $query = $this->db->where('pemberhentian.jenis_berhenti', "Pensiun");
         $query = $this->db->get();
 
         return $query->result();
@@ -90,9 +90,14 @@ class Pemberhentian_model extends CI_Model
         $surat_pengunduran_diri = $this->do_upload("pdf", "surat_pengunduran_diri");
 
         if ($this->session->userdata("role") == "admin") {
-            $this->email_pengajuan_pemberhentian($email);
-            $status_pengajuan = "setuju";
-            $tgl_persetujuan = $date;
+            if ($jenis_berhenti == "Pengunduran diri") {
+                $status_pengajuan = "pending";
+                $tgl_persetujuan = null;
+            }else{
+                $this->email_pengajuan_pemberhentian($email);
+                $status_pengajuan = "setuju";
+                $tgl_persetujuan = $date;
+            }
         }else {
             $status_pengajuan = "pending";
             $tgl_persetujuan = null;
