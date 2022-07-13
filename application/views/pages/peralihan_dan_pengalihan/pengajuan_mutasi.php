@@ -1,10 +1,19 @@
 <div class="row">
     <div class="col-lg-12">
         <h4>Pengajuan Mutasi</h4>
-        <!-- Large modal -->
-        <button type="button" class="my-3 btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Tambah Mutasi</button>
 
-        <a href="<?= base_url().'assets/pdf/template-surat-mutasi.pdf'?>" download class="btn btn-secondary">Surat Pengajuan</a>    
+        <!-- Large modal -->
+        <?php foreach ($users as $key => $value) { ?>
+            <?php if ($this->session->userdata("role") == "pegawai" && !$mutasi){ ?>
+                <button type="button" class="my-3 btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Tambah Mutasi</button>
+            <?php } ?>
+        <?php } ?>
+                
+        <?php if  ($this->session->userdata("role") == "admin"){ ?>
+            <button type="button" class="my-3 btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Tambah Mutasi</button>
+        <?php } ?>
+
+        <a href="<?= base_url().'assets/pdf/template-surat-mutasi.pdf'?>" download class=" my-3 btn btn-secondary">Surat Pengajuan Mutasi</a>    
         <!-- Modal -->
         <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
@@ -18,12 +27,18 @@
                     <form class="forms-sample" action="<?= base_url("mutasi/create_data_mutasi"); ?>" method="POST" enctype="multipart/form-data">
                         <div class="modal-body">
                             <div class="form-group">
-                                <label for="pegawai_nip">NIP</label>
-                                <select class="custom-select" id="pegawai_nip" name="pegawai_nip">
+                                <?php if ($this->session->userdata("role") == "pegawai") { ?>
                                     <?php foreach ($pegawai as $key => $value) { ?>
-                                        <option value="<?= $value->account_nip ?>"><?= $value->account_nip ?> - <?= $value->nama ?></option>
+                                        <input type="hidden" name="pegawai_nip" value="<?= $this->session->userdata("nip") ?>">
                                     <?php } ?>
-                                </select>
+                                <?php } else { ?>
+                                    <label for="pegawai_nip">NIP</label>
+                                    <select class="custom-select" id="pegawai_nip" name="pegawai_nip">
+                                        <?php foreach ($pegawai as $key => $value) { ?>
+                                            <option value="<?= $value->account_nip ?> - <?= $value->email ?>"><?= $value->account_nip ?> - <?= $value->nama ?></option>
+                                        <?php } ?>
+                                    </select>
+                                <?php } ?>
                             </div>
                             <div class="form-group">
                                 <label for="alasan">Alasan</label>
@@ -101,6 +116,7 @@
                                                     <form class="forms-sample" action="<?= base_url("mutasi/status_mutasi"); ?>" method="POST">
                                                         <div class="modal-header">
                                                             <input type="hidden" name="id" value="<?= $value->id ?>">
+                                                            <input type="hidden" name="email" value="<?= $value->email ?>">
                                                             <input type="hidden" name="status" value="setujui">
                                                             <h5 class="modal-title" id="exampleModalLabel">Setujui Pengajuan Mutasi NIP : <b><?= $value->pegawai_nip ?></b> </h5>
                                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">

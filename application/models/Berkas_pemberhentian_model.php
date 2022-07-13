@@ -179,7 +179,7 @@ class Berkas_pemberhentian_model extends CI_Model
             return "tolak";
         }else{
             $data_usulan_pensiun = array(
-                "status_persetujuan" => $this->input->post('status'),
+                "status_persetujuan" => $this->input->post('status')
             );
 
             $this->db->trans_start();

@@ -21,13 +21,22 @@ class Mutasi extends Roles {
     // pengajuan
 	public function pengajuan_mutasi()
 	{
-		$mutasi = $this->mutasi_model->get_all();
         $pegawai = $this->pegawai_model->get_all();
+        $users = $this->pegawai_model->get_condition("account_nip",$this->session->userdata("nip"));
+        
+		if ($this->session->userdata("role") == "admin") {
+            $mutasi = $this->mutasi_model->get_all_with_join_pegawai();
+        }
+        
+        if ($this->session->userdata("role") == "pegawai") {
+			$mutasi = $this->mutasi_model->get_condition("pegawai_nip",$this->session->userdata("nip"));
+        }
 
 		$this->load->view('partials/main-header');
 		$this->load->view('pages/peralihan_dan_pengalihan/pengajuan_mutasi',[
 			"pegawai" => $pegawai,
 			"mutasi" => $mutasi,
+            "users" => $users,
 		]);
 		$this->load->view('partials/main-footer');
 	}
@@ -96,13 +105,17 @@ class Mutasi extends Roles {
     // berkas mutasi
 	public function berkas_mutasi()
 	{
-		$berkas_mutasi = $this->berkas_mutasi_model->get_all_with_join();
-        $mutasi = $this->mutasi_model->get_condition("status_pengajuan","setujui");
-        $pegawai = $this->pegawai_model->get_all();
+        if ($this->session->userdata("role") == "admin") {	
+            $berkas_mutasi = $this->berkas_mutasi_model->get_all_with_join();
+        }
+
+        if ($this->session->userdata("role") == "pegawai") {	
+            $berkas_mutasi = $this->berkas_mutasi_model->get_all_with_join_pegawai();
+        }
+        $mutasi = $this->mutasi_model->get_pegawai_berkas();
 
 		$this->load->view('partials/main-header');
 		$this->load->view('pages/peralihan_dan_pengalihan/berkas_mutasi',[
-			"pegawai" => $pegawai,
             "mutasi" => $mutasi,
 			"berkas_mutasi" => $berkas_mutasi,
 		]);
@@ -159,9 +172,12 @@ class Mutasi extends Roles {
 
         if($update)
         {
-            $this->session->set_flashdata('message_success', 'Berhasil mengupdate data mutasi!');
-            $this->create_data_usulan();
-            redirect("mutasi/berkas_mutasi");
+            if ($update == "setujui") {
+				$this->create_data_usulan();
+			}else {
+                $this->session->set_flashdata('message_success', 'Berhasil mengupdate data mutasi!');
+                redirect("mutasi/berkas_mutasi");
+            }
         }else
         {
             $this->session->set_flashdata('message_error', 'Gagal mengupdate data mutasi!');
@@ -235,11 +251,29 @@ class Mutasi extends Roles {
 
         if($update)
         {
-            $this->session->set_flashdata('message_success', 'Berhasil mengupdate data usulan!');
+			if ($update == "setujui") {
+				$this->create_data_sk_mutasi();
+			}else {
+				$this->session->set_flashdata('message_success', 'Berhasil mengupdate data usulan!');
+				redirect("mutasi/usulan_pensiun");
+			}
+        }else{
+            $this->session->set_flashdata('message_error', 'Gagal mengupdate data usulan!');
+            redirect("mutasi/usulan_pensiun");
+        }
+    }
+
+    public function upload_data_usulan()
+    {
+        $update = $this->usulan_mutasi_model->upload_surat($this->input->post('id'));
+
+        if($update)
+        {
+            $this->session->set_flashdata('message_success', 'Berhasil mengupload file usulan!');
             redirect("mutasi/usulan_mutasi");
         }else
         {
-            $this->session->set_flashdata('message_error', 'Gagal mengupdate data usulan!');
+            $this->session->set_flashdata('message_error', 'Gagal mengupload file usulan!');
             redirect("mutasi/usulan_mutasi");
         }
     }
@@ -251,12 +285,14 @@ class Mutasi extends Roles {
         $bagian = $this->bagian_model->get_all();
         $direktur = $this->direktur_model->get_all();
         $penerimaan_mutasi = $this->penerimaan_mutasi_model->get_all();
-
+        $pegawai = $this->pegawai_model->get_condition("status_kerja","pending");
+        
         $b_keuangan = $this->penerimaan_mutasi_model->get_bagian_by_id(1);
         $b_kepegawaian = $this->penerimaan_mutasi_model->get_bagian_by_id(2);
 
 		$this->load->view('partials/main-header');
 		$this->load->view('pages/peralihan_dan_pengalihan/penerimaan_mutasi',[
+            "pegawai" => $pegawai,
             "bagian" => $bagian,
 			"direktur" => $direktur,
             "penerimaan_mutasi" => $penerimaan_mutasi,
@@ -329,12 +365,10 @@ class Mutasi extends Roles {
     // sk mutasi
 	public function sk_mutasi()
 	{
-        $usulan = $this->usulan_mutasi_model->get_all_with_join();
-        $sk_mutasi = $this->sk_mutasi_model->get_all();
+        $sk_mutasi = $this->sk_mutasi_model->get_all_with_join();
 
 		$this->load->view('partials/main-header');
 		$this->load->view('pages/peralihan_dan_pengalihan/sk_mutasi',[
-            "usulan" => $usulan,
 			"sk_mutasi" => $sk_mutasi,
         ]);
 		$this->load->view('partials/main-footer');
@@ -380,6 +414,21 @@ class Mutasi extends Roles {
             redirect("mutasi/sk_mutasi");
         }else{
             $this->session->set_flashdata('message_error', 'Gagal menghapus data SK!');
+            redirect("mutasi/sk_mutasi");
+        }
+    }
+
+    public function upload_data_sk()
+    {
+        $update = $this->sk_mutasi_model->upload_surat($this->input->post('id'));
+
+        if($update)
+        {
+            $this->session->set_flashdata('message_success', 'Berhasil mengupload file usulan!');
+            redirect("mutasi/sk_mutasi");
+        }else
+        {
+            $this->session->set_flashdata('message_error', 'Gagal mengupload file usulan!');
             redirect("mutasi/sk_mutasi");
         }
     }

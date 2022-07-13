@@ -2,7 +2,7 @@
 	<div class="col-lg-12">
         <h4>Surat Keputusan Pensiun</h4>
 
-        <a href="<?= base_url().'assets/pdf/template-surat-pengunduran-diri.pdf'?>" download class="my-3 btn btn-secondary">Surat Keputusan Pensiun</a>    
+        <!-- <a href="<?= base_url().'assets/pdf/template-surat-pengunduran-diri.pdf'?>" download class="my-3 btn btn-secondary">Surat Keputusan Pensiun</a>     -->
 
         <?php if ($this->session->flashdata('message_success')) : ?>
             <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -46,41 +46,41 @@
                                 <a href="<?= base_url().'uploads/'.$value->file_pensiun ?>" download class="btn btn-secondary">Unduh</a>    
                             <?php } ?>
                             <?php if($this->session->userdata("role") == "admin"){ ?>  
-                                    <!-- Large modal -->
-                                    <button type="button" class="btn btn-info" data-toggle="modal" data-target=".uploadtable">Upload</button>
+                                <!-- Large modal -->
+                                <button type="button" class="btn btn-info" data-toggle="modal" data-target=".uploadtable">Upload</button>
 
-                                    <!-- Modal -->
-                                    <div class="modal fade uploadtable" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog modal-lg">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel">Upload File Pensiun No : <b><?= $i; ?><b></h5>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <form class="forms-sample" action="<?= base_url("pemberhentian/upload_data_sk"); ?>" method="POST" enctype="multipart/form-data">
-                                                    <input type="hidden" name="id" value="<?= $value->id ?>">
-                                                    <div class="modal-body">
-                                                        <div class="form-group">
-                                                            <label for="nip">NIP</label>
-                                                            <input type="text" class="form-control" id="nip" value="<?= $value->pegawai_nip ?> - <?= $value->alasan ?>" disabled>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="file_pensiun">File Pensiun</label>
-                                                            <input type="file" class="form-control-file" id="file_pensiun" name="file_pensiun">
-                                                        </div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Kembali</button>
-                                                        <button type="submit" class="btn btn-primary">Upload File Keputusan</button>
-                                                    </div>
-                                                </form>
+                                <!-- Modal -->
+                                <div class="modal fade uploadtable" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Upload File Pensiun No : <b><?= $i; ?><b></h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                                </button>
                                             </div>
+                                            <form class="forms-sample" action="<?= base_url("pemberhentian/upload_data_sk"); ?>" method="POST" enctype="multipart/form-data">
+                                                <input type="hidden" name="id" value="<?= $value->id ?>">
+                                                <div class="modal-body">
+                                                    <div class="form-group">
+                                                        <label for="nip">NIP</label>
+                                                        <input type="text" class="form-control" id="nip" value="<?= $value->pegawai_nip ?> - <?= $value->alasan ?>" disabled>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="file_pensiun">File Pensiun</label>
+                                                        <input type="file" class="form-control-file" id="file_pensiun" name="file_pensiun">
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Kembali</button>
+                                                    <button type="submit" class="btn btn-primary">Upload File Keputusan</button>
+                                                </div>
+                                            </form>
                                         </div>
                                     </div>
-                                    <!-- End Modal -->
-                                <?php } ?>
+                                </div>
+                                <!-- End Modal -->
+                            <?php } ?>
                         </td>
                         <?php if($this->session->userdata("role") == "admin"){ ?>  
                             <td>
