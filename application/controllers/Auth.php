@@ -27,10 +27,9 @@ class Auth extends CI_Controller
 		if ($this->auth_model->login($username, $password)) {
 			$this->account_model->get_redirect_role($username);
 		} else {
-			$this->session->set_flashdata('message_login_error', 'Login Gagal, pastikan username dan passwrod benar!');
-		}
-
-		$this->load->view('pages/samples/login');
+			$this->session->set_flashdata('message_login_error', 'Login gagal! Pastikan username dan password benar dan sesuai!');
+			redirect("auth/login");
+		}		
 	}
 
 	public function register()

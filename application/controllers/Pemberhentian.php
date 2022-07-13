@@ -17,7 +17,6 @@ class Pemberhentian extends Roles {
         ]);
 	}
 
-	
     public function riwayat_pemberhentian()
 	{
 		$pemberhentian = $this->pemberhentian_model->get_condition("jenis_berhenti","Pengunduran Diri");

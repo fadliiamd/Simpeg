@@ -1,18 +1,18 @@
 <?php
 
-class Pegawai_model extends CI_Model
+class Admin_model extends CI_Model
 {
 
-    public $table = "pegawai";
+    public $table = "admin";
     public $account_table = "account";
 
     public function get_all()
     {
-        $this->db->select('*, pegawai.account_nip as account_nip, COUNT(*) as jmlh_serti');
+        $this->db->select('*, admin.account_nip as account_nip, COUNT(*) as jmlh_serti');
         $this->db->from($this->table);
-        $this->db->join('sertifikat', 'pegawai.account_nip = sertifikat.account_nip', 'left');        
-        $this->db->group_by('pegawai.account_nip');
-        $this->db->order_by('pegawai.account_nip', 'asc');
+        $this->db->join('sertifikat', 'admin.account_nip = sertifikat.account_nip', 'left');        
+        $this->db->group_by('admin.account_nip');
+        $this->db->order_by('admin.account_nip', 'asc');
 
         $query = $this->db->get();        
         // var_dump($query->result());die();
@@ -33,7 +33,7 @@ class Pegawai_model extends CI_Model
 
     public function get_condition($query,$search)
     {
-        $query = $this->db->where($query, $search)->get("pegawai");
+        $query = $this->db->where($query, $search)->get("admin");
 
         return $query->result();
     }
@@ -61,29 +61,15 @@ class Pegawai_model extends CI_Model
 
     public function get_all_with_join()
     {
-        $this->db->select('pegawai.*, pegawai.nama as nama_pegawai, jurusan.nama as nama_jurusan, bagian.nama as nama_bagian, unit.nama as nama_unit');
+        $this->db->select('*, admin.nama as nama_admin, jurusan.nama as nama_jurusan, bagian.nama as nama_bagian, unit.nama as nama_unit');
         $this->db->from($this->table);
-        $this->db->join('jurusan', 'pegawai.jurusan_id = jurusan.id', 'left');
-        $this->db->join('bagian', 'pegawai.bagian_id = bagian.id', 'left');
-        $this->db->join('unit', 'pegawai.unit_id = unit.id', 'left');
+        $this->db->join('jurusan', 'admin.jurusan_id = jurusan.id', 'left');
+        $this->db->join('bagian', 'admin.bagian_id = bagian.id', 'left');
+        $this->db->join('unit', 'admin.unit_id = unit.id', 'left');
 
         $query = $this->db->get();
 
         return $query->result();
-    }
-
-    public function get_one_with_join($id)
-    {
-        $this->db->select('pegawai.*, jabatan.*, account.role as role, jurusan.nama as nama_jurusan, bagian.nama as nama_bagian, unit.nama as nama_unit');
-        $this->db->join('jabatan', 'pegawai.jabatan_id = jabatan.id', 'left');
-        $this->db->join('jurusan', 'pegawai.jurusan_id = jurusan.id', 'left');
-        $this->db->join('bagian', 'pegawai.bagian_id = bagian.id', 'left');
-        $this->db->join('unit', 'pegawai.unit_id = unit.id', 'left');        
-        $this->db->join('account', 'pegawai.account_nip = account.nip');        
-
-        $query = $this->db->get_where($this->table, $id);
-
-        return $query->row();
     }
 
     public function do_upload($file_type, $post_name)
@@ -95,8 +81,6 @@ class Pegawai_model extends CI_Model
             $this->load->library('upload');
     
             $this->upload->initialize($config);
-
-            $data = null;
 
             if (($this->upload->do_upload($post_name)))
             {
@@ -118,7 +102,7 @@ class Pegawai_model extends CI_Model
         }
         // Create account first
         $this->load->model('account_model');        
-        $add = $this->account_model->register("pegawai");        
+        $add = $this->account_model->register("admin");        
 
         if($add){
             $nip = $this->input->post('nip');
@@ -129,8 +113,9 @@ class Pegawai_model extends CI_Model
             $tgl_lahir = $this->input->post('tgl_lahir');
             $alamat = $this->input->post('alamat');
             $email = $this->input->post('email');
-            $golongan_id = $this->input->post('golongan_id');            
-            $status_pegawai = $this->input->post('status_pegawai');
+            $golongan_id = $this->input->post('golongan_id');
+            $jenis_admin = $this->input->post('jenis_admin');
+            $status_admin = $this->input->post('status_admin');
             $gaji = $this->input->post('gaji');
             $jabatan = $this->input->post('jabatan');
             $tgl_masuk = $this->input->post('tgl_masuk');
@@ -144,7 +129,7 @@ class Pegawai_model extends CI_Model
             $ijazah = $this->do_upload("pdf", "ijazah");
             $karpeg = $this->do_upload("pdf|jpg|png", "karpeg");                    
 
-            $data_pegawai = array(
+            $data_admin = array(
                 "nama" => $nama,
                 "account_nip" => $nip,
                 "jenis_kelamin" => $jenis_kelamin,
@@ -154,7 +139,7 @@ class Pegawai_model extends CI_Model
                 "alamat" => $alamat,
                 "email" => $email,
                 "golongan_id" => $golongan_id,                
-                "status" => $status_pegawai,
+                "status" => $status_admin,
                 "gaji" => $gaji,
                 "jabatan_id" => $jabatan,
                 "tgl_masuk" => $tgl_masuk,
@@ -167,7 +152,7 @@ class Pegawai_model extends CI_Model
                 "karpeg" => $karpeg
             );
     
-            $this->db->insert($this->table, $data_pegawai);
+            $this->db->insert($this->table, $data_admin);
     
             return ($this->db->affected_rows() != 1) ? false : true;
         }else{
@@ -199,8 +184,9 @@ class Pegawai_model extends CI_Model
             $tgl_lahir = $this->input->post('tgl_lahir');
             $alamat = $this->input->post('alamat');
             $email = $this->input->post('email');
-            $golongan_id = $this->input->post('golongan_id');            
-            $status_pegawai = $this->input->post('status_pegawai');
+            $golongan_id = $this->input->post('golongan_id');
+            $jenis_admin = $this->input->post('jenis_admin');
+            $status_admin = $this->input->post('status_admin');
             $gaji = $this->input->post('gaji');
             $jabatan = $this->input->post('jabatan');
             $tgl_masuk = $this->input->post('tgl_masuk');
@@ -214,7 +200,7 @@ class Pegawai_model extends CI_Model
             $ijazah = $this->do_upload("pdf", "ijazah");
             $karpeg = $this->do_upload("pdf|jpg|png", "karpeg");                    
 
-            $data_pegawai = array(
+            $data_admin = array(
                 "nama" => $nama,
                 "jenis_kelamin" => $jenis_kelamin,
                 "agama" => $agama,
@@ -223,7 +209,7 @@ class Pegawai_model extends CI_Model
                 "alamat" => $alamat,
                 "email" => $email,
                 "golongan_id" => $golongan_id,                
-                "status" => $status_pegawai,
+                "status" => $status_admin,
                 "gaji" => $gaji,
                 "jabatan_id" => $jabatan,
                 "tgl_masuk" => $tgl_masuk,
@@ -231,30 +217,17 @@ class Pegawai_model extends CI_Model
                 "jurusan_id" => $jurusan_id,
                 "bagian_id" => $bagian_id,
                 "unit_id" => $unit_id,
+                "foto" => $foto,
+                "ijazah" => $ijazah,
+                "karpeg" => $karpeg
             );
-            
-            if(!is_null($foto)){
-                $data_pegawai += array(
-                    'foto' => $foto
-                );
-            }
-            if(!is_null($ijazah)){
-                $data_pegawai += array(
-                    'ijazah' => $ijazah
-                );
-            }
-            if(!is_null($karpeg)){
-                $data_pegawai += array(
-                    'karpeg' => $karpeg
-                );
-            }
         }else{
             return false;
         }
 
         $this->db->trans_start();
         $this->db->where('account_nip', $nip);
-        $this->db->update($this->table, $data_pegawai);
+        $this->db->update($this->table, $data_admin);
         $this->db->trans_complete();
 
         if ($this->db->trans_status() === FALSE) {

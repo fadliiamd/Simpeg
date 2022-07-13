@@ -12,6 +12,12 @@ class Penerimaan_mutasi_model extends CI_Model
         return $query->result();
     }
 
+    public function get_num_rows()
+    {
+        $query = $this->db->get($this->table);
+        return $query->num_rows();
+    }
+    
     public function get_bagian_by_id($id)
     {
         $this->db->select('*');

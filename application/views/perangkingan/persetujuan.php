@@ -17,6 +17,7 @@
         </div>
     <?php endif ?>
     <h4>Daftar Hasil Perangkingan</h4>
+    <?php print("<pre>".print_r($list_hasilperangkingan,true)."</pre>"); ?>
     <form action="<?= base_url("hasil/pengajuan") ?>" method="POST" enctype="multipart/form-data">
       <div class="table-responsive">
         <table class="table table-striped table-bordered table-datatable">
@@ -35,7 +36,7 @@
             foreach ($list_perangkingan as $key => $value) {
             ?>
               <tr>
-                <td><?= $list_surat[$value->surat_id]->no ?></td>
+                <td><?= $list_surat[$value->id]->no ?></td>
                 <td><?= $value->created_by ?></td>
                 <td><?= date_indo($value->created_at) ?></td>
                 <td>

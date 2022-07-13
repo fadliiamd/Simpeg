@@ -38,7 +38,7 @@ class Auth_model extends CI_Model
 		}
 
 		// bikin session
-		$this->session->set_userdata([self::SESSION_KEY => $user->nip,'role' => $user->role]);
+		$this->session->set_userdata([self::SESSION_KEY => $user->nip,'role' => $user->role, 'nama' => $user->nama]);
 		// $this->_update_last_login($user->nip);
 
 		return $this->session->has_userdata(self::SESSION_KEY);
