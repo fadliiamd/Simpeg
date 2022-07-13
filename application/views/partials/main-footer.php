@@ -33,9 +33,7 @@
 <!-- End custom js for this page-->
 
 <script>
-  $(document).ready(function() {
-    $('#list_surat').DataTable({});
-    $(".table-datatable").DataTable({});
+  $(document).ready(function() {       
     $.getJSON('https://cuaca.umkt.ac.id/api/cuaca/DigitalForecast-JawaBarat.xml', function(jsonData) {
       const findClosest = (data, accessor, target = Date.now()) => data.reduce((prev, curr) => {
         const a = Math.abs(accessor(curr).getTime() - target);
