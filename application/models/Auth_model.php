@@ -37,6 +37,11 @@ class Auth_model extends CI_Model
 			return FALSE;
 		}
 
+		// cek apakah status akun masih aktif?
+		if ($user->status_kerja !== 'aktif'){
+			return FALSE;
+		}
+
 		// bikin session
 		$this->session->set_userdata([self::SESSION_KEY => $user->nip,'role' => $user->role, 'nama' => $user->nama]);
 		// $this->_update_last_login($user->nip);

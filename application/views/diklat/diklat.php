@@ -104,7 +104,7 @@
                               <label for="file_surat">Sertifikat</label>
                               <div class="mt-1">
                                 <?php
-                                $sertifikat = $list_diklat_berkas[$value->id]->sertifikat_id;
+                                $sertifikat = $list_diklat_hasil[$value->id]->nama_serti;
                                 if($sertifikat != NULL) {
                                 ?>
                                 <a href="<?= base_url().'uploads/diklat/'.$sertifikat ?>" target="_blank">                              
@@ -206,7 +206,7 @@
                         </div>
                         <div class="modal-footer">
                           <form action="<?= base_url(); ?>diklat/delete" method="post" class="forms-sample" enctype="multipart/form-data">
-                            <input type="hidden" name="diklat_id" value="<?= $list_diklat_id[$no] ?>">
+                            <input type="hidden" name="diklat_id" value="<?= $list_diklat_berkas[$value->id]->id ?>">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Tidak</button>
                             <button type="submit" class="btn btn-danger">Ya</button>
                           </form>

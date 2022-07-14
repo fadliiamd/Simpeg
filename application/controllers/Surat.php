@@ -15,6 +15,7 @@ class Surat extends Roles {
         $this->load->model('jurusan_model');
         $this->load->model('bagian_model');
         $this->load->model('unit_model');
+        $this->load->model('jabatan_model');
 
         // Get All Surat
         $surat = $this->surat_model->get_all();
@@ -68,6 +69,13 @@ class Surat extends Roles {
             }
         }
 
+        $jabatan = $this->jabatan_model->get_all();
+
+        $list_jabatan = [];
+        foreach($jabatan as $value) {
+            $list_jabatan[$value->id] = $value; 
+        }
+
 		$this->load->view('partials/main-header', [
             "title" => "Surat"
         ]);
@@ -77,7 +85,8 @@ class Surat extends Roles {
             "pegawai" => $pegawai,
             "jurusan" => $jurusan,
             "bagian" => $bagian,
-            "unit" => $unit
+            "unit" => $unit,
+            "list_jabatan" => $list_jabatan
         ]);
 		$this->load->view('partials/main-footer');
 	}

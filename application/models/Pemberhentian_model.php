@@ -49,6 +49,7 @@ class Pemberhentian_model extends CI_Model
         $this->db->select(
             '*'
         );
+        
         $this->db->from($this->table);
         $this->db->join('pegawai', 'pegawai.account_nip = pemberhentian.pegawai_nip','LEFT');
 
@@ -197,10 +198,22 @@ class Pemberhentian_model extends CI_Model
                 "status_pengajuan" => $this->input->post('status'),
                 "tgl_persetujuan" => $date
             ); 
-            if ($this->input->post('jenis_berhenti') == "pensiun") {
-                $this->email_pengajuan_pensiun($this->input->post('email'));
-            }else {
+            if ($this->input->post('jenis_berhenti') != "Pengunduran diri") {
                 $this->email_pengajuan_pemberhentian($this->input->post('email'));
+            }else {
+
+                $data_pegawai = array(
+                    "status_kerja" => "nonaktif"
+                );
+        
+                $pegawai_nip = $this->input->post('pegawai_nip');
+    
+                $this->db->trans_start();
+                $this->db->where('account_nip', $pegawai_nip);
+                $this->db->update('pegawai', $data_pegawai);
+                $this->db->trans_complete();
+
+                $this->email_pengajuan_pensiun($this->input->post('email'));
             }
         }
 

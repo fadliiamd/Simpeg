@@ -30,8 +30,8 @@ class Diklat extends CI_Controller {
 
         $has_upload_hasil = [];
         $check_diklat = [];
-        $list_diklat_id = [];
         $list_diklat_berkas = [];
+        $list_diklat_hasil = [];
         // Filter "Surat Tugas" Addressed to Account
         foreach($list_diklat as $key => $value) {
             if($value->jenis_tujuan == 'perorangan') {
@@ -88,7 +88,11 @@ class Diklat extends CI_Controller {
                 ));
 
                 if($status_check != NULL) {
-                    if($status_check->file_materi != NULL && $status_check->sertifikat != NULL) {
+                    if($status_check->file_materi != NULL && $status_check->sertifikat_id != NULL) {
+                        $get_sertif_diklat = $this->diklat_model->get_one_join([
+                            "diklat.id" => $status_check->id
+                        ]);
+                        $list_diklat_hasil[$value->id] = $get_sertif_diklat;
                         $has_upload_hasil[$value->id] = true;
                     } else {
                         $has_upload_hasil[$value->id] = false;
@@ -96,7 +100,6 @@ class Diklat extends CI_Controller {
                 }
 
                 $check_diklat[$value->id] = ($status_check == NULL ? NULL : $status_check->id);
-                $list_diklat_id[$value->id] = ($status_check == NULL ? NULL : $status_check->id);
                 $list_diklat_berkas[$value->id] = ($status_check == NULL ? NULL : $status_check);
             }
         }
@@ -109,8 +112,8 @@ class Diklat extends CI_Controller {
             "list_diklat" => $list_diklat,
             "check_diklat" => $check_diklat,
             "has_upload_hasil" => $has_upload_hasil,
-            "list_diklat_id" => $list_diklat_id,
-            "list_diklat_berkas" => $list_diklat_berkas
+            "list_diklat_berkas" => $list_diklat_berkas,
+            "list_diklat_hasil" => $list_diklat_hasil,
         ]);
 		$this->load->view('partials/main-footer');
     }

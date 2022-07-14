@@ -145,9 +145,9 @@ class Berkas_mutasi_model extends CI_Model
                 'dp3_akhir' => $dp3_akhir
             );
         }
-        if(!is_null($kartu_keluarga)){
+        if(!is_null($ijazah)){
             $data_berkas_mutasi += array(
-                'kartu_keluarga' => $kartu_keluarga
+                'ijazah' => $ijazah
             );
         }
         if(!is_null($riwayat_hidup)){

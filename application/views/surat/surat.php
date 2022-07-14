@@ -145,6 +145,10 @@
                               <input type="text" class="form-control" id="jenis_tujuan" value=<?=ucwords($value->jenis_tujuan) ?> disabled>
                             </div>
                           </div>
+                          <div class="form-group">
+                            <label for="tema">Tema/Judul Kegiatan (*)</label>
+                            <input type="text" class="form-control" id="tema" value="<?=$value->tema ?>" disabled>
+                          </div>
                           <div id="detail_tujuan">
                             <?php if($value->jenis_tujuan === 'divisi') { ?>
                               <div class="form-group">
@@ -206,7 +210,11 @@
                                           <td><?= $no ?></td>
                                           <td><?= $el ?></td>
                                           <td><?= $list_detail_tujuan[$key][$no-1]->nama ?></td>
-                                          <td><?= $list_detail_tujuan[$key][$no-1]->jabatan ?></td>
+                                          <td>
+                                            <?php if($list_detail_tujuan[$key][$no-1]->jabatan_id != NULL) { ?>
+                                            <?= $list_jabatan[$list_detail_tujuan[$key][$no-1]->jabatan_id]->nama_jabatan ?>
+                                            <?php } ?>
+                                          </td>
                                         </tr>
                                     <?php $no++;   }
                                     } ?>
@@ -281,6 +289,10 @@
                                 <option value="perorangan" <?php if($value->jenis_tujuan === 'perorangan') echo "selected"; ?>>Perorangan</option>
                               </select>
                             </div>
+                          </div>
+                          <div class="form-group">
+                            <label for="tema">Tema/Judul Kegiatan (*)</label>
+                            <input type="text" class="form-control" id="tema" name="tema" placeholder="Tema/Judul Kegiatan" required>
                           </div>
                           <div id="detail_tujuan">
                             <?php if($value->jenis_tujuan === 'divisi') { ?>

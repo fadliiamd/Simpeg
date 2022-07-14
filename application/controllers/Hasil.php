@@ -115,6 +115,7 @@ class Hasil extends CI_Controller {
         $this->load->model("hasil_model");
         $this->load->model("pegawai_model");
         $this->load->model("notifikasi_model");
+        $this->load->helper('string');
 
         // If POST Request Exist
         if(!empty($this->input->post('aksi') && $this->input->post('perangkingan_id'))){
@@ -149,7 +150,7 @@ class Hasil extends CI_Controller {
                     array_push($accepted_pegawai, $value->pegawai_account_nip);
                 }
                 $this->surat_model->insert_one(array(
-                    "no" => mt_rand(),
+                    "no" => random_string('numeric', 4). '/' .strtoupper(random_string('alnum', 4)). '/' . strtoupper($surat_data->jenis_kegiatan) . '/2022',
                     "jenis_tujuan" => "perorangan",
                     "tujuan" => "",
                     "detail_tujuan" => implode(',', $accepted_pegawai),
@@ -157,13 +158,14 @@ class Hasil extends CI_Controller {
                     "jenis" => "tugas",
                     "jenis_kegiatan" => $surat_data->jenis_kegiatan,
                     "jenis_diklat" => $jenis_diklat,
+                    "tema" => $surat_data->tema,
                     "admin_nip" => $surat_data->admin_nip,
                     "file_name" => $surat_data->file_name,
                 ));
 
                 $create_notif = $this->notifikasi_model->create_notification(array(
                     "judul" => "Undangan ".ucwords($surat_data->jenis_kegiatan),
-                    "pesan" => "Anda mendapatkan undangan kegiatan ".ucwords($surat_data->jenis_kegiatan).". Silahkan segera melakukan proses pemberkasan pada laman kegiatan".$surat_data->jenis_kegiatan,
+                    "pesan" => "Anda mendapatkan undangan kegiatan ".ucwords($surat_data->jenis_kegiatan).". Silahkan segera melakukan proses pemberkasan pada laman kegiatan ".$surat_data->jenis_kegiatan,
                     "redirect_to" => "diklat"
                 ));
 
