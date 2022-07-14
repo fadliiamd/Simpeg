@@ -28,6 +28,7 @@ class Diklat extends CI_Controller {
             "account_nip" => $this->session->userdata('nip')
         ));
 
+        $has_upload_hasil = array();
         $check_diklat = array();
         $list_diklat_id = array();
         // Filter "Surat Tugas" Addressed to Account
@@ -85,8 +86,14 @@ class Diklat extends CI_Controller {
                     "surat_id" => $value->id
                 ));
 
-                $check_diklat[$key] = ($status_check == NULL ? false : true);
-                $list_diklat_id[$key] = ($status_check == NULL ? NULL : $status_check->id);
+                if($status_check->file_materi != NULL && $status_check->sertifikat != NULL) {
+                    $has_upload_hasil[$value->id] = true;
+                } else {
+                    $has_upload_hasil[$value->id] = false;
+                }
+
+                $check_diklat[$value->id] = ($status_check == NULL ? NULL : $status_check->id);
+                $list_diklat_id[$value->id] = ($status_check == NULL ? NULL : $status_check->id);
             }
         }
 
@@ -95,6 +102,7 @@ class Diklat extends CI_Controller {
 		$this->load->view('diklat/diklat', [
             "list_diklat" => $list_diklat,
             "check_diklat" => $check_diklat,
+            "has_upload_hasil" => $has_upload_hasil,
             "list_diklat_id" => $list_diklat_id
         ]);
 		$this->load->view('partials/main-footer');
@@ -144,9 +152,6 @@ class Diklat extends CI_Controller {
             die();
         }
 
-        $date =  date("Y/m/d h:i:s");
-        $tgl_upload =  $date;
-
         $data = array(
             "jenis" => $surat->jenis_diklat,
             "foto" => $file_foto_name,
@@ -157,7 +162,7 @@ class Diklat extends CI_Controller {
             "tambahan" => $file_tambahan_name,
             "surat_id" => $surat_id,
             "pegawai_nip" => $this->session->userdata('nip'),
-            "created_at" => $tgl_upload
+            "created_at" => date("Y-m-d h:i:s")
         );
 
         $add = $this->diklat_model->insert_one($data);
@@ -192,6 +197,37 @@ class Diklat extends CI_Controller {
             redirect("diklat");
         } else {
             $this->session->set_flashdata('message_error', 'Gagal membatalkan pemberkasan diklat!');
+            redirect("diklat");
+        }
+    }
+
+    public function hasil()
+    {
+        // Load Model
+        $this->load->model('diklat_model');
+
+        // POST Request and Upload File
+        $diklat_id = $this->input->post('diklat_id');
+        $file_materi_name = $this->do_upload("pdf", "file_materi");
+        $file_sertifikat_name = $this->do_upload("pdf", "file_sertifikat");
+
+        // Validation
+        if(is_null($file_materi_name && $file_sertifikat_name)) {
+            die();
+        }
+
+        $data = array(
+            "file_materi" => $file_materi_name,
+            "sertifikat" => $file_sertifikat_name
+        );
+
+        $update = $this->diklat_model->update_one($diklat_id, $data);
+
+        if($update) {
+            $this->session->set_flashdata('message_success', 'Berhasil mengunggah hasil diklat!');
+            redirect("diklat");
+        } else {
+            $this->session->set_flashdata('message_error', 'Gagal mengunggah hasil diklat!');
             redirect("diklat");
         }
     }

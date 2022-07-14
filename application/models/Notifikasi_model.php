@@ -15,9 +15,9 @@ class Notifikasi_model extends CI_Model
         return $query->result();
     }
 
-    public function get_one($where)
+    public function get_one_second($where)
     {
-        return $this->db->get_where($this->main_table, $where)->row();
+        return $this->db->get_where($this->second_table, $where)->row();
     }
 
     public function get_condition($query,$search)
@@ -43,12 +43,12 @@ class Notifikasi_model extends CI_Model
         return $this->db->get()->result();
     }
 
-    public function get_all_order($coloumn, $type_order){
+    public function get_all_order($coloumn, $type_order) {
         $this->db->select('*');
-        $this->db->from($this->main_table);        
+        $this->db->from($this->main_table);
         $this->db->order_by($coloumn, $type_order);
 
-        $query = $this->db->get();        
+        $query = $this->db->get();
         
         return $query->result();
     }
@@ -61,6 +61,21 @@ class Notifikasi_model extends CI_Model
     public function pair_notification($data) {
         $this->db->insert($this->second_table, $data);
         return ($this->db->affected_rows() != 1) ? false : true;
+    }
+
+    public function change_status($account_nip, $notifikasi_id, $data) {
+        $this->db->trans_start();
+        $this->db->where([
+            "account_nip" => $account_nip,
+            "notifikasi_id" => $notifikasi_id
+        ]);
+        $this->db->update($this->second_table, $data);
+        $this->db->trans_complete();
+
+        if ($this->db->trans_status() === FALSE) {
+            return false;
+        }
+        return true;
     }
 
 }

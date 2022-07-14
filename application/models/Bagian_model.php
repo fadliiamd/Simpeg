@@ -12,6 +12,11 @@ class Bagian_model extends CI_Model
         return $query->result();
     }
 
+    public function get_one($where)
+    {
+        return $this->db->get_where($this->table, $where)->row();
+    }
+
     public function get_count_bagian($bagian)
     {
         $query = $this->db->where('id', $bagian)->get("bagian")->count_all();

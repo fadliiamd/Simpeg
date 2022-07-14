@@ -9,12 +9,73 @@ class Surat extends Roles {
 
 	public function index()
 	{
+        // Load Model
         $this->load->model('surat_model');
+        $this->load->model('pegawai_model');
+        $this->load->model('jurusan_model');
+        $this->load->model('bagian_model');
+        $this->load->model('unit_model');
+
+        // Get All Surat
         $surat = $this->surat_model->get_all();
+
+        // Get All Pegawai
+        $pegawai = $this->pegawai_model->get_all();
+        $jurusan = $this->jurusan_model->get_all();
+        $bagian = $this->bagian_model->get_all();
+        $unit = $this->unit_model->get_all();
+
+        // Get Detail from Detail Tujuan
+        $list_detail_tujuan = [];
+        foreach($surat as $key => $value) {
+            $list_detail = [];
+            if($value->jenis_tujuan == 'divisi') {
+                if($value->tujuan == 'jurusan') {
+                    $detail_tujuan = explode(',', $value->detail_tujuan);
+                    foreach($detail_tujuan as $item) {
+                        $get_data = $this->jurusan_model->get_one([
+                            "id" => $item
+                        ]);
+                        array_push($list_detail, $get_data);
+                    }
+                } else if($value->tujuan == 'bagian') {
+                    $detail_tujuan = explode(',', $value->detail_tujuan);
+                    foreach($detail_tujuan as $item) {
+                        $get_data = $this->bagian_model->get_one([
+                            "id" => $item
+                        ]);
+                        array_push($list_detail, $get_data);
+                    }
+                } else if($value->tujuan == 'unit') {
+                    $detail_tujuan = explode(',', $value->detail_tujuan);
+                    foreach($detail_tujuan as $item) {
+                        $get_data = $this->unit_model->get_one([
+                            "id" => $item
+                        ]);
+                        array_push($list_detail, $get_data);
+                    }
+                }
+                $list_detail_tujuan[$key] = $list_detail;
+            } else if($value->jenis_tujuan == 'perorangan') {
+                $detail_tujuan = explode(',', $value->detail_tujuan);
+                foreach($detail_tujuan as $item) {
+                    $get_data = $this->pegawai_model->get_one([
+                        "account_nip" => $item
+                    ]);
+                    array_push($list_detail, $get_data);
+                }
+                $list_detail_tujuan[$key] = $list_detail;
+            }
+        }
 
 		$this->load->view('partials/main-header');
 		$this->load->view('surat/surat', [
-            "surat" => $surat
+            "list_detail_tujuan" => $list_detail_tujuan,
+            "surat" => $surat,
+            "pegawai" => $pegawai,
+            "jurusan" => $jurusan,
+            "bagian" => $bagian,
+            "unit" => $unit
         ]);
 		$this->load->view('partials/main-footer');
 	}

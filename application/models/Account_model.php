@@ -7,6 +7,13 @@ class Account_model extends CI_Model
     public $role;
     public $table = 'account';
 
+    public function get_one($nip)
+    {
+        return $this->Db->get_where($this->table, [
+            "nip" => $nip
+        ])->row;
+    }
+
     public function get_role($nip)
     {
         $query = $this->db->get_where('account', array('nip' => $nip));
