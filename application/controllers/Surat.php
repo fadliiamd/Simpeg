@@ -15,6 +15,7 @@ class Surat extends Roles {
         $this->load->model('jurusan_model');
         $this->load->model('bagian_model');
         $this->load->model('unit_model');
+        $this->load->model('jabatan_model');
 
         // Get All Surat
         $surat = $this->surat_model->get_all();
@@ -68,14 +69,24 @@ class Surat extends Roles {
             }
         }
 
-		$this->load->view('partials/main-header');
+        $jabatan = $this->jabatan_model->get_all();
+
+        $list_jabatan = [];
+        foreach($jabatan as $value) {
+            $list_jabatan[$value->id] = $value; 
+        }
+
+		$this->load->view('partials/main-header', [
+            "title" => "Surat"
+        ]);
 		$this->load->view('surat/surat', [
             "list_detail_tujuan" => $list_detail_tujuan,
             "surat" => $surat,
             "pegawai" => $pegawai,
             "jurusan" => $jurusan,
             "bagian" => $bagian,
-            "unit" => $unit
+            "unit" => $unit,
+            "list_jabatan" => $list_jabatan
         ]);
 		$this->load->view('partials/main-footer');
 	}
@@ -123,33 +134,33 @@ class Surat extends Roles {
         if($jenis_kegiatan == 'diklat') {
             $jenis_diklat = $this->input->post('jenis_diklat');
         }
+        $tema = $this->input->post('tema');
 
         $file_name = $this->do_upload("pdf", "file_surat");
 
         if(is_null($file_name)) {
-            echo $this->input->post('file_surat');
-            die();
+            $this->session->set_flashdata('message_error', 'Kesalahan dalam mengunggah surat!');
+            redirect("surat");
         }
 
         $admin_nip = $this->session->userdata('nip');
-        date_default_timezone_set('Asia/Jakarta');
-        $date =  date("Y/m/d h:i:s");
-        $tgl_upload =  $date;
 
+        // Preparing Data for Insert
         $data = array(
             "no" => $no,
             "jenis_tujuan" => $jenis_tujuan,
-            "tgl_upload" => $tgl_upload,
+            "tgl_upload" => date("Y/m/d h:i:s"),
             "jenis" => $jenis,
             "jenis_kegiatan" => $jenis_kegiatan,
             "jenis_diklat" => $jenis_diklat,
+            "tema" => $tema,
             "admin_nip" => $admin_nip,
             "file_name" => $file_name
         );
         $data = array_merge($data, $data_additional);
 
+        // Insert Surat to Database
         $add = $this->surat_model->insert_one($data);
-
         if($add) {
             $this->session->set_flashdata('message_success', 'Berhasil menambahkan data surat!');
             redirect("surat");
@@ -161,47 +172,67 @@ class Surat extends Roles {
     
     public function update()
     {        
+        // Load Model
         $this->load->model('surat_model');
+
+        // POST Request
         $id = $this->input->post('id_surat');
         $no = $this->input->post('no_surat');
         $jenis_tujuan = $this->input->post('jenis_tujuan');
-        $tujuan = $this->input->post('tujuan');
+        $data_additional = array();
+        if ($jenis_tujuan == 'divisi') {
+            $data_additional = array(
+                "tujuan" => $this->input->post('divisi'),
+                "detail_tujuan" => implode(',', $this->input->post('tujuan'))
+            );
+        } else if ($jenis_tujuan == 'perorangan') {
+            $data_additional = array(
+                "tujuan" => $this->input->post('jenis_pegawai'),
+                "detail_tujuan" => implode(',', $this->input->post('pegawai'))
+            );
+        }
+
         $jenis = $this->input->post('jenis');
         $jenis_kegiatan = $this->input->post('jenis_kegiatan');
+        if($jenis_kegiatan == 'diklat') {
+            $jenis_diklat = $this->input->post('jenis_diklat');
+        }
+        $tema = $this->input->post('tema');
 
-        $admin_nip = $this->session->userdata('nip');        
+        $admin_nip = $this->session->userdata('nip');       
 
         if(!(empty($_FILES['file_surat']['name']))) {
             $file_name = $this->do_upload("pdf", "file_surat");   
-            date_default_timezone_set('Asia/Jakarta');
-            $date =  date("Y/m/d h:i:s");
-            $tgl_upload =  $date;
 
             $data = array(
                 "no" => $no,
                 "jenis_tujuan" => $jenis_tujuan,
-                "tujuan" => $tujuan,
-                "tgl_upload" => $tgl_upload,
+                "tgl_upload" => date("Y/m/d h:i:s"),
                 "jenis" => $jenis,
                 "jenis_kegiatan" => $jenis_kegiatan,
+                "jenis_diklat" => $jenis_diklat,
+                "tema" => $tema,
                 "admin_nip" => $admin_nip,
                 "file_name" => $file_name
             );
         } else {
             $data = array(
                 "no" => $no,
-                "jenis_tujuan" => $jenis_tujuan,
-                "tujuan" => $tujuan,        
+                "jenis_tujuan" => $jenis_tujuan,       
                 "jenis" => $jenis,
                 "jenis_kegiatan" => $jenis_kegiatan,
+                "jenis_diklat" => $jenis_diklat,
+                "tema" => $tema,
                 "admin_nip" => $admin_nip              
             );
         }
+        $data = array_merge($data, $data_additional);
+
         $update = $this->surat_model->update_one($id, $data);
 
         if($update)
         {
-            $this->session->set_flashdata('message_success', 'Behasil mengupdate data surat J-'.$id.'!');
+            $this->session->set_flashdata('message_success', 'Berhasil mengupdate data surat J-'.$id.'!');
             redirect("surat");
         }else
         {
@@ -212,17 +243,22 @@ class Surat extends Roles {
     
     public function delete()
     {        
+        // Load Model
         $this->load->model('surat_model');
-        $id = $this->input->post('id_surat');
-        $update = $this->surat_model->delete_one($id);
 
-        if($update)
-        {
-            $this->session->set_flashdata('message_success', 'Behasil menhapus data surat J-'.$id.'!');
+        $id = $this->input->post('id_surat');
+        // Get Rows
+        $get = $this->surat_model->get_one(array(
+            "id" => $id
+        ));
+        
+        $delete = $this->surat_model->delete_one($id);
+        if($delete) {
+            unlink("./uploads/".$get->file_name);
+            $this->session->set_flashdata('message_success', 'Berhasil menhapus data surat '.$get->no.'!');
             redirect("surat");
-        }else
-        {
-            $this->session->set_flashdata('message_error', 'Gagal menghapus data surat J-'.$id.'!');
+        } else {
+            $this->session->set_flashdata('message_error', 'Gagal menghapus data surat '.$get->no.'!');
             redirect("surat");
         }
     }

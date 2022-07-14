@@ -6,21 +6,30 @@ class Hasil extends CI_Controller {
     public function __construct()
     {
         parent::__construct();
-        $this->load->helper('date_format');
     }
 
 	public function index()
 	{        
 		$this->load->model('pegawai_model');
         $this->load->model('surat_model');
-        
+        $this->load->model('jabatan_model');
+
 		$pegawai = $this->pegawai_model->get_all_order('nilai_rank', 'desc');
         $surat = $this->surat_model->get_all_where(array("jenis" => "undangan"));
+        $jabatan = $this->jabatan_model->get_all();
+
+        $list_jabatan = [];
+        foreach($jabatan as $value) {
+            $list_jabatan[$value->id] = $value; 
+        }
         
-		$this->load->view('partials/main-header');
-		$this->load->view('perangkingan/hasil-fix',[
+		$this->load->view('partials/main-header', [
+            "title" => "Hasil Perangkingan"
+        ]);
+		$this->load->view('perangkingan/hasil-fix', [
             "pegawai" => $pegawai,
-            "list_surat" => $surat
+            "list_surat" => $surat,
+            "list_jabatan" => $list_jabatan
         ]);
 		$this->load->view('partials/main-footer');
 	}
@@ -37,7 +46,9 @@ class Hasil extends CI_Controller {
         $nilaialternatif = $this->nilaialternatif_model->get_all();
         $pegawai = $this->pegawai_model->get_all();
 
-		$this->load->view('partials/main-header');
+		$this->load->view('partials/main-header', [
+            "title" => "Perhitungan Perangkingan"
+        ]);
 		$this->load->view('perangkingan/alternatif',[
             "kriteria" => $kriteria,
             "subkriteria" => $subkriteria,
@@ -70,9 +81,9 @@ class Hasil extends CI_Controller {
                 // Loop All "Pegawai" Selected
                 foreach($this->input->post('checklist_id') as $selected) {
                     // Get One from _pegawai_
-                    $get_pegawai = $this->pegawai_model->get_one(array(
+                    $get_pegawai = $this->pegawai_model->get_one([
                         "account_nip" => $selected
-                    ))->nilai_rank;
+                    ])->nilai_rank;
 
                     // Insert One to _hasilperangkingan_
                     $data = array(
@@ -104,6 +115,7 @@ class Hasil extends CI_Controller {
         $this->load->model("hasil_model");
         $this->load->model("pegawai_model");
         $this->load->model("notifikasi_model");
+        $this->load->helper('string');
 
         // If POST Request Exist
         if(!empty($this->input->post('aksi') && $this->input->post('perangkingan_id'))){
@@ -138,7 +150,7 @@ class Hasil extends CI_Controller {
                     array_push($accepted_pegawai, $value->pegawai_account_nip);
                 }
                 $this->surat_model->insert_one(array(
-                    "no" => mt_rand(),
+                    "no" => random_string('numeric', 4). '/' .strtoupper(random_string('alnum', 4)). '/' . strtoupper($surat_data->jenis_kegiatan) . '/2022',
                     "jenis_tujuan" => "perorangan",
                     "tujuan" => "",
                     "detail_tujuan" => implode(',', $accepted_pegawai),
@@ -146,13 +158,14 @@ class Hasil extends CI_Controller {
                     "jenis" => "tugas",
                     "jenis_kegiatan" => $surat_data->jenis_kegiatan,
                     "jenis_diklat" => $jenis_diklat,
+                    "tema" => $surat_data->tema,
                     "admin_nip" => $surat_data->admin_nip,
                     "file_name" => $surat_data->file_name,
                 ));
 
                 $create_notif = $this->notifikasi_model->create_notification(array(
                     "judul" => "Undangan ".ucwords($surat_data->jenis_kegiatan),
-                    "pesan" => "Anda mendapatkan undangan kegiatan ".ucwords($surat_data->jenis_kegiatan).". Silahkan segera melakukan proses pemberkasan pada laman kegiatan".$surat_data->jenis_kegiatan,
+                    "pesan" => "Anda mendapatkan undangan kegiatan ".ucwords($surat_data->jenis_kegiatan).". Silahkan segera melakukan proses pemberkasan pada laman kegiatan ".$surat_data->jenis_kegiatan,
                     "redirect_to" => "diklat"
                 ));
 
@@ -209,7 +222,9 @@ class Hasil extends CI_Controller {
         }
         
         // Load View
-		$this->load->view('partials/main-header');
+		$this->load->view('partials/main-header', [
+            "title" => "Persetujuan Perangkingan"
+        ]);
 		$this->load->view('perangkingan/persetujuan.php', [
             "list_perangkingan" => $list_perangkingan,
             "list_hasilperangkingan" => $list_hasilperangkingan,

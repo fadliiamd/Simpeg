@@ -50,6 +50,10 @@
                 </div>
               </div>
               <div class="form-group">
+                <label for="tema">Tema/Judul Kegiatan (*)</label>
+                <input type="text" class="form-control" id="tema" name="tema" placeholder="Tema/Judul Kegiatan" required>
+              </div>
+              <div class="form-group">
                 <label for="jenis_tujuan">Jenis Pegawai Tujuan Surat (*)</label>
                 <select class="form-control" id="jenis_tujuan" name="jenis_tujuan" required>
                   <option value="" selected hidden>--- Jenis Pegawai Tujuan Surat ---</option>
@@ -95,7 +99,7 @@
               <td>
                 <?= ucwords($value->jenis_tujuan) ?>
               </td>
-              <td><?= $value->tgl_upload ?></td>
+              <td><?= date_indo($value->tgl_upload) ?></td>
               <td><label class="badge badge-light">Surat <?= ucwords($value->jenis) ?></label></td>
               <td>
                 <!-- Large modal -->
@@ -140,6 +144,10 @@
                               <label for="jenis_tujuan">Jenis Pegawai Tujuan Surat</label>
                               <input type="text" class="form-control" id="jenis_tujuan" value=<?=ucwords($value->jenis_tujuan) ?> disabled>
                             </div>
+                          </div>
+                          <div class="form-group">
+                            <label for="tema">Tema/Judul Kegiatan (*)</label>
+                            <input type="text" class="form-control" id="tema" value="<?=$value->tema ?>" disabled>
                           </div>
                           <div id="detail_tujuan">
                             <?php if($value->jenis_tujuan === 'divisi') { ?>
@@ -202,7 +210,11 @@
                                           <td><?= $no ?></td>
                                           <td><?= $el ?></td>
                                           <td><?= $list_detail_tujuan[$key][$no-1]->nama ?></td>
-                                          <td><?= $list_detail_tujuan[$key][$no-1]->jabatan ?></td>
+                                          <td>
+                                            <?php if($list_detail_tujuan[$key][$no-1]->jabatan_id != NULL) { ?>
+                                            <?= $list_jabatan[$list_detail_tujuan[$key][$no-1]->jabatan_id]->nama_jabatan ?>
+                                            <?php } ?>
+                                          </td>
                                         </tr>
                                     <?php $no++;   }
                                     } ?>
@@ -237,6 +249,7 @@
                       </div>
                       <form action="<?= base_url(); ?>surat/update" method="post" class="forms-sample" enctype="multipart/form-data">
                         <div class="modal-body">
+                          <input type="hidden" class="form-control-file" id="id_surat" name="id_surat" value="<?= $value->id ?>">
                           <div class="form-group">
                             <label for="file_surat">File Surat (*)</label>
                             <input type="file" class="form-control-file" id="file_surat" name="file_surat">
@@ -276,6 +289,10 @@
                                 <option value="perorangan" <?php if($value->jenis_tujuan === 'perorangan') echo "selected"; ?>>Perorangan</option>
                               </select>
                             </div>
+                          </div>
+                          <div class="form-group">
+                            <label for="tema">Tema/Judul Kegiatan (*)</label>
+                            <input type="text" class="form-control" id="tema" name="tema" placeholder="Tema/Judul Kegiatan" required>
                           </div>
                           <div id="detail_tujuan">
                             <?php if($value->jenis_tujuan === 'divisi') { ?>
