@@ -35,12 +35,17 @@
                             <div class="form-group row">
                                 <div class="col-md-6">
                                     <label for="accpunt_nip">Pegawai</label>        
-                                    <select name="account_nip" class="form-control text-dark" required>
+                                    <select name="account_nip" class="form-control text-dark" required <?php echo $_SESSION['role']==='pegawai' ? "disabled" : "" ; ?>>
                                         <option value="" selected hidden>---Pilih Pegawai---</option>
                                         <?php 
-                                        $option = '';
+                                        $option = '';                                        
                                             foreach($pegawai as $p){
-                                                $option .= '<option value="'.$p->account_nip.'">'.$p->account_nip.' - '.$p->nama.'</option>';
+                                                if($_SESSION["nip"] === $p->account_nip){
+                                                    $selected = 'selected';
+                                                }else{
+                                                    $selected = '';
+                                                }
+                                                $option .= '<option value="'.$p->account_nip.'" '.$selected.'>'.$p->account_nip.' - '.$p->nama.'</option>';
                                             }
                                         echo $option;
                                         ?>

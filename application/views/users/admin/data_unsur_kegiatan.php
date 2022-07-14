@@ -58,7 +58,7 @@
                             <div class="form-group row">
                                 <div class="col-md-6">
                                     <label for="angka_kredit">Angka Kredit</label>
-                                    <input type="number" class="form-control" id="angka_kredit" name="angka_kredit">
+                                    <input type="number" class="form-control" id="angka_kredit" name="angka_kredit" step="any">
                                 </div>
                                 <div class="col-md-6">
                                     <label for="satuan">Satuan</label>
@@ -153,7 +153,7 @@
                                                     <div class="form-group row">
                                                         <div class="col-md-6">
                                                             <label for="angka_kredit">Angka Kredit</label>
-                                                            <input type="number" class="form-control" id="angka_kredit" name="angka_kredit" value="<?= $value->angka_kredit ?>">
+                                                            <input type="number" class="form-control" id="angka_kredit" name="angka_kredit" value="<?= $value->angka_kredit ?>" step="any">
                                                         </div>
                                                         <div class="col-md-6">
                                                             <label for="satuan">Satuan</label>

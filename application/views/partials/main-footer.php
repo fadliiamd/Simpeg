@@ -32,40 +32,6 @@
 <script src="<?= base_url(); ?>assets/js/Chart.roundedBarCharts.js"></script>
 <!-- End custom js for this page-->
 
-<script>
-  $(document).ready(function() {       
-    $.getJSON('https://cuaca.umkt.ac.id/api/cuaca/DigitalForecast-JawaBarat.xml', function(jsonData) {
-      const findClosest = (data, accessor, target = Date.now()) => data.reduce((prev, curr) => {
-        const a = Math.abs(accessor(curr).getTime() - target);
-        const b = Math.abs(accessor(prev).getTime() - target);
-        return a - b < 0 ? curr : prev;
-      });
-      var sampleData = jsonData.row.data.forecast.area[25].parameter[5].timerange;
-      var output = sampleData.map(s => {
-        if (s.hasOwnProperty("@datetime")) {
-          s.datetime = s['@datetime'];
-          delete s['@datetime'];
-        }
-        return s;
-      })
-      const processDateString = (dateString) => {
-        const year = dateString.substring(0, 4);
-        const month = dateString.substring(4, 6);
-        const date = dateString.substring(6, 8);
-        const hour = dateString.substring(8, 10);
-        const minute = dateString.substring(10, 12);
-        return new Date(year, month - 1, date, hour, minute);
-      };
-
-      const closest = findClosest(sampleData, ({
-        datetime
-      }) => processDateString(datetime));
-
-      console.log(closest.value[0]);
-      $('#wheater-temparature').html(closest.value[0]['#text']);
-    });
-  });
-</script>
 <!-- Costum js progantara -->
 <script src="<?= base_url(); ?>assets/js/costum.js"></script>
 <!-- End Costum js progantara -->
