@@ -15,6 +15,7 @@ class Pemberhentian extends Roles {
             'direktur_model',
             'bagian_model',
         ]);
+		$this->load->library('form_validation');   
 	}
 
     public function riwayat_pemberhentian()
@@ -57,6 +58,19 @@ class Pemberhentian extends Roles {
 
 	public function create_data_pemberhentian()
     {
+        $this->form_validation->set_rules(
+            'pegawai_nip',
+            'pegawai_nip',
+            'is_unique[pemberhentian.pegawai_nip]',
+            array(
+                'is_unique' => 'Mohon maaf %s telah terdaftar!'
+            )
+        );
+        if ($this->form_validation->run() == FALSE) {
+            $this->session->set_flashdata('message_error', validation_errors());
+            redirect("pemberhentian/pengajuan_pemberhentian");
+        }
+
         $add = $this->pemberhentian_model->insert_one();
 
         if($add)
@@ -139,6 +153,19 @@ class Pemberhentian extends Roles {
 
 	public function create_data_berkas()
 	{
+        $this->form_validation->set_rules(
+            'pemberhentian_id',
+            'pemberhentian_id',
+            'is_unique[berkaspensiun.pemberhentian_id]',
+            array(
+                'is_unique' => 'Mohon maaf %s telah terdaftar!'
+            )
+        );
+        if ($this->form_validation->run() == FALSE) {
+            $this->session->set_flashdata('message_error', validation_errors());
+            redirect("pemberhentian/berkas_pemberhentian");
+        }
+
 		$add = $this->berkas_pemberhentian_model->insert_one();
 
 		if($add)
@@ -218,6 +245,29 @@ class Pemberhentian extends Roles {
 
 	public function create_data_usulan()
     {
+		$this->form_validation->set_rules(
+            'berkaspensiun_id',
+            'berkaspensiun_id',
+            'is_unique[usulanpensiun.berkaspensiun_id]',
+            array(
+                'is_unique' => 'Mohon maaf %s telah terdaftar!'
+            )
+        );
+
+		$this->form_validation->set_rules(
+            'pemberhentian_id',
+            'pemberhentian_id',
+            'is_unique[usulanpensiun.pemberhentian_id]',
+            array(
+                'is_unique' => 'Mohon maaf %s telah terdaftar!'
+            )
+        );
+
+        if ($this->form_validation->run() == FALSE) {
+            $this->session->set_flashdata('message_error', validation_errors());
+            redirect("pemberhentian/usulan_pensiun");
+        }
+
         $add = $this->usulan_pemberhentian_model->insert_one();
 
         if($add)
@@ -309,6 +359,20 @@ class Pemberhentian extends Roles {
 
 	public function create_data_sk_pemberhentian()
 	{
+		$this->form_validation->set_rules(
+            'usulanpensiun_id',
+            'usulanpensiun_id',
+            'is_unique[skpensiun.usulanpensiun_id]',
+            array(
+                'is_unique' => 'Mohon maaf %s telah terdaftar!'
+            )
+        );
+
+        if ($this->form_validation->run() == FALSE) {
+            $this->session->set_flashdata('message_error', validation_errors());
+            redirect("pemberhentian/sk_pensiun");
+        }
+
 		$add = $this->sk_pemberhentian_model->insert_one();
 
 		if($add)

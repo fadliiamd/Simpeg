@@ -17,6 +17,7 @@ class Mutasi extends Roles {
             'direktur_model',
             'bagian_model',
         ]);
+        $this->load->library('form_validation');   
 	}
 
     // Penjadwalan
@@ -37,6 +38,19 @@ class Mutasi extends Roles {
 
 	public function create_data_penjadwalan()
     {
+        $this->form_validation->set_rules(
+            'nip',
+            'nip',
+            'is_unique[penjadwalan.nip]',
+            array(
+                'is_unique' => 'Mohon maaf %s telah terdaftar!'
+            )
+        );
+        if ($this->form_validation->run() == FALSE) {
+            $this->session->set_flashdata('message_error', validation_errors());
+            redirect("mutasi/penjadwalan_mutasi");
+        }
+
         $add = $this->penjadwalan_model->insert_one();
 
         if($add)
@@ -120,6 +134,19 @@ class Mutasi extends Roles {
 
 	public function create_data_mutasi()
     {
+        $this->form_validation->set_rules(
+            'pegawai_nip',
+            'pegawai_nip',
+            'is_unique[mutasi.pegawai_nip]',
+            array(
+                'is_unique' => 'Mohon maaf %s telah terdaftar!'
+            )
+        );
+        if ($this->form_validation->run() == FALSE) {
+            $this->session->set_flashdata('message_error', validation_errors());
+            redirect("mutasi/pengajuan_mutasi");
+        }
+
         $add = $this->mutasi_model->insert_one();
 
         if($add)
@@ -201,6 +228,19 @@ class Mutasi extends Roles {
 
     public function create_data_berkas()
     {
+        $this->form_validation->set_rules(
+            'mutasi_id',
+            'mutasi_id',
+            'is_unique[berkasmutasi.mutasi_id]',
+            array(
+                'is_unique' => 'Mohon maaf %s telah terdaftar!'
+            )
+        );
+        if ($this->form_validation->run() == FALSE) {
+            $this->session->set_flashdata('message_error', validation_errors());
+            redirect("mutasi/berkas_mutasi");
+        }
+
         $add = $this->berkas_mutasi_model->insert_one();
 
         if($add)
@@ -280,6 +320,29 @@ class Mutasi extends Roles {
 
 	public function create_data_usulan()
     {
+        $this->form_validation->set_rules(
+            'mutasi_id',
+            'mutasi_id',
+            'is_unique[usulanmutasi.mutasi_id]',
+            array(
+                'is_unique' => 'Mohon maaf %s telah terdaftar!'
+            )
+        );
+
+        $this->form_validation->set_rules(
+            'berkasmutasi_id',
+            'berkasmutasi_id',
+            'is_unique[usulanmutasi.berkasmutasi_id]',
+            array(
+                'is_unique' => 'Mohon maaf %s telah terdaftar!'
+            )
+        );
+
+        if ($this->form_validation->run() == FALSE) {
+            $this->session->set_flashdata('message_error', validation_errors());
+            redirect("mutasi/usulan_mutasi");
+        }
+
         $add = $this->usulan_mutasi_model->insert_one();
 
         if($add)
@@ -385,6 +448,20 @@ class Mutasi extends Roles {
 
     public function create_data_penerimaan()
     {
+        $this->form_validation->set_rules(
+            'pegawai_nip',
+            'pegawai_nip',
+            'is_unique[penerimaanmutasi.pegawai_nip]',
+            array(
+                'is_unique' => 'Mohon maaf %s telah terdaftar!'
+            )
+        );
+
+        if ($this->form_validation->run() == FALSE) {
+            $this->session->set_flashdata('message_error', validation_errors());
+            redirect("mutasi/penerimaan_mutasi");
+        }
+
         $add = $this->penerimaan_mutasi_model->insert_one();
 
         if($add)
@@ -461,6 +538,29 @@ class Mutasi extends Roles {
 
     public function create_data_sk_mutasi()
     {
+        $this->form_validation->set_rules(
+            'usulanmutasi_id',
+            'usulanmutasi_id',
+            'is_unique[skmutasi.usulanmutasi_id]',
+            array(
+                'is_unique' => 'Mohon maaf %s telah terdaftar!'
+            )
+        );
+
+        $this->form_validation->set_rules(
+            'penerimaan_id',
+            'penerimaan_id',
+            'is_unique[skmutasi.penerimaan_id]',
+            array(
+                'is_unique' => 'Mohon maaf %s telah terdaftar!'
+            )
+        );
+
+        if ($this->form_validation->run() == FALSE) {
+            $this->session->set_flashdata('message_error', validation_errors());
+            redirect("mutasi/sk_mutasi");
+        }
+
         $add = $this->sk_mutasi_model->insert_one();
 
         if($add)
