@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-lg-12">
     <h4>Surat</h4>
-
+    
     <!-- Large modal -->
     <button type="button" class="my-3 btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Tambah Surat</button>
 
@@ -99,6 +99,130 @@
               <td><label class="badge badge-light">Surat <?= ucwords($value->jenis) ?></label></td>
               <td>
                 <!-- Large modal -->
+                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#viewsurat-<?= $value->id ?>">Lihat</button>
+
+                <!-- Modal -->
+                <div id="viewsurat-<?= $value->id ?>" class="modal fade edittable" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                  <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">No. Surat : <b><?= $value->no ?><b></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <form action="<?= base_url(); ?>surat/update" method="post" class="forms-sample" enctype="multipart/form-data">
+                        <div class="modal-body">
+                          <div class="form-group">
+                            <label for="file_surat">File Surat</label>
+                            <div class="mt-1">
+                              <a href="<?= base_url() . 'uploads/' . $value->file_name ?>" target="_blank">                              
+                                  Lihat Surat                              
+                              </a>
+                            </div>                            
+                          </div>
+                          <div class="form-group row">
+                            <div class="col-md-6">
+                              <label for="no_surat">Nomor Surat</label>
+                              <input type="text" class="form-control" id="no_surat" value=<?=$value->no ?> disabled>
+                            </div>
+                            <div class="col-md-6">
+                              <label for="jenis_surat">Jenis Surat</label>
+                              <input type="text" class="form-control" id="jenis_surat" value=<?=ucwords($value->jenis) ?> disabled>
+                            </div>
+                          </div>
+                          <div class="form-group row">
+                            <div class="col-md-6">
+                              <label for="jenis_kegiatan">Jenis Kegiatan</label>
+                              <input type="text" class="form-control" id="jenis_kegiatan" value=<?=ucwords($value->jenis_kegiatan) ?> disabled>
+                            </div> 
+                            <div class="col-md-6">
+                              <label for="jenis_tujuan">Jenis Pegawai Tujuan Surat</label>
+                              <input type="text" class="form-control" id="jenis_tujuan" value=<?=ucwords($value->jenis_tujuan) ?> disabled>
+                            </div>
+                          </div>
+                          <div id="detail_tujuan">
+                            <?php if($value->jenis_tujuan === 'divisi') { ?>
+                              <div class="form-group">
+                                <label for="divisi">Divisi Tujuan</label>
+                                <input type="text" class="form-control" id="divisi" value=<?=ucwords($value->tujuan) ?> disabled>
+                              </div>
+                              <div class="form-group">
+                                <label for="tujuan">Tujuan</label>
+                                <div class="table-responsive">
+                                  <table class="table table-striped table-bordered table-datatable">
+                                    <thead class="thead-dark">
+                                      <tr>
+                                        <th>No</th>
+                                        <th>ID <?=ucwords($value->tujuan) ?></th>
+                                        <th>Nama <?=ucwords($value->tujuan) ?></th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                    <?php
+                                    if ($value->detail_tujuan != NULL) {
+                                      $detail_tujuan = explode(',', $value->detail_tujuan);
+                                      $no = 1;
+                                      foreach($detail_tujuan as $el) { ?>
+                                        <tr>
+                                          <td><?= $no ?></td>
+                                          <td><?= $el ?></td>
+                                          <td><?= $list_detail_tujuan[$key][$no-1]->nama ?></td>
+                                        </tr>
+                                    <?php $no++; }
+                                    } ?>
+                                    </tbody>
+                                  </table>
+                                </div>
+                              </div>
+                            <?php } else if($value->jenis_tujuan === 'perorangan') { ?>
+                              <div class="form-group">
+                                <label for="tujuan">Jenis Pegawai Tujuan</label>
+                                <input type="text" class="form-control" id="tujuan" value="<?=ucwords($value->tujuan) ?>" disabled>
+                              </div>
+                              <div class="form-group">
+                                <label for="tujuan">Tujuan</label>
+                                <div class="table-responsive">
+                                  <table id="list_surat" class="table table-striped table-bordered">
+                                    <thead class="thead-dark">
+                                      <tr>
+                                        <th>No</th>
+                                        <th>NIP</th>
+                                        <th>Nama Pegawai</th>
+                                        <th>Jabatan</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                    <?php
+                                    if ($value->detail_tujuan != NULL) {
+                                      $detail_tujuan = explode(',', $value->detail_tujuan);
+                                      $no = 1;
+                                      foreach($detail_tujuan as $el) { ?>
+                                        <tr>
+                                          <td><?= $no ?></td>
+                                          <td><?= $el ?></td>
+                                          <td><?= $list_detail_tujuan[$key][$no-1]->nama ?></td>
+                                          <td><?= $list_detail_tujuan[$key][$no-1]->jabatan ?></td>
+                                        </tr>
+                                    <?php $no++;   }
+                                    } ?>
+                                    </tbody>
+                                  </table>
+                                </div>
+                              </div>
+                            <?php } ?>
+                          </div>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Kembali</button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+                <!-- End Modal -->
+
+                <!-- Large modal -->
                 <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#edittable-<?= $value->id ?>">Edit</button>
 
                 <!-- Modal -->
@@ -167,14 +291,66 @@
                                 <div class="col-md-6">
                                   <label for="tujuan">Tujuan (*)</label>
                                   <select class="form-control" id="tujuan" name="tujuan[]" multiple="multiple" required>
-                                    <?php ?>
                                     <option value="" selected hidden>--- Tujuan ---</option>
-                                    <?php ?>
+                                    <?php
+                                    if($value->detail_tujuan != NULL) {
+                                      if($value->tujuan == 'jurusan') {
+                                        $list_divisi = $jurusan;
+                                      } else if($value->tujuan == 'bagian') {
+                                        $list_divisi = $bagian;
+                                      } else if($value->tujuan == 'unit') {
+                                        $list_divisi = $unit;
+                                      }
+                                      $detail_tujuan = explode(',', $value->detail_tujuan);
+                                      $no = 1;
+                                      foreach($list_divisi as $item) {
+                                        $found = 0;
+                                        foreach($detail_tujuan as $el) {
+                                          if($item->id == $el) {
+                                            $found = 1;
+                                            break;
+                                          }
+                                        }
+                                    ?>
+                                        <option value="<?= $item->id ?>" <?php if($found == 1) echo "selected"; ?>><?= $item->nama ?></option>
+                                    <?php
+                                    $no++; }
+                                    }
+                                    ?>
                                   </select>
                                 </div>
                               </div>
                             <?php } else if($value->jenis_tujuan === 'perorangan') { ?>
-                              
+                              <div class="form-group row">
+                                <div class="col-md-6">
+                                  <label for="jenis_pegawai">Jenis Tujuan Pegawai (*)</label>
+                                  <select class="form-control" id="jenis_pegawai" name="jenis_pegawai" required>
+                                    <option value="struktural" <?php if($value->tujuan === 'struktural') echo "selected"; ?>>Struktural</option>
+                                    <option value="fungsional" <?php if($value->tujuan === 'fungsional') echo "selected"; ?>>Fungsional</option>
+                                  </select>
+                                </div>
+                                <div class="col-md-6">
+                                  <label for="tujuan">Pegawai Tujuan (*)</label>
+                                  <select class="form-control" id="tujuan" name="tujuan[]" multiple="multiple" required>
+                                    <option selected hidden>--- Tujuan ---</option>
+                                    <?php
+                                    if($value->detail_tujuan != NULL) {
+                                      $detail_tujuan = explode(',', $value->detail_tujuan);
+                                      $no = 1;
+                                      foreach($pegawai as $item) {
+                                        $found = 0;
+                                        foreach($detail_tujuan as $el) {
+                                          if($item->account_nip == $el) {
+                                            $found = 1;
+                                            break;
+                                          }
+                                        } ?>
+                                        <option value="<?= $item->account_nip ?>" <?php if($found == 1) echo "selected"; ?>><?= $item->nama ?></option>
+                                    <?php $no++; }
+                                    } ?>
+                                  </select>
+                                </div>
+                              </div>
                             <?php } ?>
                           </div>
                         </div>

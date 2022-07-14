@@ -6,12 +6,12 @@ class Dashboard extends Authentication
 	public function __construct()
 	{
 		parent::__construct();
+		$this->load->model('account_model');
 	}
 
 	public function admin()
 	{
 		$nip = $this->session->userdata('nip');
-		$this->load->model('account_model');
 		if ($this->account_model->get_role($nip) == 'admin') {
 			$this->load->view('partials/main-header');
 			$this->load->view('users/admin/index');
@@ -24,9 +24,15 @@ class Dashboard extends Authentication
 	public function pegawai()
 	{
 		$nip = $this->session->userdata('nip');
-		$this->load->model('account_model');
 		if ($this->account_model->get_role($nip) == 'pegawai') {
-			$this->load->view('partials/main-header');
+			$this->load->model('pegawai_model');
+			$get_detail = $this->pegawai_model->get_one([
+				"account_nip" => $nip
+			]);
+
+			$this->load->view('partials/main-header', [
+				"detail_account" => $get_detail
+			]);
 			$this->load->view('users/pegawai/index');
 			$this->load->view('partials/main-footer');
 		}else{
@@ -37,7 +43,6 @@ class Dashboard extends Authentication
 	public function direktur()
 	{
 		$nip = $this->session->userdata('nip');
-		$this->load->model('account_model');
 		if ($this->account_model->get_role($nip) == 'direktur') {
 			$this->load->view('partials/main-header');
 			$this->load->view('users/direktur/index');
@@ -51,7 +56,6 @@ class Dashboard extends Authentication
 	{
 		$nip = $this->session->userdata('nip');
 
-		$this->load->model('account_model');
 		$this->account_model->get_redirect_role($nip);
 	}
 }

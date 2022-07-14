@@ -19,9 +19,6 @@ $(document).ready(function () {
 		 'searchable': false,
 		 'orderable': false,
 		 'className': 'dt-body-center',
-		 'render': function (data, type, full, meta){
-				return '<input type="checkbox" name="checklist_id[]" value="' + $('<div/>').text(data).html() + '">';
-			}
 		}],
 		'order': [[1, 'asc']]
 	});

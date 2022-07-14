@@ -12,6 +12,11 @@ class Unit_model extends CI_Model
         return $query->result();
     }
 
+    public function get_one($where)
+    {
+        return $this->db->get_where($this->table, $where)->row();
+    }
+
     public function insert_one()
     {
         $nama = $this->input->post('nama');

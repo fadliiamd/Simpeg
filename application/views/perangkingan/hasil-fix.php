@@ -43,14 +43,15 @@
               $no = 1;
               foreach ($pegawai as $key => $value){
                 $format .= '
-                <tr>
-                  <td>'.$value->account_nip.'</td>
-                  <td>'.$no.'</td>
-                  <td>'.$value->account_nip.'</td>
-                  <td>'.$value->nama.'</td>
-                  <td>'.ucwords($value->jenis_pegawai).'</td>
-                  <td>'.$value->nilai_rank.'</td>
-                </tr>';
+                  <tr>
+                    <td><input type="checkbox" name="checklist_id[]" value="'.$value->account_nip.'"></td>
+                    <td>'.$no.'</td>
+                    <td>'.$value->account_nip.'</td>
+                    <td>'.$value->nama.'</td>
+                    <td>'.ucwords($value->jenis_pegawai).'</td>
+                    <td>'.$value->nilai_rank.'</td>
+                  </tr>
+                ';
                 $no++;
               }
               echo $format;

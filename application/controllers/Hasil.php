@@ -142,7 +142,7 @@ class Hasil extends CI_Controller {
                     "jenis_tujuan" => "perorangan",
                     "tujuan" => "",
                     "detail_tujuan" => implode(',', $accepted_pegawai),
-                    "tgl_upload" => $surat_data->tgl_upload,
+                    "tgl_upload" => date("Y-m-d h:i:s"),
                     "jenis" => "tugas",
                     "jenis_kegiatan" => $surat_data->jenis_kegiatan,
                     "jenis_diklat" => $jenis_diklat,
@@ -161,7 +161,7 @@ class Hasil extends CI_Controller {
                         "account_nip" => $target,
                         "notifikasi_id" => $create_notif,
                         "status" => "Unseen",
-                        "created_at" => date("Y/m/d h:i:s")
+                        "created_at" => date("Y-m-d h:i:s")
                     ));
                 }
             } else {

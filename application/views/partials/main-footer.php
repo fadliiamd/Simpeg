@@ -77,7 +77,6 @@
       const isYesterday = yesterday.toDateString() === date.toDateString();
       const isThisYear = today.getFullYear() === date.getFullYear();
 
-
       if (seconds < 5) {
         return 'baru saja';
       } else if (seconds < 60) {
