@@ -22,7 +22,7 @@ class Auth_model extends CI_Model
 	}
 
 	public function login($nip, $password)
-	{
+	{		
 		$this->db->where('nip', $nip);
 		$query = $this->db->get($this->_table);
 		$user = $query->row();
@@ -30,17 +30,21 @@ class Auth_model extends CI_Model
 		// cek apakah user sudah terdaftar?
 		if (!$user) {
 			return FALSE;
-		}
+		}		
 
 		// cek apakah passwordnya benar?
 		if (!password_verify($password, $user->password)) {
 			return FALSE;
 		}
-
-		// cek apakah status akun masih aktif?
-		if ($user->status_kerja !== 'aktif'){
-			return FALSE;
-		}
+		// cek apakah status akun pegawai masih aktif?
+		if($user->role === 'pegawai'){
+			$this->db->where('account_nip', $nip);
+			$query = $this->db->get('pegawai');
+			$pegawai = $query->row();
+			if ($pegawai->status_kerja !== 'aktif'){
+				return FALSE;
+			}
+		}		
 
 		// bikin session
 		$this->session->set_userdata([self::SESSION_KEY => $user->nip,'role' => $user->role, 'nama' => $user->nama]);
