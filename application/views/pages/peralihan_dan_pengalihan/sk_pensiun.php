@@ -70,7 +70,7 @@
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="nomor_surat">Nomor Surat</label>
-                                                        <input type="text" class="form-control" id="nomor_surat">
+                                                        <input type="text" class="form-control" id="nomor_surat" name="nomor_surat">
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="file_pensiun">File Pensiun</label>
