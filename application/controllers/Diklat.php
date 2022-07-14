@@ -222,6 +222,7 @@ class Diklat extends CI_Controller {
         $diklat_id = $this->input->post('diklat_id');
         $file_materi_name = $this->do_upload("pdf", "file_materi");
         $file_sertifikat_name = $this->do_upload("pdf", "file_sertifikat");
+        $angka_kredit = $this->input->post('angka_kredit');
 
         // Validation
         if(is_null($file_materi_name && $file_sertifikat_name)) {
@@ -237,6 +238,7 @@ class Diklat extends CI_Controller {
         $insert_sertif = $this->sertifikat_model->create_one($data_sertif);
 
         $data = [
+            "angka_kredit" => $angka_kredit,
             "file_materi" => $file_materi_name,
             "sertifikat_id" => $insert_sertif
         ];
