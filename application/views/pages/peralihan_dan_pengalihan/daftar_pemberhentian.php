@@ -7,6 +7,7 @@
                 <thead class="thead-dark">
                     <tr>
                         <th>No</th>
+                        <th>Pegawai</th>
                         <th>Alasan</th>
                         <th>Status Pengajuan</th>
                         <th>Tanggal Pengajuan</th>
@@ -22,6 +23,7 @@
                     ?>
                         <tr>
                             <td><?= $i ?></td>
+                            <td><?= $value->pegawai_nip ?> - <?= $value->nama ?></td>
                             <td><?= $value->alasan ?></td>
                             <td>
                                 <?php if($value->status_pengajuan == "setuju") {?>

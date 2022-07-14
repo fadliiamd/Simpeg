@@ -20,7 +20,7 @@ class Pemberhentian extends Roles {
 
     public function riwayat_pemberhentian()
 	{
-		$pemberhentian = $this->pemberhentian_model->get_condition("jenis_berhenti","Pengunduran Diri");
+		$pemberhentian = $this->pemberhentian_model->get_all_with_join_pegawai_pengunduran();
 
 		$this->load->view('partials/main-header',['title' => 'Riwayat pemberhentian']);
 		$this->load->view('pages/peralihan_dan_pengalihan/daftar_pemberhentian',[

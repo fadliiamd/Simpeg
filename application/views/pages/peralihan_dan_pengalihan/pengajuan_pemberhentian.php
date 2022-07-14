@@ -132,7 +132,7 @@
                 <thead>
                     <tr class="thead-dark">
                         <th>No</th>
-                        <th>NIP Pengaju</th>                        
+                        <th>Pegawai</th>
                         <th>Jenis Berhenti</th>
                         <th>Alasan</th>
                         <th>Status Pengajuan</th>
@@ -149,7 +149,11 @@
                     foreach ($pemberhentian as $key => $value) { ?>
                         <tr>
                             <td><?= $i ?></td>
-                            <td><?= $value->pegawai_nip ?></td>                            
+                            <?php if  ($this->session->userdata("role") == "admin" || $this->session->userdata("role") == "direktur"){ ?>
+                                <td><?= $value->pegawai_nip ?> - <?= $value->nama ?></td>  
+                            <?php } else { ?>
+                                <td><?= $value->pegawai_nip ?></td>  
+                            <?php } ?>
                             <td><?= $value->jenis_berhenti ?></td>
                             <td><?= $value->alasan ?></td>
                             <td>

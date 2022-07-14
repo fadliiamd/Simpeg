@@ -88,7 +88,7 @@
                 <thead class="thead-dark">
                     <tr>
                         <th>No</th>
-                        <th>NIP</th>
+                        <th>Pegawai</th>
                         <th>SK CPNS</th>
                         <th>SK PNS</th>
                         <th>Pangkat Akhir</th>
@@ -109,7 +109,11 @@
                     ?>
                         <tr>
                             <td><?= $i; ?></td>
-                            <td><?= $value->pegawai_nip ?> - <?= $value->alasan ?></td>
+                            <?php if  ($this->session->userdata("role") == "admin" || $this->session->userdata("role") == "direktur"){ ?>
+                                <td><?= $value->pegawai_nip ?> - <?= $value->nama ?></td>  
+                            <?php } else { ?>
+                                <td><?= $value->pegawai_nip ?></td>  
+                            <?php } ?>
                             <td>
                                 <a href="<?= base_url().'uploads/'.$value->sk_cpns ?>" download class="btn btn-secondary">Unduh</a>    
                             </td>

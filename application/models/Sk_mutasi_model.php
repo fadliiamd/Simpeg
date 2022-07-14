@@ -38,13 +38,16 @@ class Sk_mutasi_model extends CI_Model
             penerimaanmutasi.id AS id_penerimaan,
             usulanmutasi.id AS id_usulan,usulanmutasi.tgl_usulan,usulanmutasi.status_persetujuan,usulanmutasi.tgl_persetujuan,
             berkasmutasi.id As id_berkas, berkasmutasi.sk_cpns, berkasmutasi.sk_pns, berkasmutasi.pangkat_akhir, berkasmutasi.karpeg, berkasmutasi.dp3_akhir, berkasmutasi.ijazah, berkasmutasi.riwayat_hidup, 
-            mutasi.pegawai_nip, mutasi.alasan, mutasi.id AS id_mutasi'
+            mutasi.pegawai_nip, mutasi.alasan, mutasi.id AS id_mutasi,
+            pegawai.bagian_id, pegawai.nama AS pegawai_nama'
         );
         $this->db->from($this->table);
         $this->db->join('penerimaanmutasi', 'penerimaanmutasi.id = skmutasi.penerimaan_id','LEFT');
         $this->db->join('usulanmutasi', 'usulanmutasi.id = skmutasi.usulanmutasi_id','LEFT');
         $this->db->join('berkasmutasi', 'berkasmutasi.id = usulanmutasi.berkasmutasi_id','LEFT');
         $this->db->join('mutasi', 'mutasi.id = usulanmutasi.mutasi_id','LEFT');
+        $this->db->join('pegawai', 'pegawai.account_nip = mutasi.pegawai_nip','LEFT');
+        $this->db->join('pegawai', 'pegawai.account_nip = penerimaanmutasi.pegawai_nip','LEFT');
 
         $query = $this->db->get();
 

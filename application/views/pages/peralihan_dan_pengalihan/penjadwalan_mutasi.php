@@ -77,6 +77,7 @@
                 <thead class="thead-dark">
                     <tr>
                         <th>No</th>
+                        <th>Pegawai</th>
                         <th>Tanggal Diskusi</th>
                         <th>Waktu</th>
                         <th>Hal</th>
@@ -94,6 +95,11 @@
                     ?>
                         <tr>
                             <td><?= $i ?></td>
+                            <?php if  ($this->session->userdata("role") == "admin" || $this->session->userdata("role") == "direktur"){ ?>
+                                <td><?= $value->pegawai_nip ?> - <?= $value->nama ?></td>  
+                            <?php } else { ?>
+                                <td><?= $value->pegawai_nip ?></td>  
+                            <?php } ?>
                             <td><?= $value->tgl_diskusi ?></td>
                             <td><?= $value->waktu ?></td>
                             <td><?= $value->hal ?></td>

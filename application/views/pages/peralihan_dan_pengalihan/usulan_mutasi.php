@@ -24,7 +24,7 @@
                 <thead class="thead-dark">
                     <tr>
                         <th>No</th>
-                        <th>NIP</th>
+                        <th>Pegawai</th>
                         <th>Berkas Mutasi</th>
                         <th>Tanggal Pengajuan</th>
                         <th>Status Pengajuan</th>
@@ -42,7 +42,7 @@
                     ?>
                         <tr>
                             <td><?= $i ?></td>
-                            <td><?= $value->pegawai_nip ?> - <?= $value->alasan ?></td>
+                            <td><?= $value->pegawai_nip ?> - <?= $value->pegawai_nama ?></td>
                             <td>
                                 <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#lookable">
                                     Lihat

@@ -26,6 +26,7 @@
                 <thead class="thead-dark">
                     <tr>
                         <th>No</th>
+                        <th>Pegawai</th>
                         <th>Tanggal Pensiun</th>
                         <th>Tanggal Usulan</th>
                         <th>Status Persetujuan</th>
@@ -43,6 +44,8 @@
                     ?>
                         <tr>
                             <td><?= $i ?></td>
+                            <td><?= $value->pegawai_nip ?> - <?= $value->pegawai_nama ?></td>
+                            <td><?= $value->tgl_pensiun ?></td>
                             <td><?= $value->tgl_pensiun ?></td>
                             <td><?= $value->tgl_usulan ?></td> 
                             <td>

@@ -35,10 +35,12 @@ class Berkas_pemberhentian_model extends CI_Model
     {
         $this->db->select(
             'berkaspensiun.id, berkaspensiun.sk_cpns, berkaspensiun.sk_pns, berkaspensiun.sk_kgb, berkaspensiun.sk_kp, berkaspensiun.dp3_akhir, berkaspensiun.pangkat_akhir, berkaspensiun.kartu_keluarga, berkaspensiun.pas_foto, berkaspensiun.status_persetujuan,
-            pemberhentian.pegawai_nip, pemberhentian.jenis_berhenti, pemberhentian.alasan,pemberhentian.status_pengajuan,pemberhentian.tgl_pengajuan ,pemberhentian.id AS id_pemberhentian'
+            pemberhentian.pegawai_nip, pemberhentian.jenis_berhenti, pemberhentian.alasan,pemberhentian.status_pengajuan,pemberhentian.tgl_pengajuan ,pemberhentian.id AS id_pemberhentian,
+            pegawai.account_nip, pegawai.nama'
         );
         $this->db->from($this->table);
         $this->db->join('pemberhentian', 'berkaspensiun.pemberhentian_id = pemberhentian.id','LEFT');
+        $this->db->join('pegawai', 'pegawai.account_nip = pemberhentian.pegawai_nip', "LEFT");
 
         $query = $this->db->where('pemberhentian.jenis_berhenti !=', "Pengunduran diri");
         $query = $this->db->get();
@@ -50,11 +52,13 @@ class Berkas_pemberhentian_model extends CI_Model
     {
         $this->db->select(
             'berkaspensiun.id, berkaspensiun.sk_cpns, berkaspensiun.sk_pns, berkaspensiun.sk_kgb, berkaspensiun.sk_kp, berkaspensiun.dp3_akhir, berkaspensiun.pangkat_akhir, berkaspensiun.kartu_keluarga, berkaspensiun.pas_foto, berkaspensiun.status_persetujuan,
-            pemberhentian.pegawai_nip, pemberhentian.jenis_berhenti, pemberhentian.alasan,pemberhentian.status_pengajuan,pemberhentian.tgl_pengajuan ,pemberhentian.id AS id_pemberhentian'
+            pemberhentian.pegawai_nip, pemberhentian.jenis_berhenti, pemberhentian.alasan,pemberhentian.status_pengajuan,pemberhentian.tgl_pengajuan ,pemberhentian.id AS id_pemberhentian,
+            pegawai.account_nip, pegawai.nama'
         );
 
         $this->db->from($this->table);
         $this->db->join('pemberhentian', 'berkaspensiun.pemberhentian_id = pemberhentian.id','LEFT');
+        $this->db->join('pegawai', 'pegawai.account_nip = pemberhentian.pegawai_nip', "LEFT");
 
         $query = $this->db->where('pemberhentian.jenis_berhenti !=', "Pengunduran diri");
         $query = $this->db->where('pemberhentian.pegawai_nip',$this->session->userdata("nip"));

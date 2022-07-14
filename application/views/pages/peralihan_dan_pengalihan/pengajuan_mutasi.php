@@ -92,7 +92,7 @@
                 <thead class="thead-dark">
                     <tr>
                         <th>No</th>
-                        <th>NIP</th>
+                        <th>Pegawai</th>
                         <th>Jenis Mutasi</th>
                         <th>Alasan</th>
                         <th>Tanggal Pengajuan</th>
@@ -108,7 +108,11 @@
                     foreach ($mutasi as $key => $value) { ?>
                     <tr>
                         <td><?= $i; ?></td>
-                        <td><?= $value->pegawai_nip; ?></td>
+                        <?php if  ($this->session->userdata("role") == "admin" || $this->session->userdata("role") == "direktur"){ ?>
+                            <td><?= $value->pegawai_nip ?> - <?= $value->nama ?></td>  
+                        <?php } else { ?>
+                            <td><?= $value->pegawai_nip ?></td>  
+                        <?php } ?>
                         <td><?= $value->jenis_mutasi?></td>
                         <td><?= $value->alasan; ?></td>
                         <td><?= $value->tgl_pengajuan; ?></td>

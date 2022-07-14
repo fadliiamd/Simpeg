@@ -87,6 +87,7 @@
                 <thead class="thead-dark">
                     <tr>
                         <th>No</th>
+                        <th>Pegawai</th>
                         <th>Instantsi Asal</th>
                         <th>Daerah Asal</th>
                         <th>Alasan</th>
@@ -105,6 +106,7 @@
                     ?>
                         <tr>
                             <td><?= $i ?></td>
+                            <td><?= $value->pegawai_nip ?> - <?= $value->pegawai_nama ?></td>
                             <td><?= $value->instansi_asal ?></td>
                             <td><?= $value->daerah_asal ?></td>
                             <td><?= $value->alasan ?></td>
