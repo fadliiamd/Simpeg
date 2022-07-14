@@ -223,7 +223,7 @@
             </li>
           <?php
           } ?>
-          <?php if ($this->session->userdata('role') == 'pegawai') { ?>
+          <?php if($this->session->userdata('jabatan') == 'Kepala Bagian Umum') { ?>
             <li class="nav-item">
               <a class="nav-link" data-toggle="collapse" href="#perangkingan" aria-expanded="false" aria-controls="perangkingan">
                 <i class="mdi mdi-trophy-variant menu-icon"></i>
@@ -232,9 +232,7 @@
               </a>
               <div class="collapse" id="perangkingan">
                 <ul class="nav flex-column sub-menu">
-                  <?php if($this->session->userdata('jabatan') == 'Kepala Bagian Umum') { ?>
                   <li class="nav-item"> <a class="nav-link"  href="<?= base_url("hasil/persetujuan"); ?>">Persetujuan</a></li>            
-                  <?php } ?>
                 </ul>
               </div>
             </li>
