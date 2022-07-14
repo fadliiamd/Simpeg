@@ -16,7 +16,7 @@ class Kenaikan_jabatan extends Roles {
         $pegawai = $this->pegawai_model->get_all();
         $pengajuan = $this->kenaikan_jabatan_model->get_all();
 
-        $this->load->view('partials/main-header');
+        $this->load->view('partials/main-header', ['title' => ": Pengajuan Kenaikan Jabatan"]);
 		$this->load->view('kenaikan_jabatan/pengajuan', [
             "pegawai" => $pegawai,
             "pengajuan" => $pengajuan
