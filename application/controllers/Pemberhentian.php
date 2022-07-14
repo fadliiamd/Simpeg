@@ -22,7 +22,7 @@ class Pemberhentian extends Roles {
 	{
 		$pemberhentian = $this->pemberhentian_model->get_condition("jenis_berhenti","Pengunduran Diri");
 
-		$this->load->view('partials/main-header');
+		$this->load->view('partials/main-header',['title' => 'Riwayat pemberhentian']);
 		$this->load->view('pages/peralihan_dan_pengalihan/daftar_pemberhentian',[
 			"pemberhentian" => $pemberhentian
 		]);
@@ -45,7 +45,7 @@ class Pemberhentian extends Roles {
 			$pemberhentian = $this->pemberhentian_model->get_condition("pegawai_nip",$this->session->userdata("nip"));
 		}
 		
-		$this->load->view('partials/main-header');
+		$this->load->view('partials/main-header',['title' => 'Pengajuan pemberhentian']);
 		$this->load->view('pages/peralihan_dan_pengalihan/pengajuan_pemberhentian',[
 			"pegawaiPNSNonDini" => $pegawaiPNSNonDini,
 			"pegawaiPNSDini" => $pegawaiPNSDini,
@@ -143,7 +143,7 @@ class Pemberhentian extends Roles {
 		
 		$pemberhentian = $this->pemberhentian_model->get_pegawai_berkas();
 
-		$this->load->view('partials/main-header');
+		$this->load->view('partials/main-header',['title' => 'Berkas pemberhentian']);
 		$this->load->view('pages/peralihan_dan_pengalihan/berkas_pemberhentian',[
 			"pemberhentian" => $pemberhentian,
 			"berkas_pemberhentian" => $berkas_pemberhentian,
@@ -235,7 +235,7 @@ class Pemberhentian extends Roles {
         $usulan_pensiun = $this->usulan_pemberhentian_model->get_all_with_join();
         $berkas_pemberhentian = $this->berkas_pemberhentian_model->get_all_with_join();
 
-		$this->load->view('partials/main-header');
+		$this->load->view('partials/main-header',['title' => 'Usulan pemberhentian']);
 		$this->load->view('pages/peralihan_dan_pengalihan/usulan_pensiun',[
             "usulan_pensiun" => $usulan_pensiun,
 			"berkas_pemberhentian" => $berkas_pemberhentian,
@@ -350,7 +350,7 @@ class Pemberhentian extends Roles {
 	{
 		$sk_pemberhentian = $this->sk_pemberhentian_model->get_all_with_join();
 
-		$this->load->view('partials/main-header');
+		$this->load->view('partials/main-header',['title' => 'Surat keputusan pemberhentian']);
 		$this->load->view('pages/peralihan_dan_pengalihan/sk_pensiun',[
 			"sk_pemberhentian" => $sk_pemberhentian,
 		]);

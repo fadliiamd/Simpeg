@@ -27,7 +27,7 @@ class Mutasi extends Roles {
         $users = $this->pegawai_model->get_condition("account_nip",$this->session->userdata("nip"));
         $penjadwalan = $this->penjadwalan_model->get_all();
 
-		$this->load->view('partials/main-header');
+		$this->load->view('partials/main-header',['title' => 'Penjadwalan mutasi']);
 		$this->load->view('pages/peralihan_dan_pengalihan/penjadwalan_mutasi',[
 			"pegawai" => $pegawai,
 			"penjadwalan" => $penjadwalan,
@@ -123,7 +123,7 @@ class Mutasi extends Roles {
 			$mutasi = $this->mutasi_model->get_condition("pegawai_nip",$this->session->userdata("nip"));
         }
 
-		$this->load->view('partials/main-header');
+		$this->load->view('partials/main-header',['title' => 'Pengajuan mutasi']);
 		$this->load->view('pages/peralihan_dan_pengalihan/pengajuan_mutasi',[
 			"pegawai" => $pegawai,
 			"mutasi" => $mutasi,
@@ -218,7 +218,7 @@ class Mutasi extends Roles {
         }
         $mutasi = $this->mutasi_model->get_pegawai_berkas();
 
-		$this->load->view('partials/main-header');
+		$this->load->view('partials/main-header',['title' => 'Berkas mutasi']);
 		$this->load->view('pages/peralihan_dan_pengalihan/berkas_mutasi',[
             "mutasi" => $mutasi,
 			"berkas_mutasi" => $berkas_mutasi,
@@ -310,7 +310,7 @@ class Mutasi extends Roles {
         $usulan_mutasi = $this->usulan_mutasi_model->get_all_with_join();
         $berkas_mutasi = $this->berkas_mutasi_model->get_all_with_join();
 
-		$this->load->view('partials/main-header');
+		$this->load->view('partials/main-header',['title' => 'Usulan mutasi']);
 		$this->load->view('pages/peralihan_dan_pengalihan/usulan_mutasi',[
             "usulan_mutasi" => $usulan_mutasi,
 			"berkas_mutasi" => $berkas_mutasi,
@@ -432,7 +432,7 @@ class Mutasi extends Roles {
         $b_keuangan = $this->penerimaan_mutasi_model->get_bagian_by_id(3);
         $b_kepegawaian = $this->penerimaan_mutasi_model->get_bagian_by_id(4);
 
-		$this->load->view('partials/main-header');
+		$this->load->view('partials/main-header',['title' => 'Penerimaan mutasi']);
 		$this->load->view('pages/peralihan_dan_pengalihan/penerimaan_mutasi',[
             "pegawai" => $pegawai,
             "bagian" => $bagian,
@@ -529,7 +529,7 @@ class Mutasi extends Roles {
 	{
         $sk_mutasi = $this->sk_mutasi_model->get_all_with_join();
 
-		$this->load->view('partials/main-header');
+		$this->load->view('partials/main-header',['title' => 'Surat keputusan mutasi']);
 		$this->load->view('pages/peralihan_dan_pengalihan/sk_mutasi',[
 			"sk_mutasi" => $sk_mutasi,
         ]);
