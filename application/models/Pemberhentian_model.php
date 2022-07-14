@@ -49,6 +49,7 @@ class Pemberhentian_model extends CI_Model
         $this->db->select(
             '*'
         );
+        
         $this->db->from($this->table);
         $this->db->join('pegawai', 'pegawai.account_nip = pemberhentian.pegawai_nip','LEFT');
 

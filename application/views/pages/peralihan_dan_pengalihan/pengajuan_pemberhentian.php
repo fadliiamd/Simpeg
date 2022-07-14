@@ -41,33 +41,6 @@
                                 <input type="hidden" name="jenis_berhenti" value="Pengunduran diri">
                             <?php } ?>
                             <div class="form-group">
-                                <label for="alasan">Alasan</label>
-                                <textarea class="form-control" id="alasan" rows="4" name="alasan"></textarea>
-                            </div>
-                            <div class="form-group row">
-                                <div class="col-lg-1">
-                                    <label for="mpp">MPP</label>
-                                </div>
-                                <div class="col-lg-11">
-                                    <div class="mx-3">
-                                        <input class="form-check-input" type="radio" name="mpp" id="exampleRadios1" value="Ya" checked>
-                                        <label class="form-check-label" for="exampleRadios1">
-                                            Ya
-                                        </label>
-                                    </div>
-                                    <div class="mx-3">
-                                        <input class="form-check-input" type="radio" name="mpp" id="exampleRadios2" value="Tidak">
-                                        <label class="form-check-label" for="exampleRadios2">
-                                            Tidak
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="surat_pengunduran_diri">Surat Pengajuan</label>
-                                <input type="file" class="form-control" id="surat_pengunduran_diri" name="surat_pengunduran_diri">
-                            </div>
-                            <div class="form-group">
                                 <?php if ($this->session->userdata("role") == "pegawai") { ?>
                                     <?php foreach ($pegawaiNonPNS as $key => $value) { ?>
                                         <input type="hidden" name="pegawai_nip" value="<?= $this->session->userdata("nip") ?>">
@@ -98,6 +71,33 @@
                                         </select>
                                     </div>
                                 <?php } ?>
+                            </div>
+                            <div class="form-group">
+                                <label for="alasan">Alasan</label>
+                                <textarea class="form-control" id="alasan" rows="4" name="alasan"></textarea>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-1">
+                                    <label for="mpp">MPP</label>
+                                </div>
+                                <div class="col-lg-11">
+                                    <div class="mx-3">
+                                        <input class="form-check-input" type="radio" name="mpp" id="exampleRadios1" value="Ya" checked>
+                                        <label class="form-check-label" for="exampleRadios1">
+                                            Ya
+                                        </label>
+                                    </div>
+                                    <div class="mx-3">
+                                        <input class="form-check-input" type="radio" name="mpp" id="exampleRadios2" value="Tidak">
+                                        <label class="form-check-label" for="exampleRadios2">
+                                            Tidak
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="surat_pengunduran_diri">Surat Pengajuan</label>
+                                <input type="file" class="form-control" id="surat_pengunduran_diri" name="surat_pengunduran_diri">
                             </div>
                         </div>
                         <div class="modal-footer">
