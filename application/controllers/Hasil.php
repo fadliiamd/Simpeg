@@ -237,6 +237,13 @@ class Hasil extends CI_Controller {
             ));
             $list_surat[$value->id] = $get_surat_by_perangkingan;
         }
+
+        $jabatan = $this->jabatan_model->get_all();
+
+        $list_jabatan = [];
+        foreach($jabatan as $value) {
+            $list_jabatan[$value->id] = $value; 
+        }
         
         // Load View
 		$this->load->view('partials/main-header', [
@@ -245,7 +252,8 @@ class Hasil extends CI_Controller {
 		$this->load->view('perangkingan/persetujuan.php', [
             "list_perangkingan" => $list_perangkingan,
             "list_hasilperangkingan" => $list_hasilperangkingan,
-            "list_surat" => $list_surat
+            "list_surat" => $list_surat,
+            "list_jabatan" => $list_jabatan
         ]);
 		$this->load->view('partials/main-footer');
     }

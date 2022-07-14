@@ -73,7 +73,7 @@
                                     <td><?=$no2 ?></td>
                                     <td><?=$value2->account_nip ?></td>
                                     <td><?=$value2->nama ?></td>
-                                    <td><?=ucwords($value2->jenis_pegawai) ?></td>
+                                    <td><?= $list_jabatan[$value->jabatan_id]->nama_jabatan ?></td>
                                     <td><?=$value2->nilai_rank ?></td>
                                   </tr>
                                 <?php $no2++;
