@@ -51,10 +51,10 @@
                             <?php } ?>
                             <?php if($this->session->userdata("role") == "admin"){ ?>  
                                 <!-- Large modal -->
-                                <button type="button" class="btn btn-info" data-toggle="modal" data-target=".uploadtable">Upload</button>
+                                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#uploadtable<?=$i?>">Upload</button>
 
                                 <!-- Modal -->
-                                <div class="modal fade uploadtable" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                                <div class="modal fade" id="uploadtable<?=$i?>" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
                                     <div class="modal-dialog modal-lg">
                                         <div class="modal-content">
                                             <div class="modal-header">
@@ -92,12 +92,12 @@
                         </td>
                         <?php if($this->session->userdata("role") == "admin"){ ?>  
                             <td>
-                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deletetable">
+                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deletetable<?=$i?>">
                                 Hapus
                                 </button>
 
                                 <!-- Modal -->
-                                <div class="modal fade" id="deletetable" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal fade" id="deletetable<?=$i?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
                                             <form class="forms-sample" action="<?= base_url("pemberhentian/delete_data_sk_pemberhentian"); ?>" method="POST">
