@@ -1,12 +1,12 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Sertifikat extends Admin {
+class Sertifikat extends Roles {
     public $nama;
 
 	public function __construct()
 	{
-		parent::__construct();
+		parent::__construct(['admin', 'pegawai']);
 	}
 
     public function index()
@@ -17,7 +17,7 @@ class Sertifikat extends Admin {
         $sertifikat = $this->sertifikat_model->get_all();
         $pegawai = $this->pegawai_model->get_all();
 
-        $this->load->view('partials/main-header');
+        $this->load->view('partials/main-header', ['title' => ': Data Sertifikat']);
 		$this->load->view('users/admin/data_sertifikat', [
             "sertifikat"=>$sertifikat,
             "pegawai" => $pegawai
