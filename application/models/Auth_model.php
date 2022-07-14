@@ -37,13 +37,15 @@ class Auth_model extends CI_Model
 			return FALSE;
 		}
 		// cek apakah status akun pegawai masih aktif?
-		if($user->role === 'pegawai'){
-			$this->db->where('account_nip', $nip);
+		if($user->role === 'pegawai'){			
+			$this->db->join('jabatan', 'jabatan.id = pegawai.jabatan_id', 'left');
+			$this->db->where('account_nip', $nip);			
 			$query = $this->db->get('pegawai');
 			$pegawai = $query->row();
 			if ($pegawai->status_kerja !== 'aktif'){
 				return FALSE;
 			}
+			$this->session->set_userdata('jabatan', $pegawai->nama_jabatan);
 		}		
 
 		// bikin session
