@@ -6,6 +6,16 @@ class Hasil extends CI_Controller {
     public function __construct()
     {
         parent::__construct();
+
+        // Auth Check
+        $login_nip = $this->session->userdata('nip');
+        $login_role = $this->session->userdata('role');
+        $login_jabatan = $this->session->userdata('jabatan');
+
+        if($login_role != 'admin' || $login_jabatan != 'Kepala Bagian Umum') {
+            $this->session->set_flashdata('message_error', 'Anda tidak memiliki akses!');
+            redirect("dashboard");
+        }
     }
 
 	public function index()
@@ -109,6 +119,13 @@ class Hasil extends CI_Controller {
 
     public function persetujuan()
     {
+        // Auth Check
+        $login_jabatan = $this->session->userdata('jabatan');
+        if($login_jabatan != 'Kepala Bagian Umum') {
+            $this->session->set_flashdata('message_error', 'Anda tidak memiliki akses!');
+            redirect("dashboard");
+        }
+
         // Load Model
         $this->load->model('perangkingan_model');
         $this->load->model("surat_model");

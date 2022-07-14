@@ -216,14 +216,27 @@
                   <li class="nav-item"> <a class="nav-link" href="<?= base_url("kriteria"); ?>">Kriteria</a></li>
                   <li class="nav-item"> <a class="nav-link" href="<?= base_url("subkriteria"); ?>">Sub Kriteria</a></li>                                
                   <li class="nav-item"> <a class="nav-link"  href="<?= base_url("hasil"); ?>">Hasil</a></li>
-                  <?php if(isset($detail_account) && $detail_account->jabatan == 'Kepala Bagian Umum') { ?>
-                  <li class="nav-item"> <a class="nav-link"  href="<?= base_url("hasil/persetujuan"); ?>">Persetujuan</a></li>            
-                  <?php } ?>
                 </ul>
               </div>
             </li>
           <?php
           } ?>
+          <?php if ($this->session->userdata('role') == 'pegawai') { ?>
+            <li class="nav-item">
+              <a class="nav-link" data-toggle="collapse" href="#perangkingan" aria-expanded="false" aria-controls="perangkingan">
+                <i class="mdi mdi-trophy-variant menu-icon"></i>
+                <span class="menu-title">Perangkingan</span>
+                <i class="menu-arrow"></i>
+              </a>
+              <div class="collapse" id="perangkingan">
+                <ul class="nav flex-column sub-menu">
+                  <?php if($this->session->userdata('jabatan') == 'Kepala Bagian Umum') { ?>
+                  <li class="nav-item"> <a class="nav-link"  href="<?= base_url("hasil/persetujuan"); ?>">Persetujuan</a></li>            
+                  <?php } ?>
+                </ul>
+              </div>
+            </li>
+          <?php } ?>
           <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#kegiatan" aria-expanded="false" aria-controls="kegiatan">
               <i class="mdi mdi-format-list-bulleted-type menu-icon"></i>

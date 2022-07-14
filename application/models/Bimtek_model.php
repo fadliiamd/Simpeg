@@ -9,7 +9,39 @@ class Bimtek_model extends CI_Model
         $query = $this->db->get($this->table);
         return $query->result();
     }
-    
+
+    public function get_all_where($where)
+    {
+        $query = $this->db->get_where($this->table, $where);
+        return $query->result();
+    }
+
+    public function get_all_join_sertifikat()
+    {
+        $this->db->select('*');
+        $this->db->from($this->table);
+        $this->db->join('sertifikat', $this->table.'.sertifikat_id = sertifikat.id');
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    public function get_one($where)
+    {
+        $query = $this->db->get_where($this->table, $where);
+        return $query->row();
+    }
+
+    public function get_one_join($where)
+    {
+        $this->db->select('*');
+        $this->db->from('bimtek');
+        $this->db->join('sertifikat', 'bimtek.sertifikat_id = sertifikat.id');
+        $this->db->where($where);
+
+        $query = $this->db->get();
+        return $query->row();
+    }
+
     public function get_num_rows()
     {
         $query = $this->db->get($this->table);
@@ -20,18 +52,6 @@ class Bimtek_model extends CI_Model
     {
         $query = $this->db->get_where($this->table, $nip);
         return $query->num_rows();
-    }
-
-    public function get_all_where($where)
-    {
-        $query = $this->db->get_where($this->table, $where);
-        return $query->result();
-    }
-
-    public function get_one($where)
-    {
-        $query = $this->db->get_where($this->table, $where);
-        return $query->row();
     }
 
     public function insert_one($data)

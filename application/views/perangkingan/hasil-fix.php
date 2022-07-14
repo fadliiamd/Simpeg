@@ -82,7 +82,7 @@
                     <?php
                     $list_surat = json_decode(json_encode($list_surat), true);
                     foreach($list_surat as $el) {
-                      echo '<option value="'.$el["id"].'">'.$el["no"].'</option>';
+                      echo '<option value="'.$el["id"].'">'.$el["no"].' - "'.$el["tema"].'"</option>';
                     }
                     ?>
                   </select>
