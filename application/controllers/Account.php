@@ -97,8 +97,7 @@ class Account extends Roles
             "bagian" => $bagian,
             "unit" => $unit,
             "golpang" => $golpang,
-            "pegawai" => $pegawai,
-            "title" => ": Data Pegawai"
+            "pegawai" => $pegawai            
         ]);
         $this->load->view('partials/main-footer');
     }

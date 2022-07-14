@@ -18,6 +18,20 @@ class Pegawai_model extends CI_Model
         // var_dump($query->result());die();
         return $query->result();
     }
+    
+    public function get_all_active()
+    {
+        $this->db->select('*, pegawai.account_nip as account_nip, COUNT(*) as jmlh_serti');
+        $this->db->from($this->table);
+        $this->db->join('sertifikat', 'pegawai.account_nip = sertifikat.account_nip', 'left');        
+        $this->db->where('status_kerja', 'aktif');
+        $this->db->group_by('pegawai.account_nip');
+        $this->db->order_by('pegawai.account_nip', 'asc');
+
+        $query = $this->db->get();        
+        // var_dump($query->result());die();
+        return $query->result();
+    }
 
     public function get_one($where)
     {
@@ -89,6 +103,7 @@ class Pegawai_model extends CI_Model
     public function get_all_order($coloumn, $type_order){
         $this->db->select('*');
         $this->db->from($this->table);        
+        $this->db->where('status_kerja', 'aktif');
         $this->db->order_by($coloumn, $type_order);
 
         $query = $this->db->get();        
