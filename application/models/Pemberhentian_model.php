@@ -50,9 +50,9 @@ class Pemberhentian_model extends CI_Model
             '*'
         );
         $this->db->from($this->table);
-        $this->db->join('pegawai', 'pegawai.account_nip = pemberhentian.pegawai_nip');
+        $this->db->join('pegawai', 'pegawai.account_nip = pemberhentian.pegawai_nip','LEFT');
 
-        // $query = $this->db->where('pemberhentian.jenis_berhenti', "Pensiun");
+        $query = $this->db->where("status_kerja", "aktif");
         $query = $this->db->get();
 
         return $query->result();
@@ -61,8 +61,8 @@ class Pemberhentian_model extends CI_Model
     public function get_pegawai_berkas()
     {
         $query = $this->db->where("status_pengajuan", "setuju");
-        $query = $this->db->where("jenis_berhenti", "Pensiun");
         $query = $this->db->where("pegawai_nip", $this->session->userdata("nip"));
+        $query = $this->db->where("jenis_berhenti !=", "Pengunduran diri");
         $query = $this->db->get("pemberhentian");
 
         return $query->result();
@@ -197,7 +197,11 @@ class Pemberhentian_model extends CI_Model
                 "status_pengajuan" => $this->input->post('status'),
                 "tgl_persetujuan" => $date
             ); 
-            $this->email_pengajuan_pemberhentian($this->input->post('email'));
+            if ($this->input->post('jenis_berhenti') == "pensiun") {
+                $this->email_pengajuan_pensiun($this->input->post('email'));
+            }else {
+                $this->email_pengajuan_pemberhentian($this->input->post('email'));
+            }
         }
 
 
@@ -219,8 +223,58 @@ class Pemberhentian_model extends CI_Model
         $this->load->library('email');
         
         $from = $this->config->item('smtp_user');        
-        $subject = 'Kirim Email dengan SMTP Gmail CodeIgniter | MasRud.com';        
-        $message = "Ini adalah contoh email yang dikirim menggunakan SMTP Gmail pada CodeIgniter.<br><br> Klik <strong><a href='https://masrud.com/kirim-email-codeigniter/' target='_blank' rel='noopener'>disini</a></strong> untuk melihat tutorialnya.";
+        $subject = 'Pengajuan Pemberhentian';        
+        $message = "<strong>Pengajuan Pemberhentian</strong><br><br>
+
+        Status persetujuan telah dirubah oleh Bagan Kepegawaian. Untuk lebih jelasnya dapat dilihat pada Sistem Informasi Kepegawaian.<br><br>
+        Berkas Persyaratan yang dibutuhkan untuk pemberhentian dengan jenis Pensiun dini dan Pensiun batas usia:<br>
+        <ol>
+            <li>Fotocopy SK PNS</li>
+            <li>Fotocopy SK CPNS</li>
+            <li>Fotocopy SK Pangkat</li>
+            <li>Fotocopy SK Kenaikan Gaji Berkala</li>
+            <li>Fotocopy Kartu Pegawai</li>
+            <li>Fotocopy Kartu Keluarga</li>
+            <li>DP3 Terakhir</li>
+            <li>Pas foto 3x4 Latar merah</li>
+        </ol><br>
+        
+        Untuk Pemberhentian dengan jenis pengunduran diri diharapkan untuk menunggu informasi lebih lanjut.";
+
+        $this->email->set_newline("\r\n");
+        $this->email->from($from);
+        $this->email->to($email);
+        $this->email->subject($subject);
+        $this->email->message($message);
+
+        if ($this->email->send()) {
+            echo 'Your Email has successfully been sent.';
+        } else {
+            show_error($this->email->print_debugger());
+        }
+    }
+
+    public function email_pengajuan_pensiun($email)
+    {
+        $this->load->config('email');
+        $this->load->library('email');
+        
+        $from = $this->config->item('smtp_user');        
+        $subject = 'Pemberitahuan pensiun';        
+        $message = "<strong>Pemberitahuan pensiun</strong><br><br>
+
+        Diberitahukan kepada pegawai yang bersangkutan, masa jabatan yang anda miliki kurang lebih 1 (satu) tahun dari pemberitahuan ini disampaikan. Untuk itu diharapkan agar segera mengkonfirmasi pengambilan Masa Persiapan Pensiun (MPP).<br>
+        Berkas persyaratan yang diperlukan:<br>
+        <ol>
+            <li>Fotocopy SK PNS</li>
+            <li>Fotocopy SK CPNS</li>
+            <li>Fotocopy SK Pangkat</li>
+            <li>Fotocopy SK Kenaikan Gaji Berkala</li>
+            <li>Fotocopy Kartu Pegawai</li>
+            <li>Fotocopy Kartu Keluarga</li>
+            <li>DP3 Terakhir</li>
+            <li>Pas foto 3x4 Latar merah</li>
+        </ol>";
 
         $this->email->set_newline("\r\n");
         $this->email->from($from);

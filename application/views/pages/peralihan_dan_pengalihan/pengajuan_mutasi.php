@@ -48,6 +48,17 @@
                                 <label for="surat_pengajuan">Surat Pengajuan</label>
                                 <input type="file" class="form-control" id="surat_pengajuan" name="surat_pengajuan" required = 'required'/>
                             </div>
+                            <div class="form-group">
+                                <label for="jenis_mutasi">Jenis Mutasi</label>
+                                <select class="custom-select" id="jenis_mutasi" name="jenis_mutasi">
+                                    <option value="Satu instansi">Satu instansi</option>
+                                    <option value="Kabupaten/kota satu provinsi">Kabupaten/kota satu provinsi</option>
+                                    <option value="Kabupaten/kota antar provinsi">Kabupaten/kota antar provinsi</option>
+                                    <option value="Provinsi/kabupaten/kota ke instansi pusat">Provinsi/kabupaten/kota ke instansi pusat</option>
+                                    <option value="Antar instansi pusat">Antar instansi pusat</option>
+                                    <option value="Perwakilan NKRI di luar negeri">Perwakilan NKRI di luar negeri</option>
+                                </select>
+                            </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Kembali</button>
@@ -235,6 +246,17 @@
                                                     <label for="surat_pengajuan">Surat Pengajuan</label>
                                                     <input type="file" class="form-control" id="surat_pengajuan" name="surat_pengajuan">
                                                     <a href="<?= base_url().'uploads/'.$value->surat_pengajuan ?>" download>Download Surat Pengajuan</a>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="jenis_mutasi">Jenis Mutasi</label>
+                                                    <select class="custom-select" id="jenis_mutasi" name="jenis_mutasi">
+                                                        <option value="Satu instansi" 	<?php ($value->jenis_mutasi == 'Satu instansi') ? 'selected' : '' ?> >Satu instansi</option>
+                                                        <option value="Kabupaten/kota satu provinsi" 	<?php ($value->jenis_mutasi == 'Kabupaten/kota satu provinsi') ? 'selected' : '' ?> >Kabupaten/kota satu provinsi</option>
+                                                        <option value="Kabupaten/kota antar provinsi" 	<?php ($value->jenis_mutasi == 'Kabupaten/kota antar provinsi') ? 'selected' : '' ?> >Kabupaten/kota antar provinsi</option>
+                                                        <option value="Provinsi/kabupaten/kota ke instansi pusat" 	<?php ($value->jenis_mutasi == 'Provinsi/kabupaten/kota ke instansi pusat') ? 'selected' : '' ?> >Provinsi/kabupaten/kota ke instansi pusat</option>
+                                                        <option value="Antar instansi pusat" 	<?php ($value->jenis_mutasi == 'Antar instansi pusat') ? 'selected' : '' ?> >Antar instansi pusat</option>
+                                                        <option value="Perwakilan NKRI di luar negeri" 	<?php ($value->jenis_mutasi == 'Perwakilan NKRI di luar negeri') ? 'selected' : '' ?> >Perwakilan NKRI di luar negeri</option>
+                                                    </select>
                                                 </div>
                                             </div>
                                             <div class="modal-footer">

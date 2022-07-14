@@ -15,13 +15,14 @@ class Pemberhentian extends Roles {
             'direktur_model',
             'bagian_model',
         ]);
+		$this->load->library('form_validation');   
 	}
 
     public function riwayat_pemberhentian()
 	{
 		$pemberhentian = $this->pemberhentian_model->get_condition("jenis_berhenti","Pengunduran Diri");
 
-		$this->load->view('partials/main-header');
+		$this->load->view('partials/main-header',['title' => 'Riwayat pemberhentian']);
 		$this->load->view('pages/peralihan_dan_pengalihan/daftar_pemberhentian',[
 			"pemberhentian" => $pemberhentian
 		]);
@@ -31,7 +32,8 @@ class Pemberhentian extends Roles {
 	// Pengajuan pemberhentian
 	public function pengajuan_pemberhentian()
 	{
-		$pegawaiPNS = $this->pegawai_model->get_condition("status","PNS");
+		$pegawaiPNSNonDini = $this->pegawai_model->get_pegawai_tua();
+		$pegawaiPNSDini = $this->pegawai_model->get_pegawai_muda();
 		$pegawaiNonPNS = $this->pegawai_model->get_condition("status !=","PNS");
 		$users = $this->pegawai_model->get_condition("account_nip",$this->session->userdata("nip"));
 		
@@ -43,9 +45,10 @@ class Pemberhentian extends Roles {
 			$pemberhentian = $this->pemberhentian_model->get_condition("pegawai_nip",$this->session->userdata("nip"));
 		}
 		
-		$this->load->view('partials/main-header');
+		$this->load->view('partials/main-header',['title' => 'Pengajuan pemberhentian']);
 		$this->load->view('pages/peralihan_dan_pengalihan/pengajuan_pemberhentian',[
-			"pegawaiPNS" => $pegawaiPNS,
+			"pegawaiPNSNonDini" => $pegawaiPNSNonDini,
+			"pegawaiPNSDini" => $pegawaiPNSDini,
 			"pegawaiNonPNS" => $pegawaiNonPNS,
 			"users" => $users,
 			"pemberhentian" => $pemberhentian,
@@ -55,6 +58,19 @@ class Pemberhentian extends Roles {
 
 	public function create_data_pemberhentian()
     {
+        $this->form_validation->set_rules(
+            'pegawai_nip',
+            'pegawai_nip',
+            'is_unique[pemberhentian.pegawai_nip]',
+            array(
+                'is_unique' => 'Mohon maaf %s telah terdaftar!'
+            )
+        );
+        if ($this->form_validation->run() == FALSE) {
+            $this->session->set_flashdata('message_error', validation_errors());
+            redirect("pemberhentian/pengajuan_pemberhentian");
+        }
+
         $add = $this->pemberhentian_model->insert_one();
 
         if($add)
@@ -127,7 +143,7 @@ class Pemberhentian extends Roles {
 		
 		$pemberhentian = $this->pemberhentian_model->get_pegawai_berkas();
 
-		$this->load->view('partials/main-header');
+		$this->load->view('partials/main-header',['title' => 'Berkas pemberhentian']);
 		$this->load->view('pages/peralihan_dan_pengalihan/berkas_pemberhentian',[
 			"pemberhentian" => $pemberhentian,
 			"berkas_pemberhentian" => $berkas_pemberhentian,
@@ -137,6 +153,19 @@ class Pemberhentian extends Roles {
 
 	public function create_data_berkas()
 	{
+        $this->form_validation->set_rules(
+            'pemberhentian_id',
+            'pemberhentian_id',
+            'is_unique[berkaspensiun.pemberhentian_id]',
+            array(
+                'is_unique' => 'Mohon maaf %s telah terdaftar!'
+            )
+        );
+        if ($this->form_validation->run() == FALSE) {
+            $this->session->set_flashdata('message_error', validation_errors());
+            redirect("pemberhentian/berkas_pemberhentian");
+        }
+
 		$add = $this->berkas_pemberhentian_model->insert_one();
 
 		if($add)
@@ -206,7 +235,7 @@ class Pemberhentian extends Roles {
         $usulan_pensiun = $this->usulan_pemberhentian_model->get_all_with_join();
         $berkas_pemberhentian = $this->berkas_pemberhentian_model->get_all_with_join();
 
-		$this->load->view('partials/main-header');
+		$this->load->view('partials/main-header',['title' => 'Usulan pemberhentian']);
 		$this->load->view('pages/peralihan_dan_pengalihan/usulan_pensiun',[
             "usulan_pensiun" => $usulan_pensiun,
 			"berkas_pemberhentian" => $berkas_pemberhentian,
@@ -216,6 +245,29 @@ class Pemberhentian extends Roles {
 
 	public function create_data_usulan()
     {
+		$this->form_validation->set_rules(
+            'berkaspensiun_id',
+            'berkaspensiun_id',
+            'is_unique[usulanpensiun.berkaspensiun_id]',
+            array(
+                'is_unique' => 'Mohon maaf %s telah terdaftar!'
+            )
+        );
+
+		$this->form_validation->set_rules(
+            'pemberhentian_id',
+            'pemberhentian_id',
+            'is_unique[usulanpensiun.pemberhentian_id]',
+            array(
+                'is_unique' => 'Mohon maaf %s telah terdaftar!'
+            )
+        );
+
+        if ($this->form_validation->run() == FALSE) {
+            $this->session->set_flashdata('message_error', validation_errors());
+            redirect("pemberhentian/usulan_pensiun");
+        }
+
         $add = $this->usulan_pemberhentian_model->insert_one();
 
         if($add)
@@ -298,7 +350,7 @@ class Pemberhentian extends Roles {
 	{
 		$sk_pemberhentian = $this->sk_pemberhentian_model->get_all_with_join();
 
-		$this->load->view('partials/main-header');
+		$this->load->view('partials/main-header',['title' => 'Surat keputusan pemberhentian']);
 		$this->load->view('pages/peralihan_dan_pengalihan/sk_pensiun',[
 			"sk_pemberhentian" => $sk_pemberhentian,
 		]);
@@ -307,6 +359,20 @@ class Pemberhentian extends Roles {
 
 	public function create_data_sk_pemberhentian()
 	{
+		$this->form_validation->set_rules(
+            'usulanpensiun_id',
+            'usulanpensiun_id',
+            'is_unique[skpensiun.usulanpensiun_id]',
+            array(
+                'is_unique' => 'Mohon maaf %s telah terdaftar!'
+            )
+        );
+
+        if ($this->form_validation->run() == FALSE) {
+            $this->session->set_flashdata('message_error', validation_errors());
+            redirect("pemberhentian/sk_pensiun");
+        }
+
 		$add = $this->sk_pemberhentian_model->insert_one();
 
 		if($add)

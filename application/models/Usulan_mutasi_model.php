@@ -39,8 +39,8 @@ class Usulan_mutasi_model extends CI_Model
             mutasi.pegawai_nip, mutasi.alasan, mutasi.id AS id_mutasi'
         );
         $this->db->from($this->table);
-        $this->db->join('berkasmutasi', 'berkasmutasi.id = usulanmutasi.berkasmutasi_id');
-        $this->db->join('mutasi', 'mutasi.id = usulanmutasi.mutasi_id');
+        $this->db->join('berkasmutasi', 'berkasmutasi.id = usulanmutasi.berkasmutasi_id','LEFT');
+        $this->db->join('mutasi', 'mutasi.id = usulanmutasi.mutasi_id','LEFT');
 
         $query = $this->db->get();
 

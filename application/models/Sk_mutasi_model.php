@@ -34,15 +34,17 @@ class Sk_mutasi_model extends CI_Model
     public function get_all_with_join()
     {
         $this->db->select(
-            'skmutasi.id, skmutasi.jenis_mutasi, skmutasi.tgl_mutasi, skmutasi.file_mutasi,
+            'skmutasi.id, skmutasi.jenis_mutasi, skmutasi.tgl_mutasi, skmutasi.file_mutasi, skmutasi.nomor_surat,
+            penerimaanmutasi.id AS id_penerimaan,
             usulanmutasi.id AS id_usulan,usulanmutasi.tgl_usulan,usulanmutasi.status_persetujuan,usulanmutasi.tgl_persetujuan,
             berkasmutasi.id As id_berkas, berkasmutasi.sk_cpns, berkasmutasi.sk_pns, berkasmutasi.pangkat_akhir, berkasmutasi.karpeg, berkasmutasi.dp3_akhir, berkasmutasi.ijazah, berkasmutasi.riwayat_hidup, 
             mutasi.pegawai_nip, mutasi.alasan, mutasi.id AS id_mutasi'
         );
         $this->db->from($this->table);
-        $this->db->join('usulanmutasi', 'usulanmutasi.id = skmutasi.usulanmutasi_id');
-        $this->db->join('berkasmutasi', 'berkasmutasi.id = usulanmutasi.berkasmutasi_id');
-        $this->db->join('mutasi', 'mutasi.id = usulanmutasi.mutasi_id');
+        $this->db->join('penerimaanmutasi', 'penerimaanmutasi.id = skmutasi.penerimaan_id','LEFT');
+        $this->db->join('usulanmutasi', 'usulanmutasi.id = skmutasi.usulanmutasi_id','LEFT');
+        $this->db->join('berkasmutasi', 'berkasmutasi.id = usulanmutasi.berkasmutasi_id','LEFT');
+        $this->db->join('mutasi', 'mutasi.id = usulanmutasi.mutasi_id','LEFT');
 
         $query = $this->db->get();
 
@@ -64,15 +66,24 @@ class Sk_mutasi_model extends CI_Model
         $date = date("Y-m-d H:i:s");
         $jenis_mutasi = $this->input->post('jenis_mutasi');
         $tgl_mutasi = $this->input->post('tgl_mutasi');
-        $usulanmutasi_id = $this->input->post('usulanmutasi_id');
-
-        $data_sk_mutasi = array(
-            "id" => "",
-            "jenis_mutasi" => $jenis_mutasi,
-            "tgl_mutasi" => $tgl_mutasi,
-            // "file_mutasi" => $file_mutasi,
-            "usulanmutasi_id" => $usulanmutasi_id,
-        );
+        
+        if ($jenis_mutasi == "Mutasi Masuk") {
+            $penerimaan_id = $this->input->post('penerimaan_id');
+            $data_sk_mutasi = array(
+                "id" => "",
+                "jenis_mutasi" => $jenis_mutasi,
+                "tgl_mutasi" => $date,
+                "penerimaan_id" => $penerimaan_id,
+            );
+        }else {
+            $usulanmutasi_id = $this->input->post('usulanmutasi_id');
+            $data_sk_mutasi = array(
+                "id" => "",
+                "jenis_mutasi" => $jenis_mutasi,
+                "tgl_mutasi" => $tgl_mutasi,
+                "usulanmutasi_id" => $usulanmutasi_id,
+            );
+        }
     
         $this->db->insert($this->table, $data_sk_mutasi);
     
@@ -83,13 +94,13 @@ class Sk_mutasi_model extends CI_Model
     public function update_one($id)
     {        
          //check empty string for nullable
-         foreach( $this->input->post() as $key => $value) {
+        foreach( $this->input->post() as $key => $value) {
             if($value === ""){
                 $value = null;
             }
             $_POST[$key] = $value;            
         }
- 
+
         date_default_timezone_set('Asia/Jakarta');
         $date = date("Y-m-d H:i:s");
         $jenis_mutasi = $this->input->post('jenis_mutasi');
@@ -167,9 +178,11 @@ class Sk_mutasi_model extends CI_Model
             $_POST[$key] = $value;            
         }
 
+        $nomor_surat = $this->input->post('nomor_surat');
         $surat_mutasi = $this->do_upload("pdf", "file_mutasi");
 
         $data_mutasi_mutasi = array(
+            "nomor_surat" => $nomor_surat,
             "file_mutasi" => $surat_mutasi,
         );
 
