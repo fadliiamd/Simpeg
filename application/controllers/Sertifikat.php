@@ -14,13 +14,17 @@ class Sertifikat extends Admin {
         $this->load->model('sertifikat_model');
         $this->load->model('pegawai_model');
 
-        $sertifikat = $this->sertifikat_model->get_all();
-        $pegawai = $this->pegawai_model->get_all();
+        if($this->session->userdata('role') == 'admin') {
+            $sertifikat = $this->sertifikat_model->get_all();
+        } else {
+            $sertifikat = $this->sertifikat_model->get_all_where([
+                "account_nip" => $this->session->userdata('nip')
+            ]);
+        }
 
         $this->load->view('partials/main-header');
 		$this->load->view('users/admin/data_sertifikat', [
-            "sertifikat"=>$sertifikat,
-            "pegawai" => $pegawai
+            "sertifikat" => $sertifikat
         ]);
 		$this->load->view('partials/main-footer');
     }

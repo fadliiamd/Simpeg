@@ -12,6 +12,12 @@ class Sertifikat_model extends CI_Model
         return $query->result();
     }
 
+    public function get_all_where($where)
+    {
+        $query = $this->db->get_where($this->table, $where);
+        return $query->result();
+    }
+
     public function do_upload($file_type, $post_name)
     {
          // File
