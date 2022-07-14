@@ -31,7 +31,8 @@ class Pemberhentian extends Roles {
 	// Pengajuan pemberhentian
 	public function pengajuan_pemberhentian()
 	{
-		$pegawaiPNS = $this->pegawai_model->get_condition("status","PNS");
+		$pegawaiPNSNonDini = $this->pegawai_model->get_pegawai_tua();
+		$pegawaiPNSDini = $this->pegawai_model->get_pegawai_muda();
 		$pegawaiNonPNS = $this->pegawai_model->get_condition("status !=","PNS");
 		$users = $this->pegawai_model->get_condition("account_nip",$this->session->userdata("nip"));
 		
@@ -45,7 +46,8 @@ class Pemberhentian extends Roles {
 		
 		$this->load->view('partials/main-header');
 		$this->load->view('pages/peralihan_dan_pengalihan/pengajuan_pemberhentian',[
-			"pegawaiPNS" => $pegawaiPNS,
+			"pegawaiPNSNonDini" => $pegawaiPNSNonDini,
+			"pegawaiPNSDini" => $pegawaiPNSDini,
 			"pegawaiNonPNS" => $pegawaiNonPNS,
 			"users" => $users,
 			"pemberhentian" => $pemberhentian,

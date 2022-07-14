@@ -147,6 +147,7 @@
             </a>
             <div class="collapse" id="peralihan">
               <ul class="nav flex-column sub-menu">
+              <li class="nav-item"> <a class="nav-link" href="<?= base_url("Mutasi/penjadwalan_mutasi"); ?>">Penjadwalan</a></li>
                 <?php if ($this->session->userdata("role") == "admin" || $this->session->userdata("role") == "pegawai") { ?>
                   <li class="nav-item"> <a class="nav-link" href="<?= base_url("Mutasi/pengajuan_mutasi"); ?>">Pengajuan</a></li>
                   <li class="nav-item"> <a class="nav-link" href="<?= base_url("Mutasi/berkas_mutasi"); ?>">Berkas Persyaratan</a></li>

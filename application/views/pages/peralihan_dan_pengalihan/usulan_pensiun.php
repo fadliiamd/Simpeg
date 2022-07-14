@@ -223,19 +223,6 @@
                         </tr>
                     <?php $i++; } ?>
                 </tbody>
-                <tfoot class="thead-dark">
-                    <tr>
-                        <th>No</th>
-                        <th>Tanggal Pensiun</th>
-                        <th>Tanggal Usulan</th>
-                        <th>Status Persetujuan</th>
-                        <th>Tanggal Persetujuan</th>
-                        <th>Surat Usulan</th>
-                        <?php if($this->session->userdata("role") == "admin"){ ?>
-                            <th>Action</th>
-                        <?php } ?>
-                    </tr>
-                </tfoot>
             </table>
         </div>
     </div>

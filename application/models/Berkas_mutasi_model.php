@@ -38,7 +38,7 @@ class Berkas_mutasi_model extends CI_Model
             mutasi.pegawai_nip, mutasi.alasan, mutasi_id AS id_mutasi'
         );
         $this->db->from($this->table);
-        $this->db->join('mutasi', 'berkasmutasi.mutasi_id = mutasi.id');
+        $this->db->join('mutasi', 'berkasmutasi.mutasi_id = mutasi.id','LEFT');
 
         $query = $this->db->get();
 
@@ -52,7 +52,7 @@ class Berkas_mutasi_model extends CI_Model
             mutasi.pegawai_nip, mutasi.alasan, mutasi_id AS id_mutasi'
         );
         $this->db->from($this->table);
-        $this->db->join('mutasi', 'berkasmutasi.mutasi_id = mutasi.id');
+        $this->db->join('mutasi', 'berkasmutasi.mutasi_id = mutasi.id','LEFT');
 
         $query = $this->db->where('mutasi.pegawai_nip',$this->session->userdata("nip"));
         $query = $this->db->get();

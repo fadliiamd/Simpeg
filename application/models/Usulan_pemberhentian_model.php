@@ -39,8 +39,8 @@ class Usulan_pemberhentian_model extends CI_Model
             pemberhentian.pegawai_nip, pemberhentian.alasan, pemberhentian.id AS id_pemberhentian'
         );
         $this->db->from($this->table);
-        $this->db->join('berkaspensiun', 'berkaspensiun.id = usulanpensiun.berkaspensiun_id');
-        $this->db->join('pemberhentian', 'pemberhentian.id = usulanpensiun.pemberhentian_id');
+        $this->db->join('berkaspensiun', 'berkaspensiun.id = usulanpensiun.berkaspensiun_id','LEFT');
+        $this->db->join('pemberhentian', 'pemberhentian.id = usulanpensiun.pemberhentian_id','LEFT');
 
         $query = $this->db->get();
 

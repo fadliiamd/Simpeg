@@ -38,6 +38,32 @@ class Pegawai_model extends CI_Model
         return $query->result();
     }
 
+    public function get_pegawai_tua()
+    {
+        date_default_timezone_set('Asia/Jakarta');
+        $time = new DateTime('now');
+        $newtime = $time->modify('-20 year')->format('Y-m-d H:i:s');
+
+        $query = $this->db->where("status","PNS");
+        $query = $this->db->where("tgl_menjabat <",$newtime);
+        $query = $this->db->get("pegawai");
+
+        return $query->result();
+    }
+
+    public function get_pegawai_muda()
+    {
+        date_default_timezone_set('Asia/Jakarta');
+        $time = new DateTime('now');
+        $newtime = $time->modify('-20 year')->format('Y-m-d H:i:s');
+
+        $query = $this->db->where("status","PNS");
+        $query = $this->db->where("tgl_menjabat >",$newtime);
+        $query = $this->db->get("pegawai");
+
+        return $query->result();
+    }
+
     public function get_all_where($where, $limit = 0)
     {
         $this->db->select('*');
@@ -120,6 +146,12 @@ class Pegawai_model extends CI_Model
         $this->load->model('account_model');        
         $add = $this->account_model->register("pegawai");        
 
+        if ($this->input->post('status_kerja') != "pending") {
+            $status_kerja = "aktif";
+        }else{
+            $status_kerja = "pending";
+        }
+
         if($add){
             $nip = $this->input->post('nip');
             $nama = $this->input->post('nama');
@@ -144,6 +176,7 @@ class Pegawai_model extends CI_Model
             $ijazah = $this->do_upload("pdf", "ijazah");
             $karpeg = $this->do_upload("pdf|jpg|png", "karpeg");                    
 
+            $tgl_menjabat = $this->input->post('tgl_menjabat');     
             $data_pegawai = array(
                 "nama" => $nama,
                 "account_nip" => $nip,
@@ -164,7 +197,9 @@ class Pegawai_model extends CI_Model
                 "unit_id" => $unit_id,
                 "foto" => $foto,
                 "ijazah" => $ijazah,
-                "karpeg" => $karpeg
+                "karpeg" => $karpeg,
+                "status_kerja" =>$status_kerja,
+                "tgl_menjabat" =>$tgl_menjabat
             );
     
             $this->db->insert($this->table, $data_pegawai);

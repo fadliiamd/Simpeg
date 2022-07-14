@@ -27,6 +27,7 @@
                     <tr>
                         <th>No</th>
                         <th>Tanggal Pensiun</th>
+                        <th>No Surat</th>
                         <th>File Pensiun</th>
                         <?php if($this->session->userdata("role") == "admin"){ ?>  
                             <th>Action</th>
@@ -41,6 +42,7 @@
                     <tr>
                         <td><?= $i ?></td>
                         <td><?= $value->tgl_pensiun ?></td>
+                        <td><?= $value->nomor_surat ?></td>
                         <td>
                             <?php if($value->file_pensiun != null){ ?>  
                                 <a href="<?= base_url().'uploads/'.$value->file_pensiun ?>" download class="btn btn-secondary">Unduh</a>    
@@ -65,6 +67,10 @@
                                                     <div class="form-group">
                                                         <label for="nip">NIP</label>
                                                         <input type="text" class="form-control" id="nip" value="<?= $value->pegawai_nip ?> - <?= $value->alasan ?>" disabled>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="nomor_surat">Nomor Surat</label>
+                                                        <input type="text" class="form-control" id="nomor_surat">
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="file_pensiun">File Pensiun</label>

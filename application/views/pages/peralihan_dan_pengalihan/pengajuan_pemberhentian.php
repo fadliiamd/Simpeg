@@ -32,7 +32,8 @@
                                 <label for="jenis_berhenti">Jenis Berhenti</label>
                                 <select class="form-control" id="jenis_berhenti" name="jenis_berhenti">
                                     <option value="Pengunduran diri">Pengunduran diri</option>
-                                    <option value="Pensiun">Pensiun</option>
+                                    <option value="Pensiun dini">Pensiun dini</option>
+                                    <option value="Pensiun batas usia">Pensiun batas usia</option>
                                 </select>
                             </div>
                             <div class="form-group">
@@ -68,18 +69,26 @@
                                         <input type="hidden" name="pegawai_nip" value="<?= $this->session->userdata("nip") ?>">
                                     <?php } ?>
                                 <?php } else { ?>
-                                    <div id="pegawaiNonPNS">
-                                        <label for="pegawai_nip_non_pns">Pegawai</label>
-                                        <select class="form-control" id="pegawai_nip_non_pns" name="pegawai_nip">
-                                            <?php foreach ($pegawaiNonPNS as $key => $value) { ?>
+                                    <div id="pegawaiPNSNonDini">
+                                        <label for="pegawai_nip_pns_non_dini">Pegawai</label>
+                                        <select class="form-control" id="pegawai_nip_pns_non_dini" name="pegawai_nip">
+                                            <?php foreach ($pegawaiPNSNonDini as $key => $value) { ?>
                                                 <option value="<?= $value->account_nip ?> - <?= $value->email ?>"><?= $value->account_nip ?> - <?= $value->nama ?></option>
                                             <?php } ?>
                                         </select>
                                     </div>
-                                    <div id="pegawaiPNS">
-                                        <label for="pegawai_nip_pns">Pegawai</label>
-                                        <select class="form-control" id="pegawai_nip_pns" name="pegawai_nip">
-                                            <?php foreach ($pegawaiPNS as $key => $value) { ?>
+                                    <div id="pegawaiPNSDini">
+                                        <label for="pegawai_nip_pns_dini">Pegawai</label>
+                                        <select class="form-control" id="pegawai_nip_pns_dini" name="pegawai_nip">
+                                            <?php foreach ($pegawaiPNSDini as $key => $value) { ?>
+                                                <option value="<?= $value->account_nip ?> - <?= $value->email ?>"><?= $value->account_nip ?> - <?= $value->nama ?></option>
+                                            <?php } ?>
+                                        </select>
+                                    </div>
+                                    <div id="pegawaiNonPNS">
+                                        <label for="pegawai_nip_non_pns">Pegawai</label>
+                                        <select class="form-control" id="pegawai_nip_non_pns" name="pegawai_nip">
+                                            <?php foreach ($pegawaiNonPNS as $key => $value) { ?>
                                                 <option value="<?= $value->account_nip ?> - <?= $value->email ?>"><?= $value->account_nip ?> - <?= $value->nama ?></option>
                                             <?php } ?>
                                         </select>
@@ -157,6 +166,7 @@
                                                                 <input type="hidden" name="id" value="<?= $value->id ?>">
                                                                 <input type="hidden" name="status" value="setuju">
                                                                 <input type="hidden" name="email" value="<?= $value->email ?>">
+                                                                <input type="hidden" name="jenis_berhenti" value="<?= $value->jenis_berhenti ?>">
                                                                 <h5 class="modal-title" id="exampleModalLabel">Setujui Pengajuan Mutasi NIP : <b><?= $value->pegawai_nip ?></b> </h5>
                                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                                     <span aria-hidden="true">&times;</span>
@@ -311,18 +321,30 @@
 </div>
 
 <script>
-    $( '#pegawaiPNS').hide();
+    $( '#pegawaiPNSDini').hide();
+    $( '#pegawaiPNSNonDini').hide();
     $( "#jenis_berhenti" ).change(function(){
         if ($( "#jenis_berhenti" ).val() == "Pengunduran diri") {
-            $( '#pegawaiPNS').hide();
             $( '#pegawaiNonPNS').show();
-            $( "#pegawai_nip_pns").prop('disabled', true);
             $( "#pegawai_nip_non_pns").prop('disabled', false);
-        }else{
-            $( '#pegawaiPNS').show();
+            $( '#pegawaiPNSDini').hide();
+            $( "#pegawai_nip_pns_dini").prop('disabled', true);
+            $( '#pegawaiPNSNonDini').hide();
+            $( "#pegawai_nip_pns_non_dini").prop('disabled', true);
+        }else if($( "#jenis_berhenti" ).val() == "Pensiun dini"){
             $( '#pegawaiNonPNS').hide();
-            $( "#pegawai_nip_pns").prop('disabled', false);
             $( "#pegawai_nip_non_pns").prop('disabled', true);
+            $( '#pegawaiPNSDini').show();
+            $( "#pegawai_nip_pns_dini").prop('disabled', false);
+            $( '#pegawaiPNSNonDini').hide();
+            $( "#pegawai_nip_pns_non_dini").prop('disabled', true);
+        }else{
+            $( '#pegawaiNonPNS').hide();
+            $( "#pegawai_nip_non_pns").prop('disabled', true);
+            $( '#pegawaiPNSDini').hide();
+            $( "#pegawai_nip_pns_dini").prop('disabled', true);
+            $( '#pegawaiPNSNonDini').show();
+            $( "#pegawai_nip_pns_non_dini").prop('disabled', false);
         }
     });
 
