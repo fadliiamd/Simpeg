@@ -26,6 +26,9 @@
               <td><?= date_indo($value->tgl_upload) ?></td>
               <td><label class="badge badge-light">Surat <?= ucwords($value->jenis) ?></label></td>
               <td>
+                <?php
+                if($has_upload_hasil[$value->id] == 0) {
+                ?>
                 <!-- Large modal -->
                 <button type="button" class="btn btn-info" data-toggle="modal" data-target="#viewdiklat-<?= $value->id ?>">Lihat</button>
 
@@ -126,6 +129,7 @@
                   </div>
                 </div>
                 <!-- End Modal -->
+                <?php } ?>
                 <?php if($check_diklat[$value->id] == NULL) { ?>
                   <!-- Large modal -->
                   <button type="button" class="btn btn-success" data-toggle="modal" data-target="#register-<?= $value->id ?>">Daftar</button>

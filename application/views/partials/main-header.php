@@ -192,12 +192,14 @@
             <span class="font-weight-bold nav-link p-0 disable menu-title" style="word-wrap: break-word;white-space:normal;">Kepegawaian</span>
             <hr>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="<?= base_url() . 'surat' ?>">
-              <i class="mdi mdi-email menu-icon"></i>
-              <span class="menu-title">Surat</span>
-            </a>
-          </li>
+          <?php if ($_SESSION['role'] !== 'pegawai') { ?>
+            <li class="nav-item">
+              <a class="nav-link" href="<?= base_url() . 'surat' ?>">
+                <i class="mdi mdi-email menu-icon"></i>
+                <span class="menu-title">Surat</span>
+              </a>
+            </li>
+          <?php } ?>
           <li class="nav-item">
             <a class="nav-link" href="<?= base_url() . 'sertifikat' ?>">
               <i class="mdi mdi-certificate menu-icon"></i>
