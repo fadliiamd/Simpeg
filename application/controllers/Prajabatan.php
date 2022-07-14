@@ -164,7 +164,6 @@ class Prajabatan extends CI_Controller {
         }
 
         $data = array(
-            "jenis" => $surat->jenis_prajabatan,
             "foto" => $file_foto_name,
             "ktp" => $file_ktp_name,
             "kk" => $file_kk_name,
