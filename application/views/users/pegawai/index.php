@@ -67,48 +67,41 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <!-- <div class="row">
-            <div class="col-md-6 grid-margin stretch-card">
-                <div class="card">
-                    <div class="card-body">
-                        <p class="card-title">Order Details</p>
-                        <p class="font-weight-500">The total number of sessions within the date range. It is the period time a user is actively engaged with your website, page or app, etc</p>
-                        <div class="d-flex flex-wrap mb-5">
-                            <div class="mr-5 mt-3">
-                                <p class="text-muted">Order value</p>
-                                <h3 class="text-primary fs-30 font-weight-medium">12.3k</h3>
-                            </div>
-                            <div class="mr-5 mt-3">
-                                <p class="text-muted">Orders</p>
-                                <h3 class="text-primary fs-30 font-weight-medium">14k</h3>
-                            </div>
-                            <div class="mr-5 mt-3">
-                                <p class="text-muted">Users</p>
-                                <h3 class="text-primary fs-30 font-weight-medium">71.56%</h3>
-                            </div>
-                            <div class="mt-3">
-                                <p class="text-muted">Downloads</p>
-                                <h3 class="text-primary fs-30 font-weight-medium">34040</h3>
-                            </div>
-                        </div>
-                        <canvas id="order-chart"></canvas>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 grid-margin stretch-card">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between">
-                            <p class="card-title">Sales Report</p>
-                            <a href="#" class="text-info">View all</a>
-                        </div>
-                        <p class="font-weight-500">The total number of sessions within the date range. It is the period time a user is actively engaged with your website, page or app, etc</p>
-                        <div id="sales-legend" class="chartjs-legend mt-4 mb-2"></div>
-                        <canvas id="sales-chart"></canvas>
-                    </div>
-                </div>
-            </div>
-        </div> -->
+        </div>        
     </div>
 </div>
+
+<script>
+  $(document).ready(function() {       
+    $.getJSON('https://cuaca.umkt.ac.id/api/cuaca/DigitalForecast-JawaBarat.xml', function(jsonData) {
+      const findClosest = (data, accessor, target = Date.now()) => data.reduce((prev, curr) => {
+        const a = Math.abs(accessor(curr).getTime() - target);
+        const b = Math.abs(accessor(prev).getTime() - target);
+        return a - b < 0 ? curr : prev;
+      });
+      var sampleData = jsonData.row.data.forecast.area[25].parameter[5].timerange;
+      var output = sampleData.map(s => {
+        if (s.hasOwnProperty("@datetime")) {
+          s.datetime = s['@datetime'];
+          delete s['@datetime'];
+        }
+        return s;
+      })
+      const processDateString = (dateString) => {
+        const year = dateString.substring(0, 4);
+        const month = dateString.substring(4, 6);
+        const date = dateString.substring(6, 8);
+        const hour = dateString.substring(8, 10);
+        const minute = dateString.substring(10, 12);
+        return new Date(year, month - 1, date, hour, minute);
+      };
+
+      const closest = findClosest(sampleData, ({
+        datetime
+      }) => processDateString(datetime));
+
+      console.log(closest.value[0]);
+      $('#wheater-temparature').html(closest.value[0]['#text']);
+    });
+  });
+</script>
