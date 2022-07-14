@@ -114,7 +114,7 @@
           for(let i=0; i<data.length; i++) {
             var display_date = data[i].created_at.replace(' ', 'T');
             var element = `
-              <a class="dropdown-item preview-item" href="${base_url()}${data[i].redirect_to}">
+              <a class="dropdown-item preview-item" href="${data[i].redirect_to}">
                 <div class="preview-thumbnail">
                   <div class="preview-icon bg-success">
                     <i class="ti-info-alt mx-0"></i>
