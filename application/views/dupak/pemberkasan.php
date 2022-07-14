@@ -1,9 +1,11 @@
-<h1> Pemberkasan</h1><div class="row">
+<div class="row">
     <div class="col-lg-12">
-        <h3>Data Pengajuan PAK</h3>
+        <h3>Daftar Usulan PAK</h3>
 
         <!-- Large modal -->
-        <button type="button" class="my-3 btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-sm">Tambah Data Pengajuan PAK</button>
+        <a href="<?= base_url('dupak/pemberkasan/create')?>" class="">
+            <button type="button" class="my-3 btn btn-primary">Tambah Daftar Usulan PAK</button>
+        </a>
         <?php if ($this->session->flashdata('message_success')) : ?>
             <div class="alert alert-success alert-dismissible fade show" role="alert">
                 <?= $this->session->flashdata('message_success') ?>
@@ -25,7 +27,7 @@
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Data Pengajuan PAK</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Daftar Usulan PAK</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -34,19 +36,19 @@
                         <div class="modal-body">
                             <div class="form-group row">
                                 <div class="col-md-6">
-                                    <label for="nama">Pengajuan</label>        
+                                    <label for="nama">Pengajuan</label>
                                     <select name="jabatan" class="form-control text-dark" required>
                                         <option value="" selected hidden>---Pilih Daftar Pengajuan---</option>
-                                        <?php 
+                                        <?php
                                         $option = '';
-                                            foreach($pengajuan as $p){
-                                                $option .= '<option value="'.$p->id.'">'.$p->account_nip.' Mengajukan Menjadi '.$p->jabatan_tujuan.'</option>';
-                                            }
+                                        foreach ($pengajuan as $p) {
+                                            $option .= '<option value="' . $p->id . '">'. '#'. $p->id . ' : '. $p->account_nip . ' Mengajukan Menjadi ' . $p->jabatan_tujuan . '</option>';
+                                        }
                                         echo $option;
                                         ?>
                                     </select>
                                 </div>
-                            </div>                                         
+                            </div>
                         </div>
                         <div class="modal-footer">
                             <div class="row">
@@ -70,10 +72,11 @@
                     <tr>
                         <th>No</th>
                         <th>ID Usulan</th>
-                        <th>NIP Pengusul</th>                        
-                        <th>Tanggal Usulan</th>                        
+                        <th>NIP Pengusul</th>
+                        <th>Tanggal Usulan</th>
                         <th>Hasil Angka Kredit</th>
                         <th>Status</th>
+                        <th>Tanggal Validasi</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -88,22 +91,23 @@
                             <td><?php echo $value->tgl_usulan; ?></td>
                             <td><?= $value->hasil_akk ?></td>
                             <td><?= $value->status ?></td>
+                            <td><?= $value->tgl_validasi ?></td>
                             <td>
-                                <a target="_blank" href="<?=base_url('uploads/'.$value->bukti_1) ?>">
+                                <a target="_blank" href="<?= base_url('uploads/' . $value->bukti_1) ?>">
                                     Lihat <?= $label_bukti_1[$value->jabatan_tujuan] ?>
                                 </a>
                             </td>
                             <td>
-                                <a target="_blank" href="<?=base_url('uploads/'.$value->bukti_2) ?>">
+                                <a target="_blank" href="<?= base_url('uploads/' . $value->bukti_2) ?>">
                                     Lihat <?= $label_bukti_2[$value->jabatan_tujuan] ?>
                                 </a>
                             </td>
                             <td>
-                                <a target="_blank" href="<?=base_url('uploads/'.$value->bukti_jurnal) ?>">
+                                <a target="_blank" href="<?= base_url('uploads/' . $value->bukti_jurnal) ?>">
                                     Lihat Jurnal
                                 </a>
-                            </td>  
-                            <td><?= $value->status ?></td>                         
+                            </td>
+                            <td><?= $value->status ?></td>
                             <td>
                                 <!-- Large modal -->
                                 <button type="button" class="btn btn-warning" data-toggle="modal" data-target=".edittable-<?= $value->id ?>">Edit</button>
@@ -113,7 +117,7 @@
                                     <div class="modal-dialog modal-sm">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">Edit Data Pengajuan PAK ID : <b><?php echo "J-" . $value->id ?></b></h5>
+                                                <h5 class="modal-title" id="exampleModalLabel">Edit Daftar Usulan PAK ID : <b><?php echo "J-" . $value->id ?></b></h5>
                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                     <span aria-hidden="true">&times;</span>
                                                 </button>
@@ -150,7 +154,7 @@
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">Hapus Data Pengajuan PAK ID : <b><?php echo "J-" . $value->id ?></b></h5>
+                                                <h5 class="modal-title" id="exampleModalLabel">Hapus Daftar Usulan PAK ID : <b><?php echo "J-" . $value->id ?></b></h5>
                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                     <span aria-hidden="true">&times;</span>
                                                 </button>
@@ -170,7 +174,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </form>                                            
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
@@ -188,7 +192,7 @@
     $(document).ready(function() {
         $('#tbl-data-pegawai').DataTable();
         $('select[name="jabatan"]').on('change', function() {
-            if(this.value == 'asisten ahli'){
+            if (this.value == 'asisten ahli') {
                 $("#container-file-upload").html(`
                     <div class="form-group col-md-6">
                         <label for="nama">Ijazah Magister</label>
@@ -199,7 +203,7 @@
                         <input type="file" name="bukti_2" class="form-control" required>
                     </div>     
                 `);
-            }else{
+            } else {
                 $("#container-file-upload").html(`
                     <div class="form-group col-md-6">
                         <label for="nama">Bukti Pengabdian Kepada Masyarakat</label>
@@ -212,5 +216,5 @@
                 `);
             }
         });
-    });    
+    });
 </script>

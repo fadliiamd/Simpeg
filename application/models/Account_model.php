@@ -21,6 +21,13 @@ class Account_model extends CI_Model
         return $query->row()->role;
     }
 
+    public function get_num_rows()
+    {
+        $query = $this->db->get($this->table);
+
+        return $query->num_rows();
+    }
+
     public function get_redirect_role($nip)
     {
         $role = $this->get_role($nip);
@@ -43,7 +50,7 @@ class Account_model extends CI_Model
     public function register($role)
     {
         $nip = $this->input->post('nip');
-        $password = password_hash($this->input->post('password'), PASSWORD_DEFAULT);
+        $password = password_hash($this->input->post('password'), PASSWORD_DEFAULT);                
 
         $data_account = array(
             "nip" => $nip,

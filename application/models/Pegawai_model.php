@@ -23,6 +23,13 @@ class Pegawai_model extends CI_Model
     {
         return $this->db->get_where($this->table, $where)->row();
     }
+    
+    public function get_num_rows()
+    {
+        $query = $this->db->get($this->table);
+
+        return $query->num_rows();
+    }
 
     public function get_condition($query,$search)
     {
@@ -54,7 +61,7 @@ class Pegawai_model extends CI_Model
 
     public function get_all_with_join()
     {
-        $this->db->select('*, pegawai.nama as nama_pegawai, jurusan.nama as nama_jurusan, bagian.nama as nama_bagian, unit.nama as nama_unit');
+        $this->db->select('pegawai.*, pegawai.nama as nama_pegawai, jurusan.nama as nama_jurusan, bagian.nama as nama_bagian, unit.nama as nama_unit');
         $this->db->from($this->table);
         $this->db->join('jurusan', 'pegawai.jurusan_id = jurusan.id', 'left');
         $this->db->join('bagian', 'pegawai.bagian_id = bagian.id', 'left');
@@ -63,6 +70,20 @@ class Pegawai_model extends CI_Model
         $query = $this->db->get();
 
         return $query->result();
+    }
+
+    public function get_one_with_join($id)
+    {
+        $this->db->select('pegawai.*, jabatan.*, account.role as role, jurusan.nama as nama_jurusan, bagian.nama as nama_bagian, unit.nama as nama_unit');
+        $this->db->join('jabatan', 'pegawai.jabatan_id = jabatan.id', 'left');
+        $this->db->join('jurusan', 'pegawai.jurusan_id = jurusan.id', 'left');
+        $this->db->join('bagian', 'pegawai.bagian_id = bagian.id', 'left');
+        $this->db->join('unit', 'pegawai.unit_id = unit.id', 'left');        
+        $this->db->join('account', 'pegawai.account_nip = account.nip');        
+
+        $query = $this->db->get_where($this->table, $id);
+
+        return $query->row();
     }
 
     public function do_upload($file_type, $post_name)
@@ -74,6 +95,8 @@ class Pegawai_model extends CI_Model
             $this->load->library('upload');
     
             $this->upload->initialize($config);
+
+            $data = null;
 
             if (($this->upload->do_upload($post_name)))
             {
@@ -106,8 +129,7 @@ class Pegawai_model extends CI_Model
             $tgl_lahir = $this->input->post('tgl_lahir');
             $alamat = $this->input->post('alamat');
             $email = $this->input->post('email');
-            $golongan_id = $this->input->post('golongan_id');
-            $jenis_pegawai = $this->input->post('jenis_pegawai');
+            $golongan_id = $this->input->post('golongan_id');            
             $status_pegawai = $this->input->post('status_pegawai');
             $gaji = $this->input->post('gaji');
             $jabatan = $this->input->post('jabatan');
@@ -177,8 +199,7 @@ class Pegawai_model extends CI_Model
             $tgl_lahir = $this->input->post('tgl_lahir');
             $alamat = $this->input->post('alamat');
             $email = $this->input->post('email');
-            $golongan_id = $this->input->post('golongan_id');
-            $jenis_pegawai = $this->input->post('jenis_pegawai');
+            $golongan_id = $this->input->post('golongan_id');            
             $status_pegawai = $this->input->post('status_pegawai');
             $gaji = $this->input->post('gaji');
             $jabatan = $this->input->post('jabatan');
@@ -210,10 +231,23 @@ class Pegawai_model extends CI_Model
                 "jurusan_id" => $jurusan_id,
                 "bagian_id" => $bagian_id,
                 "unit_id" => $unit_id,
-                "foto" => $foto,
-                "ijazah" => $ijazah,
-                "karpeg" => $karpeg
             );
+            
+            if(!is_null($foto)){
+                $data_pegawai += array(
+                    'foto' => $foto
+                );
+            }
+            if(!is_null($ijazah)){
+                $data_pegawai += array(
+                    'ijazah' => $ijazah
+                );
+            }
+            if(!is_null($karpeg)){
+                $data_pegawai += array(
+                    'karpeg' => $karpeg
+                );
+            }
         }else{
             return false;
         }

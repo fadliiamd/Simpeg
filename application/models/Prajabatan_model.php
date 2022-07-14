@@ -10,6 +10,18 @@ class Prajabatan_model extends CI_Model
         return $query->result();
     }
 
+    public function get_num_rows_by($nip)
+    {
+        $query = $this->db->get_where($this->table, $nip);
+        return $query->num_rows();
+    }
+    
+    public function get_num_rows()
+    {
+        $query = $this->db->get($this->table);
+        return $query->num_rows();
+    }
+
     public function get_all_where($where)
     {
         $query = $this->db->get_where($this->table, $where);

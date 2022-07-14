@@ -2,6 +2,10 @@ $(document).ready(function () {
 	$("#tbl-pengajuan-mutasi").DataTable({});
 
 	$("#tbl-sk-mutasi").DataTable({});
+	
+	$('#list-surat').DataTable({
+		"bDestroy": true
+	}); 
 
 	$('#list_table').DataTable({
 		'columnDefs': [{
@@ -18,9 +22,10 @@ $(document).ready(function () {
 		 'targets': 0,
 		 'searchable': false,
 		 'orderable': false,
-		 'className': 'dt-body-center',
+		 'className': 'dt-body-center'		 
 		}],
-		'order': [[1, 'asc']]
+		'order': [[1, 'asc']],
+		"bDestroy": true
 	});
 
 	var title = `<h4 class="card-title">Kriteria Undangan</h4>`;

@@ -1,48 +1,42 @@
 <?php
 
-class Diklat_model extends CI_Model
+class Pemberkasan_model extends CI_Model
 {
-    public $table = "diklat";
+
+    public $table = "rekap_nilai";
 
     public function get_all()
     {
         $query = $this->db->get($this->table);
+
         return $query->result();
     }
 
-    public function get_all_where($where)
-    {
-        $query = $this->db->get_where($this->table, $where);
-        return $query->result();
-    }
+    public function insert_one()
+    {    
+        $data = array(
+            "kode" => $this->input->post("kode"),            
+            "unsur_id" => $this->input->post('unsur_id'),
+            "kegiatan" => $this->input->post("kegiatan"),
+            "angka_kredit" => $this->input->post("angka_kredit"),
+            "satuan" => $this->input->post("satuan")
+        );
 
-    public function get_one($where)
-    {
-        $query = $this->db->get_where($this->table, $where);
-        return $query->row();
-    }
-
-    public function get_num_rows()
-    {
-        $query = $this->db->get($this->table);
-        return $query->num_rows();
-    }
-    
-    public function get_num_rows_by($nip)
-    {
-        $query = $this->db->get_where($this->table, $nip);
-        return $query->num_rows();
-    }
-
-    public function insert_one($data)
-    {
         $this->db->insert($this->table, $data);
+
         return ($this->db->affected_rows() != 1) ? false : true;
     }
 
-    public function update_one($id, $data)
+    public function update_one($id)
     {
         $this->db->trans_start();
+        $data = array(
+            "kode" => $this->input->post("kode"),            
+            "unsur_id" => $this->input->post('unsur_id'),
+            "kegiatan" => $this->input->post("kegiatan"),
+            "angka_kredit" => $this->input->post("angka_kredit"),
+            "satuan" => $this->input->post("satuan")
+        );
         $this->db->where('id', $id);
         $this->db->update($this->table, $data);
         $this->db->trans_complete();
@@ -50,6 +44,7 @@ class Diklat_model extends CI_Model
         if ($this->db->trans_status() === FALSE) {
             return false;
         }
+
         return true;
     }
 
@@ -63,6 +58,7 @@ class Diklat_model extends CI_Model
         if ($this->db->trans_status() === FALSE) {
             return false;
         }
+
         return true;
     }
 }

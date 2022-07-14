@@ -17,7 +17,6 @@ class Pemberhentian extends Roles {
         ]);
 	}
 
-	
     public function riwayat_pemberhentian()
 	{
 		$pemberhentian = $this->pemberhentian_model->get_condition("jenis_berhenti","Pengunduran Diri");
@@ -32,22 +31,22 @@ class Pemberhentian extends Roles {
 	// Pengajuan pemberhentian
 	public function pengajuan_pemberhentian()
 	{
-		if ($this->session->userdata("role") == "admin") {
-			$pegawai = $this->pegawai_model->get_all();
-			$users = $this->pegawai_model->get_condition("account_nip",$this->session->userdata("nip"));
+		$pegawaiPNS = $this->pegawai_model->get_condition("status","PNS");
+		$pegawaiNonPNS = $this->pegawai_model->get_condition("status !=","PNS");
+		$users = $this->pegawai_model->get_condition("account_nip",$this->session->userdata("nip"));
+		
+		if ($this->session->userdata("role") == "admin" || $this->session->userdata("role") == "direktur") {
 			$pemberhentian = $this->pemberhentian_model->get_all_with_join_pegawai();
 		}
 
 		if ($this->session->userdata("role") == "pegawai") {
-			$pegawai = $this->pegawai_model->get_condition("status !=","PNS");
-			$users = $this->pegawai_model->get_condition("account_nip",$this->session->userdata("nip"));
 			$pemberhentian = $this->pemberhentian_model->get_condition("pegawai_nip",$this->session->userdata("nip"));
 		}
 		
-		
 		$this->load->view('partials/main-header');
 		$this->load->view('pages/peralihan_dan_pengalihan/pengajuan_pemberhentian',[
-			"pegawai" => $pegawai,
+			"pegawaiPNS" => $pegawaiPNS,
+			"pegawaiNonPNS" => $pegawaiNonPNS,
 			"users" => $users,
 			"pemberhentian" => $pemberhentian,
 		]);

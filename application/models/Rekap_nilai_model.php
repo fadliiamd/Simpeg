@@ -1,13 +1,39 @@
 <?php
 
-class Diklat_model extends CI_Model
+class Rekap_nilai_model extends CI_Model
 {
-    public $table = "diklat";
+    public $table = "rekap_nilai";
 
     public function get_all()
     {
         $query = $this->db->get($this->table);
         return $query->result();
+    }
+
+    public function get_akk_terakhir($nip)
+    {                
+        $this->db->where($nip);
+        $this->db->order_by('tgl_usulan', 'desc');
+        $query = $this->db->get($this->table);
+
+        if($query->num_rows() > 0){
+            return $query->row()->hasil_akk;
+        }else{
+            return null;
+        }
+        
+    }
+
+    public function get_num_rows_by($nip)
+    {
+        $query = $this->db->get_where($this->table, $nip);
+        return $query->num_rows();
+    }
+    
+    public function get_num_rows()
+    {
+        $query = $this->db->get($this->table);
+        return $query->num_rows();
     }
 
     public function get_all_where($where)
@@ -20,18 +46,6 @@ class Diklat_model extends CI_Model
     {
         $query = $this->db->get_where($this->table, $where);
         return $query->row();
-    }
-
-    public function get_num_rows()
-    {
-        $query = $this->db->get($this->table);
-        return $query->num_rows();
-    }
-    
-    public function get_num_rows_by($nip)
-    {
-        $query = $this->db->get_where($this->table, $nip);
-        return $query->num_rows();
     }
 
     public function insert_one($data)

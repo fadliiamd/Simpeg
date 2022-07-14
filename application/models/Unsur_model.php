@@ -12,6 +12,16 @@ class Unsur_model extends CI_Model
         return $query->result();
     }
 
+    public function get_all_with_group_by($coloumn)
+    {
+        $this->db->select('*');
+        $this->db->from('unsur');        
+        $this->db->group_by($coloumn); 
+        $query = $this->db->get();
+
+        return $query->result();
+    }
+
     public function insert_one()
     {    
         $data = array(
