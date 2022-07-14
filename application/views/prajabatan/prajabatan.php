@@ -87,9 +87,9 @@
                               <label for="file_surat">File Materi</label>
                               <div class="mt-1">
                                 <?php
-                                $file_materi = $list_prajabatan_berkas[$value->id]->file_materi;
-                                if($file_materi != NULL) { ?>
-                                <a href="<?= base_url().'uploads/prajabatan/'.$file_materi ?>" target="_blank">                              
+                                if(isset($list_prajabatan_hasil[$value->id])) {
+                                ?>
+                                <a href="<?= base_url().'uploads/prajabatan/'.$list_prajabatan_berkas[$value->id]->file_materi ?>" target="_blank">                              
                                     Lihat File Materi                         
                                 </a>
                                 <?php } else { ?>
@@ -103,10 +103,9 @@
                               <label for="file_surat">Sertifikat</label>
                               <div class="mt-1">
                                 <?php
-                                $sertifikat = $list_prajabatan_hasil[$value->id]->nama_serti;
-                                if($sertifikat != NULL) {
+                                if(isset($list_prajabatan_hasil[$value->id])) {
                                 ?>
-                                <a href="<?= base_url().'uploads/prajabatan/'.$sertifikat ?>" target="_blank">                              
+                                <a href="<?= base_url().'uploads/prajabatan/'.$$list_prajabatan_hasil[$value->id]->nama_serti ?>" target="_blank">                              
                                     Lihat Sertifikat                         
                                 </a>
                                 <?php } else { ?>
