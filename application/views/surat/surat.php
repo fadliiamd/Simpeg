@@ -292,7 +292,7 @@
                           </div>
                           <div class="form-group">
                             <label for="tema">Tema/Judul Kegiatan (*)</label>
-                            <input type="text" class="form-control" id="tema" name="tema" value="<?= $value->tema ?>" required>
+                            <input type="text" class="form-control" id="tema" name="tema" placeholder="Tema/Judul Kegiatan" required>
                           </div>
                           <div id="detail_tujuan">
                             <?php if($value->jenis_tujuan === 'divisi') { ?>
