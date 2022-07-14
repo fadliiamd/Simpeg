@@ -1,6 +1,7 @@
 <div class="row">
   <div class="col-lg-12">
     <h4>Penugasan Undangan Diklat</h4>
+    <?php print("<pre>".print_r($list_diklat_berkas,true)."</pre>"); ?>
     <div class="table-responsive">
       <table class="table table-striped table-bordered table-datatable">
         <thead class="thead-dark">
