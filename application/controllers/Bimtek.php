@@ -17,7 +17,7 @@ class Bimtek extends CI_Controller {
         $this->load->model('surat_model');
         $this->load->model('pegawai_model');
 
-        // Get All "Diklat" by Pegawai NIP
+        // Get All "Bimtek" by Pegawai NIP
         $list_bimtek = $this->surat_model->get_all_where(array(
             "jenis" => "tugas",
             "jenis_kegiatan" => "bimtek"
@@ -81,8 +81,8 @@ class Bimtek extends CI_Controller {
             }
 
             if(isset($list_bimtek[$key])) {
-                // Check if Diklat is Registered
-                $status_check = $this->diklat_model->get_one(array(
+                // Check if Bimtek is Registered
+                $status_check = $this->bimtek_model->get_one(array(
                     "pegawai_nip" => $this->session->userdata('nip'),
                     "surat_id" => $value->id
                 ));
@@ -106,9 +106,9 @@ class Bimtek extends CI_Controller {
 
         // Load View
         $this->load->view('partials/main-header', [
-            "title" => "Diklat"
+            "title" => "Bimtek"
         ]);
-		$this->load->view('diklat/diklat', [
+		$this->load->view('bimtek/bimtek', [
             "list_bimtek" => $list_bimtek,
             "check_bimtek" => $check_bimtek,
             "has_upload_hasil" => $has_upload_hasil,
@@ -164,7 +164,7 @@ class Bimtek extends CI_Controller {
         }
 
         $data = array(
-            "jenis" => $surat->jenis_diklat,
+            "jenis" => $surat->jenis_bimtek,
             "foto" => $file_foto_name,
             "ktp" => $file_ktp_name,
             "kk" => $file_kk_name,
@@ -226,7 +226,7 @@ class Bimtek extends CI_Controller {
         // Validation
         if(is_null($file_materi_name && $file_sertifikat_name)) {
             $this->session->set_flashdata('message_success', 'Kesalahan dalam mengunggah file!');
-            redirect("diklat");
+            redirect("bimtek");
         }
 
         $data_sertif = [
@@ -241,7 +241,7 @@ class Bimtek extends CI_Controller {
             "sertifikat_id" => $insert_sertif
         ];
 
-        $update = $this->diklat_model->update_one($bimtek_id, $data);
+        $update = $this->bimtek_model->update_one($bimtek_id, $data);
 
         if($update) {
             $this->session->set_flashdata('message_success', 'Berhasil mengunggah hasil bimtek!');
