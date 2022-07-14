@@ -38,7 +38,7 @@ class Berkas_pemberhentian_model extends CI_Model
             pemberhentian.pegawai_nip, pemberhentian.jenis_berhenti, pemberhentian.alasan,pemberhentian.status_pengajuan,pemberhentian.tgl_pengajuan ,pemberhentian.id AS id_pemberhentian'
         );
         $this->db->from($this->table);
-        $this->db->join('pemberhentian', 'berkaspensiun.pemberhentian_id = pemberhentian.id');
+        $this->db->join('pemberhentian', 'berkaspensiun.pemberhentian_id = pemberhentian.id','LEFT');
 
         $query = $this->db->where('pemberhentian.jenis_berhenti', "Pensiun");
         $query = $this->db->get();
@@ -54,7 +54,7 @@ class Berkas_pemberhentian_model extends CI_Model
         );
 
         $this->db->from($this->table);
-        $this->db->join('pemberhentian', 'berkaspensiun.pemberhentian_id = pemberhentian.id');
+        $this->db->join('pemberhentian', 'berkaspensiun.pemberhentian_id = pemberhentian.id','LEFT');
 
         $query = $this->db->where('pemberhentian.jenis_berhenti', "Pensiun");
         $query = $this->db->where('pemberhentian.pegawai_nip',$this->session->userdata("nip"));

@@ -12,6 +12,24 @@ class Penerimaan_mutasi_model extends CI_Model
         return $query->result();
     }
 
+    public function get_all_with_join_pegawai()
+    {
+        $this->db->select(
+            'penerimaanmutasi.id, penerimaanmutasi.instansi_asal, penerimaanmutasi.daerah_asal, penerimaanmutasi.alasan, penerimaanmutasi.status_persetujuan, penerimaanmutasi.direktur_nip, penerimaanmutasi.pegawai_nip,
+            direktur.nama AS direktur_nama,
+            pegawai.bagian_id,
+            bagian.nama AS bagian_nama'
+        );
+        $this->db->from($this->table);
+        $this->db->join('direktur', 'direktur.account_nip = penerimaanmutasi.direktur_nip','LEFT');
+        $this->db->join('pegawai', 'pegawai.account_nip = penerimaanmutasi.pegawai_nip','LEFT');
+        $this->db->join('bagian', 'pegawai.bagian_id = bagian.id','LEFT');
+
+        $query = $this->db->get();
+
+        return $query->result();
+    }
+
     public function get_num_rows()
     {
         $query = $this->db->get($this->table);
@@ -41,8 +59,7 @@ class Penerimaan_mutasi_model extends CI_Model
         $daerah_asal = $this->input->post('daerah_asal');
         $alasan = $this->input->post('alasan');
         $direktur_nip = $this->input->post('direktur_nip');
-        $bagian_id = $this->input->post('bagian_id');
-
+        $pegawai_nip = $this->input->post('pegawai_nip');
 
         $data_mutasi = array(
             "id" => "",
@@ -50,10 +67,25 @@ class Penerimaan_mutasi_model extends CI_Model
             "daerah_asal" => $daerah_asal,
             "alasan" => $alasan,
             "status_persetujuan" => "pending",
-            "bagian_id" => $bagian_id
+            "pegawai_nip" => $pegawai_nip
         );
     
         $this->db->insert($this->table, $data_mutasi);
+// -------------------------------- //
+        $bagian_id = $this->input->post('bagian_id');
+
+        $data_pegawai = array(
+            "bagian_id" => $bagian_id,
+        );
+
+        $this->db->trans_start();
+        $this->db->where('account_nip ', $pegawai_nip);
+        $this->db->update('pegawai', $data_pegawai);
+        $this->db->trans_complete();
+
+        if ($this->db->trans_status() === FALSE) {
+            return false;
+        }
 
         return ($this->db->affected_rows() != 1) ? false : true;
     
@@ -62,7 +94,7 @@ class Penerimaan_mutasi_model extends CI_Model
     public function update_one($id)
     {        
          //check empty string for nullable
-         foreach( $this->input->post() as $key => $value) {
+        foreach( $this->input->post() as $key => $value) {
             if($value === ""){
                 $value = null;
             }
@@ -73,14 +105,14 @@ class Penerimaan_mutasi_model extends CI_Model
         $daerah_asal = $this->input->post('daerah_asal');
         $alasan = $this->input->post('alasan');
         $direktur_nip = $this->input->post('direktur_nip');
-        $bagian_id = $this->input->post('bagian_id');
+        $pegawai_nip = $this->input->post('pegawai_nip');
 
 
         $data_mutasi = array(
             "instansi_asal" => $instansi_asal,
             "daerah_asal" => $daerah_asal,
             "alasan" => $alasan,
-            "bagian_id" => $bagian_id
+            "pegawai_nip" => $pegawai_nip
         );
 
         $this->db->trans_start();
@@ -121,20 +153,20 @@ class Penerimaan_mutasi_model extends CI_Model
                 "direktur_nip" => $this->session->userdata("nip"),
             ); 
 
-            // $data_pegawai = array(
-            //     "bagian_id" => $bagian_id
-            // );
+            $data_pegawai = array(
+                "status_kerja" => "aktif"
+            );
     
-            // $bagian_id = $this->input->post('bagian_id');
+            $pegawai_nip = $this->input->post('pegawai_nip');
 
-            // $this->db->trans_start();
-            // $this->db->where('account_nip', $account_nip);
-            // $this->db->update('pegawai', $data_pegawai);
-            // $this->db->trans_complete();
+            $this->db->trans_start();
+            $this->db->where('account_nip', $pegawai_nip);
+            $this->db->update('pegawai', $data_pegawai);
+            $this->db->trans_complete();
     
-            // if ($this->db->trans_status() === FALSE) {
-            //     return false;
-            // }
+            if ($this->db->trans_status() === FALSE) {
+                return false;
+            }
         };
 
         $this->db->trans_start();

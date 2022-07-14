@@ -26,6 +26,7 @@
                         <th>No</th>
                         <th>Jenis Mutasi</th>
                         <th>Tanggal Mutasi</th>
+                        <th>No Surat</th>
                         <th>File Mutasi</th>
                         <?php if($this->session->userdata("role") == "admin"){ ?>  
                             <th>Action</th>
@@ -47,16 +48,17 @@
                                 <?php } ?>
                             </td>
                             <td><?= $value->tgl_mutasi ?></td>
+                            <td><?= $value->nomor_surat ?></td>
                             <td>
                                 <?php if($value->file_mutasi != null){ ?>  
                                     <a href="<?= base_url().'uploads/'.$value->file_mutasi ?>" download class="btn btn-secondary">Unduh</a>    
                                 <?php } ?>
                                 <?php if($this->session->userdata("role") == "admin"){ ?>  
                                     <!-- Large modal -->
-                                    <button type="button" class="btn btn-info" data-toggle="modal" data-target=".uploadtable">Upload</button>
+                                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#uploadtable<?=$i?>">Upload</button>
 
                                     <!-- Modal -->
-                                    <div class="modal fade uploadtable" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                                    <div class="modal fade" id="uploadtable<?=$i?>" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
                                         <div class="modal-dialog modal-lg">
                                             <div class="modal-content">
                                                 <div class="modal-header">
@@ -68,9 +70,15 @@
                                                 <form class="forms-sample" action="<?= base_url("mutasi/upload_data_sk"); ?>" method="POST" enctype="multipart/form-data">
                                                     <input type="hidden" name="id" value="<?= $value->id ?>">
                                                     <div class="modal-body">
+                                                        <?php if($value->jenis_mutasi == "Mutasi Keluar") { ?>
+                                                            <div class="form-group">
+                                                                <label for="nip">NIP</label>
+                                                                <input type="text" class="form-control" id="nip" value="<?= $value->pegawai_nip ?> - <?= $value->alasan ?>" disabled>
+                                                            </div>
+                                                        <?php } ?>
                                                         <div class="form-group">
-                                                            <label for="nip">NIP</label>
-                                                            <input type="text" class="form-control" id="nip" value="<?= $value->pegawai_nip ?> - <?= $value->alasan ?>" disabled>
+                                                            <label for="nomor_surat">Nomor Surat</label>
+                                                            <input type="text" class="form-control" id="nomor_surat" name="nomor_surat">
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="file_mutasi">File Mutasi</label>
@@ -117,7 +125,7 @@
 
                                     
                                 </td>
-                            <?php } ?>
+                            <?php $i++; } ?>
                         </tr>
                     <?php } ?>
                 </tbody>

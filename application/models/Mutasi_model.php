@@ -50,8 +50,9 @@ class Mutasi_model extends CI_Model
             '*'
         );
         $this->db->from($this->table);
-        $this->db->join('pegawai', 'pegawai.account_nip = mutasi.pegawai_nip');
+        $this->db->join('pegawai', 'pegawai.account_nip = mutasi.pegawai_nip','LEFT');
 
+        $query = $this->db->where("status_kerja", "aktif");
         $query = $this->db->get();
 
         return $query->result();
@@ -82,6 +83,7 @@ class Mutasi_model extends CI_Model
         $alasan = $this->input->post('alasan');
         list($pegawai_nip, $email) = explode(' - ', $this->input->post('pegawai_nip'));
         $surat_pengajuan = $this->do_upload("jpg|png|pdf", "surat_pengajuan");
+        $jenis_mutasi = $this->input->post('jenis_mutasi');
 
         if ($this->session->userdata("role") == "admin") {
             $this->email_pengajuan_mutasi($email);
@@ -100,7 +102,8 @@ class Mutasi_model extends CI_Model
             "status_pengajuan" => $status_pengajuan,
             "tgl_persetujuan" => $tgl_persetujuan,
             "pegawai_nip" => $pegawai_nip,
-            "surat_pengajuan" => $surat_pengajuan
+            "surat_pengajuan" => $surat_pengajuan,
+            "jenis_mutasi" => $jenis_mutasi
         );
     
         $this->db->insert($this->table, $data_mutasi);
@@ -121,10 +124,12 @@ class Mutasi_model extends CI_Model
 
         $alasan = $this->input->post('alasan');
         $surat_pengajuan = $this->do_upload("pdf|jpg|png", "surat_pengajuan");                    
+        $jenis_mutasi = $this->input->post('jenis_mutasi');
 
         $data_mutasi = array(
             "alasan" => $alasan,
             "surat_pengajuan" => $surat_pengajuan,
+            "jenis_mutasi" => $jenis_mutasi
         );
 
         $this->db->trans_start();
@@ -167,7 +172,7 @@ class Mutasi_model extends CI_Model
                 "status_pengajuan" => $this->input->post('status'),
                 "tgl_persetujuan" => $date
             ); 
-            $this->email_pengajuan_pemberhentian($this->input->post('email'));
+            $this->email_pengajuan_mutasi($this->input->post('email'));
         }
 
 
@@ -189,8 +194,22 @@ class Mutasi_model extends CI_Model
         $this->load->library('email');
         
         $from = $this->config->item('smtp_user');        
-        $subject = 'Kirim Email dengan SMTP Gmail CodeIgniter | MasRud.com';        
-        $message = "Ini adalah contoh email yang dikirim menggunakan SMTP Gmail pada CodeIgniter.<br><br> Klik <strong><a href='https://masrud.com/kirim-email-codeigniter/' target='_blank' rel='noopener'>disini</a></strong> untuk melihat tutorialnya.";
+        $subject = 'Pengajuan mutasi';        
+        $message = "<strong>Pengajuan mutasi</strong><br><br>
+
+        Status persetujuan telah dirubah oleh Bagan Kepegawaian. Untuk lebih jelasnya dapat dilihat pada Sistem Informasi Kepegawaian.<br>
+        Berkas Persyaratan yang dibutuhkan untuk pengajuan mutasi:<br>
+        <ol>
+            <li>Fotocopy SK PNS</li>
+            <li>Fotocopy SK CPNS</li>
+            <li>Fotocopy SK Pangkat</li>
+            <li>Fotocopy DP3 Terakhir</li>
+            <li>Fotocopy Ijazah</li>
+            <li>Fotocopy Kartu Pegawai</li>
+            <li>Riwayat Hidup</li>
+            <li>Fotocopy SK PNS</li>
+            <li>Fotocopy SK PNS</li>
+        </ol>";
 
         $this->email->set_newline("\r\n");
         $this->email->from($from);
