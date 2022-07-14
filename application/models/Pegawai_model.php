@@ -66,6 +66,15 @@ class Pegawai_model extends CI_Model
         return $query->result();
     }
 
+    public function get_pegawai_non_pns()
+    {
+        $query = $this->db->where("status != ","PNS");
+        $query = $this->db->where("status_kerja", "aktif");
+        $query = $this->db->get("pegawai");
+
+        return $query->result();
+    }
+
     public function get_all_where($where, $limit = 0)
     {
         $this->db->select('*');
