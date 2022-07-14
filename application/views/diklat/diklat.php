@@ -241,6 +241,10 @@
                               <label for="file_sertifikat">Sertifikat Diklat (*)</label>
                               <input type="file" class="form-control-file" id="file_sertifikat" name="file_sertifikat">  
                             </div>
+                            <div class="form-group">
+                              <label for="angka_kredit">Angka Kredit (*)</label>
+                              <input type="text" class="form-control" id="angka_kredit" name="angka_kredit" placeholder="Angka Kredit" required> 
+                            </div>
                           </div>
                           <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Kembali</button>
