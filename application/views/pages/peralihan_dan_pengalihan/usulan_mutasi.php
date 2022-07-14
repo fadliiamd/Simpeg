@@ -173,7 +173,9 @@
                             </td>
                             <td><?= ($value->tgl_persetujuan == null) ? "-" : $value->tgl_persetujuan ; ?></td>
                             <td>
-                                <a href="<?= base_url().'uploads/'.$value->surat_usulan ?>" download class="btn btn-secondary">Unduh</a>    
+                                <?php if($value->surat_usulan != ""){ ?>
+                                    <a href="<?= base_url().'uploads/'.$value->surat_usulan ?>" download class="btn btn-secondary">Unduh</a>    
+                                <?php } ?>
                                 <?php if($this->session->userdata("role") == "admin"){ ?>  
                                     <!-- Large modal -->
                                     <button type="button" class="btn btn-info" data-toggle="modal" data-target=".uploadtable">Upload</button>
