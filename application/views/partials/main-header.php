@@ -211,7 +211,7 @@
                   <li class="nav-item"> <a class="nav-link"  href="<?= base_url("hasil"); ?>">Hasil</a></li>    
                   <?php 
                   if($_SESSION['role'] !== 'pegawai'){
-                    
+
                   }
                   ?>
                   <?php if(isset($detail_account) && $detail_account->jabatan == 'Kepala Bagian Umum') { ?>

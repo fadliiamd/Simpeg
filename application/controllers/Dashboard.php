@@ -22,7 +22,6 @@ class Dashboard extends Authentication
 	public function admin()
 	{
 		$nip = $this->session->userdata('nip');
-
 		if ($_SESSION['role'] == 'admin') {
 			$data['total_pengguna'] = $this->account_model->get_num_rows();		
 
