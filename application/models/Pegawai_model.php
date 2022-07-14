@@ -46,6 +46,7 @@ class Pegawai_model extends CI_Model
 
         $query = $this->db->where("status","PNS");
         $query = $this->db->where("tgl_menjabat <",$newtime);
+        $query = $this->db->where("status_kerja", "aktif");
         $query = $this->db->get("pegawai");
 
         return $query->result();
@@ -59,6 +60,7 @@ class Pegawai_model extends CI_Model
 
         $query = $this->db->where("status","PNS");
         $query = $this->db->where("tgl_menjabat >",$newtime);
+        $query = $this->db->where("status_kerja", "aktif");
         $query = $this->db->get("pegawai");
 
         return $query->result();
