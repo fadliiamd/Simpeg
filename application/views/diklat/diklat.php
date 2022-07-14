@@ -1,6 +1,7 @@
 <div class="row">
   <div class="col-lg-12">
     <h4>Penugasan Undangan Diklat</h4>
+    <?php print("<pre>".print_r($list_diklat_hasil,true)."</pre>"); ?>
     <div class="table-responsive">
       <table class="table table-striped table-bordered table-datatable">
         <thead class="thead-dark">
@@ -147,9 +148,8 @@
                                 <label for="file_surat">File Materi</label>
                                 <div class="mt-1">
                                   <?php
-                                  $file_materi = $list_diklat_berkas[$value->id]->file_materi;
-                                  if($file_materi != NULL) { ?>
-                                  <a href="<?= base_url().'uploads/diklat/'.$file_materi ?>" target="_blank">                              
+                                  if(isset($list_diklat_hasil[$value->id])) { ?>
+                                  <a href="<?= base_url().'uploads/diklat/'.$list_diklat_berkas[$value->id]->file_materi ?>" target="_blank">                              
                                       Lihat File Materi                         
                                   </a>
                                   <?php } else { ?>
@@ -163,10 +163,9 @@
                                 <label for="file_surat">Sertifikat</label>
                                 <div class="mt-1">
                                   <?php
-                                  $sertifikat = $list_diklat_hasil[$value->id]->nama_serti;
-                                  if($sertifikat != NULL) {
+                                  if(isset($list_diklat_hasil[$value->id])) {
                                   ?>
-                                  <a href="<?= base_url().'uploads/diklat/'.$sertifikat ?>" target="_blank">                              
+                                  <a href="<?= base_url().'uploads/diklat/'.$list_diklat_hasil[$value->id]->nama_serti ?>" target="_blank">                              
                                       Lihat Sertifikat                         
                                   </a>
                                   <?php } else { ?>

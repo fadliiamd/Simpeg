@@ -1,7 +1,6 @@
 <div class="row">
   <div class="col-lg-12">
     <h4>Penugasan Undangan Bimbingan Teknis (Bimtek)</h4>
-    <?php print("<pre>".print_r($list_bimtek_berkas,true)."</pre>"); ?>
     <div class="table-responsive">
       <table class="table table-striped table-bordered table-datatable">
         <thead class="thead-dark">
