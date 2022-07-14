@@ -96,9 +96,9 @@
                         <tr>
                             <td><?= $i ?></td>
                             <?php if  ($this->session->userdata("role") == "admin" || $this->session->userdata("role") == "direktur"){ ?>
-                                <td><?= $value->pegawai_nip ?> - <?= $value->nama ?></td>  
+                                <td><?= $value->account_nip ?> - <?= $value->nama ?></td>  
                             <?php } else { ?>
-                                <td><?= $value->pegawai_nip ?></td>  
+                                <td><?= $value->account_nip ?></td>  
                             <?php } ?>
                             <td><?= $value->tgl_diskusi ?></td>
                             <td><?= $value->waktu ?></td>
