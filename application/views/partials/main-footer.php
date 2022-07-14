@@ -138,7 +138,7 @@
       load_unseen_notification();
       setTimeout(function() {
         load_unseen_notification();
-      }, 30000);
+      }, 1000);
     }
 
     $(document).ready( function () {
