@@ -5,17 +5,7 @@ class Hasil extends CI_Controller {
 
     public function __construct()
     {
-        parent::__construct();
-
-        // Auth Check
-        $login_nip = $this->session->userdata('nip');
-        $login_role = $this->session->userdata('role');
-        $login_jabatan = $this->session->userdata('jabatan');
-
-        if($login_role != 'admin' || $login_jabatan != 'Kepala Bagian Umum') {
-            $this->session->set_flashdata('message_error', 'Anda tidak memiliki akses!');
-            redirect("dashboard");
-        }
+        parent::__construct();        
     }
 
 	public function index()
