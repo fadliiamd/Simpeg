@@ -104,12 +104,12 @@
                             </td>
                             <?php if($this->session->userdata("role") == "admin"){ ?>   
                                 <td>
-                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deletetable">
+                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deletetable<?=$i?>">
                                     Hapus
                                     </button>
 
                                     <!-- Modal -->
-                                    <div class="modal fade" id="deletetable" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal fade" id="deletetable<?=$i?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
                                                 <form class="forms-sample" action="<?= base_url("mutasi/delete_data_sk_mutasi"); ?>" method="POST">

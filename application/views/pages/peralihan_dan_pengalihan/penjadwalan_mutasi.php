@@ -109,12 +109,12 @@
                                     <span class="badge badge-secondary"><?= $value->status; ?></span>
                                     <?php if($this->session->userdata("role") == "direktur"){ ?>
                                         <div class="mt-3">
-                                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#approvetable">
+                                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#approvetable<?=$i?>">
                                                 Laksanakan
                                             </button>
 
                                             <!-- Modal -->
-                                            <div class="modal fade" id="approvetable" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal fade" id="approvetable<?=$i?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                 <div class="modal-dialog" role="document">
                                                     <div class="modal-content">
                                                         <form class="forms-sample" action="<?= base_url("mutasi/status_penjadwalan"); ?>" method="POST">
@@ -148,10 +148,10 @@
                             <?php if($this->session->userdata("role") == "admin"){ ?>   
                                 <td>
                                     <!-- Large modal -->
-                                    <button type="button" class="btn btn-info" data-toggle="modal" data-target=".edittable">Edit</button>
+                                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#edittable<?=$i?>">Edit</button>
 
                                     <!-- Modal -->
-                                    <div class="modal fade edittable" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                                    <div class="modal fade" id="edittable<?=$i?>" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
                                         <div class="modal-dialog modal-lg">
                                             <div class="modal-content">
                                                 <div class="modal-header">
@@ -194,12 +194,12 @@
                                     </div>
                                     <!-- End Modal -->
 
-                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deletetable">
+                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deletetable<?=$i?>">
                                     Hapus
                                     </button>
 
                                     <!-- Modal -->
-                                    <div class="modal fade" id="deletetable" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal fade" id="deletetable<?=$i?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
                                                 <form class="forms-sample" action="<?= base_url("mutasi/delete_data_penjadwalan"); ?>" method="POST">
