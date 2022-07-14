@@ -28,41 +28,18 @@
                     </div>                    
                     <form class="forms-sample" action="<?= base_url("pemberhentian/create_data_pemberhentian"); ?>" method="POST" enctype="multipart/form-data">
                         <div class="modal-body">
-                            <div class="form-group">
-                                <label for="jenis_berhenti">Jenis Berhenti</label>
-                                <select class="form-control" id="jenis_berhenti" name="jenis_berhenti">
-                                    <option value="Pengunduran diri">Pengunduran diri</option>
-                                    <option value="Pensiun dini">Pensiun dini</option>
-                                    <option value="Pensiun batas usia">Pensiun batas usia</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="alasan">Alasan</label>
-                                <textarea class="form-control" id="alasan" rows="4" name="alasan"></textarea>
-                            </div>
-                            <div class="form-group row">
-                                <div class="col-lg-1">
-                                    <label for="mpp">MPP</label>
+                            <?php if  ($this->session->userdata("role") == "admin"){ ?>
+                                <div class="form-group">
+                                    <label for="jenis_berhenti">Jenis Berhenti</label>
+                                    <select class="form-control" id="jenis_berhenti" name="jenis_berhenti">
+                                        <option value="Pengunduran diri">Pengunduran diri</option>
+                                        <option value="Pensiun dini">Pensiun dini</option>
+                                        <option value="Pensiun batas usia">Pensiun batas usia</option>
+                                    </select>
                                 </div>
-                                <div class="col-lg-11">
-                                    <div class="mx-3">
-                                        <input class="form-check-input" type="radio" name="mpp" id="exampleRadios1" value="Ya" checked>
-                                        <label class="form-check-label" for="exampleRadios1">
-                                            Ya
-                                        </label>
-                                    </div>
-                                    <div class="mx-3">
-                                        <input class="form-check-input" type="radio" name="mpp" id="exampleRadios2" value="Tidak">
-                                        <label class="form-check-label" for="exampleRadios2">
-                                            Tidak
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="surat_pengunduran_diri">Surat Pengajuan</label>
-                                <input type="file" class="form-control" id="surat_pengunduran_diri" name="surat_pengunduran_diri">
-                            </div>
+                            <?php } else { ?>
+                                <input type="hidden" name="jenis_berhenti" value="Pengunduran diri">
+                            <?php } ?>
                             <div class="form-group">
                                 <?php if ($this->session->userdata("role") == "pegawai") { ?>
                                     <?php foreach ($pegawaiNonPNS as $key => $value) { ?>
@@ -94,6 +71,33 @@
                                         </select>
                                     </div>
                                 <?php } ?>
+                            </div>
+                            <div class="form-group">
+                                <label for="alasan">Alasan</label>
+                                <textarea class="form-control" id="alasan" rows="4" name="alasan"></textarea>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-1">
+                                    <label for="mpp">MPP</label>
+                                </div>
+                                <div class="col-lg-11">
+                                    <div class="mx-3">
+                                        <input class="form-check-input" type="radio" name="mpp" id="exampleRadios1" value="Ya" checked>
+                                        <label class="form-check-label" for="exampleRadios1">
+                                            Ya
+                                        </label>
+                                    </div>
+                                    <div class="mx-3">
+                                        <input class="form-check-input" type="radio" name="mpp" id="exampleRadios2" value="Tidak">
+                                        <label class="form-check-label" for="exampleRadios2">
+                                            Tidak
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="surat_pengunduran_diri">Surat Pengajuan</label>
+                                <input type="file" class="form-control" id="surat_pengunduran_diri" name="surat_pengunduran_diri">
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -164,10 +168,11 @@
                                                         <form class="forms-sample" action="<?= base_url("pemberhentian/status_pemberhentian"); ?>" method="POST">
                                                             <div class="modal-header">
                                                                 <input type="hidden" name="id" value="<?= $value->id ?>">
+                                                                <input type="hidden" name="pegawai_nip" value="<?= $value->pegawai_nip ?>">
                                                                 <input type="hidden" name="status" value="setuju">
                                                                 <input type="hidden" name="email" value="<?= $value->email ?>">
                                                                 <input type="hidden" name="jenis_berhenti" value="<?= $value->jenis_berhenti ?>">
-                                                                <h5 class="modal-title" id="exampleModalLabel">Setujui Pengajuan Mutasi NIP : <b><?= $value->pegawai_nip ?></b> </h5>
+                                                                <h5 class="modal-title" id="exampleModalLabel">Setujui Pengajuan Pemberhentian NIP : <b><?= $value->pegawai_nip ?></b> </h5>
                                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                                     <span aria-hidden="true">&times;</span>
                                                                 </button>
@@ -266,14 +271,6 @@
                                                                 </label>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="pegawai_nip">Pegawai</label>
-                                                        <select class="form-control" id="pegawai_nip" name="pegawai_nip">
-                                                            <?php foreach ($pegawai as $key => $p) { ?>
-                                                                <option <?= ($value->pegawai_nip == $p->account_nip) ? "selected" : "" ?>  value="<?= $p->account_nip ?>"><?= $p->account_nip ?> - <?= $p->nama ?></option>
-                                                            <?php } ?>
-                                                        </select>
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">

@@ -34,7 +34,7 @@ class Pemberhentian extends Roles {
 	{
 		$pegawaiPNSNonDini = $this->pegawai_model->get_pegawai_tua();
 		$pegawaiPNSDini = $this->pegawai_model->get_pegawai_muda();
-		$pegawaiNonPNS = $this->pegawai_model->get_condition("status !=","PNS");
+		$pegawaiNonPNS = $this->pegawai_model->get_pegawai_non_pns();
 		$users = $this->pegawai_model->get_condition("account_nip",$this->session->userdata("nip"));
 		
 		if ($this->session->userdata("role") == "admin" || $this->session->userdata("role") == "direktur") {
