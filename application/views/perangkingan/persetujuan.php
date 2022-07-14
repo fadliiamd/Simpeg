@@ -73,7 +73,12 @@
                                     <td><?=$no2 ?></td>
                                     <td><?=$value2->account_nip ?></td>
                                     <td><?=$value2->nama ?></td>
-                                    <td><?= $list_jabatan[$value->jabatan_id]->nama_jabatan ?></td>
+                                    <td>
+                                      <?php if(!is_null($value2->jabatan_id)){ ?>
+                                        <?= $list_jabatan[$value2->jabatan_id]->nama_jabatan ?>
+                                      <?php
+                                      }?>                                      
+                                    </td>
                                     <td><?=$value2->nilai_rank ?></td>
                                   </tr>
                                 <?php $no2++;
