@@ -13,9 +13,9 @@
             <button type="button" class="my-3 btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Tambah Pemberhentian</button>
         <?php } ?>
 
-        <a href="<?= base_url().'assets/pdf/template-surat-pengunduran-diri.pdf'?>" download class="my-3 btn btn-secondary">Surat Pengunduran Diri</a>    
+        <!-- <a href="<?= base_url().'assets/pdf/template-surat-pengunduran-diri.pdf'?>" download class="my-3 btn btn-secondary">Surat Pengunduran Diri</a>    
 
-        <a href="<?= base_url().'assets/pdf/template-surat-pensiun-dini.pdf'?>" download class="my-3 btn btn-secondary">Surat Pensiun Dini</a>    
+        <a href="<?= base_url().'assets/pdf/template-surat-pensiun-dini.pdf'?>" download class="my-3 btn btn-secondary">Surat Pensiun Dini</a>     -->
         <!-- Modal -->
         <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
