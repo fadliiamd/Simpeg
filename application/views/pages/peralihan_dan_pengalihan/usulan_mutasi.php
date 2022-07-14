@@ -2,50 +2,6 @@
 	<div class="col-lg-12">
         <h4>Usulan Mutasi Mutasi</h4>
 
-        <?php if($this->session->userdata("role") == "admin"){ ?>       
-            <!-- Large modal -->
-            <button type="button" class="my-3 btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Tambah Usulan Mutasi Mutasi</button>
-            <!-- <a type="button" class="my-3 btn btn-primary" href="<?= base_url("send_email") ?>" >Coba</a> -->
-
-            <!-- Modal -->
-            <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Pengajuan Mutasi</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <form class="forms-sample" action="<?= base_url("mutasi/create_data_usulan"); ?>" method="POST">
-                            <div class="modal-body">
-                                <div class="form-group">
-                                    <label for="mutasi_id">NIP</label>
-                                    <select class="form-control custom-select" id="mutasi_id" name="mutasi_id">
-                                        <?php foreach ($berkas_mutasi as $key => $value) { ?>
-                                            <option value="<?= $value->id ?> - <?= $value->id_mutasi?>"><?= $value->pegawai_nip ?> - <?= $value->alasan ?></option>
-                                        <?php } ?>
-                                    </select>
-                                </div>
-                                <!-- <div class="form-group">
-                                    <label for="id_berkas_mutasi">Berkas Mutasi</label>
-                                    <select class="form-control" id="id_berkas_mutasi" name="id_berkas_mutasi">
-                                        <option>1</option>
-                                        <option>2</option>
-                                    </select>
-                                </div> -->
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Kembali</button>
-                                <button type="submit" class="btn btn-primary">Tambah Mutasi</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <!-- End Modal -->
-        <?php } ?>
-
         <?php if ($this->session->flashdata('message_success')) : ?>
             <div class="alert alert-success alert-dismissible fade show" role="alert">
                 <?= $this->session->flashdata('message_success') ?>
@@ -73,7 +29,10 @@
                         <th>Tanggal Pengajuan</th>
                         <th>Status Pengajuan</th>
                         <th>Tanggal Persetujuan</th>
-                        <th>Action</th>
+                        <th>Surat Usulan</th>
+                        <?php if($this->session->userdata("role") == "admin"){ ?>
+                            <th>Action</th>
+                        <?php } ?>
                     </tr>
                 </thead>
                 <tbody>
@@ -142,7 +101,7 @@
                                 
                                 <?php if($value->status_persetujuan == "pending") {?>
                                     <span class="badge badge-warning"><?= $value->status_persetujuan; ?></span>
-                                    <?php if($this->session->userdata("role") == "direktur"){ ?>
+                                    <?php if($this->session->userdata("role") == "direktur" && $value->tgl_usulan != null && $value->surat_usulan != null){ ?>
                                         <div class="mt-3">
                                             <button type="button" class="btn btn-success" data-toggle="modal" data-target="#approvetable">
                                                 Setujui
@@ -154,7 +113,11 @@
                                                     <div class="modal-content">
                                                         <form class="forms-sample" action="<?= base_url("mutasi/status_usulan"); ?>" method="POST">
                                                             <div class="modal-header">
+                                                                <input type="hidden" name="usulanmutasi_id" value="<?= $value->id ?>">
+                                                                <input type="hidden" name="pegawai_nip" value="<?= $value->pegawai_nip ?>">
                                                                 <input type="hidden" name="id" value="<?= $value->id ?>">
+                                                                <input type="hidden" name="jenis_mutasi" value="Mutasi Keluar">
+                                                                <input type="hidden" name="tgl_mutasi" value="<?= $value->tgl_usulan?>">
                                                                 <input type="hidden" name="status" value="setujui">
                                                                 <h5 class="modal-title" id="exampleModalLabel">Setujui Pengajuan Mutasi Id : <b><?= $value->id ?></b> </h5>
                                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -210,68 +173,90 @@
                             </td>
                             <td><?= ($value->tgl_persetujuan == null) ? "-" : $value->tgl_persetujuan ; ?></td>
                             <td>
-                                
-                            <?php if($this->session->userdata("role") == "admin"){ ?>   
-                                <!-- Large modal -->
-                                <!-- <button type="button" class="btn btn-info" data-toggle="modal" data-target=".edittable">Edit</button> -->
+                                <a href="<?= base_url().'uploads/'.$value->surat_usulan ?>" download class="btn btn-secondary">Unduh</a>    
+                                <?php if($this->session->userdata("role") == "admin"){ ?>  
+                                    <!-- Large modal -->
+                                    <button type="button" class="btn btn-info" data-toggle="modal" data-target=".uploadtable">Upload</button>
 
-                                <!-- Modal -->
-                                <div class="modal fade edittable" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog modal-lg">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">Edit Usulan Mutasi No : <b><?= $i ?><b></h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                                </button>
+                                    <!-- Modal -->
+                                    <div class="modal fade uploadtable" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-lg">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Upload Surat Usulan Pensiun No : <b><?= $i; ?><b></h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <form class="forms-sample" action="<?= base_url("mutasi/upload_data_usulan"); ?>" method="POST" enctype="multipart/form-data">
+                                                    <input type="hidden" name="id" value="<?= $value->id ?>">
+                                                    <div class="modal-body">
+                                                        <div class="form-group">
+                                                            <label for="nip">NIP</label>
+                                                            <input type="text" class="form-control" id="nip" value="<?= $value->pegawai_nip ?> - <?= $value->alasan ?>" disabled>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="surat_usulan">Surat Usulan</label>
+                                                            <input type="file" class="form-control-file" id="surat_usulan" name="surat_usulan">
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Kembali</button>
+                                                        <button type="submit" class="btn btn-primary">Upload File Usulan</button>
+                                                    </div>
+                                                </form>
                                             </div>
-                                            <form class="forms-sample">
-                                                <div class="modal-body">
-                                                    <div class="form-group">
-                                                        <label for="nip">NIP</label>
-                                                        <input type="text" class="form-control" id="nip" name="nip" placeholder="NIP">
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="alasan">Alasan</label>
-                                                        <textarea class="form-control" id="alasan" rows="4" name="alasan"></textarea>
-                                                    </div>
-                                                    <div class="form-group row">
-                                                        <div class="col-md-6">
-                                                            <label for="tgl_pengajuan">Tanggal Pengajuan</label>
-                                                            <input type="date" class="form-control" id="tgl_pengajuan" name="tgl_pengajuan">
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <label for="tgl_persetujuan">Tanggal Persetujuan</label>
-                                                            <input type="date" class="form-control" id="tgl_persetujuan" name="tgl_persetujuan">
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="status_pengajuan">Status</label>
-                                                        <select class="form-control" id="status_pengajuan" name="status_pengajuan">
-                                                            <option>Diterima</option>
-                                                            <option>Ditolak</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Kembali</button>
-                                                    <button type="button" class="btn btn-primary">Edit Mutasi</button>
-                                                </div>
-                                            </form>
                                         </div>
                                     </div>
-                                </div>
-                                <!-- End Modal -->
+                                    <!-- End Modal -->
+                                <?php } ?>
+                            </td>
+                            <?php if($this->session->userdata("role") == "admin"){ ?>   
+                                <td>
+                                    <!-- Large modal -->
+                                    <button type="button" class="btn btn-info" data-toggle="modal" data-target=".edittable">Edit</button>
 
-                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deletetable<?= $value->id ?>">
-                                Hapus
-                                </button>
+                                    <!-- Modal -->
+                                    <div class="modal fade edittable" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-lg">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Edit Usulan Mutasi No : <b><?= $i; ?><b></h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <form class="forms-sample" action="<?= base_url("mutasi/update_data_usulan"); ?>" method="POST" enctype="multipart/form-data">
+                                                    <input type="hidden" name="id" value="<?= $value->id ?>">
+                                                    <div class="modal-body">
+                                                        <div class="form-group">
+                                                            <label for="nip">NIP</label>
+                                                            <input type="text" class="form-control" id="nip" value="<?= $value->pegawai_nip ?> - <?= $value->alasan ?>" disabled>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="tgl_usulan">Tanggal Usulan</label>
+                                                            <input type="date" class="form-control" id="tgl_usulan" name="tgl_usulan">
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Kembali</button>
+                                                        <button type="submit" class="btn btn-primary">Edit Usulan</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- End Modal -->
+
+                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deletetable<?= $value->id ?>">
+                                    Hapus
+                                    </button>
 
                                     <!-- Modal -->
                                     <div class="modal fade" id="deletetable<?= $value->id ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
-                                                <form class="forms-sample" action="<?= base_url("mutasi/delete_data_mutasi"); ?>" method="POST">
+                                                <form class="forms-sample" action="<?= base_url("mutasi/delete_data_usulan"); ?>" method="POST">
                                                     <div class="modal-header">
                                                         <h5 class="modal-title" id="exampleModalLabel">Hapus Mutasi Id : <b><?= $value->id ?><b></h5>
                                                         <input type="hidden" name="id" value="<?= $value->id ?>">
@@ -288,13 +273,8 @@
                                         </div>
                                     </div>
 
+                                </td>
                             <?php } ?>
-
-                            <button type="button" class="btn btn-secondary" data-toggle="modal">
-                            Unduh
-                            </button>
-
-                            </td>
                         </tr>
                     <?php $i++; } ?>
                 </tbody>

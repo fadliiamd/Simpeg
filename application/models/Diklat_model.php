@@ -22,6 +22,18 @@ class Diklat_model extends CI_Model
         return $query->row();
     }
 
+    public function get_num_rows()
+    {
+        $query = $this->db->get($this->table);
+        return $query->num_rows();
+    }
+    
+    public function get_num_rows_by($nip)
+    {
+        $query = $this->db->get_where($this->table, $nip);
+        return $query->num_rows();
+    }
+
     public function insert_one($data)
     {
         $this->db->insert($this->table, $data);

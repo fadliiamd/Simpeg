@@ -89,7 +89,16 @@
                             <div class="form-group row">
                                 <div class="col-md-6">
                                     <label for="jabatan">Jabatan</label>
-                                    <input type="text" class="form-control" id="jabatan" name="jabatan">
+                                    <select class="form-control" id="jabatan" name="jabatan">
+                                        <option value="" selected>-- Pilih Jabatan --</option>
+                                        <?php
+                                        $option = '';
+                                        foreach ($jabatan as $key => $value) {
+                                            $option .= '<option value="' . $value->id . '">' . $value->nama_jabatan . ' - ' . $value->jenis_jabatan . '</option>';
+                                        }
+                                        echo $option;
+                                        ?>
+                                    </select>
                                 </div>      
                             </div>
                             <div class="form-group row">
@@ -130,7 +139,7 @@
                         <tr>
                             <td><?= $no ?></td>
                             <td><?= $value->account_nip ?></td>
-                            <td><?= $value->jabatan ?></td>
+                            <td><?= $value->nama_jabatan ?></td>
                             <td><?= $value->nama ?></td>
                             <td><?= $value->email ?></td>                            
                             <td><?= $value->tempat_lahir.', '.date('d-m-Y', strtotime($value->tgl_lahir)) ?></td>
@@ -155,6 +164,7 @@
                                                         <div class="col-md-6">
                                                             <label for="email">Email (*)</label>
                                                             <input class="form-control" id="email" name="email" value="<?= $value->email ?>" required>
+                                                            <input type="hidden" class="form-control" id="email_old" name="email_old" value="<?= $value->email ?>">
                                                         </div>
                                                         <div class="col-md-6">
                                                             <label for="password">Password</label>
@@ -209,7 +219,21 @@
                                                     <div class="form-group row">
                                                         <div class="col-md-6">
                                                             <label for="jabatan">Jabatan</label>
-                                                            <input type="text" class="form-control" id="jabatan" name="jabatan" value="<?= $value->jabatan ?>">
+                                                            <select class="form-control" id="jabatan" name="jabatan">
+                                                                <option value="">-- Pilih Jabatan --</option>
+                                                                <?php
+                                                                $option = '';
+                                                                foreach ($jabatan as $k => $v) {
+                                                                    if ($value->jabatan_id == $v->id) {
+                                                                        $selected = 'selected';
+                                                                    } else {
+                                                                        $selected = '';
+                                                                    }
+                                                                    $option .= '<option value="' . $v->id . '" ' . $selected . '>' . $v->nama_jabatan . ' - ' . $v->jenis_jabatan . '</option>';
+                                                                }
+                                                                echo $option;
+                                                                ?>
+                                                            </select>
                                                         </div>
                                                     </div>
                                                     <div class="form-group row">
@@ -259,7 +283,7 @@
                                     </div>
                                 </div>
 
-                                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#deletetable">Detail</button>
+                                <a href="<?= base_url('account/profile_direktur/' . $value->account_nip) ?>"><button type="button" class="btn btn-info">Detail</button></a>
                             </td>
                         </tr>
                     <?php

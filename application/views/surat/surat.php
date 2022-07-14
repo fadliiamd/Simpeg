@@ -74,7 +74,7 @@
     <!-- End Modal -->
 
     <div class="table-responsive">
-      <table class="table table-striped table-bordered table-datatable">
+      <table id="list-surat" class="table table-striped table-bordered">
         <thead class="thead-dark">
           <tr>
             <!-- <th>Diupload Oleh</th> -->

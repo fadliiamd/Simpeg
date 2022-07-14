@@ -20,6 +20,14 @@
                         <form class="forms-sample" action="<?= base_url("mutasi/create_data_penerimaan"); ?>" method="POST">
                             <div class="modal-body">
                                 <div class="form-group">
+                                    <label for="pegawai_nip">NIP</label>
+                                    <select class="custom-select" id="pegawai_nip" name="pegawai_nip">
+                                        <?php foreach ($pegawai as $key => $value) { ?>
+                                            <option value="<?= $value->account_nip ?> - <?= $value->email ?>"><?= $value->account_nip ?> - <?= $value->nama ?></option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                                <div class="form-group">
                                     <label for="daerah_asal">Daerah Asal</label>
                                     <input type="text" class="form-control" id="daerah_asal" name="daerah_asal" placeholder="Daerah Asal">
                                 </div>

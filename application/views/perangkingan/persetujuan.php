@@ -16,7 +16,7 @@
             </button>
         </div>
     <?php endif ?>
-    <h4>Daftar Hasil Perangkingan</h4>
+    <h4>Daftar Hasil Perangkingan</h4>    
     <form action="<?= base_url("hasil/pengajuan") ?>" method="POST" enctype="multipart/form-data">
       <div class="table-responsive">
         <table class="table table-striped table-bordered table-datatable">
