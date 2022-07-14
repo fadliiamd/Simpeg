@@ -168,10 +168,11 @@
                                                         <form class="forms-sample" action="<?= base_url("pemberhentian/status_pemberhentian"); ?>" method="POST">
                                                             <div class="modal-header">
                                                                 <input type="hidden" name="id" value="<?= $value->id ?>">
+                                                                <input type="hidden" name="pegawai_nip" value="<?= $value->pegawai_nip ?>">
                                                                 <input type="hidden" name="status" value="setuju">
                                                                 <input type="hidden" name="email" value="<?= $value->email ?>">
                                                                 <input type="hidden" name="jenis_berhenti" value="<?= $value->jenis_berhenti ?>">
-                                                                <h5 class="modal-title" id="exampleModalLabel">Setujui Pengajuan Mutasi NIP : <b><?= $value->pegawai_nip ?></b> </h5>
+                                                                <h5 class="modal-title" id="exampleModalLabel">Setujui Pengajuan Pemberhentian NIP : <b><?= $value->pegawai_nip ?></b> </h5>
                                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                                     <span aria-hidden="true">&times;</span>
                                                                 </button>
@@ -270,14 +271,6 @@
                                                                 </label>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="pegawai_nip">Pegawai</label>
-                                                        <select class="form-control" id="pegawai_nip" name="pegawai_nip">
-                                                            <?php foreach ($pegawai as $key => $p) { ?>
-                                                                <option <?= ($value->pegawai_nip == $p->account_nip) ? "selected" : "" ?>  value="<?= $p->account_nip ?>"><?= $p->account_nip ?> - <?= $p->nama ?></option>
-                                                            <?php } ?>
-                                                        </select>
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">
