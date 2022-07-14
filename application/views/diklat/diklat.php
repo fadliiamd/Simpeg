@@ -1,6 +1,7 @@
 <div class="row">
   <div class="col-lg-12">
     <h4>Penugasan Undangan Diklat</h4>
+    <?php print("<pre>".print_r($list_diklat_berkas,true)."</pre>"); ?>
     <div class="table-responsive">
       <table class="table table-striped table-bordered table-datatable">
         <thead class="thead-dark">
@@ -73,14 +74,49 @@
                             <?php if($value->jenis_tujuan === 'divisi') { ?>
                               <div class="form-group">
                                 <label for="divisi">Divisi Tujuan</label>
-                                <input type="text" class="form-control" id="divisi" value=<?=ucwords($value->tujuan) ?> disabled>
+                                <input type="text" class="form-control" id="divisi" value="<?=ucwords($value->tujuan) ?>" disabled>
                               </div>
                             <?php } else if($value->jenis_tujuan === 'perorangan') { ?>
                               <div class="form-group">
                                 <label for="tujuan">Jenis Pegawai Tujuan</label>
-                                <input type="text" class="form-control" id="tujuan" value=<?=ucwords($value->tujuan) ?> disabled>
+                                <input type="text" class="form-control" id="tujuan" value="<?=ucwords($value->tujuan) ?>" disabled>
                               </div>
                             <?php } ?>
+                          </div>
+                          <div class="form-group row">
+                            <div class="col-md-6">
+                              <label for="file_surat">File Materi</label>
+                              <div class="mt-1">
+                                <?php
+                                $file_materi = $list_diklat_berkas[$value->id]->file_materi;
+                                if($file_materi != NULL) { ?>
+                                <a href="<?= base_url().'uploads/diklat/'.$file_materi ?>" target="_blank">                              
+                                    Lihat File Materi                         
+                                </a>
+                                <?php } else { ?>
+                                <a>                              
+                                    Tidak Ada                         
+                                </a>
+                                <?php } ?>
+                              </div>
+                            </div>
+                            <div class="col-md-6">
+                              <label for="file_surat">Sertifikat</label>
+                              <div class="mt-1">
+                                <?php
+                                $sertifikat = $list_diklat_berkas[$value->id]->sertifikat_id;
+                                if($sertifikat != NULL) {
+                                ?>
+                                <a href="<?= base_url().'uploads/diklat/'.$sertifikat ?>" target="_blank">                              
+                                    Lihat Sertifikat                         
+                                </a>
+                                <?php } else { ?>
+                                <a>                              
+                                    Tidak Ada                         
+                                </a>
+                                <?php } ?>
+                              </div>
+                            </div>                
                           </div>
                         </div>
                         <div class="modal-footer">

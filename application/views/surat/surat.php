@@ -50,6 +50,10 @@
                 </div>
               </div>
               <div class="form-group">
+                <label for="tema">Tema/Judul Kegiatan (*)</label>
+                <input type="text" class="form-control" id="tema" name="tema" placeholder="Tema/Judul Kegiatan" required>
+              </div>
+              <div class="form-group">
                 <label for="jenis_tujuan">Jenis Pegawai Tujuan Surat (*)</label>
                 <select class="form-control" id="jenis_tujuan" name="jenis_tujuan" required>
                   <option value="" selected hidden>--- Jenis Pegawai Tujuan Surat ---</option>
@@ -95,7 +99,7 @@
               <td>
                 <?= ucwords($value->jenis_tujuan) ?>
               </td>
-              <td><?= $value->tgl_upload ?></td>
+              <td><?= date_indo($value->tgl_upload) ?></td>
               <td><label class="badge badge-light">Surat <?= ucwords($value->jenis) ?></label></td>
               <td>
                 <!-- Large modal -->
@@ -237,6 +241,7 @@
                       </div>
                       <form action="<?= base_url(); ?>surat/update" method="post" class="forms-sample" enctype="multipart/form-data">
                         <div class="modal-body">
+                          <input type="hidden" class="form-control-file" id="id_surat" name="id_surat" value="<?= $value->id ?>">
                           <div class="form-group">
                             <label for="file_surat">File Surat (*)</label>
                             <input type="file" class="form-control-file" id="file_surat" name="file_surat">

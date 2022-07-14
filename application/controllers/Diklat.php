@@ -28,9 +28,10 @@ class Diklat extends CI_Controller {
             "account_nip" => $this->session->userdata('nip')
         ));
 
-        $has_upload_hasil = array();
-        $check_diklat = array();
-        $list_diklat_id = array();
+        $has_upload_hasil = [];
+        $check_diklat = [];
+        $list_diklat_id = [];
+        $list_diklat_berkas = [];
         // Filter "Surat Tugas" Addressed to Account
         foreach($list_diklat as $key => $value) {
             if($value->jenis_tujuan == 'perorangan') {
@@ -86,24 +87,30 @@ class Diklat extends CI_Controller {
                     "surat_id" => $value->id
                 ));
 
-                if($status_check->file_materi != NULL && $status_check->sertifikat != NULL) {
-                    $has_upload_hasil[$value->id] = true;
-                } else {
-                    $has_upload_hasil[$value->id] = false;
+                if($status_check != NULL) {
+                    if($status_check->file_materi != NULL && $status_check->sertifikat != NULL) {
+                        $has_upload_hasil[$value->id] = true;
+                    } else {
+                        $has_upload_hasil[$value->id] = false;
+                    }
                 }
 
                 $check_diklat[$value->id] = ($status_check == NULL ? NULL : $status_check->id);
                 $list_diklat_id[$value->id] = ($status_check == NULL ? NULL : $status_check->id);
+                $list_diklat_berkas[$value->id] = ($status_check == NULL ? NULL : $status_check);
             }
         }
 
         // Load View
-        $this->load->view('partials/main-header');
+        $this->load->view('partials/main-header', [
+            "title" => "Diklat"
+        ]);
 		$this->load->view('diklat/diklat', [
             "list_diklat" => $list_diklat,
             "check_diklat" => $check_diklat,
             "has_upload_hasil" => $has_upload_hasil,
-            "list_diklat_id" => $list_diklat_id
+            "list_diklat_id" => $list_diklat_id,
+            "list_diklat_berkas" => $list_diklat_berkas
         ]);
 		$this->load->view('partials/main-footer');
     }
@@ -147,9 +154,10 @@ class Diklat extends CI_Controller {
         $file_surat_sehat_name = $this->do_upload("pdf", "file_surat_sehat");
         $file_tambahan_name = $this->do_upload("pdf", "file_tambahan");
 
-        // Validation
+        // File Validation
         if(is_null($file_foto_name && $file_ktp_name && $file_kk_name && $file_ijazah_name)) {
-            die();
+            $this->session->set_flashdata('message_error', 'Kesalahan dalam mengunggah file!');
+            redirect("diklat");
         }
 
         $data = array(
@@ -205,6 +213,7 @@ class Diklat extends CI_Controller {
     {
         // Load Model
         $this->load->model('diklat_model');
+        $this->load->model('sertifikat_model');
 
         // POST Request and Upload File
         $diklat_id = $this->input->post('diklat_id');
@@ -213,13 +222,21 @@ class Diklat extends CI_Controller {
 
         // Validation
         if(is_null($file_materi_name && $file_sertifikat_name)) {
-            die();
+            $this->session->set_flashdata('message_success', 'Kesalahan dalam mengunggah file!');
+            redirect("diklat");
         }
 
-        $data = array(
+        $data_sertif = [
+            "account_nip" => $this->session->userdata('nip'),
+            "nama_serti" => $file_sertifikat_name
+        ];
+
+        $insert_sertif = $this->sertifikat_model->create_one($data_sertif);
+
+        $data = [
             "file_materi" => $file_materi_name,
-            "sertifikat" => $file_sertifikat_name
-        );
+            "sertifikat_id" => $insert_sertif
+        ];
 
         $update = $this->diklat_model->update_one($diklat_id, $data);
 

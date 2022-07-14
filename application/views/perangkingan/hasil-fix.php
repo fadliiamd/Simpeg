@@ -39,21 +39,23 @@
           </thead>
           <tbody>
             <?php 
-              $format = '';
               $no = 1;
-              foreach ($pegawai as $key => $value){
-                $format .= '
+              foreach ($pegawai as $key => $value){ ?>
                 <tr>
-                  <td><input type="checkbox" name="checklist_id[]" value="'.$value->account_nip.'"></td>
-                  <td>'.$no.'</td>
-                  <td>'.$value->account_nip.'</td>
-                  <td>'.$value->nama.'</td>
-                  <td>'.ucwords($value->jabatan_id).'</td>
-                  <td>'.$value->nilai_rank.'</td>
-                </tr>';
-                $no++;
+                  <td><input type="checkbox" name="checklist_id[]" value="<?= $value->account_nip ?>"></td>
+                  <td><?= $no ?></td>
+                  <td><?= $value->account_nip ?></td>
+                  <td><?= $value->nama ?></td>
+                  <td>
+                    <?php if($value->jabatan_id != NULL) { ?>
+                    <?= $list_jabatan[$value->jabatan_id]->nama_jabatan ?>
+                    <?php  }?>
+                  </td>
+                  <td><?= $value->nilai_rank ?></td>
+                </tr>
+              <?php
+              $no++;
               }
-              echo $format;
             ?>
           </tbody>        
         </table>

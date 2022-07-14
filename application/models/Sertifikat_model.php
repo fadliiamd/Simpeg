@@ -46,6 +46,11 @@ class Sertifikat_model extends CI_Model
         return ($this->db->affected_rows() != 1) ? false : true;
     }
 
+    public function create_one($data) {
+        $this->db->insert($this->table, $data);
+        return ($this->db->affected_rows() != 1) ? false : $this->db->insert_id();        ;
+    }
+
     public function update_one($id)
     {
         $this->db->trans_start();

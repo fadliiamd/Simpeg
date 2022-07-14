@@ -91,7 +91,9 @@ class Bimtek extends CI_Controller {
         }
 
         // Load View
-        $this->load->view('partials/main-header');
+        $this->load->view('partials/main-header', [
+            "title" => "Bimbingan Teknis (Bimtek)"
+        ]);
 		$this->load->view('bimtek/bimtek', [
             "list_bimtek" => $list_bimtek,
             "check_bimtek" => $check_bimtek,
