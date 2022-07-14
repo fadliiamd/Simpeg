@@ -26,110 +26,6 @@
               <td><?= date_indo($value->tgl_upload) ?></td>
               <td><label class="badge badge-light">Surat <?= ucwords($value->jenis) ?></label></td>
               <td>
-                <?php
-                if($has_upload_hasil[$value->id] == 0) {
-                ?>
-                <!-- Large modal -->
-                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#viewdiklat-<?= $value->id ?>">Lihat</button>
-
-                <!-- Modal -->
-                <div id="viewdiklat-<?= $value->id ?>" class="modal fade edittable" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-                  <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">No. Surat : <b><?= $value->no ?><b></h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true">&times;</span>
-                        </button>
-                      </div>
-                      <form action="<?= base_url(); ?>surat/update" method="post" class="forms-sample" enctype="multipart/form-data">
-                        <div class="modal-body">
-                          <div class="form-group">
-                            <label for="file_surat">File Surat</label>
-                            <div class="mt-1">
-                              <a href="<?= base_url() . 'uploads/' . $value->file_name ?>" target="_blank">                              
-                                  Lihat Surat                              
-                              </a>
-                            </div>                            
-                          </div>
-                          <div class="form-group row">
-                            <div class="col-md-6">
-                              <label for="no_surat">Nomor Surat</label>
-                              <input type="text" class="form-control" id="no_surat" value=<?=$value->no ?> disabled>
-                            </div>
-                            <div class="col-md-6">
-                              <label for="jenis_surat">Jenis Surat</label>
-                              <input type="text" class="form-control" id="jenis_surat" value=<?=ucwords($value->jenis) ?> disabled>
-                            </div>
-                          </div>
-                          <div class="form-group row">
-                            <div class="col-md-6">
-                              <label for="jenis_kegiatan">Jenis Kegiatan</label>
-                              <input type="text" class="form-control" id="jenis_kegiatan" value=<?=ucwords($value->jenis_kegiatan) ?> disabled>
-                            </div> 
-                            <div class="col-md-6">
-                              <label for="jenis_tujuan">Jenis Pegawai Tujuan Surat</label>
-                              <input type="text" class="form-control" id="jenis_tujuan" value=<?=ucwords($value->jenis_tujuan) ?> disabled>
-                            </div>
-                          </div>
-                          <div id="detail_tujuan">
-                            <?php if($value->jenis_tujuan === 'divisi') { ?>
-                              <div class="form-group">
-                                <label for="divisi">Divisi Tujuan</label>
-                                <input type="text" class="form-control" id="divisi" value="<?=ucwords($value->tujuan) ?>" disabled>
-                              </div>
-                            <?php } else if($value->jenis_tujuan === 'perorangan') { ?>
-                              <div class="form-group">
-                                <label for="tujuan">Jenis Pegawai Tujuan</label>
-                                <input type="text" class="form-control" id="tujuan" value="<?=ucwords($value->tujuan) ?>" disabled>
-                              </div>
-                            <?php } ?>
-                          </div>
-                          <div class="form-group row">
-                            <div class="col-md-6">
-                              <label for="file_surat">File Materi</label>
-                              <div class="mt-1">
-                                <?php
-                                $file_materi = $list_diklat_berkas[$value->id]->file_materi;
-                                if($file_materi != NULL) { ?>
-                                <a href="<?= base_url().'uploads/diklat/'.$file_materi ?>" target="_blank">                              
-                                    Lihat File Materi                         
-                                </a>
-                                <?php } else { ?>
-                                <a>                              
-                                    Tidak Ada                         
-                                </a>
-                                <?php } ?>
-                              </div>
-                            </div>
-                            <div class="col-md-6">
-                              <label for="file_surat">Sertifikat</label>
-                              <div class="mt-1">
-                                <?php
-                                $sertifikat = $list_diklat_hasil[$value->id]->nama_serti;
-                                if($sertifikat != NULL) {
-                                ?>
-                                <a href="<?= base_url().'uploads/diklat/'.$sertifikat ?>" target="_blank">                              
-                                    Lihat Sertifikat                         
-                                </a>
-                                <?php } else { ?>
-                                <a>                              
-                                    Tidak Ada                         
-                                </a>
-                                <?php } ?>
-                              </div>
-                            </div>                
-                          </div>
-                        </div>
-                        <div class="modal-footer">
-                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Kembali</button>
-                        </div>
-                      </form>
-                    </div>
-                  </div>
-                </div>
-                <!-- End Modal -->
-                <?php } ?>
                 <?php if($check_diklat[$value->id] == NULL) { ?>
                   <!-- Large modal -->
                   <button type="button" class="btn btn-success" data-toggle="modal" data-target="#register-<?= $value->id ?>">Daftar</button>
@@ -189,6 +85,107 @@
                   <!-- End Modal -->
                 <?php } else { ?>
                   <button type="button" class="btn btn-success" disabled>Terdaftar</button>
+
+                  <!-- Large modal -->
+                  <button type="button" class="btn btn-info" data-toggle="modal" data-target="#viewdiklat-<?= $value->id ?>">Lihat</button>
+
+                  <!-- Modal -->
+                  <div id="viewdiklat-<?= $value->id ?>" class="modal fade edittable" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLabel">No. Surat : <b><?= $value->no ?><b></h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <form action="<?= base_url(); ?>surat/update" method="post" class="forms-sample" enctype="multipart/form-data">
+                          <div class="modal-body">
+                            <div class="form-group">
+                              <label for="file_surat">File Surat</label>
+                              <div class="mt-1">
+                                <a href="<?= base_url() . 'uploads/' . $value->file_name ?>" target="_blank">                              
+                                    Lihat Surat                              
+                                </a>
+                              </div>                            
+                            </div>
+                            <div class="form-group row">
+                              <div class="col-md-6">
+                                <label for="no_surat">Nomor Surat</label>
+                                <input type="text" class="form-control" id="no_surat" value=<?=$value->no ?> disabled>
+                              </div>
+                              <div class="col-md-6">
+                                <label for="jenis_surat">Jenis Surat</label>
+                                <input type="text" class="form-control" id="jenis_surat" value=<?=ucwords($value->jenis) ?> disabled>
+                              </div>
+                            </div>
+                            <div class="form-group row">
+                              <div class="col-md-6">
+                                <label for="jenis_kegiatan">Jenis Kegiatan</label>
+                                <input type="text" class="form-control" id="jenis_kegiatan" value=<?=ucwords($value->jenis_kegiatan) ?> disabled>
+                              </div> 
+                              <div class="col-md-6">
+                                <label for="jenis_tujuan">Jenis Pegawai Tujuan Surat</label>
+                                <input type="text" class="form-control" id="jenis_tujuan" value=<?=ucwords($value->jenis_tujuan) ?> disabled>
+                              </div>
+                            </div>
+                            <div id="detail_tujuan">
+                              <?php if($value->jenis_tujuan === 'divisi') { ?>
+                                <div class="form-group">
+                                  <label for="divisi">Divisi Tujuan</label>
+                                  <input type="text" class="form-control" id="divisi" value="<?=ucwords($value->tujuan) ?>" disabled>
+                                </div>
+                              <?php } else if($value->jenis_tujuan === 'perorangan') { ?>
+                                <div class="form-group">
+                                  <label for="tujuan">Jenis Pegawai Tujuan</label>
+                                  <input type="text" class="form-control" id="tujuan" value="<?=ucwords($value->tujuan) ?>" disabled>
+                                </div>
+                              <?php } ?>
+                            </div>
+                            <div class="form-group row">
+                              <div class="col-md-6">
+                                <label for="file_surat">File Materi</label>
+                                <div class="mt-1">
+                                  <?php
+                                  $file_materi = $list_diklat_berkas[$value->id]->file_materi;
+                                  if($file_materi != NULL) { ?>
+                                  <a href="<?= base_url().'uploads/diklat/'.$file_materi ?>" target="_blank">                              
+                                      Lihat File Materi                         
+                                  </a>
+                                  <?php } else { ?>
+                                  <a>                              
+                                      Tidak Ada                         
+                                  </a>
+                                  <?php } ?>
+                                </div>
+                              </div>
+                              <div class="col-md-6">
+                                <label for="file_surat">Sertifikat</label>
+                                <div class="mt-1">
+                                  <?php
+                                  $sertifikat = $list_diklat_hasil[$value->id]->nama_serti;
+                                  if($sertifikat != NULL) {
+                                  ?>
+                                  <a href="<?= base_url().'uploads/diklat/'.$sertifikat ?>" target="_blank">                              
+                                      Lihat Sertifikat                         
+                                  </a>
+                                  <?php } else { ?>
+                                  <a>                              
+                                      Tidak Ada                         
+                                  </a>
+                                  <?php } ?>
+                                </div>
+                              </div>                
+                            </div>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Kembali</button>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- End Modal -->
 
                   <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deletetable-<?= $value->id ?>">
                     Batalkan

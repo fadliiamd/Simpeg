@@ -46,7 +46,7 @@
                   </select>
                 </div> 
                 <div class="col-md-6" id="detail_jenis_kegiatan">
-                  
+
                 </div>
               </div>
               <div class="form-group">
@@ -140,11 +140,17 @@
                               <label for="jenis_kegiatan">Jenis Kegiatan</label>
                               <input type="text" class="form-control" id="jenis_kegiatan" value=<?=ucwords($value->jenis_kegiatan) ?> disabled>
                             </div> 
+                            <?php if($value->jenis_kegiatan == 'diklat') { ?>
                             <div class="col-md-6">
+                              <label for="jenis_diklat">Jenis Diklat (*)</label>
+                              <input type="text" class="form-control" id="jenis_kegiatan" value=<?=ucwords($value->jenis_diklat) ?> disabled>
+                            </div>
+                            <?php } ?>
+                          </div>
+                          <div class="form-group">
                               <label for="jenis_tujuan">Jenis Pegawai Tujuan Surat</label>
                               <input type="text" class="form-control" id="jenis_tujuan" value=<?=ucwords($value->jenis_tujuan) ?> disabled>
                             </div>
-                          </div>
                           <div class="form-group">
                             <label for="tema">Tema/Judul Kegiatan (*)</label>
                             <input type="text" class="form-control" id="tema" value="<?=$value->tema ?>" disabled>
@@ -280,15 +286,26 @@
                                 <option value="bimtek" <?php if($value->jenis_kegiatan === 'bimtek') echo "selected"; ?>>Bimbingan Teknis (Bimtek)</option>
                                 <option value="prajabatan" <?php if($value->jenis_kegiatan === 'prajabatan') echo "selected"; ?>>Prajabatan</option>
                               </select>
-                            </div> 
+                            </div>
+                            <?php if($value->jenis_kegiatan == 'diklat') { ?>
                             <div class="col-md-6">
-                              <label for="jenis_tujuan">Jenis Pegawai Tujuan Surat (*)</label>
-                              <select class="form-control" id="jenis_tujuan" name="jenis_tujuan" required>
-                                <option value="semua" <?php if($value->jenis_tujuan === 'semua') echo "selected"; ?>>Semua</option>
-                                <option value="divisi" <?php if($value->jenis_tujuan === 'divisi') echo "selected"; ?>>Divisi</option>
-                                <option value="perorangan" <?php if($value->jenis_tujuan === 'perorangan') echo "selected"; ?>>Perorangan</option>
+                              <label for="jenis_diklat">Jenis Diklat (*)</label>
+                              <select class="form-control" id="jenis_diklat" name="jenis_diklat" required>
+                                <option value="" selected hidden>--- Jenis Diklat ---</option>
+                                <option value="teknis" <?php if($value->jenis_diklat === 'teknis') echo "selected"; ?>>Teknis</option>
+                                <option value="fungsional" <?php if($value->jenis_diklat === 'fungsional') echo "selected"; ?>>Fungsional</option>
+                                <option value="unit" <?php if($value->jenis_diklat === 'unit') echo "selected"; ?>>Unit</option>
                               </select>
                             </div>
+                            <?php } ?>
+                          </div>
+                          <div class="form-group">
+                            <label for="jenis_tujuan">Jenis Pegawai Tujuan Surat (*)</label>
+                            <select class="form-control" id="jenis_tujuan" name="jenis_tujuan" required>
+                              <option value="semua" <?php if($value->jenis_tujuan === 'semua') echo "selected"; ?>>Semua</option>
+                              <option value="divisi" <?php if($value->jenis_tujuan === 'divisi') echo "selected"; ?>>Divisi</option>
+                              <option value="perorangan" <?php if($value->jenis_tujuan === 'perorangan') echo "selected"; ?>>Perorangan</option>
+                            </select>
                           </div>
                           <div class="form-group">
                             <label for="tema">Tema/Judul Kegiatan (*)</label>
