@@ -28,14 +28,18 @@
                     </div>                    
                     <form class="forms-sample" action="<?= base_url("pemberhentian/create_data_pemberhentian"); ?>" method="POST" enctype="multipart/form-data">
                         <div class="modal-body">
-                            <div class="form-group">
-                                <label for="jenis_berhenti">Jenis Berhenti</label>
-                                <select class="form-control" id="jenis_berhenti" name="jenis_berhenti">
-                                    <option value="Pengunduran diri">Pengunduran diri</option>
-                                    <option value="Pensiun dini">Pensiun dini</option>
-                                    <option value="Pensiun batas usia">Pensiun batas usia</option>
-                                </select>
-                            </div>
+                            <?php if  ($this->session->userdata("role") == "admin"){ ?>
+                                <div class="form-group">
+                                    <label for="jenis_berhenti">Jenis Berhenti</label>
+                                    <select class="form-control" id="jenis_berhenti" name="jenis_berhenti">
+                                        <option value="Pengunduran diri">Pengunduran diri</option>
+                                        <option value="Pensiun dini">Pensiun dini</option>
+                                        <option value="Pensiun batas usia">Pensiun batas usia</option>
+                                    </select>
+                                </div>
+                            <?php } else { ?>
+                                <input type="hidden" name="jenis_berhenti" value="Pengunduran diri">
+                            <?php } ?>
                             <div class="form-group">
                                 <label for="alasan">Alasan</label>
                                 <textarea class="form-control" id="alasan" rows="4" name="alasan"></textarea>
