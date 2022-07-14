@@ -466,6 +466,7 @@ class Mutasi extends Roles {
 
         if($add)
         {
+            $this->penerimaan_mutasi_model->change_bagian();
             $this->session->set_flashdata('message_success', 'Behasil menambahkan data penerimaan!');
             redirect("mutasi/penerimaan_mutasi");
         }else

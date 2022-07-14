@@ -13,7 +13,7 @@
             <button type="button" class="my-3 btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Tambah Mutasi</button>
         <?php } ?>
 
-        <a href="<?= base_url().'assets/pdf/template-surat-mutasi.pdf'?>" download class=" my-3 btn btn-secondary">Surat Pengajuan Mutasi</a>    
+        <a href="<?= base_url().'assets/pdf/template-surat-mutasi.pdf'?>" download class="my-3 btn btn-secondary">Surat Pengajuan Mutasi</a>    
         <!-- Modal -->
         <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
@@ -93,6 +93,7 @@
                     <tr>
                         <th>No</th>
                         <th>NIP</th>
+                        <th>Jenis Mutasi</th>
                         <th>Alasan</th>
                         <th>Tanggal Pengajuan</th>
                         <th>Status Pengajuan</th>
@@ -108,6 +109,7 @@
                     <tr>
                         <td><?= $i; ?></td>
                         <td><?= $value->pegawai_nip; ?></td>
+                        <td><?= $value->jenis_mutasi?></td>
                         <td><?= $value->alasan; ?></td>
                         <td><?= $value->tgl_pengajuan; ?></td>
                         <td>
@@ -250,12 +252,12 @@
                                                 <div class="form-group">
                                                     <label for="jenis_mutasi">Jenis Mutasi</label>
                                                     <select class="custom-select" id="jenis_mutasi" name="jenis_mutasi">
-                                                        <option value="Satu instansi" 	<?php ($value->jenis_mutasi == 'Satu instansi') ? 'selected' : '' ?> >Satu instansi</option>
-                                                        <option value="Kabupaten/kota satu provinsi" 	<?php ($value->jenis_mutasi == 'Kabupaten/kota satu provinsi') ? 'selected' : '' ?> >Kabupaten/kota satu provinsi</option>
-                                                        <option value="Kabupaten/kota antar provinsi" 	<?php ($value->jenis_mutasi == 'Kabupaten/kota antar provinsi') ? 'selected' : '' ?> >Kabupaten/kota antar provinsi</option>
-                                                        <option value="Provinsi/kabupaten/kota ke instansi pusat" 	<?php ($value->jenis_mutasi == 'Provinsi/kabupaten/kota ke instansi pusat') ? 'selected' : '' ?> >Provinsi/kabupaten/kota ke instansi pusat</option>
-                                                        <option value="Antar instansi pusat" 	<?php ($value->jenis_mutasi == 'Antar instansi pusat') ? 'selected' : '' ?> >Antar instansi pusat</option>
-                                                        <option value="Perwakilan NKRI di luar negeri" 	<?php ($value->jenis_mutasi == 'Perwakilan NKRI di luar negeri') ? 'selected' : '' ?> >Perwakilan NKRI di luar negeri</option>
+                                                        <option value="Satu instansi" <?php if($value->jenis_mutasi == 'Satu instansi') echo "selected"; ?> >Satu instansi</option>
+                                                        <option value="Kabupaten/kota satu provinsi" <?php if($value->jenis_mutasi == 'Kabupaten/kota satu provinsi') echo "selected"; ?> >Kabupaten/kota satu provinsi</option>
+                                                        <option value="Kabupaten/kota antar provinsi" <?php if($value->jenis_mutasi == 'Kabupaten/kota antar provinsi') echo "selected"; ?> >Kabupaten/kota antar provinsi</option>
+                                                        <option value="Provinsi/kabupaten/kota ke instansi pusat" <?php if($value->jenis_mutasi == 'Provinsi/kabupaten/kota ke instansi pusat') echo "selected"; ?> >Provinsi/kabupaten/kota ke instansi pusat</option>
+                                                        <option value="Antar instansi pusat" <?php if($value->jenis_mutasi == 'Antar instansi pusat') echo "selected"; ?> >Antar instansi pusat</option>
+                                                        <option value="Perwakilan NKRI di luar negeri" <?php if($value->jenis_mutasi == 'Perwakilan NKRI di luar negeri') echo "selected"; ?> >Perwakilan NKRI di luar negeri</option>
                                                     </select>
                                                 </div>
                                             </div>

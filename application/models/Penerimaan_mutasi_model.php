@@ -71,7 +71,12 @@ class Penerimaan_mutasi_model extends CI_Model
         );
     
         $this->db->insert($this->table, $data_mutasi);
-// -------------------------------- //
+        
+        return ($this->db->affected_rows() != 1) ? false : true;
+    }
+
+    public function change_bagian(){
+        $pegawai_nip = $this->input->post('pegawai_nip');
         $bagian_id = $this->input->post('bagian_id');
 
         $data_pegawai = array(
@@ -87,8 +92,7 @@ class Penerimaan_mutasi_model extends CI_Model
             return false;
         }
 
-        return ($this->db->affected_rows() != 1) ? false : true;
-    
+        return true;
     }
 
     public function update_one($id)
