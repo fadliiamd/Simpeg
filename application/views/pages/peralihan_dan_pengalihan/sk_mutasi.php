@@ -24,6 +24,7 @@
                 <thead class="thead-dark">
                     <tr>
                         <th>No</th>
+                        <th>Pegawai</th>
                         <th>Jenis Mutasi</th>
                         <th>Tanggal Mutasi</th>
                         <th>No Surat</th>
@@ -40,6 +41,7 @@
                     ?>
                         <tr>
                             <td><?= $i ?></td>
+                            <td><?= $value->pegawai_nip ?> - <?= $value->pegawai_nama ?></td>
                             <td>
                                 <?php if($value->jenis_mutasi == "Mutasi Masuk") {?>
                                     <span class="badge badge-success"><?= $value->jenis_mutasi ?></span>

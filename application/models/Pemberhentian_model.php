@@ -44,12 +44,27 @@ class Pemberhentian_model extends CI_Model
         return $query->result();
     }
 
-    public function get_all_with_join_pegawai()
+    public function get_all_with_join_pegawai_pengunduran()
     {
         $this->db->select(
             '*'
         );
         
+        $this->db->from($this->table);
+        $this->db->join('pegawai', 'pegawai.account_nip = pemberhentian.pegawai_nip','LEFT');
+
+        $query = $this->db->where("jenis_berhenti","Pengunduran Diri");
+        $query = $this->db->get();
+
+        return $query->result();
+    }
+
+    public function get_all_with_join_pegawai()
+    {
+        $this->db->select(
+            '*'
+        );
+
         $this->db->from($this->table);
         $this->db->join('pegawai', 'pegawai.account_nip = pemberhentian.pegawai_nip','LEFT');
 

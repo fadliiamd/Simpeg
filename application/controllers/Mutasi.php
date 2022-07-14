@@ -25,7 +25,7 @@ class Mutasi extends Roles {
 	{
         $pegawai = $this->pegawai_model->get_condition("status_kerja","aktif");
         $users = $this->pegawai_model->get_condition("account_nip",$this->session->userdata("nip"));
-        $penjadwalan = $this->penjadwalan_model->get_all();
+        $penjadwalan = $this->penjadwalan_model->get_all_with_join_pegawai();
 
 		$this->load->view('partials/main-header',['title' => 'Penjadwalan mutasi']);
 		$this->load->view('pages/peralihan_dan_pengalihan/penjadwalan_mutasi',[

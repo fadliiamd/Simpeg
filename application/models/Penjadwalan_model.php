@@ -44,19 +44,20 @@ class Penjadwalan_model extends CI_Model
         return $query->result();
     }
 
-    // public function get_all_with_join_pegawai()
-    // {
-    //     $this->db->select(
-    //         '*'
-    //     );
-    //     $this->db->from($this->table);
-    //     $this->db->join('pegawai', 'pegawai.account_nip = mutasi.pegawai_nip');
+    public function get_all_with_join_pegawai()
+    {
+        $this->db->select(
+            'penjadwalan.id, penjadwalan.tgl_diskusi, penjadwalan.waktu, penjadwalan.hal, penjadwalan.tempat, penjadwalan.status, 
+            pegawai.account_nip, pegawai.nama'
+        );
+        $this->db->from($this->table);
+        $this->db->join('pegawai', 'pegawai.account_nip = penjadwalan.nip', "LEFT");
 
-    //     $query = $this->db->where("status_kerja", "aktif");
-    //     $query = $this->db->get();
+        // $query = $this->db->where("status_kerja", "aktif");
+        $query = $this->db->get();
 
-    //     return $query->result();
-    // }
+        return $query->result();
+    }
 
 
     public function insert_one()

@@ -17,7 +17,7 @@ class Penerimaan_mutasi_model extends CI_Model
         $this->db->select(
             'penerimaanmutasi.id, penerimaanmutasi.instansi_asal, penerimaanmutasi.daerah_asal, penerimaanmutasi.alasan, penerimaanmutasi.status_persetujuan, penerimaanmutasi.direktur_nip, penerimaanmutasi.pegawai_nip,
             direktur.nama AS direktur_nama,
-            pegawai.bagian_id,
+            pegawai.bagian_id, pegawai.nama AS pegawai_nama,
             bagian.nama AS bagian_nama'
         );
         $this->db->from($this->table);

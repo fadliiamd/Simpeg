@@ -35,10 +35,12 @@ class Berkas_mutasi_model extends CI_Model
     {
         $this->db->select(
             'berkasmutasi.id, berkasmutasi.sk_cpns, berkasmutasi.sk_pns, berkasmutasi.pangkat_akhir, berkasmutasi.karpeg, berkasmutasi.dp3_akhir, berkasmutasi.ijazah, berkasmutasi.riwayat_hidup, berkasmutasi.status_persetujuan, 
-            mutasi.pegawai_nip, mutasi.alasan, mutasi_id AS id_mutasi'
+            mutasi.pegawai_nip, mutasi.alasan, mutasi_id AS id_mutasi,
+            pegawai.account_nip, pegawai.nama'
         );
         $this->db->from($this->table);
         $this->db->join('mutasi', 'berkasmutasi.mutasi_id = mutasi.id','LEFT');
+        $this->db->join('pegawai', 'pegawai.account_nip = mutasi.pegawai_nip', "LEFT");
 
         $query = $this->db->get();
 
