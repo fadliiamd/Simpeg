@@ -110,23 +110,51 @@ class Berkas_mutasi_model extends CI_Model
             $_POST[$key] = $value;            
         }
  
-        $sk_cpns = $this->do_upload("jpg|png|pdf", "sk_cpns");
-        $sk_pns = $this->do_upload("jpg|png|pdf", "sk_pns");
-        $pangkat_akhir = $this->do_upload("jpg|png|pdf", "pangkat_akhir");
-        $karpeg = $this->do_upload("jpg|png|pdf", "karpeg");
-        $dp3_akhir = $this->do_upload("jpg|png|pdf", "dp3_akhir");
-        $ijazah = $this->do_upload("jpg|png|pdf", "ijazah");
-        $riwayat_hidup = $this->do_upload("jpg|png|pdf", "riwayat_hidup");
+        $sk_cpns = $this->do_upload("pdf", "sk_cpns");
+        $sk_pns = $this->do_upload("pdf", "sk_pns");
+        $pangkat_akhir = $this->do_upload("pdf", "pangkat_akhir");
+        $karpeg = $this->do_upload("pdf", "karpeg");
+        $dp3_akhir = $this->do_upload("pdf", "dp3_akhir");
+        $ijazah = $this->do_upload("pdf", "ijazah");
+        $riwayat_hidup = $this->do_upload("pdf", "riwayat_hidup");
 
-        $data_berkas_mutasi = array(
-            "sk_cpns" => $sk_cpns,
-            "sk_pns" => $sk_pns,
-            "pangkat_akhir" => $pangkat_akhir,
-            "karpeg" => $karpeg,
-            "dp3_akhir" => $dp3_akhir,
-            "ijazah" => $ijazah,
-            "riwayat_hidup" => $riwayat_hidup
-        );
+        $data_berkas_mutasi = array();
+
+        if(!is_null($sk_cpns)){
+            $data_berkas_mutasi += array(
+                'sk_cpns' => $sk_cpns
+            );
+        }
+        if(!is_null($sk_pns)){
+            $data_berkas_mutasi += array(
+                'sk_pns' => $sk_pns
+            );
+        }
+        if(!is_null($pangkat_akhir)){
+            $data_berkas_mutasi += array(
+                'pangkat_akhir' => $pangkat_akhir
+            );
+        }
+        if(!is_null($karpeg)){
+            $data_berkas_mutasi += array(
+                'karpeg' => $karpeg
+            );
+        }
+        if(!is_null($dp3_akhir)){
+            $data_berkas_mutasi += array(
+                'dp3_akhir' => $dp3_akhir
+            );
+        }
+        if(!is_null($kartu_keluarga)){
+            $data_berkas_mutasi += array(
+                'kartu_keluarga' => $kartu_keluarga
+            );
+        }
+        if(!is_null($riwayat_hidup)){
+            $data_berkas_mutasi += array(
+                'riwayat_hidup' => $riwayat_hidup
+            );
+        }
 
         $this->db->trans_start();
         $this->db->where('id', $id);

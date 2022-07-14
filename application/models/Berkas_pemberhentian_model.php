@@ -40,7 +40,7 @@ class Berkas_pemberhentian_model extends CI_Model
         $this->db->from($this->table);
         $this->db->join('pemberhentian', 'berkaspensiun.pemberhentian_id = pemberhentian.id','LEFT');
 
-        $query = $this->db->where('pemberhentian.jenis_berhenti', "Pensiun");
+        $query = $this->db->where('pemberhentian.jenis_berhenti !=', "Pengunduran diri");
         $query = $this->db->get();
 
         return $query->result();
@@ -56,7 +56,7 @@ class Berkas_pemberhentian_model extends CI_Model
         $this->db->from($this->table);
         $this->db->join('pemberhentian', 'berkaspensiun.pemberhentian_id = pemberhentian.id','LEFT');
 
-        $query = $this->db->where('pemberhentian.jenis_berhenti', "Pensiun");
+        $query = $this->db->where('pemberhentian.jenis_berhenti !=', "Pengunduran diri");
         $query = $this->db->where('pemberhentian.pegawai_nip',$this->session->userdata("nip"));
         $query = $this->db->get();
 
@@ -127,16 +127,49 @@ class Berkas_pemberhentian_model extends CI_Model
 
 
         $data_berkas_pemberhentian = array(
-            "sk_cpns" => $sk_cpns,
-            "sk_pns" => $sk_pns,
-            "sk_kgb" => $sk_kgb,
-            "sk_kp" => $sk_kp,
-            "dp3_akhir" => $dp3_akhir,
-            "pangkat_akhir" => $pangkat_akhir,
-            "kartu_keluarga" => $kartu_keluarga,
-            "pas_foto" => $pas_foto,
             "pemberhentian_id" => $pemberhentian_id
         );
+
+        if(!is_null($sk_cpns)){
+            $data_berkas_pemberhentian += array(
+                'sk_cpns' => $sk_cpns
+            );
+        }
+        if(!is_null($sk_pns)){
+            $data_berkas_pemberhentian += array(
+                'sk_pns' => $sk_pns
+            );
+        }
+        if(!is_null($sk_kgb)){
+            $data_berkas_pemberhentian += array(
+                'sk_kgb' => $sk_kgb
+            );
+        }
+        if(!is_null($sk_kp)){
+            $data_berkas_pemberhentian += array(
+                'sk_kp' => $sk_kp
+            );
+        }
+        if(!is_null($dp3_akhir)){
+            $data_berkas_pemberhentian += array(
+                'dp3_akhir' => $dp3_akhir
+            );
+        }
+        if(!is_null($pangkat_akhir)){
+            $data_berkas_pemberhentian += array(
+                'pangkat_akhir' => $pangkat_akhir
+            );
+        }
+        if(!is_null($kartu_keluarga)){
+            $data_berkas_pemberhentian += array(
+                'kartu_keluarga' => $kartu_keluarga
+            );
+        }
+        if(!is_null($pas_foto)){
+            $data_berkas_pemberhentian += array(
+                'pas_foto' => $pas_foto
+            );
+        }
 
         $this->db->trans_start();
         $this->db->where('id', $id);
