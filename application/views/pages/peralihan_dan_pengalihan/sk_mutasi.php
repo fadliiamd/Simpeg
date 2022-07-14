@@ -41,7 +41,11 @@
                     ?>
                         <tr>
                             <td><?= $i ?></td>
-                            <td><?= $value->pegawai_nip ?> - <?= $value->pegawai_nama ?></td>
+                            <?php if($value->jenis_mutasi == "Mutasi Masuk") {?>
+                                <td><?= $value->penerimaan_nip ?></td>
+                            <?php }else{ ?>
+                                <td><?= $value->pegawai_nip ?></td>
+                            <?php } ?>
                             <td>
                                 <?php if($value->jenis_mutasi == "Mutasi Masuk") {?>
                                     <span class="badge badge-success"><?= $value->jenis_mutasi ?></span>
