@@ -11,6 +11,13 @@ class Nilai_model extends CI_Model
 
         return $query->result();
     }    
+    
+    public function get_where($array)
+    {
+        $query = $this->db->get_where($this->table, $array);
+
+        return $query->result();
+    }    
 
     public function do_upload($file_type, $post_name)
     {
@@ -33,11 +40,11 @@ class Nilai_model extends CI_Model
             return $data;
     }
 
-    public function insert_one()
+    public function inserts_one()
     {    
         //buat dulu data rekap nilai
         $this->load->model('rekap_nilai_model');
-        $tgl = date('Y-m-d');
+        $tgl = date('Y-m-d H:i:s');
         $id_rekap_nilai = $this->rekap_nilai_model->insert_one_get_id([
             'account_nip' => $_SESSION['nip'],
             "tgl_usulan" => $tgl,
@@ -68,11 +75,10 @@ class Nilai_model extends CI_Model
     {
         $this->db->trans_start();
         $data = array(
-            "kode" => $this->input->post("kode"),            
-            "unsur_id" => $this->input->post('unsur_id'),
-            "kegiatan" => $this->input->post("kegiatan"),
-            "angka_kredit" => $this->input->post("angka_kredit"),
-            "satuan" => $this->input->post("satuan")
+            "alasan" => $this->input->post("alasan"),
+            "saran" => $this->input->post("saran"),
+            "status" => $this->input->post("validasi"),
+            "tanggal_validasi" => date("Y-m-d H:i:s")
         );
         $this->db->where('id', $id);
         $this->db->update($this->table, $data);

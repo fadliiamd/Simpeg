@@ -55,11 +55,64 @@
                             <td><?php echo $value->tgl_usulan; ?></td>
                             <td><?= $value->hasil_akk ?></td>
                             <td><?= $value->status ?></td>
-                            <td><?= $value->tgl_validasi ?></td>                            
+                            <td>
+                                <?php
+                                if(is_null($value->tgl_validasi)){
+                                    $kepegawaian = $this->pegawai_model->get_one_with_join(array(
+                                        'account_nip' => $this->session->userdata('nip')
+                                    ));
+                                    if (!is_null($kepegawaian)) {
+                                        $kepegawaian = $kepegawaian->nama_bagian;
+                                        if(strtolower($kepegawaian) == 'kepegawaian'){ ?>
+                                        <a href="<?= base_url('dupak/pemberkasan/validasi_pak/'.$value->id) ?>">
+                                            <button type="button" class="btn btn-warning">Validasi</button>
+                                        </a>
+                                    <?php
+                                        }
+                                    }
+                                }else{
+                                    echo $value->tgl_validasi;
+                                }
+                                ?>
+                            </td>
                             <td>
                                 <!-- Large modal -->
-                                <button type="button" class="btn btn-warning" data-toggle="modal" data-target=".edittable-<?= $value->id ?>">Edit</button>
-                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deletetable-<?= $value->id ?>">Hapus</button>
+                                <a href="<?= base_url('dupak/pemberkasan/usulan_pak/'.$value->id) ?>">
+                                    <button type="button" class="btn btn-info">Lihat</button>
+                                </a>
+                            
+                                <?php if ($_SESSION['role'] !== 'pegawai') { ?>
+                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deletetable-<?= $value->id ?>">Hapus</button>
+
+                                    <div class="modal fade" id="deletetable-<?= $value->id ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Hapus Daftar Usulan PAK ID : <b><?php echo $value->id ?></b></h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <form class="forms-sample" action="<?= base_url("dupak/pemberkasan/delete/" . $value->id); ?>" method="POST" enctype="multipart/form-data">
+                                                    <div class="modal-body">
+                                                        <p>Apakah anda yakin ingin menghapus daftar usulan ini?</p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tidak</button>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <button type="submit" class="btn btn-danger">Ya, hapus aja</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php
+                                } ?>
                             </td>
                         </tr>
                     <?php $no++;
