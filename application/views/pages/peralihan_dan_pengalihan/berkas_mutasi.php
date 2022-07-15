@@ -215,7 +215,7 @@
                                         <div class="modal-dialog modal-lg">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel">Edit Berkas Persyaratan NIP : <b><?= $value->id ?><b></h5>
+                                                    <h5 class="modal-title" id="exampleModalLabel">Edit Berkas Persyaratan No : <b><?= $i ?><b></h5>
                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                     <span aria-hidden="true">&times;</span>
                                                     </button>
@@ -280,7 +280,7 @@
                                             <div class="modal-content">
                                                 <form class="forms-sample" action="<?= base_url("mutasi/delete_data_berkas"); ?>" method="POST">
                                                     <div class="modal-header">
-                                                        <h5 class="modal-title" id="exampleModalLabel">Hapus Berkas Id No : <b><?= $i ?></b> </h5>
+                                                        <h5 class="modal-title" id="exampleModalLabel">Hapus Berkas No : <b><?= $i ?></b> </h5>
                                                         <input type="hidden" name="id" value="<?= $value->id ?>">
                                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                             <span aria-hidden="true">&times;</span>
