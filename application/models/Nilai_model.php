@@ -43,19 +43,25 @@ class Nilai_model extends CI_Model
             "tgl_usulan" => $tgl,
             "status" => "pending",    
             "hasil_akk" => 0
-        ]);        
-        $data = array();                       
+        ]);                                 
+        $jmlh = 0;          
         foreach ($_FILES as $key => $value){
-            $file = $this->do_upload('pdf', $key);                        
+            $data = array();    
+            $nilai = doubleval($this->input->post('nilai-'.explode("-", $key)[1]));
+            $jmlh += $nilai;                        
+            $file = $this->do_upload('pdf', $key);                                    
             $data += array(                           
                 "file" => $file,
                 "unsur_kegiatan_id" => explode("-", $key)[1],
-                "rekap_nilai_id" => $id_rekap_nilai             
-            );
+                "rekap_nilai_id" => $id_rekap_nilai  ,
+                "nilai" => $nilai
+            );                         
             $this->db->insert($this->table, $data);
         }
 
-        return ($this->db->affected_rows() != 1) ? false : true;
+        $this->rekap_nilai_model->update_one($id_rekap_nilai, ['hasil_akk' => $jmlh]);
+
+        return ($this->db->affected_rows() > 0) ? false : true;
     }
 
     public function update_one($id)

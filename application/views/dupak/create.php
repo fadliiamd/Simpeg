@@ -11,6 +11,7 @@
                             <th>Batas Maksimal Diakui</th>
                             <th>Bukti Kegiatan</th>
                             <th style="word-wrap: break-word;min-width: 120px;max-width: 120px;white-space:normal;">Angka Kredit Tertinggi</th>
+                            <th> Angka Kredit </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -38,9 +39,10 @@
                                     <td>' . $uk->kode . '. ' . $uk->kegiatan . '</td>
                                     <td>' . $uk->satuan . '</td>
                                     <td>
-                                        <input type="file"  name="file_bukti-' . $uk->kode . '">
+                                        <input type="file"  name="file_bukti-' . $uk->id . '" required>
                                     </td>
                                     <td>' . $uk->angka_kredit . '</td>
+                                    <td><input class="form-control" type="number" step="any" name="nilai-' . $uk->id . '" required></td>
                                 </tr>';
                                     $jmlh_sub_kegiatan++;
                                 }
