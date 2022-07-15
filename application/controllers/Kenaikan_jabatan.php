@@ -5,13 +5,31 @@ class Kenaikan_jabatan extends Roles {
 
 	public function __construct()
 	{
-		parent::__construct(['admin', 'pegawai']);
+		parent::__construct(['admin', 'pegawai', 'direktur']);
+        $this->load->model([
+            'kenaikan_jabatan_model',
+            'notifikasi_model'
+        ]);
 	}
+
+    public function status_aju($id)
+    {        
+        $update = $this->kenaikan_jabatan_model->update_status($id);
+
+        if($update)
+        {
+            $this->session->set_flashdata('message_success', 'Behasil mengupdate pengajuan '.$id.'!');
+            redirect("kenaikan_jabatan/pengajuan_kenaikan");
+        }else
+        {
+            $this->session->set_flashdata('message_error', 'Gagal mengupdate pengajuan '.$id.'!');
+            redirect("kenaikan_jabatan/pengajuan_kenaikan");
+        }
+    }
 
     public function pengajuan_kenaikan()
     {
         $this->load->model('pegawai_model');
-        $this->load->model('kenaikan_jabatan_model');
 
         $pegawai = $this->pegawai_model->get_all();
         $pengajuan = $this->kenaikan_jabatan_model->get_all();
@@ -25,8 +43,7 @@ class Kenaikan_jabatan extends Roles {
     }
 
     public function create_pengajuan()
-    {
-        $this->load->model('kenaikan_jabatan_model');
+    {        
         $add = $this->kenaikan_jabatan_model->insert_one();
 
         if($add)
@@ -40,10 +57,8 @@ class Kenaikan_jabatan extends Roles {
         }
     }
     
-    public function update_pengajuan()
-    {        
-        $this->load->model('kenaikan_jabatan_model');
-        $id = $this->input->post('id_pengajuan');
+    public function update_berkas($id)
+    {                        
         $update = $this->kenaikan_jabatan_model->update_one($id);
 
         if($update)
@@ -58,8 +73,7 @@ class Kenaikan_jabatan extends Roles {
     }
     
     public function delete_pengajuan()
-    {        
-        $this->load->model('kenaikan_jabatan_model');
+    {                
         $id = $this->input->post('id_pengajuan');
         $update = $this->kenaikan_jabatan_model->delete_one($id);
 
@@ -76,9 +90,39 @@ class Kenaikan_jabatan extends Roles {
 
     public function progress()
     {
-        $this->load->view('partials/main-header');
-		$this->load->view('kenaikan_jabatan/progress');
+        $pengajuan = $this->kenaikan_jabatan_model->get_all();
+
+        $this->load->view('partials/main-header', ['title' => ': Progress Pengajuan Kenaikan Jabatan']);        
+		$this->load->view('kenaikan_jabatan/progress', [
+            'pengajuan' => $pengajuan
+        ]);
 		$this->load->view('partials/main-footer');
+    }
+
+    public function send_notification()
+    {         
+        $id = $this->notifikasi_model->create_notification([
+            "judul" => "Progress Berkas Pengajuan Kenaikan Jabatan",
+            "pesan" => "Ayo selesaikan upload berkas pengajuan kenaikan jabatan Anda! Perlu ".$this->input->post('sisa')." lagi untuk melengkapi berkasnya.",
+            "redirect_to" => "kenaikan_jabatan/pengajuan_kenaikan"
+        ]);
+
+        $add = $this->notifikasi_model->pair_notification([
+            "account_nip" => $this->input->post("account_nip"),
+            "notifikasi_id" => $id,
+            "status" => 'Unseen',
+            "created_at" => date('Y-m-d H:i:s')
+        ]);
+
+        if($add)
+        {
+            $this->session->set_flashdata('message_success', 'Behasil mengirimkan notifikasi');
+            redirect("kenaikan_jabatan/progress");
+        }else
+        {
+            $this->session->set_flashdata('message_error', 'Gagal mengirimkan notifikasi');
+            redirect("kenaikan_jabatan/progress");
+        }
     }
 
 }
