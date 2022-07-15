@@ -265,9 +265,13 @@ class Surat extends Roles {
 
     public function get_pegawai($jenis)
     {
+        // Load Model
         $this->load->model("pegawai_model");
-        $where = array('jenis_pegawai' => $jenis);
-        echo json_encode($this->pegawai_model->get_all_where($where));
+
+        // Printout Output
+        echo json_encode($this->pegawai_model->get_all_where_join([
+            "jenis_jabatan" => $jenis
+        ], 'jabatan', 'pegawai.jabatan_id = jabatan.id'));
     }
 
     public function get_divisi($divisi)

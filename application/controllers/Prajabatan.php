@@ -28,46 +28,63 @@ class Prajabatan extends CI_Controller {
             "account_nip" => $this->session->userdata('nip')
         ));
 
+        // Get Detail from Detail Tujuan
+        $list_detail_tujuan = [];
+        foreach($list_prajabatan as $key => $value) {
+            $list_detail = [];
+            if($value->jenis_tujuan == 'divisi') {
+                if($value->tujuan == 'jurusan') {
+                    $detail_tujuan = explode(',', $value->detail_tujuan);
+                    foreach($detail_tujuan as $item) {
+                        $get_data = $this->jurusan_model->get_one([
+                            "id" => $item
+                        ]);
+                        array_push($list_detail, $get_data);
+                    }
+                } else if($value->tujuan == 'bagian') {
+                    $detail_tujuan = explode(',', $value->detail_tujuan);
+                    foreach($detail_tujuan as $item) {
+                        $get_data = $this->bagian_model->get_one([
+                            "id" => $item
+                        ]);
+                        array_push($list_detail, $get_data);
+                    }
+                } else if($value->tujuan == 'unit') {
+                    $detail_tujuan = explode(',', $value->detail_tujuan);
+                    foreach($detail_tujuan as $item) {
+                        $get_data = $this->unit_model->get_one([
+                            "id" => $item
+                        ]);
+                        array_push($list_detail, $get_data);
+                    }
+                }
+                $list_detail_tujuan[$key] = $list_detail;
+            } else if($value->jenis_tujuan == 'perorangan') {
+                $detail_tujuan = explode(',', $value->detail_tujuan);
+                foreach($detail_tujuan as $item) {
+                    $get_data = $this->pegawai_model->get_one([
+                        "account_nip" => $item
+                    ]);
+                    array_push($list_detail, $get_data);
+                }
+                $list_detail_tujuan[$key] = $list_detail;
+            }
+        }
+
         $has_upload_hasil = [];
         $check_prajabatan = [];
         $list_prajabatan_berkas = [];
         $list_prajabatan_hasil = [];
         // Filter "Surat Tugas" Addressed to Account
         foreach($list_prajabatan as $key => $value) {
-            if($value->jenis_tujuan == 'perorangan') {
-                $detail_tujuan = explode(',',$value->detail_tujuan);
-
-                // Compare "tujuan_detail" and Pegawai NIP
-                $found = false;
-                foreach($detail_tujuan as $value2) {
-                    if($value2 == $this->session->userdata('nip')) {
-                        $found = true;
-                        break;
-                    }
-                }
-                if($found == false) {
-                    unset($list_prajabatan[$key]);
-                }
-
-            } else if($value->jenis_tujuan == 'divisi') {
-                // Check Type of "Divisi"
-                if($value->tujuan == 'jurusan') {
-                    $divisi_id = $pegawai_data->jurusan_id;
-                } else if($value->tujuan == 'bagian') {
-                    $divisi_id = $pegawai_data->bagian_id;
-                } else if($value->tujuan == 'unit') {
-                    $divisi_id = $pegawai_data->unit_id;
-                } else {
-                    $divisi_id = NULL;
-                }
-
-                if($divisi_id != NULL) {
+            if($this->session->userdata('role') != 'admin') {
+                if($value->jenis_tujuan == 'perorangan') {
                     $detail_tujuan = explode(',',$value->detail_tujuan);
 
-                    // Compare "tujuan_detail" and Pegawai Divisi
+                    // Compare "tujuan_detail" and Pegawai NIP
                     $found = false;
                     foreach($detail_tujuan as $value2) {
-                        if($value2 == $divisi_id) {
+                        if($value2 == $this->session->userdata('nip')) {
                             $found = true;
                             break;
                         }
@@ -75,8 +92,36 @@ class Prajabatan extends CI_Controller {
                     if($found == false) {
                         unset($list_prajabatan[$key]);
                     }
-                } else {
-                    unset($list_prajabatan[$key]);
+
+                } else if($value->jenis_tujuan == 'divisi') {
+                    // Check Type of "Divisi"
+                    if($value->tujuan == 'jurusan') {
+                        $divisi_id = $pegawai_data->jurusan_id;
+                    } else if($value->tujuan == 'bagian') {
+                        $divisi_id = $pegawai_data->bagian_id;
+                    } else if($value->tujuan == 'unit') {
+                        $divisi_id = $pegawai_data->unit_id;
+                    } else {
+                        $divisi_id = NULL;
+                    }
+
+                    if($divisi_id != NULL) {
+                        $detail_tujuan = explode(',',$value->detail_tujuan);
+
+                        // Compare "tujuan_detail" and Pegawai Divisi
+                        $found = false;
+                        foreach($detail_tujuan as $value2) {
+                            if($value2 == $divisi_id) {
+                                $found = true;
+                                break;
+                            }
+                        }
+                        if($found == false) {
+                            unset($list_prajabatan[$key]);
+                        }
+                    } else {
+                        unset($list_prajabatan[$key]);
+                    }
                 }
             }
 
@@ -109,6 +154,7 @@ class Prajabatan extends CI_Controller {
             "title" => "prajabatan"
         ]);
 		$this->load->view('prajabatan/prajabatan', [
+            "list_detail_tujuan" => $list_detail_tujuan,
             "list_prajabatan" => $list_prajabatan,
             "check_prajabatan" => $check_prajabatan,
             "has_upload_hasil" => $has_upload_hasil,
@@ -121,7 +167,7 @@ class Prajabatan extends CI_Controller {
     public function do_upload($file_type, $post_name)
     {
         // File
-        $config['upload_path']          = './uploads/prajabatan';
+        $config['upload_path']          = './uploads';
         $config['allowed_types']        = $file_type;
         $config['max_size']             = 2048;
         $this->load->library('upload');
@@ -199,10 +245,10 @@ class Prajabatan extends CI_Controller {
         // Delete Rows and File Uploaded
         $delete = $this->prajabatan_model->delete_one($id);
         if($delete) {
-            unlink("./uploads/prajabatan/".$get->foto);
-            unlink("./uploads/prajabatan/".$get->ktp);
-            unlink("./uploads/prajabatan/".$get->kk);
-            unlink("./uploads/prajabatan/".$get->ijazah);
+            unlink("./uploads/".$get->foto);
+            unlink("./uploads/".$get->ktp);
+            unlink("./uploads/".$get->kk);
+            unlink("./uploads/".$get->ijazah);
             $this->session->set_flashdata('message_success', 'Behasil membatalkan pemberkasan prajabatan!');
             redirect("prajabatan");
         } else {

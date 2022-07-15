@@ -33,6 +33,16 @@ class Pegawai_model extends CI_Model
         return $query->result();
     }
 
+    public function get_all_where_join($where, $join_table, $relation) {
+        $this->db->select('*');
+        $this->db->from($join_table);
+        $this->db->join($this->table, $relation);
+        $this->db->where($where);
+
+        $query = $this->db->get();
+        return $query->result();
+    }
+
     public function get_one($where)
     {
         return $this->db->get_where($this->table, $where)->row();
