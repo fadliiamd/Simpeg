@@ -7,7 +7,12 @@ class Diklat extends CI_Controller {
 	public function __construct()
     {
         parent::__construct();
-        $this->load->helper('date_format');
+
+        // Auth Check
+        if($this->session->userdata('nip') == NULL) {
+            $this->session->set_flashdata('message_success', 'Harap login terlebih dahulu!');
+            redirect("auth/login");
+        }
     }
 
     public function index()
@@ -28,46 +33,63 @@ class Diklat extends CI_Controller {
             "account_nip" => $this->session->userdata('nip')
         ));
 
+        // Get Detail from Detail Tujuan
+        $list_detail_tujuan = [];
+        foreach($list_diklat as $key => $value) {
+            $list_detail = [];
+            if($value->jenis_tujuan == 'divisi') {
+                if($value->tujuan == 'jurusan') {
+                    $detail_tujuan = explode(',', $value->detail_tujuan);
+                    foreach($detail_tujuan as $item) {
+                        $get_data = $this->jurusan_model->get_one([
+                            "id" => $item
+                        ]);
+                        array_push($list_detail, $get_data);
+                    }
+                } else if($value->tujuan == 'bagian') {
+                    $detail_tujuan = explode(',', $value->detail_tujuan);
+                    foreach($detail_tujuan as $item) {
+                        $get_data = $this->bagian_model->get_one([
+                            "id" => $item
+                        ]);
+                        array_push($list_detail, $get_data);
+                    }
+                } else if($value->tujuan == 'unit') {
+                    $detail_tujuan = explode(',', $value->detail_tujuan);
+                    foreach($detail_tujuan as $item) {
+                        $get_data = $this->unit_model->get_one([
+                            "id" => $item
+                        ]);
+                        array_push($list_detail, $get_data);
+                    }
+                }
+                $list_detail_tujuan[$key] = $list_detail;
+            } else if($value->jenis_tujuan == 'perorangan') {
+                $detail_tujuan = explode(',', $value->detail_tujuan);
+                foreach($detail_tujuan as $item) {
+                    $get_data = $this->pegawai_model->get_one([
+                        "account_nip" => $item
+                    ]);
+                    array_push($list_detail, $get_data);
+                }
+                $list_detail_tujuan[$key] = $list_detail;
+            }
+        }
+
         $has_upload_hasil = [];
         $check_diklat = [];
         $list_diklat_berkas = [];
         $list_diklat_hasil = [];
         // Filter "Surat Tugas" Addressed to Account
         foreach($list_diklat as $key => $value) {
-            if($value->jenis_tujuan == 'perorangan') {
-                $detail_tujuan = explode(',',$value->detail_tujuan);
-
-                // Compare "tujuan_detail" and Pegawai NIP
-                $found = false;
-                foreach($detail_tujuan as $value2) {
-                    if($value2 == $this->session->userdata('nip')) {
-                        $found = true;
-                        break;
-                    }
-                }
-                if($found == false) {
-                    unset($list_diklat[$key]);
-                }
-
-            } else if($value->jenis_tujuan == 'divisi') {
-                // Check Type of "Divisi"
-                if($value->tujuan == 'jurusan') {
-                    $divisi_id = $pegawai_data->jurusan_id;
-                } else if($value->tujuan == 'bagian') {
-                    $divisi_id = $pegawai_data->bagian_id;
-                } else if($value->tujuan == 'unit') {
-                    $divisi_id = $pegawai_data->unit_id;
-                } else {
-                    $divisi_id = NULL;
-                }
-
-                if($divisi_id != NULL) {
+            if($this->session->userdata('role') != 'admin') {
+                if($value->jenis_tujuan == 'perorangan') {
                     $detail_tujuan = explode(',',$value->detail_tujuan);
 
-                    // Compare "tujuan_detail" and Pegawai Divisi
+                    // Compare "tujuan_detail" and Pegawai NIP
                     $found = false;
                     foreach($detail_tujuan as $value2) {
-                        if($value2 == $divisi_id) {
+                        if($value2 == $this->session->userdata('nip')) {
                             $found = true;
                             break;
                         }
@@ -75,17 +97,51 @@ class Diklat extends CI_Controller {
                     if($found == false) {
                         unset($list_diklat[$key]);
                     }
-                } else {
-                    unset($list_diklat[$key]);
+
+                } else if($value->jenis_tujuan == 'divisi') {
+                    // Check Type of "Divisi"
+                    if($value->tujuan == 'jurusan') {
+                        $divisi_id = $pegawai_data->jurusan_id;
+                    } else if($value->tujuan == 'bagian') {
+                        $divisi_id = $pegawai_data->bagian_id;
+                    } else if($value->tujuan == 'unit') {
+                        $divisi_id = $pegawai_data->unit_id;
+                    } else {
+                        $divisi_id = NULL;
+                    }
+
+                    if($divisi_id != NULL) {
+                        $detail_tujuan = explode(',',$value->detail_tujuan);
+
+                        // Compare "tujuan_detail" and Pegawai Divisi
+                        $found = false;
+                        foreach($detail_tujuan as $value2) {
+                            if($value2 == $divisi_id) {
+                                $found = true;
+                                break;
+                            }
+                        }
+                        if($found == false) {
+                            unset($list_diklat[$key]);
+                        }
+                    } else {
+                        unset($list_diklat[$key]);
+                    }
                 }
             }
 
             if(isset($list_diklat[$key])) {
                 // Check if Diklat is Registered
-                $status_check = $this->diklat_model->get_one(array(
-                    "pegawai_nip" => $this->session->userdata('nip'),
-                    "surat_id" => $value->id
-                ));
+                if($this->session->userdata('role') != 'admin') {
+                    $status_check = $this->diklat_model->get_one(array(
+                        "pegawai_nip" => $this->session->userdata('nip'),
+                        "surat_id" => $value->id
+                    ));
+                } else {
+                    $status_check = $this->diklat_model->get_one(array(
+                        "surat_id" => $value->id
+                    ));
+                }
 
                 if($status_check != NULL) {
                     if($status_check->file_materi != NULL && $status_check->sertifikat_id != NULL) {
@@ -106,9 +162,10 @@ class Diklat extends CI_Controller {
 
         // Load View
         $this->load->view('partials/main-header', [
-            "title" => "Diklat"
+            "title" => " | Diklat"
         ]);
 		$this->load->view('diklat/diklat', [
+            "list_detail_tujuan" => $list_detail_tujuan,
             "list_diklat" => $list_diklat,
             "check_diklat" => $check_diklat,
             "has_upload_hasil" => $has_upload_hasil,
@@ -121,7 +178,7 @@ class Diklat extends CI_Controller {
     public function do_upload($file_type, $post_name)
     {
         // File
-        $config['upload_path']          = './uploads/diklat';
+        $config['upload_path']          = './uploads';
         $config['allowed_types']        = $file_type;
         $config['max_size']             = 2048;
         $this->load->library('upload');
@@ -200,10 +257,10 @@ class Diklat extends CI_Controller {
         // Delete Rows and File Uploaded
         $delete = $this->diklat_model->delete_one($id);
         if($delete) {
-            unlink("./uploads/diklat/".$get->foto);
-            unlink("./uploads/diklat/".$get->ktp);
-            unlink("./uploads/diklat/".$get->kk);
-            unlink("./uploads/diklat/".$get->ijazah);
+            unlink("./uploads/".$get->foto);
+            unlink("./uploads/".$get->ktp);
+            unlink("./uploads/".$get->kk);
+            unlink("./uploads/".$get->ijazah);
             $this->session->set_flashdata('message_success', 'Behasil membatalkan pemberkasan diklat!');
             redirect("diklat");
         } else {

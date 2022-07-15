@@ -88,9 +88,9 @@ $(document).ready(function () {
 						<div class="col-md-6">
 							<label for="jenis_pegawai">Jenis Tujuan Pegawai (*)</label>
 							<select class="form-control" id="jenis_pegawai" name="jenis_pegawai" required>
-								<option value="">--- Pilih Jenis Tujuan Pegawai ---</option>
+								<option value="" selected hidden>--- Pilih Jenis Tujuan Pegawai ---</option>
 								<option value="struktural">Struktural</option>
-								<option value="non struktural">Non Struktural</option>
+								<option value="fungsional">Fungsional</option>
 							</select>
 						</div>
 						<div class="col-md-6">
