@@ -38,6 +38,12 @@ class Pegawai_model extends CI_Model
         return $this->db->get_where($this->table, $where)->row();
     }
     
+    public function get_one_with_jabatan($where)
+    {
+        $this->db->join('jabatan', 'jabatan.id = pegawai.jabatan_id', 'left');
+        return $this->db->get_where($this->table, $where)->row();
+    }
+    
     public function get_num_rows()
     {
         $query = $this->db->get($this->table);

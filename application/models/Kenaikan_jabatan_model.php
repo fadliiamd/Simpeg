@@ -19,7 +19,7 @@ class Kenaikan_jabatan_model extends CI_Model
         $config['allowed_types']        = $file_type;
         $config['max_size']             = 2048;
         $this->load->library('upload');
-
+        $data = null;
         $this->upload->initialize($config);
         if (($this->upload->do_upload($post_name)))
         {
@@ -41,7 +41,7 @@ class Kenaikan_jabatan_model extends CI_Model
 
         $bukti_1 = $this->do_upload("pdf", "bukti_1");
         $bukti_2 = $this->do_upload("pdf", "bukti_2");
-        $bukti_jurnal = $this->do_upload("pdf", "bukti_jurnal");
+        $bukti_jurnal = $this->do_upload("pdf", "bukti_jurnal");        
 
         $data = array(
             "account_nip" => $account_nip,
@@ -56,14 +56,39 @@ class Kenaikan_jabatan_model extends CI_Model
         return ($this->db->affected_rows() != 1) ? false : true;
     }
 
+    public function update_status($id)
+    {
+        $this->db->trans_start();
+        $status = $this->input->post('status');
+
+        $data = array(
+            "status" => $status
+        );
+        $this->db->where('id', $id);
+        $this->db->update($this->table, $data);
+        $this->db->trans_complete();
+
+        if ($this->db->trans_status() === FALSE) {
+            return false;
+        }
+
+        return true;
+    }
+
     public function update_one($id)
     {
         $this->db->trans_start();
-        $nama = $this->input->post('nama');
+        $data = array();
+        
+        foreach($_FILES as $key => $value){
+            $file = $this->do_upload("pdf", $key);
+            if(!is_null($file)){
+                $data += array(
+                    $key => $file
+                );
+            }
+        }        
 
-        $data = array(
-            "nama" => $nama
-        );
         $this->db->where('id', $id);
         $this->db->update($this->table, $data);
         $this->db->trans_complete();
