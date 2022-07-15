@@ -209,7 +209,7 @@
                                             <div class="modal-content">
                                                 <form class="forms-sample" action="<?= base_url("pemberhentian/delete_data_usulan"); ?>" method="POST">
                                                     <div class="modal-header">
-                                                        <h5 class="modal-title" id="exampleModalLabel">Hapus Usulan Mutasi Id : <b><?= $value->id ?><b></h5>
+                                                        <h5 class="modal-title" id="exampleModalLabel">Hapus Usulan Mutasi No : <b><?= $i ?><b></h5>
                                                         <input type="hidden" name="id" value="<?= $value->id ?>">
                                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                             <span aria-hidden="true">&times;</span>

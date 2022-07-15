@@ -155,7 +155,7 @@
                                         <div class="modal-dialog modal-lg">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel">Edit Penerimaan Mutasi Id : <b><?= $value->id ?><b></h5>
+                                                    <h5 class="modal-title" id="exampleModalLabel">Edit Penjadwalan Mutasi No : <b><?= $value->id ?><b></h5>
                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                     <span aria-hidden="true">&times;</span>
                                                     </button>
@@ -165,7 +165,7 @@
                                                     <div class="modal-body">
                                                         <div class="form-group">
                                                             <label for="nip">Pegawai</label>
-                                                            <input type="text" class="form-control" disabled value="<?= $value->nip ?>">
+                                                            <input type="text" class="form-control" disabled value="<?= $value->account_nip ?> ">
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="tgl_diskusi">Tanggal Diskusi</label>
@@ -186,7 +186,7 @@
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Kembali</button>
-                                                        <button type="submit" class="btn btn-primary">Edit Penerimaan Mutasi</button>
+                                                        <button type="submit" class="btn btn-primary">Edit Penjadwalan Mutasi</button>
                                                     </div>
                                                 </form>
                                             </div>
