@@ -56,6 +56,12 @@
                 <tbody>
                     <?php $no = 1; ?>
                     <?php
+                    $label_badge = [
+                        "pending" => "badge-secondary",
+                        "ditolak" => "badge-danger",
+                        "disetujui berkas" => "badge-success",
+                        "disetujui" => "badge-success"
+                    ];
                     foreach ($nilai_rekap as $key => $value) { ?>
                         <tr>
                             <td><?php echo $no ?></td>
@@ -63,7 +69,11 @@
                             <td><?php echo $value->account_nip; ?></td>
                             <td><?php echo $value->tgl_usulan; ?></td>
                             <td><?= $value->hasil_akk ?></td>
-                            <td><?= $value->status ?></td>
+                            <td>
+                                <span class="badge <?= $label_badge[$value->status] ?>">
+                                    <?= $value->status ?>
+                                </span>
+                            </td>
                             <td>
                                 <?php
                                 $pegawai = $this->pegawai_model->get_one_with_join(array(

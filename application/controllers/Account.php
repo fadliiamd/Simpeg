@@ -24,7 +24,7 @@ class Account extends Roles
         switch ($_SESSION['role']) {
             case 'admin':
                 $data = $this->admin_model->get_one(array('account_nip' => $id));
-                $this->load->view('partials/main-header');
+                $this->load->view('partials/main-header', ['title' => ": Profile Admin ".$id]);
                 $this->load->view('users/admin/profile', [
                     "profiles" => $data,
                     "id" => $id
@@ -35,7 +35,7 @@ class Account extends Roles
                 $data = $this->pegawai_model->get_one_with_join(array('pegawai.account_nip' => $id));
                 // var_dump($data);
                 // die();
-                $this->load->view('partials/main-header');
+                $this->load->view('partials/main-header', ['title' => ": Profile Pegawai ".$id]);
                 $this->load->view('users/pegawai/profile', [
                     "profiles" => $data,
                     "id" => $id
@@ -43,8 +43,8 @@ class Account extends Roles
                 $this->load->view('partials/main-footer');
                 break;
             case 'direktur':
-                $data = $this->direktur_model->get_one(array('account_nip' => $id));
-                $this->load->view('partials/main-header');
+                $data = $this->direktur_model->get_one_with_join(array('direktur.account_nip' => $id));
+                $this->load->view('partials/main-header', ['title' => ": Profile Direktur ".$id]);
                 $this->load->view('users/direktur/profile', [
                     "profiles" => $data,
                     "id" => $id
