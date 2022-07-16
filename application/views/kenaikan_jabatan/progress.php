@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-lg-12">
-        <h3>Progress Pengajuan Berkas</h3>
+        <h2>Progress Pengajuan Berkas</h2>
 
         <!-- Large modal -->
         <?php if ($this->session->flashdata('message_success')) : ?>
@@ -37,7 +37,7 @@
                         'account_nip' => $this->session->userdata('nip')
                     ));
                     if (!is_null($bagian)) {
-                        $bagian = $bagian->nama_jabatan;
+                        $bagian = $bagian->nama_bagian;
                         if(strtolower($bagian) !== 'kepegawaian'){
                             $bagian = null;                            
                         }
@@ -55,20 +55,17 @@
                                 }
                                 if(!is_null($value->bukti_2)){
                                     $jumlah++;
-                                }
-                                if(!is_null($value->bukti_jurnal)){
-                                    $jumlah++;
-                                }                                
+                                }                             
                                  ?>                                
                                 <div class="progress">
-                                    <div class="progress-bar bg-success" role="progressbar" style="width:<?= ($jumlah/3)*100 ?>%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                    <div class="progress-bar bg-success" role="progressbar" style="width:<?= ($jumlah/2)*100 ?>%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
                             </td>
                             <td>   
                                 <form action="<?= base_url('kenaikan_jabatan/send_notification') ?>" method="post" enctype="multipart/form-data">
-                                <input type="hidden" name="sisa" value="<?= 3-$jumlah ?>">
+                                <input type="hidden" name="sisa" value="<?= 2-$jumlah ?>">
                                 <input type="hidden" name="account_nip" value="<?= $value->account_nip ?>">
-                                <button type="submit" class="btn btn-warning" <?= ($jumlah === 3) || (is_null($bagian)) ? 'disabled' : '' ?>>Kirim Notifikasi</button>
+                                <button type="submit" class="btn btn-warning" <?= ($jumlah === 2) || (is_null($bagian)) ? 'disabled' : '' ?>>Kirim Notifikasi</button>
                                 </form>
                             </td>
                         </tr>
