@@ -40,15 +40,13 @@ class Kenaikan_jabatan_model extends CI_Model
         $jabatan_tujuan = $this->input->post('jabatan');
 
         $bukti_1 = $this->do_upload("pdf", "bukti_1");
-        $bukti_2 = $this->do_upload("pdf", "bukti_2");
-        $bukti_jurnal = $this->do_upload("pdf", "bukti_jurnal");        
+        $bukti_2 = $this->do_upload("pdf", "bukti_2");              
 
         $data = array(
             "account_nip" => $account_nip,
             "jabatan_tujuan" => $jabatan_tujuan,
             "bukti_1" => $bukti_1,
-            "bukti_2" => $bukti_2,
-            "bukti_jurnal" => $bukti_jurnal            
+            "bukti_2" => $bukti_2               
         );
 
         $this->db->insert($this->table, $data);

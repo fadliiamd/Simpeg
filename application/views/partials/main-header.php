@@ -279,8 +279,8 @@
             <div class="collapse" id="DUPAK">
               <ul class="nav flex-column sub-menu">
                 <li class="nav-item"> <a class="nav-link" href="<?= base_url("dupak/pemberkasan"); ?>">Usulan PAK</a></li>
-                <li class="nav-item"> <a class="nav-link" href="<?= base_url("dupak/riwayat_kinerja"); ?>">Riwayat Kinerja</a></li>
-                <li class="nav-item"> <a class="nav-link" href="<?= base_url("dupak/hasil_diklat"); ?>">Hasil Kinerja</a></li>
+                <!-- <li class="nav-item"> <a class="nav-link" href="<?= base_url("dupak/riwayat_kinerja"); ?>">Riwayat Kinerja</a></li>
+                <li class="nav-item"> <a class="nav-link" href="<?= base_url("dupak/hasil_diklat"); ?>">Hasil Kinerja</a></li> -->
               </ul>
             </div>
           </li>

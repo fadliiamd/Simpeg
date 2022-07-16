@@ -6,7 +6,7 @@ class Pemberkasan extends Roles {
 
 	public function __construct()
 	{
-		parent::__construct(['admin', 'pegawai']);
+		parent::__construct(['admin', 'pegawai', 'direktur']);
         $this->load->model([
             'nilai_model',
             'rekap_nilai_model',
@@ -81,7 +81,7 @@ class Pemberkasan extends Roles {
     public function do_validasi_nilai($id, $rekap_nilai_id)
     {
         $this->load->model('nilai_model');        
-        $update = $this->nilai_model->update_one($id);
+        $update = $this->nilai_model->update_one($id, $rekap_nilai_id);
 
         if($update)
         {

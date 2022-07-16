@@ -71,7 +71,7 @@ class Nilai_model extends CI_Model
         return ($this->db->affected_rows() > 0) ? false : true;
     }
 
-    public function update_one($id)
+    public function update_one($id, $rekap_nilai_id=null)
     {
         $this->db->trans_start();
         $data = array(
@@ -82,6 +82,7 @@ class Nilai_model extends CI_Model
         );
         $this->db->where('id', $id);
         $this->db->update($this->table, $data);
+        $this->check_nilai_rekap_status($rekap_nilai_id);
         $this->db->trans_complete();
 
         if ($this->db->trans_status() === FALSE) {
@@ -89,6 +90,44 @@ class Nilai_model extends CI_Model
         }
 
         return true;
+    }
+
+    public function check_ditolak($nilai_arr){
+        foreach($nilai_arr as $nilai){
+            if($nilai->status === 'ditolak'){
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public function check_pending($nilai_arr){
+        foreach($nilai_arr as $nilai){
+            if($nilai->status === 'pending'){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function check_nilai_rekap_status($rekap_nilai_id){
+        $this->load->model('rekap_nilai_model');
+        $nilai = $this->get_where(['rekap_nilai_id' => $rekap_nilai_id]);
+        
+        if($this->check_ditolak($nilai)){
+            //update status rekap nilai ditolak
+            $this->rekap_nilai_model->update_one($rekap_nilai_id, [
+                'status' => 'ditolak',
+                'tgl_validasi' => date("Y-m-d H:i:s")
+            ]);
+        }else if(!$this->check_pending($nilai)){
+            //update status rekap nilai setuju
+            $this->rekap_nilai_model->update_one($rekap_nilai_id, [
+                'status' => 'disetujui',
+                'tgl_validasi' => date("Y-m-d H:i:s")
+            ]);
+        }
+       
     }
 
     public function delete_one($id)
