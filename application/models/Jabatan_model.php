@@ -5,9 +5,9 @@ class Jabatan_model extends CI_Model
 
     public $table = "jabatan";
 
-    public function get_all()
+    public function get_all($where = ["1" => "1"])
     {
-        $query = $this->db->get($this->table);
+        $query = $this->db->get_where($this->table, $where);
 
         return $query->result();
     }

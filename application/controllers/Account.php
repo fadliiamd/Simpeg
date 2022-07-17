@@ -102,6 +102,48 @@ class Account extends Roles
         $this->load->view('partials/main-footer');
     }
 
+    public function pegawai_fungsional()
+    {
+        $golpang = $this->golpang_model->get_all();
+        $jurusan = $this->jurusan_model->get_all();
+        $bagian = $this->bagian_model->get_all();
+        $unit = $this->unit_model->get_all();
+        $pegawai = $this->pegawai_model->get_all_with_join(["jenis_jabatan" => "fungsional"]);
+        $jabatan = $this->jabatan_model->get_all(["jenis_jabatan" => "fungsional"]);
+
+        $this->load->view('partials/main-header', ['title' => ': Data Pegawai Fungsional']);
+        $this->load->view('users/admin/data_pegawai_fungsional', [
+            "jabatan" => $jabatan,
+            "jurusan" => $jurusan,
+            "bagian" => $bagian,
+            "unit" => $unit,
+            "golpang" => $golpang,
+            "pegawai" => $pegawai            
+        ]);
+        $this->load->view('partials/main-footer');
+    }
+    
+    public function pegawai_struktural()
+    {
+        $golpang = $this->golpang_model->get_all();
+        $jurusan = $this->jurusan_model->get_all();
+        $bagian = $this->bagian_model->get_all();
+        $unit = $this->unit_model->get_all();
+        $pegawai = $this->pegawai_model->get_all_with_join(["jenis_jabatan" => "struktural"]);
+        $jabatan = $this->jabatan_model->get_all(["jenis_jabatan" => "struktural"]);
+
+        $this->load->view('partials/main-header', ['title' => ': Data Pegawai Struktural']);
+        $this->load->view('users/admin/data_pegawai_struktural', [
+            "jabatan" => $jabatan,
+            "jurusan" => $jurusan,
+            "bagian" => $bagian,
+            "unit" => $unit,
+            "golpang" => $golpang,
+            "pegawai" => $pegawai            
+        ]);
+        $this->load->view('partials/main-footer');
+    }
+
     public function create_data_pegawai()
     {
         //validation form        
