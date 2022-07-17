@@ -174,10 +174,10 @@ class Account extends Roles
         $add = $this->pegawai_model->insert_one();
         if ($add) {
             $this->session->set_flashdata('message_success', 'Behasil menambahkan data pegawai!');
-            redirect("account/data_pegawai");
+            redirect($_SERVER['HTTP_REFERER']);
         } else {
             $this->session->set_flashdata('message_error', 'Gagal menambahkan data pegawai!');
-            redirect("account/data_pegawai");
+            redirect($_SERVER['HTTP_REFERER']);
         }
     }
 
@@ -217,17 +217,19 @@ class Account extends Roles
 
         if ($this->form_validation->run() == FALSE) {
             $this->session->set_flashdata('message_error', validation_errors());
-            redirect("account/data_direktur");
+            redirect($_SERVER['HTTP_REFERER']);
         }        
 
         //update everything change
         $delete = $this->pegawai_model->update_one($this->input->post('nip_old'));
         if ($delete) {
             $this->session->set_flashdata('message_success', 'Berhasil mengupdate data pegawai!');
-            redirect("account/data_pegawai");
+            // redirect("account/data_pegawai");
+            redirect($_SERVER['HTTP_REFERER']);
         } else {
             $this->session->set_flashdata('message_error', 'Gagal mengupdate data pegawai!');
-            redirect("account/data_pegawai");
+            // redirect("account/data_pegawai");
+            redirect($_SERVER['HTTP_REFERER']);
         }
     }
 
@@ -237,10 +239,10 @@ class Account extends Roles
 
         if ($delete) {
             $this->session->set_flashdata('message_success', 'Berhasil menghapus data pegawai!');
-            redirect("account/data_pegawai");
+            redirect($_SERVER['HTTP_REFERER']);
         } else {
             $this->session->set_flashdata('message_error', 'Gagal menghapus data pegawai!');
-            redirect("account/data_pegawai");
+            redirect($_SERVER['HTTP_REFERER']);
         }
     }
 

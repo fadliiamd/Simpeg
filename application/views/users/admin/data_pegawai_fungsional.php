@@ -235,7 +235,7 @@
                     foreach ($pegawai as $key => $value) { ?>
                         <tr>
                             <td><?= $no ?></td>
-                            <td><?= $value->account_nip ?></td>
+                            <td><a href="<?= base_url('account/profile_pegawai/' . $value->account_nip) ?>"><?= $value->account_nip ?></a></td>
                             <td><?= $value->nama_pegawai ?></td>
                             <td><?= $value->email ?></td>
                             <td><?= $value->status ?></td>
@@ -473,7 +473,7 @@
                                     </div>
                                 </div>
 
-                                <a href="<?= base_url('account/profile_pegawai/' . $value->account_nip) ?>"><button type="button" class="btn btn-info">Detail</button></a>
+                                <!-- <a href="<?= base_url('account/profile_pegawai/' . $value->account_nip) ?>"><button type="button" class="btn btn-info">Detail</button></a> -->
                             </td>
                         </tr>
                     <?php
