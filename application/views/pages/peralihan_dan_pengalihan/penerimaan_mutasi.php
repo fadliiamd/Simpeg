@@ -213,18 +213,6 @@
                                                             <label for="alasan">Alasan</label>
                                                             <textarea class="form-control" id="alasan" rows="4" name="alasan" required><?= $value->alasan ?></textarea>
                                                         </div>
-                                                        <div class="form-group">
-                                                            <label for="bagian">Bagian <?= $value->bagian_id ?></label>
-                                                            <select class="form-control" id="bagian_id" name="bagian_id">
-                                                                <?php foreach ($bagian as $key => $b) { 
-                                                                    if ($value->bagian_id == $b->id) { ?>
-                                                                        <option selected value="<?= $b->id ?>"><?= $b->jmlh_maksimal ?> - <?= $b->nama ?></option>
-                                                                    <?php } else {?>
-                                                                        <option value="<?= $b->id ?>"><?= $b->jmlh_maksimal ?> - <?= $b->nama ?></option>
-                                                                    <?php } 
-                                                                } ?>
-                                                            </select>
-                                                        </div>
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Kembali</button>

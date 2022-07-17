@@ -108,15 +108,14 @@ class Penerimaan_mutasi_model extends CI_Model
         $instansi_asal = $this->input->post('instansi_asal');
         $daerah_asal = $this->input->post('daerah_asal');
         $alasan = $this->input->post('alasan');
-        $direktur_nip = $this->input->post('direktur_nip');
-        $pegawai_nip = $this->input->post('pegawai_nip');
+        // $pegawai_nip = $this->input->post('pegawai_nip');
 
 
         $data_mutasi = array(
             "instansi_asal" => $instansi_asal,
             "daerah_asal" => $daerah_asal,
             "alasan" => $alasan,
-            "pegawai_nip" => $pegawai_nip
+            // "pegawai_nip" => $pegawai_nip
         );
 
         $this->db->trans_start();
