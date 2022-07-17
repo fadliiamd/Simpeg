@@ -15,7 +15,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="d-flex flex-column align-items-center text-center">
-                            <img src="<?= base_url('uploads/' . $profiles->foto) ?>" alt="FOTO PROFILE" class="rounded-circle" width="150">
+                            <img src="<?= !is_null($profiles->foto) ? base_url('uploads/' . $profiles->foto) :  base_url('assets/images/default-user.png') ?>" alt="FOTO PROFILE" class="rounded-circle" width="150">
                             <div class="mt-3">
                                 <h4><?= explode(' ', $profiles->nama)[0] ?></h4>
                                 <p class="text-secondary mb-1 text-capitalize"><?= $profiles->role ?> SPK POLSUB</p>
