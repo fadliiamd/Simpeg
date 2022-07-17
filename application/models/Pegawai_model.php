@@ -19,16 +19,15 @@ class Pegawai_model extends CI_Model
         return $query->result();
     }
     
-    public function get_all_active()
+    public function get_all_active($arr)
     {
-        $this->db->select('*, pegawai.account_nip as account_nip, COUNT(*) as jmlh_serti');
-        $this->db->from($this->table);
+        $this->db->select('*, pegawai.account_nip as account_nip, COUNT(*) as jmlh_serti');        
         $this->db->join('sertifikat', 'pegawai.account_nip = sertifikat.account_nip', 'left');        
-        $this->db->where('status_kerja', 'aktif');
+        $this->db->join('jabatan', 'pegawai.jabatan_id = jabatan.id', 'left');                
         $this->db->group_by('pegawai.account_nip');
         $this->db->order_by('pegawai.account_nip', 'asc');
 
-        $query = $this->db->get();        
+        $query = $this->db->get_where($this->table, $arr);        
         // var_dump($query->result());die();
         return $query->result();
     }
