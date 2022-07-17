@@ -133,9 +133,17 @@ class Account extends Roles
     public function edit_profile_pegawai($id)
     {
         $data = $this->pegawai_model->get_one_with_join(array('pegawai.account_nip' => $id));
+        $jurusan = $this->jurusan_model->get_all();
+        $bagian = $this->bagian_model->get_all();
+        $unit = $this->unit_model->get_all();
+        $jabatan = $this->jabatan_model->get_all();
 
         $this->load->view('partials/main-header', ['title' => ': Profile ' . $id]);
-        $this->load->view('users/pegawai/profile', [
+        $this->load->view('users/pegawai/profile-edit', [
+            "jabatan" => $jabatan,
+            "jurusan" => $jurusan,
+            "bagian" => $bagian,
+            "unit" => $unit,
             "profiles" => $data,
             "id" => $id
         ]);
