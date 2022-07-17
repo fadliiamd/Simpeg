@@ -340,6 +340,75 @@ class Pegawai_model extends CI_Model
         return true;
     }
 
+    public function update_profile_one($id)
+    {        
+        
+         //check empty string for nullable
+         foreach( $this->input->post() as $key => $value) {
+            if($value === ""){
+                $value = null;
+            }
+            $_POST[$key] = $value;            
+        }
+        // Update account first
+        $this->load->model('account_model');        
+        $update = $this->account_model->update_one($id);        
+
+        if($update){ 
+            $nip = $this->input->post('nip');
+            $nama = $this->input->post('nama');
+            $jenis_kelamin = $this->input->post('jenis_kelamin');
+            $agama = $this->input->post('agama');
+            $tempat_lahir = $this->input->post('tempat_lahir');
+            $tgl_lahir = $this->input->post('tgl_lahir');
+            $alamat = $this->input->post('alamat');
+            $email = $this->input->post('email');
+
+            $foto = $this->do_upload("jpg|png", "foto");
+            $ijazah = $this->do_upload("pdf", "ijazah");
+            $karpeg = $this->do_upload("pdf|jpg|png", "karpeg");                    
+
+            $data_pegawai = array(
+                "nama" => $nama,
+                "jenis_kelamin" => $jenis_kelamin,
+                "agama" => $agama,
+                "tempat_lahir" => $tempat_lahir,
+                "tgl_lahir" => $tgl_lahir,
+                "alamat" => $alamat,
+                "email" => $email
+            );
+            
+            if(!is_null($foto)){
+                $data_pegawai += array(
+                    'foto' => $foto
+                );
+            }
+            if(!is_null($ijazah)){
+                $data_pegawai += array(
+                    'ijazah' => $ijazah
+                );
+            }
+            if(!is_null($karpeg)){
+                $data_pegawai += array(
+                    'karpeg' => $karpeg
+                );
+            }
+        }else{
+            return false;
+        }
+
+        $this->db->trans_start();
+        $this->db->where('account_nip', $nip);
+        $this->db->update($this->table, $data_pegawai);
+        $this->db->trans_complete();
+
+        if ($this->db->trans_status() === FALSE) {
+            return false;
+        }
+
+        return true;
+    }
+
     public function delete_one($id)
     {
         $this->db->trans_start();

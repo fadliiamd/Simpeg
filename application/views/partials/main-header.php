@@ -33,6 +33,19 @@
   <script src="<?= base_url() ?>assets/vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
   <script src="<?= base_url() ?>assets/js/dataTables.select.min.js"></script>
   <script src="<?= base_url() ?>assets/js/dataTables.buttons.min.js"></script>
+  <style>
+    .container-image {
+      position: relative;
+      text-align: center;
+      color: white;
+    }
+
+    .top-right {
+      position: absolute;
+      top: 8px;
+      right: 16px;
+    }
+  </style>
   <!-- End plugin js for this page -->
   <?PHP
   header('Access-Control-Allow-Origin: *');
