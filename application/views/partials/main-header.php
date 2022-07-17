@@ -33,6 +33,19 @@
   <script src="<?= base_url() ?>assets/vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
   <script src="<?= base_url() ?>assets/js/dataTables.select.min.js"></script>
   <script src="<?= base_url() ?>assets/js/dataTables.buttons.min.js"></script>
+  <style>
+    .container-image {
+      position: relative;
+      text-align: center;
+      color: white;
+    }
+
+    .top-right {
+      position: absolute;
+      top: 8px;
+      right: 16px;
+    }
+  </style>
   <!-- End plugin js for this page -->
   <?PHP
   header('Access-Control-Allow-Origin: *');
@@ -299,8 +312,7 @@
               <div class="collapse" id="Account">
                 <ul class="nav flex-column sub-menu">
                   <li class="nav-item"> <a class="nav-link" href="<?= base_url("account/data_pegawai"); ?>">Pegawai</a></li>
-                  <li class="nav-item"> <a class="nav-link" href="<?= base_url("account/data_direktur"); ?>">Direktur</a></li>
-                  <!-- <li class="nav-item"> <a class="nav-link" href="#">Admin</a></li> -->
+                  <li class="nav-item"> <a class="nav-link" href="<?= base_url("account/data_direktur"); ?>">Direktur</a></li>                  
                 </ul>
               </div>
             </li>
@@ -326,6 +338,8 @@
               </a>
               <div class="collapse" id="kepegawaian">
                 <ul class="nav flex-column sub-menu">
+                  <li class="nav-item"> <a class="nav-link" href="<?= base_url("account/pegawai_fungsional"); ?>">Pegawai Fungsional</a></li>
+                  <li class="nav-item"> <a class="nav-link" href="<?= base_url("account/pegawai_struktural"); ?>">Pegawai Struktural</a></li>
                   <li class="nav-item"> <a class="nav-link" href="<?= base_url("golpang"); ?>">Golongan/Pangkat</a></li>
                   <li class="nav-item"> <a class="nav-link" href="<?= base_url("jabatan"); ?>">Jabatan</a></li>
                 </ul>

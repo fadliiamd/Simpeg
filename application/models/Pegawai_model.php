@@ -126,15 +126,15 @@ class Pegawai_model extends CI_Model
         return $query->result();
     }
 
-    public function get_all_with_join()
+    public function get_all_with_join($where = ["1" => "1"])
     {
-        $this->db->select('pegawai.*, pegawai.nama as nama_pegawai, jurusan.nama as nama_jurusan, bagian.nama as nama_bagian, unit.nama as nama_unit');
-        $this->db->from($this->table);
+        $this->db->select('pegawai.*, pegawai.nama as nama_pegawai, jurusan.nama as nama_jurusan, bagian.nama as nama_bagian, unit.nama as nama_unit');        
         $this->db->join('jurusan', 'pegawai.jurusan_id = jurusan.id', 'left');
         $this->db->join('bagian', 'pegawai.bagian_id = bagian.id', 'left');
         $this->db->join('unit', 'pegawai.unit_id = unit.id', 'left');
+        $this->db->join('jabatan', 'pegawai.jabatan_id = jabatan.id', 'left');
 
-        $query = $this->db->get();
+        $query = $this->db->get_where($this->table, $where);
 
         return $query->result();
     }
@@ -307,6 +307,75 @@ class Pegawai_model extends CI_Model
                 "jurusan_id" => $jurusan_id,
                 "bagian_id" => $bagian_id,
                 "unit_id" => $unit_id,
+            );
+            
+            if(!is_null($foto)){
+                $data_pegawai += array(
+                    'foto' => $foto
+                );
+            }
+            if(!is_null($ijazah)){
+                $data_pegawai += array(
+                    'ijazah' => $ijazah
+                );
+            }
+            if(!is_null($karpeg)){
+                $data_pegawai += array(
+                    'karpeg' => $karpeg
+                );
+            }
+        }else{
+            return false;
+        }
+
+        $this->db->trans_start();
+        $this->db->where('account_nip', $nip);
+        $this->db->update($this->table, $data_pegawai);
+        $this->db->trans_complete();
+
+        if ($this->db->trans_status() === FALSE) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public function update_profile_one($id)
+    {        
+        
+         //check empty string for nullable
+         foreach( $this->input->post() as $key => $value) {
+            if($value === ""){
+                $value = null;
+            }
+            $_POST[$key] = $value;            
+        }
+        // Update account first
+        $this->load->model('account_model');        
+        $update = $this->account_model->update_one($id);        
+
+        if($update){ 
+            $nip = $this->input->post('nip');
+            $nama = $this->input->post('nama');
+            $jenis_kelamin = $this->input->post('jenis_kelamin');
+            $agama = $this->input->post('agama');
+            $tempat_lahir = $this->input->post('tempat_lahir');
+            $tgl_lahir = $this->input->post('tgl_lahir');
+            $alamat = $this->input->post('alamat');
+            $email = $this->input->post('email');
+
+            $foto = $this->do_upload("jpg|png", "foto");
+            $ijazah = $this->do_upload("pdf", "ijazah");
+            $karpeg = $this->do_upload("pdf|jpg|png", "karpeg");                    
+
+            $data_pegawai = array(
+                "nama" => $nama,
+                "jenis_kelamin" => $jenis_kelamin,
+                "agama" => $agama,
+                "tempat_lahir" => $tempat_lahir,
+                "tgl_lahir" => $tgl_lahir,
+                "alamat" => $alamat,
+                "email" => $email
             );
             
             if(!is_null($foto)){
