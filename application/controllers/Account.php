@@ -54,6 +54,70 @@ class Account extends Roles
         }
     }
 
+    public function edit_profile_admin($id)
+    {
+        $data = $this->admin_model->get_one(array('account_nip' => $id));
+
+        $this->load->view('partials/main-header', ['title' => ': Edit My Profile']);
+        $this->load->view('users/admin/profile-edit', [
+            "profiles" => $data,
+            "id" => $id
+        ]);
+        $this->load->view('partials/main-footer');
+    }
+
+    public function update_data_admin()
+    {
+        //form validation
+        //validation form
+        $this->load->library('form_validation');
+        if ($this->input->post('nip') != $this->input->post('nip_old')) {            
+            $is_unique = 'is_unique[account.nip]';
+        } else {
+            $is_unique = '';         
+        }
+        $this->form_validation->set_rules(
+            'nip',
+            'nip',
+            $is_unique,
+            array(
+                'is_unique' => 'Mohon maaf %s telah terdaftar!'
+            )
+        );
+
+        if ($this->input->post('email') != $this->input->post('email_old')) {            
+            $is_unique = 'is_unique[admin.email]';
+        } else {
+            $is_unique = '';         
+        }
+        $this->form_validation->set_rules(
+            'email',
+            'email',
+            $is_unique,
+            array(
+                'is_unique' => 'Mohon maaf %s telah terdaftar!'
+            )
+        );
+
+        if ($this->form_validation->run() == FALSE) {
+            $this->session->set_flashdata('message_error', validation_errors());
+            redirect($_SERVER['HTTP_REFERER']);
+        }        
+
+        //update everything change
+        $delete = $this->admin_model->update_one($this->input->post('nip_old'));
+        if ($delete) {
+            $this->session->set_flashdata('message_success', 'Berhasil mengupdate data admin!');            
+            redirect($_SERVER['HTTP_REFERER']);
+        } else {
+            $this->session->set_flashdata('message_error', 'Gagal mengupdate data admin!');
+            redirect($_SERVER['HTTP_REFERER']);
+        }
+    }
+
+    /*===========
+		PEGAWAI
+	=============*/
     public function profile_pegawai($id)
     {
         $data = $this->pegawai_model->get_one_with_join(array('pegawai.account_nip' => $id));
@@ -65,22 +129,19 @@ class Account extends Roles
         ]);
         $this->load->view('partials/main-footer');
     }
-
-    public function profile_direktur($id)
+    
+    public function edit_profile_pegawai($id)
     {
-        $data = $this->direktur_model->get_one_with_join(array('direktur.account_nip' => $id));
+        $data = $this->pegawai_model->get_one_with_join(array('pegawai.account_nip' => $id));
 
         $this->load->view('partials/main-header', ['title' => ': Profile ' . $id]);
-        $this->load->view('users/direktur/profile', [
+        $this->load->view('users/pegawai/profile', [
             "profiles" => $data,
             "id" => $id
         ]);
         $this->load->view('partials/main-footer');
     }
 
-    /*===========
-		PEGAWAI
-	=============*/
     public function data_pegawai()
     {
         $golpang = $this->golpang_model->get_all();
@@ -249,6 +310,18 @@ class Account extends Roles
     /*===========
 		DIREKTUR
 	=============*/
+    public function profile_direktur($id)
+    {
+        $data = $this->direktur_model->get_one_with_join(array('direktur.account_nip' => $id));
+
+        $this->load->view('partials/main-header', ['title' => ': Profile ' . $id]);
+        $this->load->view('users/direktur/profile', [
+            "profiles" => $data,
+            "id" => $id
+        ]);
+        $this->load->view('partials/main-footer');
+    }
+
     public function data_direktur()
     {
         $golpang = $this->golpang_model->get_all();

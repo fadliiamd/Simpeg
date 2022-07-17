@@ -36,6 +36,10 @@
 <script src="<?= base_url(); ?>assets/js/costum.js"></script>
 <!-- End Costum js progantara -->
   <script>
+    $(document).ready(function() {
+      $("body").tooltip({ selector: '[data-toggle=tooltip]' });
+    });
+    
     const MONTH_NAMES = [
       'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
       'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
