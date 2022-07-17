@@ -10,7 +10,32 @@
 
 <div class="row">
     <div class="col-lg-12">
-        <?php if ($this->session->flashdata('message_success')) : ?>
+        <?php 
+        function get_label_skala($val){
+            switch($val){
+                case 1:
+                    $label_skala = "Kedua elemen sama pentingnya";
+                    break;
+                case 3:
+                    $label_skala = "Elemen yang satu lebih sedikit penting dari pada elemen yang lainnya";
+                    break;
+                case 5:
+                    $label_skala = "Elemen yang satu lebih penting dari pada elemen yang lainnya";
+                    break;
+                case 7:
+                    $label_skala = "Satu elemen jelas lebih mutlak penting dari pada elemen yang lainnya";
+                    break;
+                case 9:
+                    $label_skala = "Satu elemen mutlak penting dari pada elemen yang lainnya";
+                    break;
+                default:
+                    $label_skala = "Nilai-nilai antara dua pertimbangan yang berdekatan";
+                    break;
+
+            }
+            return $label_skala;
+        }
+        if ($this->session->flashdata('message_success')) : ?>
             <div class="alert alert-success alert-dismissible fade show" role="alert">
                 <?= $this->session->flashdata('message_success') ?>
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -87,7 +112,7 @@
                         </thead>
                         <tbody>
                             <?php
-                            $baris = 1;
+                            $baris = 1;                            
                             foreach ($kriteria as $key => $b) {
                                 $kolom = 1;
                             ?>
@@ -102,7 +127,8 @@
                                                 if ($kolom > $baris) {
                                                     $option_format = '';
                                                     for ($val = 1; $val <= 9; $val++) {
-                                                        $option_format .= '<option value="' . $val . '">' . $val . '</option>';
+                                                        $label_skala = get_label_skala($val);
+                                                        $option_format .= '<option value="' . $val . '">' . $val .' - ' . $label_skala .'</option>';
                                                     }
                                                     $format = '<select 
                                                         id="' . $baris . '-' . $kolom . '" 
@@ -110,7 +136,7 @@
                                                         ' . $option_format . '</select>';
                                                 } else {
                                                     $option_format = '';
-                                                    for ($val = 1; $val <= 9; $val++) {
+                                                    for ($val = 1; $val <= 9; $val++) {                                                        
                                                         $option_format .= '<option value="' . $val . '">' . $val . '</option>';
                                                     }
                                                     $format = '<select 
