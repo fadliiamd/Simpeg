@@ -45,6 +45,194 @@
                         }
                         ?>
                     </ul>
+                    <hr>
+                    <h6 class="mb-3">Log Kegiatan :</h6>
+                    <div class="page-content page-container" id="page-content">
+                        <div class="">
+                            <div class="row d-flex justify-content-center">
+                                <div class="col-md-12">
+                                    <div class="accordion" id="accordionExample">
+                                        <div class="card user-activity-card">
+                                            <div class="card-header p-2 bg-primary">
+                                                <button class="btn btn-sm p-0 m-0 btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                    <h5 class="m-0 text-white">Diklat</h5>
+                                                </button>
+                                            </div>
+                                            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                                                <div class="card-blok">
+                                                    <div class="row m-b-25">
+                                                        <div class="col-auto p-r-0">
+                                                            <div class="u-img"> <img src=" https://i.imgur.com/UIhwGhr.jpg" alt="user image" class="img-radius cover-img"> <img src="https://img.icons8.com/ultraviolet/40/000000/active-state.png" alt="user image" class="img-radius profile-img"> </div>
+                                                        </div>
+                                                        <div class="col">
+                                                            <h6 class="m-b-5">Timothy Husai</h6>
+                                                            <p class="text-muted m-b-0">For what reason would it be advisable.</p>
+                                                            <p class="text-muted m-b-0"><i class="mdi mdi-timer feather icon-clock m-r-10"></i>24 min ago</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row m-b-25">
+                                                        <div class="col-auto p-r-0">
+                                                            <div class="u-img"> <img src="https://i.imgur.com/rAInTHU.jpg" alt="user image" class="img-radius cover-img"> <img src="https://img.icons8.com/office/16/000000/active-state.png" alt="user image" class="img-radius profile-img"> </div>
+                                                        </div>
+                                                        <div class="col">
+                                                            <h6 class="m-b-5">Simkil Ahleu</h6>
+                                                            <p class="text-muted m-b-0">That might be little bit risky to have crew</p>
+                                                            <p class="text-muted m-b-0"><i class="mdi mdi-timer feather icon-clock m-r-10"></i>12 hours ago</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row m-b-25">
+                                                        <div class="col-auto p-r-0">
+                                                            <div class="u-img"> <img src="https://i.imgur.com/rAInTHU.jpg" alt="user image" class="img-radius cover-img"> <img src="https://img.icons8.com/office/16/000000/active-state.png" alt="user image" class="img-radius profile-img"> </div>
+                                                        </div>
+                                                        <div class="col">
+                                                            <h6 class="m-b-5">John Deo</h6>
+                                                            <p class="text-muted m-b-0">For what reason would it be advisable</p>
+                                                            <p class="text-muted m-b-0"><i class="mdi mdi-timer feather icon-clock m-r-10"></i>2 min ago</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row m-b-25">
+                                                        <div class="col-auto p-r-0">
+                                                            <div class="u-img"> <img src=" https://i.imgur.com/UIhwGhr.jpg" alt="user image" class="img-radius cover-img"> <img src="https://img.icons8.com/ultraviolet/40/000000/active-state.png" alt="user image" class="img-radius profile-img"> </div>
+                                                        </div>
+                                                        <div class="col">
+                                                            <h6 class="m-b-5">John Deo</h6>
+                                                            <p class="text-muted m-b-0">member like them. For what reason.</p>
+                                                            <p class="text-muted m-b-0"><i class="mdi mdi-timer feather icon-clock m-r-10"></i>12 min ago</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="text-center"> <a href="#!" class="b-b-primary text-primary" data-abc="true">View all Projects</a> </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="page-content page-container" id="page-content">
+                        <div class="">
+                            <div class="row d-flex justify-content-center">
+                                <div class="col-md-12">
+                                    <div class="accordion" id="accordionExample">
+                                        <div class="card user-activity-card">
+                                            <div class="card-header p-2 bg-primary">
+                                                <button class="btn btn-sm p-0 m-0 btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                                                    <h5 class="m-0 text-white">Bimtek</h5>
+                                                </button>
+                                            </div>
+                                            <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                                                <div class="card-blok">
+                                                    <div class="row m-b-25">
+                                                        <div class="col-auto p-r-0">
+                                                            <div class="u-img"> <img src=" https://i.imgur.com/UIhwGhr.jpg" alt="user image" class="img-radius cover-img"> <img src="https://img.icons8.com/ultraviolet/40/000000/active-state.png" alt="user image" class="img-radius profile-img"> </div>
+                                                        </div>
+                                                        <div class="col">
+                                                            <h6 class="m-b-5">Timothy Husai</h6>
+                                                            <p class="text-muted m-b-0">For what reason would it be advisable.</p>
+                                                            <p class="text-muted m-b-0"><i class="mdi mdi-timer feather icon-clock m-r-10"></i>24 min ago</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row m-b-25">
+                                                        <div class="col-auto p-r-0">
+                                                            <div class="u-img"> <img src="https://i.imgur.com/rAInTHU.jpg" alt="user image" class="img-radius cover-img"> <img src="https://img.icons8.com/office/16/000000/active-state.png" alt="user image" class="img-radius profile-img"> </div>
+                                                        </div>
+                                                        <div class="col">
+                                                            <h6 class="m-b-5">Simkil Ahleu</h6>
+                                                            <p class="text-muted m-b-0">That might be little bit risky to have crew</p>
+                                                            <p class="text-muted m-b-0"><i class="mdi mdi-timer feather icon-clock m-r-10"></i>12 hours ago</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row m-b-25">
+                                                        <div class="col-auto p-r-0">
+                                                            <div class="u-img"> <img src="https://i.imgur.com/rAInTHU.jpg" alt="user image" class="img-radius cover-img"> <img src="https://img.icons8.com/office/16/000000/active-state.png" alt="user image" class="img-radius profile-img"> </div>
+                                                        </div>
+                                                        <div class="col">
+                                                            <h6 class="m-b-5">John Deo</h6>
+                                                            <p class="text-muted m-b-0">For what reason would it be advisable</p>
+                                                            <p class="text-muted m-b-0"><i class="mdi mdi-timer feather icon-clock m-r-10"></i>2 min ago</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row m-b-25">
+                                                        <div class="col-auto p-r-0">
+                                                            <div class="u-img"> <img src=" https://i.imgur.com/UIhwGhr.jpg" alt="user image" class="img-radius cover-img"> <img src="https://img.icons8.com/ultraviolet/40/000000/active-state.png" alt="user image" class="img-radius profile-img"> </div>
+                                                        </div>
+                                                        <div class="col">
+                                                            <h6 class="m-b-5">John Deo</h6>
+                                                            <p class="text-muted m-b-0">member like them. For what reason.</p>
+                                                            <p class="text-muted m-b-0"><i class="mdi mdi-timer feather icon-clock m-r-10"></i>12 min ago</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="text-center"> <a href="#!" class="b-b-primary text-primary" data-abc="true">View all Projects</a> </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="page-content page-container" id="page-content">
+                        <div class="">
+                            <div class="row d-flex justify-content-center">
+                                <div class="col-md-12">
+                                    <div class="accordion" id="accordionExample">
+                                        <div class="card user-activity-card">
+                                            <div class="card-header p-2 bg-primary">
+                                                <button class="btn btn-sm p-0 m-0 btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
+                                                    <h5 class="m-0 text-white">Prajabatan</h5>
+                                                </button>
+                                            </div>
+                                            <div id="collapseThree" class="collapse show" aria-labelledby="headingThree" data-parent="#accordionExample">
+                                                <div class="card-blok">
+                                                    <div class="row m-b-25">
+                                                        <div class="col-auto p-r-0">
+                                                            <div class="u-img"> <img src=" https://i.imgur.com/UIhwGhr.jpg" alt="user image" class="img-radius cover-img"> <img src="https://img.icons8.com/ultraviolet/40/000000/active-state.png" alt="user image" class="img-radius profile-img"> </div>
+                                                        </div>
+                                                        <div class="col">
+                                                            <h6 class="m-b-5">Timothy Husai</h6>
+                                                            <p class="text-muted m-b-0">For what reason would it be advisable.</p>
+                                                            <p class="text-muted m-b-0"><i class="mdi mdi-timer feather icon-clock m-r-10"></i>24 min ago</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row m-b-25">
+                                                        <div class="col-auto p-r-0">
+                                                            <div class="u-img"> <img src="https://i.imgur.com/rAInTHU.jpg" alt="user image" class="img-radius cover-img"> <img src="https://img.icons8.com/office/16/000000/active-state.png" alt="user image" class="img-radius profile-img"> </div>
+                                                        </div>
+                                                        <div class="col">
+                                                            <h6 class="m-b-5">Simkil Ahleu</h6>
+                                                            <p class="text-muted m-b-0">That might be little bit risky to have crew</p>
+                                                            <p class="text-muted m-b-0"><i class="mdi mdi-timer feather icon-clock m-r-10"></i>12 hours ago</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row m-b-25">
+                                                        <div class="col-auto p-r-0">
+                                                            <div class="u-img"> <img src="https://i.imgur.com/rAInTHU.jpg" alt="user image" class="img-radius cover-img"> <img src="https://img.icons8.com/office/16/000000/active-state.png" alt="user image" class="img-radius profile-img"> </div>
+                                                        </div>
+                                                        <div class="col">
+                                                            <h6 class="m-b-5">John Deo</h6>
+                                                            <p class="text-muted m-b-0">For what reason would it be advisable</p>
+                                                            <p class="text-muted m-b-0"><i class="mdi mdi-timer feather icon-clock m-r-10"></i>2 min ago</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row m-b-25">
+                                                        <div class="col-auto p-r-0">
+                                                            <div class="u-img"> <img src=" https://i.imgur.com/UIhwGhr.jpg" alt="user image" class="img-radius cover-img"> <img src="https://img.icons8.com/ultraviolet/40/000000/active-state.png" alt="user image" class="img-radius profile-img"> </div>
+                                                        </div>
+                                                        <div class="col">
+                                                            <h6 class="m-b-5">John Deo</h6>
+                                                            <p class="text-muted m-b-0">member like them. For what reason.</p>
+                                                            <p class="text-muted m-b-0"><i class="mdi mdi-timer feather icon-clock m-r-10"></i>12 min ago</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="text-center"> <a href="#!" class="b-b-primary text-primary" data-abc="true">View all Projects</a> </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="col-md-8">
