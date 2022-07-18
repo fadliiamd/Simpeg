@@ -47,7 +47,10 @@ class Hasil extends CI_Controller {
         $kriteria = $this->kriteria_model->get_all();
         $subkriteria = $this->subkriteria_model->get_all();
         $nilaialternatif = $this->nilaialternatif_model->get_all();
-        $pegawai = $this->pegawai_model->get_all_active();
+        $pegawai = $this->pegawai_model->get_all_active([
+            "status_kerja" => "aktif", 
+            "jenis_jabatan" => "struktural"
+        ]);
 
 		$this->load->view('partials/main-header', [
             "title" => "Perhitungan Perangkingan"

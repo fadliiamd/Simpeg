@@ -91,79 +91,8 @@ class Admin_model extends CI_Model
             return $data;
     }
 
-    public function insert_one()
-    {
-        //check empty string for nullable
-        foreach( $this->input->post() as $key => $value) {
-            if($value === ""){
-                $value = null;
-            }
-            $_POST[$key] = $value;            
-        }
-        // Create account first
-        $this->load->model('account_model');        
-        $add = $this->account_model->register("admin");        
-
-        if($add){
-            $nip = $this->input->post('nip');
-            $nama = $this->input->post('nama');
-            $jenis_kelamin = $this->input->post('jenis_kelamin');
-            $agama = $this->input->post('agama');
-            $tempat_lahir = $this->input->post('tempat_lahir');
-            $tgl_lahir = $this->input->post('tgl_lahir');
-            $alamat = $this->input->post('alamat');
-            $email = $this->input->post('email');
-            $golongan_id = $this->input->post('golongan_id');
-            $jenis_admin = $this->input->post('jenis_admin');
-            $status_admin = $this->input->post('status_admin');
-            $gaji = $this->input->post('gaji');
-            $jabatan = $this->input->post('jabatan');
-            $tgl_masuk = $this->input->post('tgl_masuk');
-            $pendidikan = $this->input->post('pendidikan');
-
-            $jurusan_id = $this->input->post('jurusan_id');
-            $bagian_id = $this->input->post('bagian_id');
-            $unit_id = $this->input->post('unit_id');     
-            
-            $foto = $this->do_upload("jpg|png", "foto");
-            $ijazah = $this->do_upload("pdf", "ijazah");
-            $karpeg = $this->do_upload("pdf|jpg|png", "karpeg");                    
-
-            $data_admin = array(
-                "nama" => $nama,
-                "account_nip" => $nip,
-                "jenis_kelamin" => $jenis_kelamin,
-                "agama" => $agama,
-                "tempat_lahir" => $tempat_lahir,
-                "tgl_lahir" => $tgl_lahir,
-                "alamat" => $alamat,
-                "email" => $email,
-                "golongan_id" => $golongan_id,                
-                "status" => $status_admin,
-                "gaji" => $gaji,
-                "jabatan_id" => $jabatan,
-                "tgl_masuk" => $tgl_masuk,
-                "pendidikan" => $pendidikan,
-                "jurusan_id" => $jurusan_id,
-                "bagian_id" => $bagian_id,
-                "unit_id" => $unit_id,
-                "foto" => $foto,
-                "ijazah" => $ijazah,
-                "karpeg" => $karpeg
-            );
-    
-            $this->db->insert($this->table, $data_admin);
-    
-            return ($this->db->affected_rows() != 1) ? false : true;
-        }else{
-            return false;
-        }
-    
-    }
-
     public function update_one($id)
-    {        
-        
+    {
          //check empty string for nullable
          foreach( $this->input->post() as $key => $value) {
             if($value === ""){
@@ -175,58 +104,20 @@ class Admin_model extends CI_Model
         $this->load->model('account_model');        
         $update = $this->account_model->update_one($id);        
 
-        if($update){ 
-            $nip = $this->input->post('nip');
+        if($update){
             $nama = $this->input->post('nama');
-            $jenis_kelamin = $this->input->post('jenis_kelamin');
-            $agama = $this->input->post('agama');
-            $tempat_lahir = $this->input->post('tempat_lahir');
-            $tgl_lahir = $this->input->post('tgl_lahir');
-            $alamat = $this->input->post('alamat');
             $email = $this->input->post('email');
-            $golongan_id = $this->input->post('golongan_id');
-            $jenis_admin = $this->input->post('jenis_admin');
-            $status_admin = $this->input->post('status_admin');
-            $gaji = $this->input->post('gaji');
-            $jabatan = $this->input->post('jabatan');
-            $tgl_masuk = $this->input->post('tgl_masuk');
-            $pendidikan = $this->input->post('pendidikan');
 
-            $jurusan_id = $this->input->post('jurusan_id');
-            $bagian_id = $this->input->post('bagian_id');
-            $unit_id = $this->input->post('unit_id');     
-            
-            $foto = $this->do_upload("jpg|png", "foto");
-            $ijazah = $this->do_upload("pdf", "ijazah");
-            $karpeg = $this->do_upload("pdf|jpg|png", "karpeg");                    
-
-            $data_admin = array(
-                "nama" => $nama,
-                "jenis_kelamin" => $jenis_kelamin,
-                "agama" => $agama,
-                "tempat_lahir" => $tempat_lahir,
-                "tgl_lahir" => $tgl_lahir,
-                "alamat" => $alamat,
-                "email" => $email,
-                "golongan_id" => $golongan_id,                
-                "status" => $status_admin,
-                "gaji" => $gaji,
-                "jabatan_id" => $jabatan,
-                "tgl_masuk" => $tgl_masuk,
-                "pendidikan" => $pendidikan,
-                "jurusan_id" => $jurusan_id,
-                "bagian_id" => $bagian_id,
-                "unit_id" => $unit_id,
-                "foto" => $foto,
-                "ijazah" => $ijazah,
-                "karpeg" => $karpeg
+            $data_admin = array(                
+                "nama" => $nama,                
+                "email" => $email               
             );
         }else{
             return false;
         }
 
         $this->db->trans_start();
-        $this->db->where('account_nip', $nip);
+        $this->db->where('account_nip', $this->input->post('nip'));
         $this->db->update($this->table, $data_admin);
         $this->db->trans_complete();
 

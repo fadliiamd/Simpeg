@@ -4,6 +4,15 @@
 
         <!-- Large modal -->
         <?php
+        function is_kepegawaian($pegawai){                                    
+            if (!is_null($pegawai)) {
+                $pegawai = $pegawai->nama_bagian;
+                if(strtolower($pegawai) == 'kepegawaian'){
+                    return true;
+                }
+            }
+            return false;
+        }
         if ($_SESSION['role'] === 'pegawai') { ?>
             <a href="<?= base_url('dupak/pemberkasan/create') ?>" class="">
                 <button type="button" class="my-3 btn btn-primary">Tambah Daftar Usulan PAK</button>
@@ -38,7 +47,7 @@
                         <th>ID Usulan</th>
                         <th>NIP Pengusul</th>
                         <th>Tanggal Usulan</th>
-                        <th>Hasil Angka Kredit</th>
+                        <th>Total Angka Kredit</th>
                         <th>Status</th>
                         <th>Tanggal Validasi</th>
                         <th>Action</th>
@@ -47,6 +56,12 @@
                 <tbody>
                     <?php $no = 1; ?>
                     <?php
+                    $label_badge = [
+                        "pending" => "badge-secondary",
+                        "ditolak" => "badge-danger",
+                        "disetujui berkas" => "badge-success",
+                        "disetujui" => "badge-success"
+                    ];
                     foreach ($nilai_rekap as $key => $value) { ?>
                         <tr>
                             <td><?php echo $no ?></td>
@@ -54,22 +69,18 @@
                             <td><?php echo $value->account_nip; ?></td>
                             <td><?php echo $value->tgl_usulan; ?></td>
                             <td><?= $value->hasil_akk ?></td>
-                            <td><?= $value->status ?></td>
+                            <td>
+                                <span class="badge <?= $label_badge[$value->status] ?>">
+                                    <?= $value->status ?>
+                                </span>
+                            </td>
                             <td>
                                 <?php
-                                if(is_null($value->tgl_validasi)){
-                                    $kepegawaian = $this->pegawai_model->get_one_with_join(array(
-                                        'account_nip' => $this->session->userdata('nip')
-                                    ));
-                                    if (!is_null($kepegawaian)) {
-                                        $kepegawaian = $kepegawaian->nama_bagian;
-                                        if(strtolower($kepegawaian) == 'kepegawaian'){ ?>
-                                        <a href="<?= base_url('dupak/pemberkasan/validasi_pak/'.$value->id) ?>">
-                                            <button type="button" class="btn btn-warning">Validasi</button>
-                                        </a>
-                                    <?php
-                                        }
-                                    }
+                                $pegawai = $this->pegawai_model->get_one_with_join(array(
+                                    'account_nip' => $this->session->userdata('nip')
+                                ));                                
+                                if(is_null($value->tgl_validasi)){                                    
+                                   echo "Belum semua diivalidasi";
                                 }else{
                                     echo $value->tgl_validasi;
                                 }
@@ -77,10 +88,19 @@
                             </td>
                             <td>
                                 <!-- Large modal -->
-                                <a href="<?= base_url('dupak/pemberkasan/usulan_pak/'.$value->id) ?>">
-                                    <button type="button" class="btn btn-info">Lihat</button>
-                                </a>
-                            
+                                <?php 
+                                if(is_kepegawaian($pegawai)){ ?>
+                                    <a href="<?= base_url('dupak/pemberkasan/validasi_pak/'.$value->id) ?>">
+                                        <button type="button" class="btn btn-warning">Validasi</button>
+                                    </a>
+                                <?php
+                                }else{ ?>
+                                    <a href="<?= base_url('dupak/pemberkasan/usulan_pak/'.$value->id) ?>">
+                                        <button type="button" class="btn btn-info">Lihat</button>
+                                    </a>
+                                <?php
+                                }
+                                ?>
                                 <?php if ($_SESSION['role'] !== 'pegawai') { ?>
                                     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deletetable-<?= $value->id ?>">Hapus</button>
 
