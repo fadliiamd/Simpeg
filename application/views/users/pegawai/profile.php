@@ -60,47 +60,26 @@
                                             </div>
                                             <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
                                                 <div class="card-blok">
-                                                    <div class="row m-b-25">
-                                                        <div class="col-auto p-r-0">
-                                                            <div class="u-img"> <img src=" https://i.imgur.com/UIhwGhr.jpg" alt="user image" class="img-radius cover-img"> <img src="https://img.icons8.com/ultraviolet/40/000000/active-state.png" alt="user image" class="img-radius profile-img"> </div>
+                                                    <?php
+                                                    if (empty($diklat)) {
+                                                        echo "<p class='text-center'>Belum ada diklat</p>";
+                                                    }
+                                                    foreach ($diklat as $key => $val) { ?>
+                                                        <div class="row m-b-25">
+                                                            <div class="col-auto p-r-0">
+                                                                <div class="u-img">
+                                                                    <i class="mdi mdi-history"></i>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col">
+                                                                <h6 class="m-b-5"><?= $val->tema ?></h6>
+                                                                <p class="text-muted m-b-0"><i class="mdi mdi-timer feather icon-clock m-r-10"></i><?= $val->created_at ?></p>
+                                                            </div>
                                                         </div>
-                                                        <div class="col">
-                                                            <h6 class="m-b-5">Timothy Husai</h6>
-                                                            <p class="text-muted m-b-0">For what reason would it be advisable.</p>
-                                                            <p class="text-muted m-b-0"><i class="mdi mdi-timer feather icon-clock m-r-10"></i>24 min ago</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row m-b-25">
-                                                        <div class="col-auto p-r-0">
-                                                            <div class="u-img"> <img src="https://i.imgur.com/rAInTHU.jpg" alt="user image" class="img-radius cover-img"> <img src="https://img.icons8.com/office/16/000000/active-state.png" alt="user image" class="img-radius profile-img"> </div>
-                                                        </div>
-                                                        <div class="col">
-                                                            <h6 class="m-b-5">Simkil Ahleu</h6>
-                                                            <p class="text-muted m-b-0">That might be little bit risky to have crew</p>
-                                                            <p class="text-muted m-b-0"><i class="mdi mdi-timer feather icon-clock m-r-10"></i>12 hours ago</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row m-b-25">
-                                                        <div class="col-auto p-r-0">
-                                                            <div class="u-img"> <img src="https://i.imgur.com/rAInTHU.jpg" alt="user image" class="img-radius cover-img"> <img src="https://img.icons8.com/office/16/000000/active-state.png" alt="user image" class="img-radius profile-img"> </div>
-                                                        </div>
-                                                        <div class="col">
-                                                            <h6 class="m-b-5">John Deo</h6>
-                                                            <p class="text-muted m-b-0">For what reason would it be advisable</p>
-                                                            <p class="text-muted m-b-0"><i class="mdi mdi-timer feather icon-clock m-r-10"></i>2 min ago</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row m-b-25">
-                                                        <div class="col-auto p-r-0">
-                                                            <div class="u-img"> <img src=" https://i.imgur.com/UIhwGhr.jpg" alt="user image" class="img-radius cover-img"> <img src="https://img.icons8.com/ultraviolet/40/000000/active-state.png" alt="user image" class="img-radius profile-img"> </div>
-                                                        </div>
-                                                        <div class="col">
-                                                            <h6 class="m-b-5">John Deo</h6>
-                                                            <p class="text-muted m-b-0">member like them. For what reason.</p>
-                                                            <p class="text-muted m-b-0"><i class="mdi mdi-timer feather icon-clock m-r-10"></i>12 min ago</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="text-center"> <a href="#!" class="b-b-primary text-primary" data-abc="true">View all Projects</a> </div>
+                                                    <?php
+                                                    }
+                                                    ?>
+                                                    <div class="text-center"> <a href="<?= base_url('diklat') ?>" class="b-b-primary text-primary" data-abc="true">View all Diklat</a> </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -122,47 +101,26 @@
                                             </div>
                                             <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" data-parent="#accordionExample">
                                                 <div class="card-blok">
-                                                    <div class="row m-b-25">
-                                                        <div class="col-auto p-r-0">
-                                                            <div class="u-img"> <img src=" https://i.imgur.com/UIhwGhr.jpg" alt="user image" class="img-radius cover-img"> <img src="https://img.icons8.com/ultraviolet/40/000000/active-state.png" alt="user image" class="img-radius profile-img"> </div>
+                                                    <?php
+                                                    if (empty($bimtek)) {
+                                                        echo "<p class='text-center'>Belum ada bimtek</p>";
+                                                    }
+                                                    foreach ($bimtek as $key => $val) { ?>
+                                                        <div class="row m-b-25">
+                                                            <div class="col-auto p-r-0">
+                                                                <div class="u-img">
+                                                                    <i class="mdi mdi-history"></i>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col">
+                                                                <h6 class="m-b-5"><?= $val->tema ?></h6>
+                                                                <p class="text-muted m-b-0"><i class="mdi mdi-timer feather icon-clock m-r-10"></i><?= $val->created_at ?></p>
+                                                            </div>
                                                         </div>
-                                                        <div class="col">
-                                                            <h6 class="m-b-5">Timothy Husai</h6>
-                                                            <p class="text-muted m-b-0">For what reason would it be advisable.</p>
-                                                            <p class="text-muted m-b-0"><i class="mdi mdi-timer feather icon-clock m-r-10"></i>24 min ago</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row m-b-25">
-                                                        <div class="col-auto p-r-0">
-                                                            <div class="u-img"> <img src="https://i.imgur.com/rAInTHU.jpg" alt="user image" class="img-radius cover-img"> <img src="https://img.icons8.com/office/16/000000/active-state.png" alt="user image" class="img-radius profile-img"> </div>
-                                                        </div>
-                                                        <div class="col">
-                                                            <h6 class="m-b-5">Simkil Ahleu</h6>
-                                                            <p class="text-muted m-b-0">That might be little bit risky to have crew</p>
-                                                            <p class="text-muted m-b-0"><i class="mdi mdi-timer feather icon-clock m-r-10"></i>12 hours ago</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row m-b-25">
-                                                        <div class="col-auto p-r-0">
-                                                            <div class="u-img"> <img src="https://i.imgur.com/rAInTHU.jpg" alt="user image" class="img-radius cover-img"> <img src="https://img.icons8.com/office/16/000000/active-state.png" alt="user image" class="img-radius profile-img"> </div>
-                                                        </div>
-                                                        <div class="col">
-                                                            <h6 class="m-b-5">John Deo</h6>
-                                                            <p class="text-muted m-b-0">For what reason would it be advisable</p>
-                                                            <p class="text-muted m-b-0"><i class="mdi mdi-timer feather icon-clock m-r-10"></i>2 min ago</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row m-b-25">
-                                                        <div class="col-auto p-r-0">
-                                                            <div class="u-img"> <img src=" https://i.imgur.com/UIhwGhr.jpg" alt="user image" class="img-radius cover-img"> <img src="https://img.icons8.com/ultraviolet/40/000000/active-state.png" alt="user image" class="img-radius profile-img"> </div>
-                                                        </div>
-                                                        <div class="col">
-                                                            <h6 class="m-b-5">John Deo</h6>
-                                                            <p class="text-muted m-b-0">member like them. For what reason.</p>
-                                                            <p class="text-muted m-b-0"><i class="mdi mdi-timer feather icon-clock m-r-10"></i>12 min ago</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="text-center"> <a href="#!" class="b-b-primary text-primary" data-abc="true">View all Projects</a> </div>
+                                                    <?php
+                                                    }
+                                                    ?>
+                                                    <div class="text-center"> <a href="<?= base_url('bimtek') ?>" class="b-b-primary text-primary" data-abc="true">View all Bimtek</a> </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -184,47 +142,26 @@
                                             </div>
                                             <div id="collapseThree" class="collapse show" aria-labelledby="headingThree" data-parent="#accordionExample">
                                                 <div class="card-blok">
-                                                    <div class="row m-b-25">
-                                                        <div class="col-auto p-r-0">
-                                                            <div class="u-img"> <img src=" https://i.imgur.com/UIhwGhr.jpg" alt="user image" class="img-radius cover-img"> <img src="https://img.icons8.com/ultraviolet/40/000000/active-state.png" alt="user image" class="img-radius profile-img"> </div>
+                                                    <?php
+                                                    if (empty($prajabatan)) {
+                                                        echo "<p class='text-center'>Belum ada prajabatan</p>";
+                                                    }
+                                                    foreach ($prajabatan as $key => $val) { ?>
+                                                        <div class="row m-b-25">
+                                                            <div class="col-auto p-r-0">
+                                                                <div class="u-img">
+                                                                    <i class="mdi mdi-history"></i>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col">
+                                                                <h6 class="m-b-5"><?= $val->tema ?></h6>
+                                                                <p class="text-muted m-b-0"><i class="mdi mdi-timer feather icon-clock m-r-10"></i><?= $val->created_at ?></p>
+                                                            </div>
                                                         </div>
-                                                        <div class="col">
-                                                            <h6 class="m-b-5">Timothy Husai</h6>
-                                                            <p class="text-muted m-b-0">For what reason would it be advisable.</p>
-                                                            <p class="text-muted m-b-0"><i class="mdi mdi-timer feather icon-clock m-r-10"></i>24 min ago</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row m-b-25">
-                                                        <div class="col-auto p-r-0">
-                                                            <div class="u-img"> <img src="https://i.imgur.com/rAInTHU.jpg" alt="user image" class="img-radius cover-img"> <img src="https://img.icons8.com/office/16/000000/active-state.png" alt="user image" class="img-radius profile-img"> </div>
-                                                        </div>
-                                                        <div class="col">
-                                                            <h6 class="m-b-5">Simkil Ahleu</h6>
-                                                            <p class="text-muted m-b-0">That might be little bit risky to have crew</p>
-                                                            <p class="text-muted m-b-0"><i class="mdi mdi-timer feather icon-clock m-r-10"></i>12 hours ago</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row m-b-25">
-                                                        <div class="col-auto p-r-0">
-                                                            <div class="u-img"> <img src="https://i.imgur.com/rAInTHU.jpg" alt="user image" class="img-radius cover-img"> <img src="https://img.icons8.com/office/16/000000/active-state.png" alt="user image" class="img-radius profile-img"> </div>
-                                                        </div>
-                                                        <div class="col">
-                                                            <h6 class="m-b-5">John Deo</h6>
-                                                            <p class="text-muted m-b-0">For what reason would it be advisable</p>
-                                                            <p class="text-muted m-b-0"><i class="mdi mdi-timer feather icon-clock m-r-10"></i>2 min ago</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row m-b-25">
-                                                        <div class="col-auto p-r-0">
-                                                            <div class="u-img"> <img src=" https://i.imgur.com/UIhwGhr.jpg" alt="user image" class="img-radius cover-img"> <img src="https://img.icons8.com/ultraviolet/40/000000/active-state.png" alt="user image" class="img-radius profile-img"> </div>
-                                                        </div>
-                                                        <div class="col">
-                                                            <h6 class="m-b-5">John Deo</h6>
-                                                            <p class="text-muted m-b-0">member like them. For what reason.</p>
-                                                            <p class="text-muted m-b-0"><i class="mdi mdi-timer feather icon-clock m-r-10"></i>12 min ago</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="text-center"> <a href="#!" class="b-b-primary text-primary" data-abc="true">View all Projects</a> </div>
+                                                    <?php
+                                                    }
+                                                    ?>
+                                                    <div class="text-center"> <a href="<?=base_url('prajabatan')?>" class="b-b-primary text-primary" data-abc="true">View all Prajabatan</a> </div>
                                                 </div>
                                             </div>
                                         </div>
