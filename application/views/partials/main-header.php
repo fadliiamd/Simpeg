@@ -45,6 +45,112 @@
       top: 8px;
       right: 16px;
     }
+
+    .padding-log {
+      padding: 3rem !important
+    }
+
+    .card-log {
+      border-radius: 5px;
+      -webkit-box-shadow: 0 1px 20px 0 rgba(69, 90, 100, 0.08);
+      box-shadow: 0 1px 20px 0 rgba(69, 90, 100, 0.08);
+      border: none;
+      margin-bottom: 30px
+    }
+
+    .card-log .card-log-header {
+      background-color: transparent;
+      border-bottom: none;
+      padding: 25px 20px
+    }
+
+    .card-log-block {
+      padding: 1.25rem;
+      margin-top: -40px
+    }
+
+    .card-log .card-log-header h5 {
+      margin-bottom: 0;
+      color: #505458;
+      font-size: 14px;
+      font-weight: 600;
+      display: inline-block;
+      margin-right: 10px;
+      line-height: 1.4
+    }
+
+    .text-muted {
+      margin-bottom: 0px
+    }
+
+    .user-activity-card .u-img .cover-img {
+      width: 60px;
+      height: 60px
+    }
+
+    .m-b-25 {
+      margin-top: 20px
+    }
+
+    .user-activity-card .u-img .profile-img {
+      width: 20px;
+      height: 20px;
+      position: absolute;
+      bottom: -5px;
+      right: -5px
+    }
+
+    .img-radius {
+      border-radius: 5px
+    }
+
+    .user-activity-card .u-img {
+      position: relative
+    }
+
+    .m-b-5 {
+      margin-bottom: 5px
+    }
+
+    h6 {
+      font-size: 14px
+    }
+
+    .card-log .card-log-block p {
+      line-height: 25px
+    }
+
+    .text-muted {
+      color: #919aa3 !important
+    }
+
+    .card-log .card-log-block p {
+      line-height: 25px
+    }
+
+    .text-muted {
+      color: #919aa3 !important
+    }
+
+    .m-r-10 {
+      margin-right: 4px
+    }
+
+    .feather {
+      font-family: 'feather' !important;
+      speak: none;
+      font-style: normal;
+      font-weight: normal;
+      font-variant: normal;
+      text-transform: none;
+      line-height: 1;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale
+    }
+
+    .text-center {
+      margin-top: 15px
+    }
   </style>
   <!-- End plugin js for this page -->
   <?PHP
@@ -56,7 +162,7 @@
   <div class="container-scroller">
     <!-- partial:partials/_navbar.html -->
     <nav class="flex-row p-0 navbar col-lg-12 col-12 fixed-top d-flex">
-      <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+      <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center mt-0">
         <a class="mr-5 navbar-brand brand-logo" href="<?= base_url(); ?>"><img src="<?= base_url(); ?>assets/images/simpeg2.png" class="mr-2" alt="logo" /></a>
         <a class="navbar-brand brand-logo-mini" href="<?= base_url(); ?>"><img src="<?= base_url(); ?>assets/images/favpolsub60.png" alt="logo" /></a>
       </div>
@@ -91,7 +197,7 @@
               <img src="<?= base_url(); ?>assets/images/faces/face28.jpg" alt="profile" />
             </a>
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-              <a class="dropdown-item" href="<?= base_url('account/profile/'.$_SESSION['nip'] ) ?>">
+              <a class="dropdown-item" href="<?= base_url('account/profile/' . $_SESSION['nip']) ?>">
                 <i class="mdi mdi-account-outline text-primary"></i>
                 Profile
               </a>
@@ -166,7 +272,7 @@
             </a>
             <div class="collapse" id="peralihan">
               <ul class="nav flex-column sub-menu">
-              <li class="nav-item"> <a class="nav-link" href="<?= base_url("Mutasi/penjadwalan_mutasi"); ?>">Penjadwalan</a></li>
+                <li class="nav-item"> <a class="nav-link" href="<?= base_url("Mutasi/penjadwalan_mutasi"); ?>">Penjadwalan</a></li>
                 <?php if ($this->session->userdata("role") == "admin" || $this->session->userdata("role") == "pegawai") { ?>
                   <li class="nav-item"> <a class="nav-link" href="<?= base_url("Mutasi/pengajuan_mutasi"); ?>">Pengajuan</a></li>
                   <li class="nav-item"> <a class="nav-link" href="<?= base_url("Mutasi/berkas_mutasi"); ?>">Berkas Persyaratan</a></li>
@@ -188,7 +294,7 @@
             <div class="collapse" id="pemberhentian">
               <ul class="nav flex-column sub-menu">
                 <li class="nav-item"> <a class="nav-link" href="<?= base_url("Pemberhentian/pengajuan_pemberhentian"); ?>">Pengajuan</a></li>
-                <?php if($this->session->userdata("role") == "admin" || $this->session->userdata("role") == "pegawai"){ ?>
+                <?php if ($this->session->userdata("role") == "admin" || $this->session->userdata("role") == "pegawai") { ?>
 
                   <li class="nav-item"> <a class="nav-link" href="<?= base_url("Pemberhentian/berkas_pemberhentian"); ?>">Berkas Persyaratan</a></li>
                 <?php } ?>
@@ -229,14 +335,14 @@
               <div class="collapse" id="perangkingan">
                 <ul class="nav flex-column sub-menu">
                   <li class="nav-item"> <a class="nav-link" href="<?= base_url("kriteria"); ?>">Kriteria</a></li>
-                  <li class="nav-item"> <a class="nav-link" href="<?= base_url("subkriteria"); ?>">Sub Kriteria</a></li>                                
-                  <li class="nav-item"> <a class="nav-link"  href="<?= base_url("hasil"); ?>">Hasil</a></li>
+                  <li class="nav-item"> <a class="nav-link" href="<?= base_url("subkriteria"); ?>">Sub Kriteria</a></li>
+                  <li class="nav-item"> <a class="nav-link" href="<?= base_url("hasil"); ?>">Hasil</a></li>
                 </ul>
               </div>
             </li>
           <?php
           } ?>
-          <?php if($this->session->userdata('jabatan') == 'Kepala Bagian Umum') { ?>
+          <?php if ($this->session->userdata('jabatan') == 'Kepala Bagian Umum') { ?>
             <li class="nav-item">
               <a class="nav-link" data-toggle="collapse" href="#perangkingan" aria-expanded="false" aria-controls="perangkingan">
                 <i class="mdi mdi-trophy-variant menu-icon"></i>
@@ -245,7 +351,7 @@
               </a>
               <div class="collapse" id="perangkingan">
                 <ul class="nav flex-column sub-menu">
-                  <li class="nav-item"> <a class="nav-link"  href="<?= base_url("hasil/persetujuan"); ?>">Persetujuan</a></li>            
+                  <li class="nav-item"> <a class="nav-link" href="<?= base_url("hasil/persetujuan"); ?>">Persetujuan</a></li>
                 </ul>
               </div>
             </li>
@@ -263,7 +369,7 @@
                 <li class="nav-item"> <a class="nav-link" href="<?= base_url("prajabatan"); ?>">Prajabatan</a></li>
               </ul>
             </div>
-          </li>          
+          </li>
 
           <hr>
           <li class="nav-item">
@@ -301,7 +407,7 @@
           <li class="nav-item">
             <span class="font-weight-bold nav-link p-0 disable menu-title" style="word-wrap: break-word;white-space:normal;">User dan Aplikasi</span>
             <hr>
-          </li>          
+          </li>
           <?php if ($_SESSION['role'] !== 'pegawai') { ?>
             <li class="nav-item">
               <a class="nav-link" data-toggle="collapse" href="#Account" aria-expanded="false" aria-controls="Account">
@@ -312,7 +418,7 @@
               <div class="collapse" id="Account">
                 <ul class="nav flex-column sub-menu">
                   <li class="nav-item"> <a class="nav-link" href="<?= base_url("account/data_pegawai"); ?>">Pegawai</a></li>
-                  <li class="nav-item"> <a class="nav-link" href="<?= base_url("account/data_direktur"); ?>">Direktur</a></li>                  
+                  <li class="nav-item"> <a class="nav-link" href="<?= base_url("account/data_direktur"); ?>">Direktur</a></li>
                 </ul>
               </div>
             </li>
@@ -362,7 +468,7 @@
           } ?>
           <?php if ($_SESSION['role'] === 'pegawai') { ?>
             <li class="nav-item">
-              <a class="nav-link" href="<?= base_url() . 'account/profile/'.$_SESSION['nip'] ?>">
+              <a class="nav-link" href="<?= base_url() . 'account/profile/' . $_SESSION['nip'] ?>">
                 <i class="mdi mdi-account-outline menu-icon"></i>
                 <span class="menu-title">Profile</span>
               </a>

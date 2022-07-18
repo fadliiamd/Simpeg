@@ -45,7 +45,7 @@
                             <li class="list-group-item d-flex align-items-center flex-wrap">
                                 <i class="mdi mdi-file mr-3"></i>
                                 <h6 class="mb-0">
-                                    <a id="name-ijazah" href="<?= !is_null($profiles->ijazah) ? base_url('uploads/' . $profiles->ijazah).'" target="_blank' : "#" ?>"><?= !is_null($profiles->ijazah) ? "Ijazah": "Belum Ada Ijazah" ?></a>
+                                    <a id="name-ijazah" href="<?= !is_null($profiles->ijazah) ? base_url('uploads/' . $profiles->ijazah).'" target="_blank' : "#" ?>"><?= !is_null($profiles->ijazah) ? "Lihat Ijazah": "Belum Ada Ijazah" ?></a>
                                 </h6>
                                 <div class="emp">
                                     <label for="ijazah">
@@ -57,7 +57,7 @@
                             <li class="list-group-item d-flex align-items-center flex-wrap">
                                 <i class="mdi mdi-file mr-3"></i>
                                 <h6 class="mb-0">
-                                    <a id="name-karpeg" href="<?= !is_null($profiles->karpeg) ? base_url('uploads/' . $profiles->karpeg).'" target="_blank' : "#" ?>"><?= !is_null($profiles->karpeg) ? "kartu pegawai": "Belum Ada karpeg" ?></a>
+                                    <a id="name-karpeg" href="<?= !is_null($profiles->karpeg) ? base_url('uploads/' . $profiles->karpeg).'" target="_blank' : "#" ?>"><?= !is_null($profiles->karpeg) ? "Lihat Kartu Pegawai": "Belum Ada karpeg" ?></a>
                                 </h6>
                                 <div class="emp">
                                     <label for="karpeg">
@@ -276,7 +276,7 @@
                 </div>
             </div>
             <div class="d-flex justify-content-center">
-                <a href="<?= base_url("account/profile/" . $id) ?>" class="text-decoration-none mx-3">
+                <a href="<?= base_url("account/profile_pegawai/" . $id) ?>" class="text-decoration-none mx-3">
                     <button type="button" class="btn btn-secondary d-flex align-items-center">
                         Kembali
                     </button>
