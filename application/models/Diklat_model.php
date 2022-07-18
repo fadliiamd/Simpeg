@@ -42,6 +42,16 @@ class Diklat_model extends CI_Model
         return $query->row();
     }
 
+    public function get_one_join_limit($where, $limit)
+    {
+        $this->db->select('*');        
+        $this->db->join('surat', 'surat.id = diklat.surat_id');        
+        $this->db->limit($limit);
+
+        $query = $this->db->get_where('diklat', $where);
+        return $query->result();
+    }
+
     public function get_num_rows()
     {
         $query = $this->db->get($this->table);

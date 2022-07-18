@@ -16,6 +16,16 @@ class Bimtek_model extends CI_Model
         return $query->result();
     }
 
+    public function get_one_join_limit($where, $limit)
+    {
+        $this->db->select('*');        
+        $this->db->join('surat', 'surat.id = bimtek.surat_id');        
+        $this->db->limit($limit);
+
+        $query = $this->db->get_where('bimtek', $where);
+        return $query->result();
+    }
+
     public function get_all_join_sertifikat()
     {
         $this->db->select('*');
