@@ -353,6 +353,7 @@
               </a>
               <div class="collapse" id="perangkingan">
                 <ul class="nav flex-column sub-menu">
+                  <li class="nav-item"> <a class="nav-link" href="<?= base_url("hasil"); ?>">Hasil</a></li>
                   <li class="nav-item"> <a class="nav-link" href="<?= base_url("hasil/persetujuan"); ?>">Persetujuan</a></li>
                 </ul>
               </div>
