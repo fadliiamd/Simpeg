@@ -21,11 +21,12 @@ class Diklat extends CI_Controller {
         $this->load->model('diklat_model');
         $this->load->model('surat_model');
         $this->load->model('pegawai_model');
+        $this->load->model('bagian_model');
 
         // Get All "Diklat" by Pegawai NIP
         $list_diklat = $this->surat_model->get_all_where(array(
-            "jenis" => "tugas",
-            "jenis_kegiatan" => "diklat"
+            "jenis_kegiatan" => "diklat",
+            "status" => 'sent'
         ));
 
         // Get "Pegawai" by Pegawai NIP
@@ -39,36 +40,44 @@ class Diklat extends CI_Controller {
             $list_detail = [];
             if($value->jenis_tujuan == 'divisi') {
                 if($value->tujuan == 'jurusan') {
-                    $detail_tujuan = explode(',', $value->detail_tujuan);
+                    $detail_tujuan = $this->surat_model->get_all_where_subjek([
+                        "surat_id" => $value->id
+                    ]);
                     foreach($detail_tujuan as $item) {
                         $get_data = $this->jurusan_model->get_one([
-                            "id" => $item
+                            "id" => $item->subjek
                         ]);
                         array_push($list_detail, $get_data);
                     }
                 } else if($value->tujuan == 'bagian') {
-                    $detail_tujuan = explode(',', $value->detail_tujuan);
+                    $detail_tujuan = $this->surat_model->get_all_where_subjek([
+                        "surat_id" => $value->id
+                    ]);
                     foreach($detail_tujuan as $item) {
                         $get_data = $this->bagian_model->get_one([
-                            "id" => $item
+                            "id" => $item->subjek
                         ]);
                         array_push($list_detail, $get_data);
                     }
                 } else if($value->tujuan == 'unit') {
-                    $detail_tujuan = explode(',', $value->detail_tujuan);
+                    $detail_tujuan = $this->surat_model->get_all_where_subjek([
+                        "surat_id" => $value->id
+                    ]);
                     foreach($detail_tujuan as $item) {
                         $get_data = $this->unit_model->get_one([
-                            "id" => $item
+                            "id" => $item->subjek
                         ]);
                         array_push($list_detail, $get_data);
                     }
                 }
                 $list_detail_tujuan[$key] = $list_detail;
             } else if($value->jenis_tujuan == 'perorangan') {
-                $detail_tujuan = explode(',', $value->detail_tujuan);
+                $detail_tujuan = $this->surat_model->get_all_where_subjek([
+                    "surat_id" => $value->id
+                ]);
                 foreach($detail_tujuan as $item) {
                     $get_data = $this->pegawai_model->get_one([
-                        "account_nip" => $item
+                        "account_nip" => $item->subjek
                     ]);
                     array_push($list_detail, $get_data);
                 }
@@ -84,12 +93,14 @@ class Diklat extends CI_Controller {
         foreach($list_diklat as $key => $value) {
             if($this->session->userdata('role') != 'admin') {
                 if($value->jenis_tujuan == 'perorangan') {
-                    $detail_tujuan = explode(',',$value->detail_tujuan);
+                    $detail_tujuan = $this->surat_model->get_all_where_subjek([
+                        "surat_id" => $value->id
+                    ]);
 
                     // Compare "tujuan_detail" and Pegawai NIP
                     $found = false;
                     foreach($detail_tujuan as $value2) {
-                        if($value2 == $this->session->userdata('nip')) {
+                        if($value2->subjek == $this->session->userdata('nip')) {
                             $found = true;
                             break;
                         }
@@ -111,12 +122,14 @@ class Diklat extends CI_Controller {
                     }
 
                     if($divisi_id != NULL) {
-                        $detail_tujuan = explode(',',$value->detail_tujuan);
+                        $detail_tujuan = $this->surat_model->get_all_where_subjek([
+                            "surat_id" => $value->id
+                        ]);
 
                         // Compare "tujuan_detail" and Pegawai Divisi
                         $found = false;
                         foreach($detail_tujuan as $value2) {
-                            if($value2 == $divisi_id) {
+                            if($value2->subjek == $divisi_id) {
                                 $found = true;
                                 break;
                             }

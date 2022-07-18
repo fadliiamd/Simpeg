@@ -32,40 +32,49 @@ class Surat extends Roles {
             $list_detail = [];
             if($value->jenis_tujuan == 'divisi') {
                 if($value->tujuan == 'jurusan') {
-                    $detail_tujuan = explode(',', $value->detail_tujuan);
+                    $detail_tujuan = $this->surat_model->get_all_where_subjek([
+                        "surat_id" => $value->id
+                    ]);
                     foreach($detail_tujuan as $item) {
                         $get_data = $this->jurusan_model->get_one([
-                            "id" => $item
+                            "id" => $item->subjek
                         ]);
                         array_push($list_detail, $get_data);
                     }
                 } else if($value->tujuan == 'bagian') {
-                    $detail_tujuan = explode(',', $value->detail_tujuan);
+                    $detail_tujuan = $this->surat_model->get_all_where_subjek([
+                        "surat_id" => $value->id
+                    ]);
                     foreach($detail_tujuan as $item) {
                         $get_data = $this->bagian_model->get_one([
-                            "id" => $item
+                            "id" => $item->subjek
                         ]);
                         array_push($list_detail, $get_data);
                     }
                 } else if($value->tujuan == 'unit') {
-                    $detail_tujuan = explode(',', $value->detail_tujuan);
+                    $detail_tujuan = $this->surat_model->get_all_where_subjek([
+                        "surat_id" => $value->id
+                    ]);
                     foreach($detail_tujuan as $item) {
                         $get_data = $this->unit_model->get_one([
-                            "id" => $item
+                            "id" => $item->subjek
                         ]);
                         array_push($list_detail, $get_data);
                     }
                 }
-                $list_detail_tujuan[$key] = $list_detail;
+                $list_detail_tujuan[$value->id] = $list_detail;
+
             } else if($value->jenis_tujuan == 'perorangan') {
-                $detail_tujuan = explode(',', $value->detail_tujuan);
+                $detail_tujuan = $this->surat_model->get_all_where_subjek([
+                    "surat_id" => $value->id
+                ]);
                 foreach($detail_tujuan as $item) {
                     $get_data = $this->pegawai_model->get_one([
-                        "account_nip" => $item
+                        "account_nip" => $item->subjek
                     ]);
                     array_push($list_detail, $get_data);
                 }
-                $list_detail_tujuan[$key] = $list_detail;
+                $list_detail_tujuan[$value->id] = $list_detail;
             }
         }
 
@@ -77,7 +86,7 @@ class Surat extends Roles {
         }
 
 		$this->load->view('partials/main-header', [
-            "title" => "Surat"
+            "title" => " | Surat"
         ]);
 		$this->load->view('surat/surat', [
             "list_detail_tujuan" => $list_detail_tujuan,
@@ -110,57 +119,117 @@ class Surat extends Roles {
         return $data;
     }
 
-	public function create()
+    public function upload()
     {
+        // Load Model
         $this->load->model('surat_model');
 
+        // POST Method Form
         $no = $this->input->post('no_surat');
-        $jenis_tujuan = $this->input->post('jenis_tujuan');
-        $data_additional = array();
-        if ($jenis_tujuan == 'divisi') {
-            $data_additional = array(
-                "tujuan" => $this->input->post('divisi'),
-                "detail_tujuan" => implode(',', $this->input->post('tujuan'))
-            );
-        } else if ($jenis_tujuan == 'perorangan') {
-            $data_additional = array(
-                "tujuan" => $this->input->post('jenis_pegawai'),
-                "detail_tujuan" => implode(',', $this->input->post('pegawai'))
-            );
-        }
 
-        $jenis = $this->input->post('jenis');
-        $jenis_kegiatan = $this->input->post('jenis_kegiatan');
-        if($jenis_kegiatan == 'diklat') {
-            $jenis_diklat = $this->input->post('jenis_diklat');
-        }
-        $tema = $this->input->post('tema');
-
+        // Uploading File Surat
         $file_name = $this->do_upload("pdf", "file_surat");
-
         if(is_null($file_name)) {
             $this->session->set_flashdata('message_error', 'Kesalahan dalam mengunggah surat!');
             redirect("surat");
         }
 
-        $admin_nip = $this->session->userdata('nip');
+        // Preparing Data for Insert
+        $data = array(
+            "no" => $no,
+            "file_name" => $file_name,
+            "admin_nip" => $this->session->userdata('nip'),
+            "tgl_upload" => date("Y/m/d h:i:s"),
+            "status" => "need to fill"
+        );
+
+        // Insert Surat
+        $add = $this->surat_model->insert_one($data);
+        if($add) {
+            $this->session->set_flashdata('message_success', 'Berhasil mengunggah surat!');
+            redirect("surat");
+        } else {
+            $this->session->set_flashdata('message_error', 'Gagal mengunggah surat!');
+            redirect("surat");
+        }
+    }
+
+	public function create()
+    {
+        // Load Model
+        $this->load->model('surat_model');
+
+        // Form Validation Rules
+        // $rules = $this->surat_model->rules();
+        // $this->form_validation->set_rules($rules);
+
+        $data_additional = [];
+        // POST Method Form
+        $no = $this->input->post('no_surat');
+        $jenis_kegiatan = $this->input->post('jenis_kegiatan');
+        if($jenis_kegiatan == 'diklat') {
+            $jenis_diklat = $this->input->post('jenis_diklat');
+            $data_additional = array_merge($data_additional, [
+                "jenis_diklat" => $jenis_diklat
+            ]);
+        }
+        $tema = $this->input->post('tema');
+        $subjek = $this->input->post('subjek');
+        $jenis_tujuan = NULL;
+        $detail_tujuan = NULL;
+
+        // Jenis Tujuan Surat Pertama: Subjek Jelas
+        if($subjek != 'semua') {
+            $surat_status = "ready to send";
+            $jenis_tujuan = $this->input->post('jenis_tujuan');
+            if ($jenis_tujuan == 'divisi') {
+                $data_additional = array_merge($data_additional, [
+                    "tujuan" => $this->input->post('divisi')
+                ]); 
+            } else if ($jenis_tujuan == 'perorangan') {
+                $data_additional = array_merge($data_additional, [
+                    "tujuan" => $this->input->post('jenis_pegawai')
+                ]);
+            }
+            $detail_tujuan = $this->input->post('tujuan');
+        
+        // Jenis Tujuan Surat Kedua: Tanpa Subjek
+        } else {
+            $jenis_tujuan = "semua";
+            $surat_status = "need ranking";
+        }
+
+        // if ($this->form_validation->run() == FALSE) {
+        //     $this->session->set_flashdata('message_error', 'Kesalahan dalam mengunggah surat!');
+        //     redirect("surat");
+        // }
+
+        // Uploading File Surat
+        $file_name = $this->do_upload("pdf", "file_surat");
+        if(is_null($file_name)) {
+            $this->session->set_flashdata('message_error', 'Kesalahan dalam mengunggah surat!');
+            redirect("surat");
+        }
 
         // Preparing Data for Insert
         $data = array(
             "no" => $no,
-            "jenis_tujuan" => $jenis_tujuan,
-            "tgl_upload" => date("Y/m/d h:i:s"),
-            "jenis" => $jenis,
             "jenis_kegiatan" => $jenis_kegiatan,
-            "jenis_diklat" => $jenis_diklat,
             "tema" => $tema,
-            "admin_nip" => $admin_nip,
-            "file_name" => $file_name
+            "jenis_tujuan" => $jenis_tujuan,
+            "file_name" => $file_name,
+            "admin_nip" => $this->session->userdata('nip'),
+            "tgl_upload" => date("Y/m/d h:i:s"),
+            "status" => $surat_status
         );
         $data = array_merge($data, $data_additional);
-
-        // Insert Surat to Database
-        $add = $this->surat_model->insert_one($data);
+        
+        // Insert Surat
+        if($detail_tujuan != NULL) {
+            $add = $this->surat_model->insert_one_with_subjek($data, $detail_tujuan);
+        } else {
+            $add = $this->surat_model->insert_one_with_subjek($data);
+        }
         if($add) {
             $this->session->set_flashdata('message_success', 'Berhasil menambahkan data surat!');
             redirect("surat");
@@ -171,73 +240,103 @@ class Surat extends Roles {
     }
     
     public function update()
-    {        
+    {
         // Load Model
         $this->load->model('surat_model');
+        if(isset($_POST['delete_tujuan'])) {
+            $id = $this->input->post('id_surat');
+            $checked_tujuan = $this->input->post('checked_subjek_id');
 
-        // POST Request
-        $id = $this->input->post('id_surat');
-        $no = $this->input->post('no_surat');
-        $jenis_tujuan = $this->input->post('jenis_tujuan');
-        $data_additional = array();
-        if ($jenis_tujuan == 'divisi') {
-            $data_additional = array(
-                "tujuan" => $this->input->post('divisi'),
-                "detail_tujuan" => implode(',', $this->input->post('tujuan'))
-            );
-        } else if ($jenis_tujuan == 'perorangan') {
-            $data_additional = array(
-                "tujuan" => $this->input->post('jenis_pegawai'),
-                "detail_tujuan" => implode(',', $this->input->post('pegawai'))
-            );
-        }
-
-        $jenis = $this->input->post('jenis');
-        $jenis_kegiatan = $this->input->post('jenis_kegiatan');
-        if($jenis_kegiatan == 'diklat') {
-            $jenis_diklat = $this->input->post('jenis_diklat');
-        }
-        $tema = $this->input->post('tema');
-
-        $admin_nip = $this->session->userdata('nip');       
-
-        if(!(empty($_FILES['file_surat']['name']))) {
-            $file_name = $this->do_upload("pdf", "file_surat");   
-
-            $data = array(
-                "no" => $no,
-                "jenis_tujuan" => $jenis_tujuan,
-                "tgl_upload" => date("Y/m/d h:i:s"),
-                "jenis" => $jenis,
-                "jenis_kegiatan" => $jenis_kegiatan,
-                "jenis_diklat" => $jenis_diklat,
-                "tema" => $tema,
-                "admin_nip" => $admin_nip,
-                "file_name" => $file_name
-            );
+            $delete = $this->surat_model->delete_multi_subjek($id, $checked_tujuan);
+            if($delete) {
+                $this->session->set_flashdata('message_success', 'Berhasil menghapus tujuan yang dipilih');
+                redirect("surat");
+            } else {
+                $this->session->set_flashdata('message_error', 'Gagal menghapus tujuan yang dipilih');
+                redirect("surat");
+            }
         } else {
-            $data = array(
-                "no" => $no,
-                "jenis_tujuan" => $jenis_tujuan,       
-                "jenis" => $jenis,
-                "jenis_kegiatan" => $jenis_kegiatan,
-                "jenis_diklat" => $jenis_diklat,
-                "tema" => $tema,
-                "admin_nip" => $admin_nip              
-            );
-        }
-        $data = array_merge($data, $data_additional);
+            $data_additional = [];
+            // POST Request
+            $id = $this->input->post('id_surat');
+            $no = $this->input->post('no_surat');
+            $jenis_kegiatan = $this->input->post('jenis_kegiatan');
+            if($jenis_kegiatan == 'diklat') {
+                $jenis_diklat = $this->input->post('jenis_diklat');
+                $data_additional = array_merge($data_additional, [
+                    "jenis_diklat" => $jenis_diklat
+                ]);
+            }
+            $tema = $this->input->post('tema');
+            $subjek = $this->input->post('subjek');
+            $detail_tujuan = NULL;
 
-        $update = $this->surat_model->update_one($id, $data);
+            if($subjek != 'semua') {
+                $jenis_tujuan = $this->input->post('jenis_tujuan');
+                if ($jenis_tujuan == 'divisi') {
+                    $data_additional = array_merge($data_additional, [
+                        "tujuan" => $this->input->post('divisi'),
+                        "status" => 'ready to send'
+                    ]);
+                } else if ($jenis_tujuan == 'perorangan') {
+                    $data_additional = array_merge($data_additional, [
+                        "tujuan" => $this->input->post('jenis_pegawai'),
+                        "status" => 'ready to send'
+                    ]);
+                }
+                $detail_tujuan = $this->input->post('tujuan');
+            } else {
+                $jenis_tujuan = "semua";
+                $data_additional = array_merge($data_additional, [
+                    "status" => "need ranking"
+                ]);
+            }   
 
-        if($update)
-        {
-            $this->session->set_flashdata('message_success', 'Berhasil mengupdate data surat J-'.$id.'!');
-            redirect("surat");
-        }else
-        {
-            $this->session->set_flashdata('message_error', 'Gagal mengupdate data surat J-'.$id.'!');
-            redirect("surat");
+            // Preparing Data for Update
+            if(!(empty($_FILES['file_surat']['name']))) {
+                $file_name = $this->do_upload("pdf", "file_surat");   
+                $data = array(
+                    "no" => $no,
+                    "jenis_kegiatan" => $jenis_kegiatan,
+                    "tema" => $tema,
+                    "jenis_tujuan" => $jenis_tujuan,
+                    "file_name" => $file_name,
+                    "admin_nip" => $this->session->userdata('nip'),
+                    "tgl_upload" => date("Y/m/d h:i:s"),
+                );
+            } else {
+                $data = array(
+                    "no" => $no,
+                    "jenis_kegiatan" => $jenis_kegiatan,
+                    "tema" => $tema,
+                    "jenis_tujuan" => $jenis_tujuan,
+                    "admin_nip" => $this->session->userdata('nip'),
+                );
+            }
+            $data = array_merge($data, $data_additional);
+
+            // Compare Before and After
+            $get_surat = $this->surat_model->get_one([
+                "id" => $id
+            ]);
+            
+            if($get_surat->jenis_tujuan != $jenis_tujuan) {
+                $this->surat_model->delete_multi_subjek($id);
+            }
+
+            // Updating Surat
+            if($detail_tujuan != NULL) {
+                $update = $this->surat_model->update_one($id, $data, $detail_tujuan);
+            } else {
+                $update = $this->surat_model->update_one($id, $data);
+            }
+            if($update) {
+                $this->session->set_flashdata('message_success', 'Berhasil mengupdate data surat dengan nomor '.$no.'!');
+                redirect("surat");
+            } else {
+                $this->session->set_flashdata('message_error', 'Gagal mengupdate data surat dengan nomor '.$no.'!');
+                redirect("surat");
+            }
         }
     }
     
@@ -246,12 +345,16 @@ class Surat extends Roles {
         // Load Model
         $this->load->model('surat_model');
 
+        // POST Method Form
         $id = $this->input->post('id_surat');
+
         // Get Rows
         $get = $this->surat_model->get_one(array(
             "id" => $id
         ));
         
+        // Deleting Surat
+        $delete_subjek = $this->surat_model->delete_multi_subjek($id);
         $delete = $this->surat_model->delete_one($id);
         if($delete) {
             unlink("./uploads/".$get->file_name);
@@ -285,6 +388,59 @@ class Surat extends Roles {
         } else if($divisi == "unit") {
             $this->load->model("unit_model");
             echo json_encode($this->unit_model->get_all());
+        }
+    }
+
+    public function send_to_subjek()
+    {
+        // Load Model
+        $this->load->model('surat_model');
+        $this->load->model('notifikasi_model');
+
+        // POST Method Form
+        $id = $this->input->post('surat_id');
+
+        $this->db->trans_start();
+
+        // Update Surat Status to 'sent'
+        $this->surat_model->update_one($id, [
+            "status" => "sent"
+        ]);
+
+        // Get Surat Data
+        $surat_data = $this->surat_model->get_one([
+            "id" => $id
+        ]);
+
+        // Insert Notification
+        $create_notif = $this->notifikasi_model->create_notification(array(
+            "judul" => "Undangan ".ucwords($surat_data->jenis_kegiatan),
+            "pesan" => "Anda mendapatkan undangan kegiatan ".ucwords($surat_data->jenis_kegiatan).". Silahkan segera melakukan proses pemberkasan pada laman kegiatan ".$surat_data->jenis_kegiatan,
+            "redirect_to" => $surat_data->jenis_kegiatan
+        ));
+
+        // Get Subjek by Surat
+        $subjek_data = $this->surat_model->get_all_where_subjek([
+            "surat_id" => $id
+        ]);
+
+        // Pair Notification with Account
+        foreach($subjek_data as $target) {
+            $this->notifikasi_model->pair_notification(array(
+                "account_nip" => $target->subjek,
+                "notifikasi_id" => $create_notif,
+                "status" => "Unseen",
+                "created_at" => date("Y-m-d h:i:s")
+            ));
+        }
+
+        $this->db->trans_complete();
+        if($this->db->trans_status()) {
+            $this->session->set_flashdata('message_success', 'Berhasil mengirim surat kepada subjek');
+            redirect("surat");
+        } else {
+            $this->session->set_flashdata('message_error', 'Gagal mengirim surat kepada subjek');
+            redirect("surat");
         }
     }
 }

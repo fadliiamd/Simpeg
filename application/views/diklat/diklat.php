@@ -5,12 +5,11 @@
       <table class="table table-striped table-bordered table-datatable">
         <thead class="thead-dark">
           <tr>
-            <!-- <th>Diupload Oleh</th> -->
             <th>File</th>
             <th>No. Surat</th>
             <th style="max-width:10px;">Tujuan</th>
             <th>Tanggal Upload</th>
-            <th>Jenis</th>
+            <th>Jenis Diklat</th>
             <th>Aksi</th>
           </tr>
         </thead>
@@ -19,12 +18,11 @@
           $no = 0;
           foreach ($list_diklat as $key => $value) { ?>
             <tr>
-              <!-- <td>2000201</td> -->
               <td><a href="<?= base_url() ?>uploads/<?= $value->file_name ?>" target="_blank">Lihat</a></td>
               <td><?= $value->no ?></td>
               <td><?= ucwords($value->jenis_tujuan) ?></td>
               <td><?= date_indo($value->tgl_upload) ?></td>
-              <td><label class="badge badge-light">Surat <?= ucwords($value->jenis) ?></label></td>
+              <td><label class="badge badge-info">Diklat <?= ucwords($value->jenis_diklat) ?></label></td>
               <td>
                 <?php if($this->session->userdata('role') == 'admin') { ?>
                   <!-- Aksi: Lihat -->

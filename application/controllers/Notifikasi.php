@@ -6,20 +6,7 @@ class Notifikasi extends CI_Controller  {
     }
 
     public function index() {
-        // Load Model
-        $this->load->model("notifikasi_model");
-
-        // Get All Notifikasi by This Session
-        $get_notifikasi = $this->notifikasi_model->get_all_where([
-            "account_nip" => $this->session->userdata('nip')
-        ]);
-
-        // Load View
-        $this->load->view('partials/main-header');
-		$this->load->view('notifikasi', [
-            "list_notifikasi" => $get_notifikasi
-        ]);
-		$this->load->view('partials/main-footer');
+        redirect('dashboard');
     }
 
     public function hook($limit = 4) {

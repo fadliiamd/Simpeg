@@ -16,7 +16,9 @@ class Hasil extends CI_Controller {
         $this->load->model('jabatan_model');
 
 		$pegawai = $this->pegawai_model->get_all_order('nilai_rank', 'desc');
-        $surat = $this->surat_model->get_all_where(array("jenis" => "undangan"));
+        $surat = $this->surat_model->get_all_where([
+            'status' => 'need ranking'
+        ]);
         $jabatan = $this->jabatan_model->get_all();
 
         $list_jabatan = [];
@@ -126,7 +128,6 @@ class Hasil extends CI_Controller {
         $this->load->model("hasil_model");
         $this->load->model("pegawai_model");
         $this->load->model("notifikasi_model");
-        $this->load->helper('string');
 
         // If POST Request Exist
         if(!empty($this->input->post('aksi') && $this->input->post('perangkingan_id'))){
@@ -140,54 +141,26 @@ class Hasil extends CI_Controller {
                 "id" => $perangkingan_data->surat_id,
             ));
 
-            $jenis_diklat = "";
-            if($surat_data->jenis_kegiatan == 'diklat') {
-                $jenis_diklat = $surat_data->jenis_diklat;
-            }
-
             $this->db->trans_start();
             if($this->input->post('aksi') == "setujui") {
                 // Approve "Perangkingan"
-                $this->perangkingan_model->update_one($this->input->post('perangkingan_id'), array(
+                $this->perangkingan_model->update_one($this->input->post('perangkingan_id'), [
                     "status_persetujuan" => 1
-                ));
+                ]);
 
-                // Create "Surat Tugas"
-                $get_hasil_by_perangkingan_id = $this->hasil_model->get_all_where(array(
+                // Get All Hasil Perangkingan by Perangkingan ID
+                $get_hasil_by_perangkingan_id = $this->hasil_model->get_all_where([
                     "perangkingan_id" => $this->input->post('perangkingan_id')
-                ));
-                $accepted_pegawai = array();
+                ]);
+                $accepted_pegawai = [];
                 foreach($get_hasil_by_perangkingan_id as $key => $value) {
                     array_push($accepted_pegawai, $value->pegawai_account_nip);
                 }
-                $this->surat_model->insert_one(array(
-                    "no" => random_string('numeric', 4). '/' .strtoupper(random_string('alnum', 4)). '/' . strtoupper($surat_data->jenis_kegiatan) . '/2022',
-                    "jenis_tujuan" => "perorangan",
-                    "tujuan" => "",
-                    "detail_tujuan" => implode(',', $accepted_pegawai),
-                    "tgl_upload" => date("Y-m-d h:i:s"),
-                    "jenis" => "tugas",
-                    "jenis_kegiatan" => $surat_data->jenis_kegiatan,
-                    "jenis_diklat" => $jenis_diklat,
-                    "tema" => $surat_data->tema,
-                    "admin_nip" => $surat_data->admin_nip,
-                    "file_name" => $surat_data->file_name,
-                ));
 
-                $create_notif = $this->notifikasi_model->create_notification(array(
-                    "judul" => "Undangan ".ucwords($surat_data->jenis_kegiatan),
-                    "pesan" => "Anda mendapatkan undangan kegiatan ".ucwords($surat_data->jenis_kegiatan).". Silahkan segera melakukan proses pemberkasan pada laman kegiatan ".$surat_data->jenis_kegiatan,
-                    "redirect_to" => $surat_data->jenis_kegiatan
-                ));
-
-                foreach($accepted_pegawai as $target) {
-                    $this->notifikasi_model->pair_notification(array(
-                        "account_nip" => $target,
-                        "notifikasi_id" => $create_notif,
-                        "status" => "Unseen",
-                        "created_at" => date("Y-m-d h:i:s")
-                    ));
-                }
+                // Update Status Surat to 'ready to sent' & Pair Subjek to Surat
+                $this->surat_model->update_one($perangkingan_data->surat_id, [
+                    "status" => 'ready to send'
+                ], $accepted_pegawai);
             } else {
                 // Reject "Perangkingan"
                 $this->perangkingan_model->update_one($this->input->post('perangkingan_id'), array(
@@ -209,8 +182,8 @@ class Hasil extends CI_Controller {
         // Get All "Perangkingan"
 		$list_perangkingan = $this->perangkingan_model->get_all();
 
-        $list_hasilperangkingan = array();
-        $list_surat = array();
+        $list_hasilperangkingan = [];
+        $list_surat = [];
         foreach($list_perangkingan as $key => $value) {
             // Get Pegawai by Each Perangkingan
             $get_hasil_by_perangkingan = $this->hasil_model->get_all_where(array(

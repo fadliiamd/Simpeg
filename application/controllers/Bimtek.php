@@ -7,7 +7,12 @@ class Bimtek extends CI_Controller {
 	public function __construct()
     {
         parent::__construct();
-        $this->load->helper('date_format');
+
+        // Auth Check
+        if($this->session->userdata('nip') == NULL) {
+            $this->session->set_flashdata('message_success', 'Harap login terlebih dahulu!');
+            redirect("auth/login");
+        }
     }
 
     public function index()
@@ -16,11 +21,12 @@ class Bimtek extends CI_Controller {
         $this->load->model('bimtek_model');
         $this->load->model('surat_model');
         $this->load->model('pegawai_model');
+        $this->load->model('bagian_model');
 
         // Get All "Bimtek" by Pegawai NIP
         $list_bimtek = $this->surat_model->get_all_where(array(
-            "jenis" => "tugas",
-            "jenis_kegiatan" => "bimtek"
+            "jenis_kegiatan" => "bimtek",
+            "status" => 'sent'
         ));
 
         // Get "Pegawai" by Pegawai NIP
@@ -34,36 +40,44 @@ class Bimtek extends CI_Controller {
             $list_detail = [];
             if($value->jenis_tujuan == 'divisi') {
                 if($value->tujuan == 'jurusan') {
-                    $detail_tujuan = explode(',', $value->detail_tujuan);
+                    $detail_tujuan = $this->surat_model->get_all_where_subjek([
+                        "surat_id" => $value->id
+                    ]);
                     foreach($detail_tujuan as $item) {
                         $get_data = $this->jurusan_model->get_one([
-                            "id" => $item
+                            "id" => $item->subjek
                         ]);
                         array_push($list_detail, $get_data);
                     }
                 } else if($value->tujuan == 'bagian') {
-                    $detail_tujuan = explode(',', $value->detail_tujuan);
+                    $detail_tujuan = $this->surat_model->get_all_where_subjek([
+                        "surat_id" => $value->id
+                    ]);
                     foreach($detail_tujuan as $item) {
                         $get_data = $this->bagian_model->get_one([
-                            "id" => $item
+                            "id" => $item->subjek
                         ]);
                         array_push($list_detail, $get_data);
                     }
                 } else if($value->tujuan == 'unit') {
-                    $detail_tujuan = explode(',', $value->detail_tujuan);
+                    $detail_tujuan = $this->surat_model->get_all_where_subjek([
+                        "surat_id" => $value->id
+                    ]);
                     foreach($detail_tujuan as $item) {
                         $get_data = $this->unit_model->get_one([
-                            "id" => $item
+                            "id" => $item->subjek
                         ]);
                         array_push($list_detail, $get_data);
                     }
                 }
                 $list_detail_tujuan[$key] = $list_detail;
             } else if($value->jenis_tujuan == 'perorangan') {
-                $detail_tujuan = explode(',', $value->detail_tujuan);
+                $detail_tujuan = $this->surat_model->get_all_where_subjek([
+                    "surat_id" => $value->id
+                ]);
                 foreach($detail_tujuan as $item) {
                     $get_data = $this->pegawai_model->get_one([
-                        "account_nip" => $item
+                        "account_nip" => $item->subjek
                     ]);
                     array_push($list_detail, $get_data);
                 }
@@ -79,12 +93,14 @@ class Bimtek extends CI_Controller {
         foreach($list_bimtek as $key => $value) {
             if($this->session->userdata('role') != 'admin') {
                 if($value->jenis_tujuan == 'perorangan') {
-                    $detail_tujuan = explode(',',$value->detail_tujuan);
+                    $detail_tujuan = $this->surat_model->get_all_where_subjek([
+                        "surat_id" => $value->id
+                    ]);
 
                     // Compare "tujuan_detail" and Pegawai NIP
                     $found = false;
                     foreach($detail_tujuan as $value2) {
-                        if($value2 == $this->session->userdata('nip')) {
+                        if($value2->subjek == $this->session->userdata('nip')) {
                             $found = true;
                             break;
                         }
@@ -106,12 +122,14 @@ class Bimtek extends CI_Controller {
                     }
 
                     if($divisi_id != NULL) {
-                        $detail_tujuan = explode(',',$value->detail_tujuan);
+                        $detail_tujuan = $this->surat_model->get_all_where_subjek([
+                            "surat_id" => $value->id
+                        ]);
 
                         // Compare "tujuan_detail" and Pegawai Divisi
                         $found = false;
                         foreach($detail_tujuan as $value2) {
-                            if($value2 == $divisi_id) {
+                            if($value2->subjek == $divisi_id) {
                                 $found = true;
                                 break;
                             }
@@ -127,10 +145,16 @@ class Bimtek extends CI_Controller {
 
             if(isset($list_bimtek[$key])) {
                 // Check if Bimtek is Registered
-                $status_check = $this->bimtek_model->get_one(array(
-                    "pegawai_nip" => $this->session->userdata('nip'),
-                    "surat_id" => $value->id
-                ));
+                if($this->session->userdata('role') != 'admin') {
+                    $status_check = $this->bimtek_model->get_one(array(
+                        "pegawai_nip" => $this->session->userdata('nip'),
+                        "surat_id" => $value->id
+                    ));
+                } else {
+                    $status_check = $this->bimtek_model->get_one(array(
+                        "surat_id" => $value->id
+                    ));
+                }
 
                 if($status_check != NULL) {
                     if($status_check->file_materi != NULL && $status_check->sertifikat_id != NULL) {
