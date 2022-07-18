@@ -17,8 +17,9 @@
   <link rel="stylesheet" href="<?= base_url() ?>assets/vendors/datatables.net-bs4/dataTables.bootstrap4.css">
   <link rel="stylesheet" href="<?= base_url() ?>assets/vendors/ti-icons/css/themify-icons.css">
   <link rel="stylesheet" type="text/css" href="<?= base_url(); ?>assets/js/select.dataTables.min.css">
+  <link rel="stylesheet" href="<?= base_url() ?>assets/vendors/select2/select2.min.css" />
   <!-- End plugin css for this page -->
-  <!-- inject:css -->
+  <!-- inject:css --> 
   <link rel="stylesheet" href="<?= base_url() ?>assets/css/vertical-layout-light/style.css">
   <!-- endinject -->
   <link rel="shortcut icon" href="<?= base_url(); ?>assets/images/favicon.png" />
@@ -33,6 +34,7 @@
   <script src="<?= base_url() ?>assets/vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
   <script src="<?= base_url() ?>assets/js/dataTables.select.min.js"></script>
   <script src="<?= base_url() ?>assets/js/dataTables.buttons.min.js"></script>
+  <script src="<?= base_url() ?>assets/vendors/select2/select2.min.js"></script>
   <!-- End plugin js for this page -->
   <?PHP
   header('Access-Control-Allow-Origin: *');

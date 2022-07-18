@@ -136,9 +136,9 @@
 
     function reload_notification() {
       load_unseen_notification();
-      setTimeout(function() {
+      setInterval(function() {
         load_unseen_notification();
-      }, 1000);
+      }, 30000);
     }
 
     $(document).ready( function () {
@@ -147,9 +147,6 @@
       $(".table-datatable").DataTable({});
     } );    
   </script>
-  <!-- Costum js progantara -->
-  <script src="<?= base_url();?>assets/js/costum.js"></script>
-  <!-- End Costum js progantara -->
 </body>
 
 </html>

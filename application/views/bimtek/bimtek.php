@@ -5,12 +5,10 @@
       <table class="table table-striped table-bordered table-datatable">
         <thead class="thead-dark">
           <tr>
-            <!-- <th>Diupload Oleh</th> -->
             <th>File</th>
             <th>No. Surat</th>
             <th style="max-width:10px;">Tujuan</th>
             <th>Tanggal Upload</th>
-            <th>Jenis</th>
             <th>Aksi</th>
           </tr>
         </thead>
@@ -19,12 +17,10 @@
           $no = 0;
           foreach ($list_bimtek as $key => $value) { ?>
             <tr>
-              <!-- <td>2000201</td> -->
               <td><a href="<?= base_url() ?>uploads/<?= $value->file_name ?>" target="_blank">Lihat</a></td>
               <td><?= $value->no ?></td>
               <td><?= ucwords($value->jenis_tujuan) ?></td>
               <td><?= date_indo($value->tgl_upload) ?></td>
-              <td><label class="badge badge-light">Surat <?= ucwords($value->jenis) ?></label></td>
               <td>
                 <?php if($this->session->userdata('role') == 'admin') { ?>
                   <!-- Aksi: Lihat -->
@@ -251,12 +247,6 @@
                                   <label for="jenis_kegiatan">Jenis Kegiatan</label>
                                   <input type="text" class="form-control" id="jenis_kegiatan" value=<?=ucwords($value->jenis_kegiatan) ?> disabled>
                                 </div> 
-                                <?php if($value->jenis_kegiatan == 'bimtek') { ?>
-                                <div class="col-md-6">
-                                  <label for="jenis_bimtek">Jenis Bimtek</label>
-                                  <input type="text" class="form-control" id="jenis_bimtek" value=<?=ucwords($value->jenis_bimtek) ?> disabled>
-                                </div>
-                                <?php } ?>
                               </div>
                               <div class="form-group">
                                 <label for="jenis_tujuan">Jenis Pegawai Tujuan Surat</label>
