@@ -204,6 +204,9 @@ class Surat extends Roles {
         } else {
             $jenis_tujuan = "tidak ada";
             $surat_status = "need ranking";
+            $data_additional = array_merge($data_additional, [
+                "kriteria" => $this->input->post('kriteria')
+            ]);
         }
 
         // if ($this->form_validation->run() == FALSE) {
@@ -300,7 +303,8 @@ class Surat extends Roles {
             } else {
                 $jenis_tujuan = "tidak ada";
                 $data_additional = array_merge($data_additional, [
-                    "status" => "need ranking"
+                    "status" => "need ranking",
+                    "kriteria" => $this->input->post('kriteria')
                 ]);
             }
 

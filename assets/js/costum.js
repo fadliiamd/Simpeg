@@ -26,6 +26,13 @@ function change_subjek(element, id) {
 					<option value="perorangan">Perorangan</option>
 				</select>
 			`);
+		} else if(element.value == 'tidak ada') {
+			$("#detail_subjek_edit_" + id).empty();
+			$("#detail_tujuan_edit_" + id).empty();
+			$("#detail_subjek_edit_" + id).append(`
+				<label for="kriteria_edit_${id}">Kriteria (*)</label>
+				<textarea class="form-control" id="kriteria_edit_${id}" name="kriteria" rows="6"></textarea>
+			`);
 		} else {
 			$("#detail_subjek_edit_" + id).empty();
 			$("#detail_tujuan_edit_" + id).empty();
@@ -172,6 +179,13 @@ $(document).ready(function () {
 					<option value="divisi">Divisi</option>
 					<option value="perorangan">Perorangan</option>
 				</select>
+			`);
+		} else if($(this).val() == 'tidak ada') {
+			$("#detail_subjek").empty();
+			$("#detail_tujuan").empty();
+			$("#detail_subjek").append(`
+				<label for="kriteria">Kriteria (*)</label>
+				<textarea class="form-control" id="kriteria" name="kriteria" rows="6"></textarea>
 			`);
 		} else {
 			$("#detail_subjek").empty();
