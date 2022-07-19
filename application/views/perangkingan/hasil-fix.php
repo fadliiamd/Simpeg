@@ -18,11 +18,13 @@
     <?php endif ?>
     <h4>Hasil Perangkingan</h4>
     
+    <?php if ($this->session->userdata('jabatan') != 'Kepala Bagian Umum') { ?>
     <div class="my-3">
       <a href="<?= base_url("hasil/perhitungan") ?>">
         <button type="button" class="btn btn-primary">Hitung Hasil</button>
       </a>
     </div>
+    <?php } ?>
         
     <form action="<?= base_url("hasil/pengajuan") ?>" method="POST" enctype="multipart/form-data">
       <div class="table-responsive">
