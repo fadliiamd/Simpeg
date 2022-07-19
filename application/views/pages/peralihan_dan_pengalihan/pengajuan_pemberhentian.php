@@ -13,9 +13,9 @@
             <button type="button" class="my-3 btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Tambah Pemberhentian</button>
         <?php } ?>
 
-        <!-- <a href="<?= base_url().'assets/pdf/template-surat-pengunduran-diri.pdf'?>" download class="my-3 btn btn-secondary">Surat Pengunduran Diri</a>    
+        <a href="<?= base_url().'assets/pdf/pengunduran_diri.docx'?>" download class="my-3 btn btn-secondary">Surat Pengunduran Diri</a>    
 
-        <a href="<?= base_url().'assets/pdf/template-surat-pensiun-dini.pdf'?>" download class="my-3 btn btn-secondary">Surat Pensiun Dini</a>     -->
+        <a href="<?= base_url().'assets/pdf/pensiun_dini.docx'?>" download class="my-3 btn btn-secondary">Surat Pensiun Dini</a>    
         <!-- Modal -->
         <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
@@ -140,6 +140,7 @@
                         <th>Tanggal Persetujuan</th>
                         <th>MPP</th>
                         <th>Tunjangan</th>
+                        <th>Surat Pengajuan</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -149,11 +150,7 @@
                     foreach ($pemberhentian as $key => $value) { ?>
                         <tr>
                             <td><?= $i ?></td>
-                            <?php if  ($this->session->userdata("role") == "admin" || $this->session->userdata("role") == "direktur"){ ?>
-                                <td><?= $value->pegawai_nip ?> - <?= $value->nama ?></td>  
-                            <?php } else { ?>
-                                <td><?= $value->pegawai_nip ?></td>  
-                            <?php } ?>
+                            <td><?= $value->pegawai_nip ?> - <?= $value->nama ?></td>  
                             <td><?= $value->jenis_berhenti ?></td>
                             <td><?= $value->alasan ?></td>
                             <td>
@@ -230,6 +227,30 @@
                             <td><?= ($value->tgl_persetujuan == null) ? "-" : $value->tgl_persetujuan ; ?></td>
                             <td><?= $value->mpp ?></td>
                             <td><?= $value->tunjangan ?></td>
+                            <td>
+                                <?php if ($value->jenis_berhenti == "Pengunduran diri") {?>
+                                    <form action="<?= base_url("pemberhentian/surat_pengajuan_pemberhentian"); ?>" method="POST">                            
+                                        <input type="hidden" name="nip" value="<?= $value->pegawai_nip ?>">
+                                        <input type="hidden" name="nama" value="<?= $value->nama ?>">
+                                        <input type="hidden" name="ttl" value="<?= $value->tempat_lahir ?>, <?= $value->tgl_lahir ?>">
+                                        <input type="hidden" name="jabatan" value="<?= $value->nama_jabatan ?>">
+                                        <input type="hidden" name="alamat" value="<?= $value->alamat ?>">
+                                        <input type="hidden" name="alasan" value="<?= $value->alasan ?>">
+                                        <button type="submit" class="btn btn-secondary">Unduh</button>
+                                    </form>
+                                <?php } else { ?>
+                                    <form action="<?= base_url("pemberhentian/surat_pengajuan_pensiun"); ?>" method="POST">                            
+                                        <input type="hidden" name="nip" value="<?= $value->pegawai_nip ?>">
+                                        <input type="hidden" name="nama" value="<?= $value->nama ?>">
+                                        <input type="hidden" name="ttl" value="<?= $value->tempat_lahir ?>, <?= $value->tgl_lahir ?>">
+                                        <input type="hidden" name="pangkat" value="<?= $value->pangkat ?>">
+                                        <input type="hidden" name="masa" value="<?= $value->tgl_menjabat ?>">
+                                        <input type="hidden" name="jabatan" value="<?= $value->nama_jabatan ?>">
+                                        <input type="hidden" name="alamat" value="<?= $value->alamat ?>">
+                                        <button type="submit" class="btn btn-secondary">Unduh</button>
+                                    </form>
+                                <?php } ?>
+                            </td>
                             <td>
                                 <!-- Large modal -->
                                 <button type="button" class="btn btn-info" data-toggle="modal" data-target="#edittable<?=$i?>">Edit</button>

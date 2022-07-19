@@ -2,6 +2,10 @@
 	<div class="col-lg-12">
         <h4>Usulan Mutasi Mutasi</h4>
 
+        <a href="<?= base_url().'assets/pdf/usulan_mutasi.docx'?>" download class="my-3 btn btn-secondary">Persetujuan Mutasi</a>    
+
+        <a href="<?= base_url().'assets/pdf/usulan_mutasi_instansi.docx'?>" download class="my-3 btn btn-secondary">Persetujuan Mutasi Instansi</a>    
+
         <?php if ($this->session->flashdata('message_success')) : ?>
             <div class="alert alert-success alert-dismissible fade show" role="alert">
                 <?= $this->session->flashdata('message_success') ?>

@@ -13,7 +13,7 @@
             <button type="button" class="my-3 btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Tambah Mutasi</button>
         <?php } ?>
 
-        <a href="<?= base_url().'assets/pdf/template-surat-mutasi.pdf'?>" download class="my-3 btn btn-secondary">Surat Pengajuan Mutasi</a>    
+        <a href="<?= base_url().'assets/pdf/pengajuan_mutasi.docx'?>" download class="my-3 btn btn-secondary">Surat Pengajuan Mutasi</a>    
         <!-- Modal -->
         <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
@@ -44,10 +44,10 @@
                                 <label for="alasan">Alasan</label>
                                 <textarea class="form-control" id="alasan" rows="4" name="alasan" required></textarea>
                             </div>
-                            <div class="form-group">
+                            <!-- <div class="form-group">
                                 <label for="surat_pengajuan">Surat Pengajuan</label>
                                 <input type="file" class="form-control" id="surat_pengajuan" name="surat_pengajuan" required = 'required'/>
-                            </div>
+                            </div> -->
                             <div class="form-group">
                                 <label for="jenis_mutasi">Jenis Mutasi</label>
                                 <select class="custom-select" id="jenis_mutasi" name="jenis_mutasi">
@@ -108,11 +108,7 @@
                     foreach ($mutasi as $key => $value) { ?>
                     <tr>
                         <td><?= $i; ?></td>
-                        <?php if  ($this->session->userdata("role") == "admin" || $this->session->userdata("role") == "direktur"){ ?>
-                            <td><?= $value->pegawai_nip ?> - <?= $value->nama ?></td>  
-                        <?php } else { ?>
-                            <td><?= $value->pegawai_nip ?></td>  
-                        <?php } ?>
+                        <td><?= $value->pegawai_nip ?> - <?= $value->nama ?></td>  
                         <td><?= $value->jenis_mutasi?></td>
                         <td><?= $value->alasan; ?></td>
                         <td><?= $value->tgl_pengajuan; ?></td>
@@ -188,41 +184,16 @@
                         </td>
                         <td><?= ($value->tgl_persetujuan == null) ? "-" : $value->tgl_persetujuan ; ?></td>
                         <td>
-
-                            <!-- <?php if($this->session->userdata("role") == "pegawai"){ ?>       
-                                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#uploadtable">
-                                    Unggah
-                                </button> -->
-                            <!-- Modal -->
-                            <!-- <div class="modal fade" id="uploadtable" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Unggah Surat pengajuan</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <form class="forms-sample">
-                                            <div class="modal-body">
-                                                <div class="form-group">
-                                                    <label for="surat_pengajuan">Surat Pengajuan</label>
-                                                    <input type="file" class="form-control-file" id="surat_pengajuan" name="surat_pengajuan" placeholder="surat_pengajuan">
-                                                </div>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                <button type="button" class="btn btn-warning">Unggah</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>  
-                            <?php }; ?> -->
-                            
-                            <a href="<?= base_url().'uploads/'.$value->surat_pengajuan ?>" download class="btn btn-secondary">
-                                Unduh
-                            </a>
+                            <form action="<?= base_url("mutasi/surat_pengajuan"); ?>" method="POST">                            
+                                <input type="hidden" name="nip" value="<?= $value->pegawai_nip ?>">
+                                <input type="hidden" name="nama" value="<?= $value->nama ?>">
+                                <input type="hidden" name="ttl" value="<?= $value->tempat_lahir ?>, <?= $value->tgl_lahir ?>">
+                                <input type="hidden" name="pangkat" value="<?= $value->pangkat ?>">
+                                <input type="hidden" name="jabatan" value="<?= $value->nama_jabatan ?>">
+                                <input type="hidden" name="jenis" value="<?= $value->jenis_mutasi ?>">
+                                <input type="hidden" name="alasan" value="<?= $value->alasan ?>">
+                                <button type="submit" class="btn btn-secondary">Unduh</button>
+                            </form>
                         </td>
                         <td>
                             <!-- Large modal -->

@@ -51,8 +51,27 @@ class Mutasi_model extends CI_Model
         );
         $this->db->from($this->table);
         $this->db->join('pegawai', 'pegawai.account_nip = mutasi.pegawai_nip','LEFT');
+        $this->db->join('jabatan', 'pegawai.jabatan_id = jabatan.id','LEFT');
+        $this->db->join('pangkatgolongan', 'pegawai.golongan_id  = pangkatgolongan.golongan','LEFT');
 
         $query = $this->db->where("status_kerja", "aktif");
+        $query = $this->db->get();
+
+        return $query->result();
+    }
+
+    public function get_all_with_join_one_pegawai()
+    {
+        $this->db->select(
+            '*'
+        );
+        $this->db->from($this->table);
+        $this->db->join('pegawai', 'pegawai.account_nip = mutasi.pegawai_nip','LEFT');
+        $this->db->join('jabatan', 'pegawai.jabatan_id = jabatan.id','LEFT');
+        $this->db->join('pangkatgolongan', 'pegawai.golongan_id  = pangkatgolongan.golongan','LEFT');
+
+        $query = $this->db->where("status_kerja", "aktif");
+        $query = $this->db->where("pegawai_nip",$this->session->userdata("nip"));
         $query = $this->db->get();
 
         return $query->result();
@@ -79,11 +98,11 @@ class Mutasi_model extends CI_Model
         }
         
         date_default_timezone_set('Asia/Jakarta');
-        $date = date("Y-m-d H:i:s");
+        $date = date("Y-m-d");
         $alasan = $this->input->post('alasan');
         list($pegawai_nip, $email) = explode(' - ', $this->input->post('pegawai_nip'));
-        $surat_pengajuan = $this->do_upload("jpg|png|pdf", "surat_pengajuan");
         $jenis_mutasi = $this->input->post('jenis_mutasi');
+        // $surat_pengajuan = $this->do_upload("pdf", "surat_pengajuan");
 
         if ($this->session->userdata("role") == "admin") {
             $this->email_pengajuan_mutasi($email);
@@ -198,7 +217,8 @@ class Mutasi_model extends CI_Model
         $message = "<strong>Pengajuan mutasi</strong><br><br>
 
         Status persetujuan telah dirubah oleh Bagan Kepegawaian. Untuk lebih jelasnya dapat dilihat pada Sistem Informasi Kepegawaian.<br>
-        Berkas Persyaratan yang dibutuhkan untuk pengajuan mutasi:<br>
+        Format semua berkas persyaratan yang diajukan adalah pdf.<br>
+        Berikut merupakan daftar berkas persyaratan yang dibutuhkan: <br>       
         <ol>
             <li>Fotocopy SK PNS</li>
             <li>Fotocopy SK CPNS</li>
@@ -207,20 +227,55 @@ class Mutasi_model extends CI_Model
             <li>Fotocopy Ijazah</li>
             <li>Fotocopy Kartu Pegawai</li>
             <li>Riwayat Hidup</li>
-            <li>Fotocopy SK PNS</li>
-            <li>Fotocopy SK PNS</li>
-        </ol>";
+        </ol><br><br>
+        Lampiran Contoh Berkas : ";
 
         $this->email->set_newline("\r\n");
         $this->email->from($from);
         $this->email->to($email);
         $this->email->subject($subject);
         $this->email->message($message);
+        $this->email->attach(base_url('assets/pdf/SK Pangkat.pdf'));
+        $this->email->attach(base_url('assets/pdf/dp3.pdf'));
+        $this->email->attach(base_url('assets/pdf/karpeg.pdf'));
+        $this->email->attach(base_url('assets/pdf/Riwayat_hidup.docx'));
 
         if ($this->email->send()) {
             echo 'Your Email has successfully been sent.';
         } else {
             show_error($this->email->print_debugger());
         }
+    }
+
+    public function surat_pengajuan()
+    {
+        date_default_timezone_set('Asia/Jakarta');
+        $date = date("Y-m-d");
+
+        $nip = $this->input->post('nip');
+        $nama = $this->input->post('nama');
+        $ttl = $this->input->post('ttl');
+        $pangkat = $this->input->post('pangkat');
+        $jabatan = $this->input->post('jabatan');
+        $jenis = $this->input->post('jenis');
+        $alasan = $this->input->post('alasan');
+
+        $document = file_get_contents(base_url('assets/pdf/pengajuan_mutasi.rtf'));
+        // isi dokumen dinyatakan dalam bentuk string
+        $document = str_replace("#TGL", $date, $document);
+        $document = str_replace("#NIP", $nip, $document);
+        $document = str_replace("#NAMA", $nama, $document);
+        $document = str_replace("#TTL", $ttl, $document);
+        $document = str_replace("#PANGKAT", $pangkat , $document);
+        $document = str_replace("#JABATAN", $jabatan , $document);
+        $document = str_replace("#JENIS", $jenis , $document);
+        $document = str_replace("#ALASAN", $alasan , $document);
+        // header untuk membuka file output RTF dengan MS. Word
+
+        header("Content-type: application/msword");
+        header("Content-disposition: inline; filename=Pengajuan_Mutasi_".$nama.".doc");
+        header("Content-length: ".strlen($document));
+
+        echo $document;
     }
 }

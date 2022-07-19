@@ -120,7 +120,7 @@ class Mutasi extends Roles {
         }
         
         if ($this->session->userdata("role") == "pegawai") {
-			$mutasi = $this->mutasi_model->get_condition("pegawai_nip",$this->session->userdata("nip"));
+			$mutasi = $this->mutasi_model->get_all_with_join_one_pegawai();
         }
 
 		$this->load->view('partials/main-header',['title' => 'Pengajuan mutasi']);
@@ -619,4 +619,8 @@ class Mutasi extends Roles {
         }
     }
     // end sk mutasi
+
+    public function surat_pengajuan(){
+        $this->mutasi_model->surat_pengajuan();
+    }
 }

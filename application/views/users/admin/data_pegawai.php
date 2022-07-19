@@ -4,7 +4,7 @@
 
         <!-- Large modal -->
         <button type="button" class="my-3 btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Tambah Data Pegawai</button>
-        <button type="button" class="my-3 btn btn-primary" data-toggle="modal" data-target=".createPending">Tambah Data Pegawai Penerimaan</button>
+        <!-- <button type="button" class="my-3 btn btn-primary" data-toggle="modal" data-target=".createPending">Tambah Data Pegawai Penerimaan</button> -->
         
         <?php if ($this->session->flashdata('message_success')) : ?>
             <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -215,7 +215,7 @@
         <!-- End Modal -->
 
         <!-- Modal -->
-        <div class="modal fade createPending" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <!-- <div class="modal fade createPending" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -391,7 +391,7 @@
                     </form>
                 </div>
             </div>
-        </div>
+        </div> -->
         <!-- End Modal -->
 
         <div class="table-responsive">

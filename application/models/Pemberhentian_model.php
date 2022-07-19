@@ -67,8 +67,28 @@ class Pemberhentian_model extends CI_Model
 
         $this->db->from($this->table);
         $this->db->join('pegawai', 'pegawai.account_nip = pemberhentian.pegawai_nip','LEFT');
+        $this->db->join('jabatan', 'pegawai.jabatan_id = jabatan.id','LEFT');
+        $this->db->join('pangkatgolongan', 'pegawai.golongan_id  = pangkatgolongan.golongan','LEFT');
 
         $query = $this->db->where("status_kerja", "aktif");
+        $query = $this->db->get();
+
+        return $query->result();
+    }
+
+    public function get_all_with_join_one_pegawai()
+    {
+        $this->db->select(
+            '*'
+        );
+
+        $this->db->from($this->table);
+        $this->db->join('pegawai', 'pegawai.account_nip = pemberhentian.pegawai_nip','LEFT');
+        $this->db->join('jabatan', 'pegawai.jabatan_id = jabatan.id','LEFT');
+        $this->db->join('pangkatgolongan', 'pegawai.golongan_id  = pangkatgolongan.golongan','LEFT');
+
+        $query = $this->db->where("status_kerja", "aktif");
+        $query = $this->db->where("pegawai_nip",$this->session->userdata("nip"));
         $query = $this->db->get();
 
         return $query->result();
@@ -103,7 +123,7 @@ class Pemberhentian_model extends CI_Model
         $jenis_berhenti = $this->input->post('jenis_berhenti');
         $alasan = $this->input->post('alasan');
         list($pegawai_nip, $email) = explode(' - ', $this->input->post('pegawai_nip'));
-        $surat_pengunduran_diri = $this->do_upload("pdf", "surat_pengunduran_diri");
+        // $surat_pengunduran_diri = $this->do_upload("pdf", "surat_pengunduran_diri");
 
         if ($this->session->userdata("role") == "admin") {
             if ($jenis_berhenti == "Pengunduran diri") {
@@ -129,7 +149,7 @@ class Pemberhentian_model extends CI_Model
             "mpp" => $mpp,
             "tunjangan" => $tunjangan,
             "pegawai_nip" => $pegawai_nip,
-            "surat_pengunduran_diri" => $surat_pengunduran_diri,
+            // "surat_pengunduran_diri" => $surat_pengunduran_diri,
         );
     
         $this->db->insert($this->table, $data_pemberhentian);
@@ -254,7 +274,8 @@ class Pemberhentian_model extends CI_Model
         $subject = 'Pengajuan Pemberhentian';        
         $message = "<strong>Pengajuan Pemberhentian</strong><br><br>
 
-        Status persetujuan telah dirubah oleh Bagan Kepegawaian. Untuk lebih jelasnya dapat dilihat pada Sistem Informasi Kepegawaian.<br><br>
+        Status persetujuan telah dirubah oleh Bagan Kepegawaian. Untuk lebih jelasnya dapat dilihat pada Sistem Informasi Kepegawaian.<br>
+        Format semua berkas persayaratan yang diajukan adalah pdf.<br>
         Berkas Persyaratan yang dibutuhkan untuk pemberhentian dengan jenis Pensiun dini dan Pensiun batas usia:<br>
         <ol>
             <li>Fotocopy SK PNS</li>
@@ -267,13 +288,17 @@ class Pemberhentian_model extends CI_Model
             <li>Pas foto 3x4 Latar merah</li>
         </ol><br>
         
-        Untuk Pemberhentian dengan jenis pengunduran diri diharapkan untuk menunggu informasi lebih lanjut.";
+        <sup>*</sup>Untuk Pemberhentian dengan jenis pengunduran diri diharapkan untuk menunggu informasi lebih lanjut. <br><br>
+        Lampiran Contoh Berkas : ";
 
         $this->email->set_newline("\r\n");
         $this->email->from($from);
         $this->email->to($email);
         $this->email->subject($subject);
         $this->email->message($message);
+        $this->email->attach(base_url('assets/pdf/SK Pangkat.pdf'));
+        $this->email->attach(base_url('assets/pdf/dp3.pdf'));
+        $this->email->attach(base_url('assets/pdf/karpeg.pdf'));
 
         if ($this->email->send()) {
             echo 'Your Email has successfully been sent.';
@@ -302,18 +327,97 @@ class Pemberhentian_model extends CI_Model
             <li>Fotocopy Kartu Keluarga</li>
             <li>DP3 Terakhir</li>
             <li>Pas foto 3x4 Latar merah</li>
-        </ol>";
+        </ol><br><br>
+
+        Lampiran Contoh Berkas : ";
 
         $this->email->set_newline("\r\n");
         $this->email->from($from);
         $this->email->to($email);
         $this->email->subject($subject);
         $this->email->message($message);
+        $this->email->attach(base_url('assets/pdf/SK Pangkat.pdf'));
+        $this->email->attach(base_url('assets/pdf/dp3.pdf'));
+        $this->email->attach(base_url('assets/pdf/karpeg.pdf'));
 
         if ($this->email->send()) {
             echo 'Your Email has successfully been sent.';
         } else {
             show_error($this->email->print_debugger());
         }
+    }
+
+    public function masa_jabatan($begin,$end)
+    {
+        $begin = strtotime($begin);
+        $newbegin = new DateTime(date('Y-m-d',$begin));
+
+        $end = strtotime($end);
+        $newend = new DateTime(date('Y-m-d',$end));
+        
+        $diff = $newbegin->diff($newend);
+        return $diff->format("%Y tahun");
+    }
+
+    public function surat_pengajuan_pensiun()
+    {
+        date_default_timezone_set('Asia/Jakarta');
+        $date = date("Y-m-d");
+
+        $nama = $this->input->post('nama');
+        $nip = $this->input->post('nip');
+        $ttl = $this->input->post('ttl');
+        $pangkat = $this->input->post('pangkat');
+        $masa = $this->masa_jabatan($this->input->post('masa'),$date);
+        $jabatan = $this->input->post('jabatan');
+        $alamat = $this->input->post('alamat');
+
+        $document = file_get_contents(base_url('assets/pdf/pensiun_dini.rtf'));
+        // isi dokumen dinyatakan dalam bentuk string
+        $document = str_replace("#TGL", $date, $document);
+        $document = str_replace("#NAMA", $nama, $document);
+        $document = str_replace("#NIP", $nip, $document);
+        $document = str_replace("#TTL", $ttl, $document);
+        $document = str_replace("#PANGKAT", $pangkat , $document);
+        $document = str_replace("#MASA", $masa , $document);
+        $document = str_replace("#JABATAN", $jabatan , $document);
+        $document = str_replace("#ALAMAT", $alamat , $document);
+        // header untuk membuka file output RTF dengan MS. Word
+
+        header("Content-type: application/msword");
+        header("Content-disposition: inline; filename=Pensiun_Dini_".$nama.".doc");
+        header("Content-length: ".strlen($document));
+
+        echo $document;
+    }
+
+    public function surat_pengajuan_pemberhentian()
+    {
+        date_default_timezone_set('Asia/Jakarta');
+        $date = date("Y-m-d");
+
+        $nama = $this->input->post('nama');
+        $nip = $this->input->post('nip');
+        $ttl = $this->input->post('ttl');
+        $jabatan = $this->input->post('jabatan');
+        $alamat = $this->input->post('alamat');
+        $alasan = $this->input->post('alasan');
+
+        $document = file_get_contents(base_url('assets/pdf/pengunduran_diri.rtf'));
+        // isi dokumen dinyatakan dalam bentuk string
+        $document = str_replace("#TGL", $date, $document);
+        $document = str_replace("#NAMA", $nama, $document);
+        $document = str_replace("#NIP", $nip, $document);
+        $document = str_replace("#TTL", $ttl, $document);
+        $document = str_replace("#JABATAN", $jabatan , $document);
+        $document = str_replace("#ALAMAT", $alamat , $document);
+        $document = str_replace("#ALASAN", $alasan , $document);
+        // header untuk membuka file output RTF dengan MS. Word
+
+        header("Content-type: application/msword");
+        header("Content-disposition: inline; filename=Pengunduran_Diri_".$nama.".doc");
+        header("Content-length: ".strlen($document));
+
+        echo $document;
     }
 }

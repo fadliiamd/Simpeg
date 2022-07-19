@@ -42,7 +42,7 @@ class Pemberhentian extends Roles {
 		}
 
 		if ($this->session->userdata("role") == "pegawai") {
-			$pemberhentian = $this->pemberhentian_model->get_condition("pegawai_nip",$this->session->userdata("nip"));
+			$pemberhentian = $this->pemberhentian_model->get_all_with_join_one_pegawai();
 		}
 		
 		$this->load->view('partials/main-header',['title' => 'Pengajuan pemberhentian']);
@@ -430,4 +430,14 @@ class Pemberhentian extends Roles {
         }
     }
 	// end sk pensiun
+
+	public function surat_pengajuan_pemberhentian()
+	{
+		$this->pemberhentian_model->surat_pengajuan_pemberhentian();
+	}
+
+	public function surat_pengajuan_pensiun()
+	{
+		$this->pemberhentian_model->surat_pengajuan_pensiun();
+	}
 }
