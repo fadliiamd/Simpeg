@@ -6,6 +6,18 @@ class Pegawai_model extends CI_Model
     public $table = "pegawai";
     public $account_table = "account";
 
+    public function get_all_column($col, $where = NULL)
+    {
+        $this->db->select($col);
+        if($where != NULL) {
+            $query = $this->db->get_where($this->table, $where);
+        } else {
+            $this->db->from($this->table);
+            $query = $this->db->get();
+        }
+        return $query->result();
+    }
+
     public function get_all()
     {
         $this->db->select('*, pegawai.account_nip as account_nip, COUNT(*) as jmlh_serti');

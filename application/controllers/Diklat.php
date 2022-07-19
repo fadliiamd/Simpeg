@@ -22,6 +22,7 @@ class Diklat extends CI_Controller {
         $this->load->model('surat_model');
         $this->load->model('pegawai_model');
         $this->load->model('bagian_model');
+        $this->load->model('jabatan_model');
 
         // Get All "Diklat" by Pegawai NIP
         $list_diklat = $this->surat_model->get_all_where(array(
@@ -70,7 +71,7 @@ class Diklat extends CI_Controller {
                         array_push($list_detail, $get_data);
                     }
                 }
-                $list_detail_tujuan[$key] = $list_detail;
+                $list_detail_tujuan[$value->id] = $list_detail;
             } else if($value->jenis_tujuan == 'perorangan') {
                 $detail_tujuan = $this->surat_model->get_all_where_subjek([
                     "surat_id" => $value->id
@@ -81,7 +82,7 @@ class Diklat extends CI_Controller {
                     ]);
                     array_push($list_detail, $get_data);
                 }
-                $list_detail_tujuan[$key] = $list_detail;
+                $list_detail_tujuan[$value->id] = $list_detail;
             }
         }
 
@@ -173,6 +174,13 @@ class Diklat extends CI_Controller {
             }
         }
 
+        // Get List Jabatan
+        $jabatan = $this->jabatan_model->get_all();
+        $list_jabatan = [];
+        foreach($jabatan as $value) {
+            $list_jabatan[$value->id] = $value; 
+        }
+
         // Load View
         $this->load->view('partials/main-header', [
             "title" => " | Diklat"
@@ -184,6 +192,7 @@ class Diklat extends CI_Controller {
             "has_upload_hasil" => $has_upload_hasil,
             "list_diklat_berkas" => $list_diklat_berkas,
             "list_diklat_hasil" => $list_diklat_hasil,
+            "list_jabatan" => $list_jabatan
         ]);
 		$this->load->view('partials/main-footer');
     }
@@ -241,7 +250,7 @@ class Diklat extends CI_Controller {
             "ijazah" => $file_ijazah_name,
             "surat_sehat" => $file_surat_sehat_name,
             "tambahan" => $file_tambahan_name,
-            "surat_id" => $surat_id,
+            "surat_id" => (int)$surat_id,
             "pegawai_nip" => $this->session->userdata('nip'),
             "created_at" => date("Y-m-d h:i:s")
         );

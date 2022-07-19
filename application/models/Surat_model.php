@@ -57,7 +57,7 @@ class Surat_model extends CI_Model
         if($subjek != NULL) {
             foreach($subjek as $el) {
                 $this->db->insert($this->sup_table, [
-                    "subjek" => $el,
+                    "subjek" => $el->account_nip,
                     "surat_id" => $id
                 ]);
             }
