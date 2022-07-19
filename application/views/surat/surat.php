@@ -99,6 +99,7 @@
                     <option value="" selected hidden>--- Subjek Surat ---</option>
                     <option value="semua">Semua</option>
                     <option value="spesifik">Spesifik</option>
+                    <option value="tidak ada">Tidak Ada</option>
                   </select>
                 </div>
                 <div class="col-md-6" id="detail_subjek">
