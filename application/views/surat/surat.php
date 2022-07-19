@@ -360,6 +360,7 @@
                                 <option hidden <?= ($value->jenis_tujuan == NULL) ? "selected" : "" ?>>--- Subjek Surat ---</option>
                                 <option value="semua" <?= ($value->jenis_tujuan == 'semua') ? "selected" : "" ?>>Semua</option>
                                 <option value="spesifik" <?= ($value->jenis_tujuan == 'divisi' || $value->jenis_tujuan == 'perorangan') ? "selected" : "" ?>>Spesifik</option>
+                                <option value="tidak ada" <?= ($value->jenis_tujuan == 'tidak ada') ? "selected" : "" ?>>Tidak Ada</option>
                               </select>
                             </div>
                             <div class="col-md-6" id="detail_subjek_edit_<?= $value->id ?>">
