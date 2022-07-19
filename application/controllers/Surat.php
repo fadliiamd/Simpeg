@@ -78,8 +78,8 @@ class Surat extends Roles {
             }
         }
 
+        // Get List Jabatan
         $jabatan = $this->jabatan_model->get_all();
-
         $list_jabatan = [];
         foreach($jabatan as $value) {
             $list_jabatan[$value->id] = $value; 
@@ -158,6 +158,7 @@ class Surat extends Roles {
     {
         // Load Model
         $this->load->model('surat_model');
+        $this->load->model('pegawai_model');
 
         // Form Validation Rules
         // $rules = $this->surat_model->rules();
@@ -179,7 +180,7 @@ class Surat extends Roles {
         $detail_tujuan = NULL;
 
         // Jenis Tujuan Surat Pertama: Subjek Jelas
-        if($subjek != 'semua') {
+        if($subjek == 'spesifik') {
             $surat_status = "ready to send";
             $jenis_tujuan = $this->input->post('jenis_tujuan');
             if ($jenis_tujuan == 'divisi') {
@@ -193,9 +194,15 @@ class Surat extends Roles {
             }
             $detail_tujuan = $this->input->post('tujuan');
         
-        // Jenis Tujuan Surat Kedua: Tanpa Subjek
-        } else {
+        // Jenis Tujuan Surat Kedua: Semua Subjek
+        } else if($subjek == 'semua') {
             $jenis_tujuan = "semua";
+            $surat_status = "ready to send";
+            $detail_tujuan = $this->pegawai_model->get_all_column('*', [
+                "status_kerja" => "aktif"
+            ]);
+        } else {
+            $jenis_tujuan = "tidak ada";
             $surat_status = "need ranking";
         }
 
@@ -271,7 +278,7 @@ class Surat extends Roles {
             $subjek = $this->input->post('subjek');
             $detail_tujuan = NULL;
 
-            if($subjek != 'semua') {
+            if($subjek == 'spesifik') {
                 $jenis_tujuan = $this->input->post('jenis_tujuan');
                 if ($jenis_tujuan == 'divisi') {
                     $data_additional = array_merge($data_additional, [
@@ -284,13 +291,18 @@ class Surat extends Roles {
                         "status" => 'ready to send'
                     ]);
                 }
-                $detail_tujuan = $this->input->post('tujuan');
-            } else {
+                $detail_tujuan = $this->input->post('tujuan');  
+            } else if($subjek == 'semua') {
                 $jenis_tujuan = "semua";
+                $data_additional = array_merge($data_additional, [
+                    "status" => "ready to sent"
+                ]);
+            } else {
+                $jenis_tujuan = "tidak ada";
                 $data_additional = array_merge($data_additional, [
                     "status" => "need ranking"
                 ]);
-            }   
+            }
 
             // Preparing Data for Update
             if(!(empty($_FILES['file_surat']['name']))) {

@@ -39,50 +39,118 @@
                         </div>
                         <form action="<?= base_url(); ?>surat/update" method="post" class="forms-sample" enctype="multipart/form-data">
                           <div class="modal-body">
-                            <div class="form-group">
-                              <label for="file_surat">File Surat</label>
-                              <div class="mt-1">
-                                <a href="<?= base_url() . 'uploads/' . $value->file_name ?>" target="_blank">                              
-                                    Lihat Surat                              
-                                </a>
-                              </div>                            
-                            </div>
                             <div class="form-group row">
-                              <div class="col-md-6">
+                              <div class="col-md-8">
                                 <label for="no_surat">Nomor Surat</label>
                                 <input type="text" class="form-control" id="no_surat" value=<?=$value->no ?> disabled>
                               </div>
-                              <div class="col-md-6">
-                                <label for="jenis_surat">Jenis Surat</label>
-                                <input type="text" class="form-control" id="jenis_surat" value=<?=ucwords($value->jenis) ?> disabled>
+                              <div class="col-md-4">
+                                <label for="file_surat">File Surat</label>
+                                <div class="mt-1">
+                                  <a href="<?= base_url() . 'uploads/' . $value->file_name ?>" target="_blank">                              
+                                      Lihat Surat                              
+                                  </a>
+                                </div>
                               </div>
                             </div>
                             <div class="form-group row">
                               <div class="col-md-6">
                                 <label for="jenis_kegiatan">Jenis Kegiatan</label>
-                                <input type="text" class="form-control" id="jenis_kegiatan" value=<?=ucwords($value->jenis_kegiatan) ?> disabled>
+                                <input type="text" class="form-control" id="jenis_kegiatan" value="<?=ucwords($value->jenis_kegiatan) ?>" disabled>
                               </div> 
                               <?php if($value->jenis_kegiatan == 'diklat') { ?>
                               <div class="col-md-6">
-                                <label for="jenis_diklat">Jenis Diklat</label>
-                                <input type="text" class="form-control" id="jenis_diklat" value=<?=ucwords($value->jenis_diklat) ?> disabled>
+                                <label for="jenis_diklat">Jenis Diklat (*)</label>
+                                <input type="text" class="form-control" id="jenis_kegiatan" value="<?=ucwords($value->jenis_diklat) ?>" disabled>
                               </div>
                               <?php } ?>
                             </div>
                             <div class="form-group">
-                              <label for="jenis_tujuan">Jenis Pegawai Tujuan Surat</label>
-                              <input type="text" class="form-control" id="jenis_tujuan" value=<?=ucwords($value->jenis_tujuan) ?> disabled>
+                                <label for="jenis_tujuan">Jenis Pegawai Tujuan Surat</label>
+                                <input type="text" class="form-control" id="jenis_tujuan" value="<?=ucwords($value->jenis_tujuan) ?>" disabled>
+                              </div>
+                            <div class="form-group">
+                              <label for="tema">Tema/Judul Kegiatan (*)</label>
+                              <input type="text" class="form-control" id="tema" value="<?=$value->tema ?>" disabled>
+                            </div>
+                            <div class="form-group row">
+                              <div class="col-md-6">
+                                <label for="subjek">Subjek Surat (*)</label>
+                                <input type="text" class="form-control" id="subjek" value="<?php if($value->jenis_tujuan == 'semua') { echo 'Semua'; } else if($value->jenis_tujuan == 'divisi') { echo 'Spesifik'; } else if($value->jenis_tujuan == 'perorangan') { echo ucwords('Spesifik'); } ?>" disabled>
+                              </div>
+                              <div class="col-md-6" id="detail_subjek">
+                                <?php if($value->jenis_tujuan != 'semua') { ?>
+                                <label for="jenis_tujuan">Jenis Pegawai Tujuan Surat (*)</label>
+                                <input type="text" class="form-control" id="jenis_tujuan" value="<?=ucwords($value->jenis_tujuan) ?>" disabled>
+                                <?php } ?>
+                              </div>
                             </div>
                             <div id="detail_tujuan">
-                              <?php if($value->jenis_tujuan === 'divisi') { ?>
+                              <?php if($value->jenis_tujuan == 'divisi') { ?>
                                 <div class="form-group">
                                   <label for="divisi">Divisi Tujuan</label>
                                   <input type="text" class="form-control" id="divisi" value="<?=ucwords($value->tujuan) ?>" disabled>
                                 </div>
-                              <?php } else if($value->jenis_tujuan === 'perorangan') { ?>
+                                <div class="form-group">
+                                  <label for="tujuan">Tujuan</label>
+                                  <div class="table-responsive">
+                                    <table class="table table-striped table-bordered table-datatable">
+                                      <thead class="thead-dark">
+                                        <tr>
+                                          <th>No</th>
+                                          <th>ID <?=ucwords($value->tujuan) ?></th>
+                                          <th>Nama <?=ucwords($value->tujuan) ?></th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                      <?php
+                                        $no = 1;
+                                        foreach($list_detail_tujuan[$value->id] as $el) { ?>
+                                          <tr>
+                                            <td><?= $no ?></td>
+                                            <td><?= $el->id ?></td>
+                                            <td><?= $el->nama ?></td>
+                                          </tr>
+                                      <?php $no++; } ?>
+                                      </tbody>
+                                    </table>
+                                  </div>
+                                </div>
+                              <?php } else if($value->jenis_tujuan == 'perorangan') { ?>
                                 <div class="form-group">
                                   <label for="tujuan">Jenis Pegawai Tujuan</label>
                                   <input type="text" class="form-control" id="tujuan" value="<?=ucwords($value->tujuan) ?>" disabled>
+                                </div>
+                                <div class="form-group">
+                                  <label for="tujuan">Tujuan</label>
+                                  <div class="table-responsive">
+                                    <table id="list_surat" class="table table-striped table-bordered">
+                                      <thead class="thead-dark">
+                                        <tr>
+                                          <th>No</th>
+                                          <th>NIP</th>
+                                          <th>Nama Pegawai</th>
+                                          <th>Jabatan</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                      <?php
+                                        $no = 1;
+                                        foreach($list_detail_tujuan[$value->id] as $el) { ?>
+                                          <tr>
+                                            <td><?= $no ?></td>
+                                            <td><?= $el->account_nip ?></td>
+                                            <td><?= $el->nama ?></td>
+                                            <td>
+                                              <?php if($el->jabatan_id != NULL) { ?>
+                                              <?= $list_jabatan[$el->jabatan_id]->nama_jabatan ?>
+                                              <?php } ?>
+                                            </td>
+                                          </tr>
+                                      <?php $no++; } ?>
+                                      </tbody>
+                                    </table>
+                                  </div>
                                 </div>
                               <?php } ?>
                             </div>
@@ -120,33 +188,15 @@
                               </div>                
                             </div>
                             <div class="form-group">
-                                <label for="tujuan">Tujuan</label>
-                                <div class="table-responsive">
-                                  <table class="table table-striped table-bordered table-datatable">
-                                    <thead class="thead-dark">
-                                      <tr>
-                                        <th>No</th>
-                                        <th>ID <?=ucwords($value->tujuan) ?></th>
-                                        <th>Nama <?=ucwords($value->tujuan) ?></th>
-                                      </tr>
-                                    </thead>
-                                    <tbody>
-                                    <?php
-                                    if ($value->detail_tujuan != NULL) {
-                                      $detail_tujuan = explode(',', $value->detail_tujuan);
-                                      $no = 1;
-                                      foreach($detail_tujuan as $el) { ?>
-                                        <tr>
-                                          <td><?= $no ?></td>
-                                          <td><?= $el ?></td>
-                                          <td><?= $list_detail_tujuan[$key][$no-1]->nama ?></td>
-                                        </tr>
-                                    <?php $no++; }
-                                    } ?>
-                                    </tbody>
-                                  </table>
-                                </div>
-                              </div>
+                              <label for="angka_kredit">Angka Kredit</label>
+                              <?php
+                              if(isset($list_diklat_hasil[$value->id])) {
+                              ?>
+                              <input type="text" class="form-control" id="angka_kredit" value="<?= $list_diklat_hasil[$value->id]->angka_kredit ?>" disabled>
+                              <?php } else { ?>
+                              <input type="text" class="form-control" id="angka_kredit" value="" disabled>
+                              <?php } ?>
+                            </div>
                           </div>
                           <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Kembali</button>
@@ -232,52 +282,51 @@
                           </div>
                           <form action="<?= base_url(); ?>surat/update" method="post" class="forms-sample" enctype="multipart/form-data">
                             <div class="modal-body">
-                              <div class="form-group">
-                                <label for="file_surat">File Surat</label>
-                                <div class="mt-1">
-                                  <a href="<?= base_url() . 'uploads/' . $value->file_name ?>" target="_blank">                              
-                                      Lihat Surat                              
-                                  </a>
-                                </div>                            
-                              </div>
                               <div class="form-group row">
-                                <div class="col-md-6">
+                                <div class="col-md-8">
                                   <label for="no_surat">Nomor Surat</label>
                                   <input type="text" class="form-control" id="no_surat" value=<?=$value->no ?> disabled>
                                 </div>
-                                <div class="col-md-6">
-                                  <label for="jenis_surat">Jenis Surat</label>
-                                  <input type="text" class="form-control" id="jenis_surat" value=<?=ucwords($value->jenis) ?> disabled>
+                                <div class="col-md-4">
+                                  <label for="file_surat">File Surat</label>
+                                  <div class="mt-1">
+                                    <a href="<?= base_url() . 'uploads/' . $value->file_name ?>" target="_blank">                              
+                                        Lihat Surat                              
+                                    </a>
+                                  </div>
                                 </div>
                               </div>
                               <div class="form-group row">
                                 <div class="col-md-6">
                                   <label for="jenis_kegiatan">Jenis Kegiatan</label>
-                                  <input type="text" class="form-control" id="jenis_kegiatan" value=<?=ucwords($value->jenis_kegiatan) ?> disabled>
+                                  <input type="text" class="form-control" id="jenis_kegiatan" value="<?=ucwords($value->jenis_kegiatan) ?>" disabled>
                                 </div> 
                                 <?php if($value->jenis_kegiatan == 'diklat') { ?>
                                 <div class="col-md-6">
-                                  <label for="jenis_diklat">Jenis Diklat</label>
-                                  <input type="text" class="form-control" id="jenis_diklat" value=<?=ucwords($value->jenis_diklat) ?> disabled>
+                                  <label for="jenis_diklat">Jenis Diklat (*)</label>
+                                  <input type="text" class="form-control" id="jenis_kegiatan" value="<?=ucwords($value->jenis_diklat) ?>" disabled>
                                 </div>
                                 <?php } ?>
                               </div>
                               <div class="form-group">
                                 <label for="jenis_tujuan">Jenis Pegawai Tujuan Surat</label>
-                                <input type="text" class="form-control" id="jenis_tujuan" value=<?=ucwords($value->jenis_tujuan) ?> disabled>
+                                <input type="text" class="form-control" id="jenis_tujuan" value="<?=ucwords($value->jenis_tujuan) ?>" disabled>
                               </div>
-                              <div id="detail_tujuan">
-                                <?php if($value->jenis_tujuan === 'divisi') { ?>
-                                  <div class="form-group">
-                                    <label for="divisi">Divisi Tujuan</label>
-                                    <input type="text" class="form-control" id="divisi" value="<?=ucwords($value->tujuan) ?>" disabled>
-                                  </div>
-                                <?php } else if($value->jenis_tujuan === 'perorangan') { ?>
-                                  <div class="form-group">
-                                    <label for="tujuan">Jenis Pegawai Tujuan</label>
-                                    <input type="text" class="form-control" id="tujuan" value="<?=ucwords($value->tujuan) ?>" disabled>
-                                  </div>
-                                <?php } ?>
+                              <div class="form-group">
+                                <label for="tema">Tema/Judul Kegiatan (*)</label>
+                                <input type="text" class="form-control" id="tema" value="<?=$value->tema ?>" disabled>
+                              </div>
+                              <div class="form-group row">
+                                <div class="col-md-6">
+                                  <label for="subjek">Subjek Surat (*)</label>
+                                  <input type="text" class="form-control" id="subjek" value="<?php if($value->jenis_tujuan == 'semua') { echo 'Semua'; } else if($value->jenis_tujuan == 'divisi') { echo 'Spesifik'; } else if($value->jenis_tujuan == 'perorangan') { echo ucwords('Spesifik'); } ?>" disabled>
+                                </div>
+                                <div class="col-md-6" id="detail_subjek">
+                                  <?php if($value->jenis_tujuan != 'semua') { ?>
+                                  <label for="jenis_tujuan">Jenis Pegawai Tujuan Surat (*)</label>
+                                  <input type="text" class="form-control" id="jenis_tujuan" value="<?=ucwords($value->jenis_tujuan) ?>" disabled>
+                                  <?php } ?>
+                                </div>
                               </div>
                               <div class="form-group row">
                                 <div class="col-md-6">
@@ -311,6 +360,16 @@
                                     <?php } ?>
                                   </div>
                                 </div>                
+                              </div>
+                              <div class="form-group">
+                                <label for="angka_kredit">Angka Kredit</label>
+                                <?php
+                                if(isset($list_diklat_hasil[$value->id])) {
+                                ?>
+                                <input type="text" class="form-control" id="angka_kredit" value="<?= $list_diklat_hasil[$value->id]->angka_kredit ?>" disabled>
+                                <?php } else { ?>
+                                <input type="text" class="form-control" id="angka_kredit" value="" disabled>
+                                <?php } ?>
                               </div>
                             </div>
                             <div class="modal-footer">
