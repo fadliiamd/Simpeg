@@ -130,9 +130,13 @@ class Pemberhentian_model extends CI_Model
                 $status_pengajuan = "pending";
                 $tgl_persetujuan = null;
             }else{
-                $this->email_pengajuan_pemberhentian($email);
-                $status_pengajuan = "setuju";
-                $tgl_persetujuan = $date;
+                if ($jenis_berhenti == "Pensiun dini") {
+                    $this->email_pengajuan_pemberhentian($email);
+                }else{
+                    $this->email_pengajuan_pensiun($email);
+                }
+                    $status_pengajuan = "setuju";
+                    $tgl_persetujuan = $date;
             }
         }else {
             $status_pengajuan = "pending";
@@ -247,8 +251,11 @@ class Pemberhentian_model extends CI_Model
                 $this->db->where('account_nip', $pegawai_nip);
                 $this->db->update('pegawai', $data_pegawai);
                 $this->db->trans_complete();
-
-                $this->email_pengajuan_pensiun($this->input->post('email'));
+                if ($this->input->post('jenis_berhenti') == "Pensiun dini") {
+                    $this->email_pengajuan_pemberhentian($this->input->post('email'));
+                }else {
+                    $this->email_pengajuan_pensiun($this->input->post('email'));
+                }
             }
         }
 
@@ -316,7 +323,9 @@ class Pemberhentian_model extends CI_Model
         $subject = 'Pemberitahuan pensiun';        
         $message = "<strong>Pemberitahuan pensiun</strong><br><br>
 
-        Diberitahukan kepada pegawai yang bersangkutan, masa jabatan yang anda miliki kurang lebih 1 (satu) tahun dari pemberitahuan ini disampaikan. Untuk itu diharapkan agar segera mengkonfirmasi pengambilan Masa Persiapan Pensiun (MPP).<br>
+        Diberitahukan kepada pegawai yang bersangkutan, masa jabatan yang anda miliki kurang lebih 1 (satu) tahun dari pemberitahuan ini disampaikan.
+        Format semua berkas persyaratan yang diajukan adalah pdf.<br>
+        Berikut merupakan daftar berkas persyaratan yang dibutuhkan serta lampiran contoh berkas<br>
         Berkas persyaratan yang diperlukan:<br>
         <ol>
             <li>Fotocopy SK PNS</li>
