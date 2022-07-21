@@ -142,15 +142,6 @@ class Surat_model extends CI_Model
                     'is_unique' => '%s sudah digunakan.',
                 ],
             ],
-            [
-                'field' => 'file_surat', 
-				'label' => 'File Surat', 
-				'rules' => 'required|callback_file_check',
-                'errors' => [
-                    'required' => 'Anda perlu mengunggah %s.',
-                    'file_check' => 'Format %s yang diizinkan hanya pdf',
-                ],
-            ],
         ];
     }
 
@@ -163,15 +154,6 @@ class Surat_model extends CI_Model
                 'errors' => [
                     'required' => 'Anda perlu mengisi %s.',
                     'is_unique' => '%s sudah digunakan.',
-                ],
-            ],
-            [
-                'field' => 'file_surat', 
-				'label' => 'File Surat', 
-				'rules' => 'required|callback_file_check',
-                'errors' => [
-                    'required' => 'Anda perlu mengunggah %s.',
-                    'file_check' => 'Format %s yang diizinkan hanya pdf',
                 ],
             ],
             [

@@ -222,17 +222,6 @@ class Bimtek extends CI_Controller {
         $this->load->model('bimtek_model');
         $this->load->model('surat_model');
 
-        // Form Validation Rules
-        $rules = $this->bimtek_model->create_rules();
-        $this->form_validation->set_rules($rules);
-
-        // Check Form Validation
-        if($this->form_validation->run() == FALSE) {
-            echo "Error";
-            $this->session->set_flashdata('message_error', validation_errors());
-            redirect("bimtek");
-        }
-
         $surat_id = $this->input->post('surat_id');
         // Get Surat
         $surat = $this->surat_model->get_one(array(
@@ -306,17 +295,6 @@ class Bimtek extends CI_Controller {
         // Load Model
         $this->load->model('bimtek_model');
         $this->load->model('sertifikat_model');
-
-        // Form Validation Rules
-        $rules = $this->bimtek_model->hasil_rules();
-        $this->form_validation->set_rules($rules);
-
-        // Check Form Validation
-        if($this->form_validation->run() == FALSE) {
-            echo "Error";
-            $this->session->set_flashdata('message_error', validation_errors());
-            redirect("bimtek");
-        }
 
         // POST Request and Upload File
         $bimtek_id = $this->input->post('bimtek_id');
