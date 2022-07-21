@@ -9,7 +9,6 @@
             <th>No. Surat</th>
             <th style="max-width:10px;">Tujuan</th>
             <th>Tanggal Upload</th>
-            <th>Jenis Prajabatan</th>
             <th>Aksi</th>
           </tr>
         </thead>
@@ -22,7 +21,6 @@
               <td><?= $value->no ?></td>
               <td><?= ucwords($value->jenis_tujuan) ?></td>
               <td><?= date_indo($value->tgl_upload) ?></td>
-              <td><label class="badge badge-info">Prajabatan <?= ucwords($value->jenis_prajabatan) ?></label></td>
               <td>
                 <?php if($this->session->userdata('role') == 'admin') { ?>
                   <!-- Aksi: Lihat -->
