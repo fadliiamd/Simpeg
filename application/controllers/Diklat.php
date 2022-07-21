@@ -222,17 +222,6 @@ class Diklat extends CI_Controller {
         $this->load->model('diklat_model');
         $this->load->model('surat_model');
 
-        // Form Validation Rules
-        $rules = $this->diklat_model->create_rules();
-        $this->form_validation->set_rules($rules);
-
-        // Check Form Validation
-        if($this->form_validation->run() == FALSE) {
-            echo "Error";
-            $this->session->set_flashdata('message_error', validation_errors());
-            redirect("diklat");
-        }
-
         $surat_id = $this->input->post('surat_id');
         // Get Surat
         $surat = $this->surat_model->get_one(array(
@@ -307,17 +296,6 @@ class Diklat extends CI_Controller {
         // Load Model
         $this->load->model('diklat_model');
         $this->load->model('sertifikat_model');
-
-        // Form Validation Rules
-        $rules = $this->diklat_model->hasil_rules();
-        $this->form_validation->set_rules($rules);
-
-        // Check Form Validation
-        if($this->form_validation->run() == FALSE) {
-            echo "Error";
-            $this->session->set_flashdata('message_error', validation_errors());
-            redirect("diklat");
-        }
 
         // POST Request and Upload File
         $diklat_id = $this->input->post('diklat_id');
