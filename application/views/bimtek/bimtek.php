@@ -221,21 +221,21 @@
                               <div class="form-group row">
                                 <div class="col-md-6">
                                   <label for="file_foto">Pas Foto (*)</label>
-                                  <input type="file" class="form-control-file" id="file_foto" name="file_foto">  
+                                  <input type="file" class="form-control-file" id="file_foto" name="file_foto" required>  
                                 </div>
                                 <div class="col-md-6">
                                   <label for="file_ktp">KTP (*)</label>
-                                  <input type="file" class="form-control-file" id="file_ktp" name="file_ktp">  
+                                  <input type="file" class="form-control-file" id="file_ktp" name="file_ktp" required>  
                                 </div>
                               </div>
                               <div class="form-group row">
                                 <div class="col-md-6">
                                   <label for="file_kk">KK (*)</label>
-                                  <input type="file" class="form-control-file" id="file_kk" name="file_kk">  
+                                  <input type="file" class="form-control-file" id="file_kk" name="file_kk" required>  
                                 </div>
                                 <div class="col-md-6">
                                   <label for="file_ijazah">Ijazah (*)</label>
-                                  <input type="file" class="form-control-file" id="file_ijazah" name="file_ijazah">  
+                                  <input type="file" class="form-control-file" id="file_ijazah" name="file_ijazah" required>  
                                 </div>
                               </div>
                               <div class="form-group row">
@@ -420,11 +420,11 @@
                               <input type="hidden" id="bimtek_id" name="bimtek_id" value=<?= $check_bimtek[$value->id] ?>>
                               <div class="form-group">
                                 <label for="file_materi">Materi Hasil Bimtek (*)</label>
-                                <input type="file" class="form-control-file" id="file_materi" name="file_materi">  
+                                <input type="file" class="form-control-file" id="file_materi" name="file_materi" required>  
                               </div>
                               <div class="form-group">
                                 <label for="file_sertifikat">Sertifikat Bimtek (*)</label>
-                                <input type="file" class="form-control-file" id="file_sertifikat" name="file_sertifikat">  
+                                <input type="file" class="form-control-file" id="file_sertifikat" name="file_sertifikat" required>  
                               </div>
                               <div class="form-group">
                                 <label for="angka_kredit">Angka Kredit (*)</label>

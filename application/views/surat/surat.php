@@ -89,7 +89,7 @@
                 </div>
               </div>
               <div class="form-group">
-                <label for="tema">Tema/Judul Kegiatan (*)</label>
+                <label for="tema">Tema/Judul Kegiatan</label>
                 <input type="text" class="form-control" id="tema" name="tema" placeholder="Tema/Judul Kegiatan">
               </div>
               <div class="form-group row">
@@ -192,7 +192,7 @@
                             </div> 
                             <?php if($value->jenis_kegiatan == 'diklat') { ?>
                             <div class="col-md-6">
-                              <label for="jenis_diklat">Jenis Diklat (*)</label>
+                              <label for="jenis_diklat">Jenis Diklat</label>
                               <input type="text" class="form-control" id="jenis_kegiatan" value="<?=ucwords($value->jenis_diklat) ?>" disabled>
                             </div>
                             <?php } ?>
@@ -202,7 +202,7 @@
                               <input type="text" class="form-control" id="jenis_tujuan" value="<?=ucwords($value->jenis_tujuan) ?>" disabled>
                             </div>
                           <div class="form-group">
-                            <label for="tema">Tema/Judul Kegiatan (*)</label>
+                            <label for="tema">Tema/Judul Kegiatan</label>
                             <input type="text" class="form-control" id="tema" value="<?=$value->tema ?>" disabled>
                           </div>
                           <div class="form-group row">
@@ -212,7 +212,7 @@
                             </div>
                             <div class="col-md-6" id="detail_subjek">
                               <?php if($value->jenis_tujuan != 'semua') { ?>
-                              <label for="jenis_tujuan">Jenis Pegawai Tujuan Surat (*)</label>
+                              <label for="jenis_tujuan">Jenis Pegawai Tujuan Surat</label>
                               <input type="text" class="form-control" id="jenis_tujuan" value="<?=ucwords($value->jenis_tujuan) ?>" disabled>
                               <?php } ?>
                             </div>
@@ -330,7 +330,7 @@
                           <div class="form-group row">
                             <div class="col-md-6">
                               <label for="jenis_kegiatan_edit_<?= $value->id ?>">Jenis Kegiatan (*)</label>
-                              <select class="form-control" id="jenis_kegiatan_edit_<?= $value->id ?>" name="jenis_kegiatan" onchange="change_jenis_kegiatan(this, <?= $value->id ?>)">
+                              <select class="form-control" id="jenis_kegiatan_edit_<?= $value->id ?>" name="jenis_kegiatan" onchange="change_jenis_kegiatan(this, <?= $value->id ?>)" required>
                                 <option hidden <?= ($value->jenis_kegiatan == NULL) ? "selected" : "" ?>>--- Pilih Jenis Kegiatan ---</option>
                                 <option value="diklat" <?php if($value->jenis_kegiatan === 'diklat') echo "selected"; ?>>Diklat</option>
                                 <option value="bimtek" <?php if($value->jenis_kegiatan === 'bimtek') echo "selected"; ?>>Bimbingan Teknis (Bimtek)</option>
@@ -339,7 +339,7 @@
                             </div>
                             <div class="col-md-6" id="detail_jenis_kegiatan_edit_<?= $value->id ?>">
                             <?php if($value->jenis_kegiatan == 'diklat') { ?>                          
-                              <label for="jenis_diklat_edit_<?= $value->id ?>">Jenis Diklat (*)</label>
+                              <label for="jenis_diklat_edit_<?= $value->id ?>">Jenis Diklat</label>
                               <select class="form-control" id="jenis_diklat_edit_<?= $value->id ?>" name="jenis_diklat">
                                 <option hidden <?= ($value->jenis_diklat == NULL) ? "selected" : "" ?>>--- Pilih Jenis Diklat ---</option>
                                 <option value="teknis" <?php if($value->jenis_diklat === 'teknis') echo "selected"; ?>>Teknis</option>
@@ -350,13 +350,13 @@
                             </div>
                           </div>
                           <div class="form-group">
-                            <label for="tema_edit_<?= $value->id ?>">Tema/Judul Kegiatan (*)</label>
+                            <label for="tema_edit_<?= $value->id ?>">Tema/Judul Kegiatan</label>
                             <input type="text" class="form-control" id="tema_edit_<?= $value->id ?>" name="tema" placeholder="Masukkan Tema/Judul Kegiatan" value="<?=$value->tema?>">
                           </div>
                           <div class="form-group row">
                             <div class="col-md-6">
                               <label for="subjek_edit_<?= $value->id ?>">Subjek Surat (*)</label>
-                              <select class="form-control" id="subjek_edit_<?= $value->id ?>" name="subjek" onchange="change_subjek(this, <?= $value->id ?>)">
+                              <select class="form-control" id="subjek_edit_<?= $value->id ?>" name="subjek" onchange="change_subjek(this, <?= $value->id ?>)" required>
                                 <option hidden <?= ($value->jenis_tujuan == NULL) ? "selected" : "" ?>>--- Subjek Surat ---</option>
                                 <option value="semua" <?= ($value->jenis_tujuan == 'semua') ? "selected" : "" ?>>Semua</option>
                                 <option value="spesifik" <?= ($value->jenis_tujuan == 'divisi' || $value->jenis_tujuan == 'perorangan') ? "selected" : "" ?>>Spesifik</option>
@@ -365,7 +365,7 @@
                             </div>
                             <div class="col-md-6" id="detail_subjek_edit_<?= $value->id ?>">
                               <?php if($value->jenis_tujuan != NULL && $value->jenis_tujuan != 'semua') { ?>
-                                <label for="jenis_tujuan_edit_<?= $value->id ?>">Jenis Pegawai Tujuan Surat (*)</label>
+                                <label for="jenis_tujuan_edit_<?= $value->id ?>">Jenis Pegawai Tujuan Surat</label>
                                 <select class="form-control" id="jenis_tujuan_edit_<?= $value->id ?>" name="jenis_tujuan" onchange="change_jenis_tujuan(this, <?= $value->id ?>)">
                                   <option hidden <?= ($value->jenis_tujuan == NULL) ? "selected" : "" ?>>--- Pilih Jenis Pegawai Tujuan ---</option>
                                   <option value="divisi" <?php if($value->jenis_tujuan === 'divisi') echo "selected"; ?>>Divisi</option>
@@ -377,7 +377,7 @@
                           <div id="detail_tujuan_edit_<?= $value->id ?>">
                             <?php if($value->jenis_tujuan === 'divisi') { ?>
                               <div class="form-group">
-                                <label for="divisi_edit_<?= $value->id ?>">Divisi Tujuan (*)</label>
+                                <label for="divisi_edit_<?= $value->id ?>">Divisi Tujuan</label>
                                 <select class="form-control" id="divisi_edit_<?= $value->id ?>" name="divisi" onchange="change_divisi(this, <?= $value->id ?>)">
                                   <option hidden <?= ($value->tujuan == NULL) ? "selected" : "" ?>>--- Pilih Divisi Tujuan ---</option>
                                   <option value="jurusan" <?php if($value->tujuan === 'jurusan') echo "selected"; ?>>Jurusan</option>
@@ -451,7 +451,7 @@
                               </div>
                             <?php } else if($value->jenis_tujuan === 'perorangan') { ?>
                               <div class="form-group">
-                                <label for="jenis_pegawai_edit_<?= $value->id ?>">Jenis Tujuan Pegawai (*)</label>
+                                <label for="jenis_pegawai_edit_<?= $value->id ?>">Jenis Tujuan Pegawai</label>
                                 <select class="form-control" id="jenis_pegawai_edit_<?= $value->id ?>" name="jenis_pegawai" onchange="change_jenis_pegawai(this, <?= $value->id ?>)">
                                   <option value="struktural" <?php if($value->tujuan === 'struktural') echo "selected"; ?>>Struktural</option>
                                   <option value="fungsional" <?php if($value->tujuan === 'fungsional') echo "selected"; ?>>Fungsional</option>
@@ -501,7 +501,7 @@
                                 </div>
                               </div>
                               <div class="form-group">
-                                <label for="tujuan_edit_<?= $value->id ?>">Tambah Pegawai Tujuan (*)</label>
+                                <label for="tujuan_edit_<?= $value->id ?>">Tambah Pegawai Tujuan</label>
                                 <select class="form-control" size="10" id="tujuan_edit_<?= $value->id ?>" name="tujuan[]" multiple="multiple">
                                   <option selected hidden>--- Tujuan ---</option>
                                   <?php
