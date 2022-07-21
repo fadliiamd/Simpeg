@@ -259,7 +259,7 @@ class Account extends Roles
         $unit = $this->unit_model->get_all();
         $pegawai = $this->pegawai_model->get_all_with_join(["jenis_jabatan" => "struktural"]);
         $jabatan = $this->jabatan_model->get_all(["jenis_jabatan" => "struktural"]);
-
+        
         $this->load->view('partials/main-header', ['title' => ': Data Pegawai Struktural']);
         $this->load->view('users/admin/data_pegawai_struktural', [
             "jabatan" => $jabatan,

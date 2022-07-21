@@ -288,3 +288,14 @@
         </form>
     </div>
 </div>
+
+<script>
+    $(document).ready(function(){
+        var nip_default = $('#nip').val();
+        $("#nip").on('change', function(){
+            if(nip_default !== $(this).val()){
+                alert("Kamu mengubah NIP. Setelah klik tombol simpan anda diharuskan login kembali!");
+            }            
+        })
+    });
+</script>

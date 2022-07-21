@@ -217,7 +217,7 @@ class Pegawai_model extends CI_Model
             $golongan_id = $this->input->post('golongan_id');            
             $status_pegawai = $this->input->post('status_pegawai');
             $gaji = $this->input->post('gaji');
-            $jabatan = $this->input->post('jabatan');
+            $jabatan = $this->input->post('jabatan');            
             $tgl_masuk = $this->input->post('tgl_masuk');
             $pendidikan = $this->input->post('pendidikan');
 
