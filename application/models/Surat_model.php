@@ -130,16 +130,48 @@ class Surat_model extends CI_Model
 
         return true;
     }
+    
+    public function upload_rules() {
+        return [
+            [
+                'field' => 'no_surat', 
+				'label' => 'Nomor Surat', 
+				'rules' => 'required|is_unique[surat.no]',
+                'errors' => [
+                    'required' => 'Anda perlu mengisi %s.',
+                    'is_unique' => '%s sudah digunakan.',
+                ],
+            ],
+            [
+                'field' => 'file_surat', 
+				'label' => 'File Surat', 
+				'rules' => 'required|callback_file_check',
+                'errors' => [
+                    'required' => 'Anda perlu mengunggah %s.',
+                    'file_check' => 'Format %s yang diizinkan hanya pdf',
+                ],
+            ],
+        ];
+    }
 
     public function create_rules() {
         return [
             [
                 'field' => 'no_surat', 
 				'label' => 'Nomor Surat', 
-				'rules' => 'required|is_unique',
+				'rules' => 'required|is_unique[surat.no]',
                 'errors' => [
                     'required' => 'Anda perlu mengisi %s.',
                     'is_unique' => '%s sudah digunakan.',
+                ],
+            ],
+            [
+                'field' => 'file_surat', 
+				'label' => 'File Surat', 
+				'rules' => 'required|callback_file_check',
+                'errors' => [
+                    'required' => 'Anda perlu mengunggah %s.',
+                    'file_check' => 'Format %s yang diizinkan hanya pdf',
                 ],
             ],
             [
@@ -147,9 +179,31 @@ class Surat_model extends CI_Model
 				'label' => 'Jenis Kegiatan', 
 				'rules' => 'required',
                 'errors' => [
-                    'required' => 'Anda perlu mengisi %s.',
+                    'required' => 'Anda perlu menambahkan %s.',
+                ],
+            ],
+            [
+                'field' => 'subjek', 
+				'label' => 'Subjek', 
+				'rules' => 'required',
+                'errors' => [
+                    'required' => 'Anda perlu menambahkan %s.',
                 ],
             ],
         ];
+    }
+
+    public function file_check($str){
+        $allowed_mime_type_arr = ['application/pdf'];
+        $mime = get_mime_by_extension($_FILES['file']['name']);
+        if(isset($_FILES['file']['name']) && $_FILES['file']['name']!="") {
+            if(in_array($mime, $allowed_mime_type_arr)) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
     }
 }

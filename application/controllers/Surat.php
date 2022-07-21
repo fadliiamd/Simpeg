@@ -124,6 +124,17 @@ class Surat extends Roles {
         // Load Model
         $this->load->model('surat_model');
 
+        // Form Validation Rules
+        $rules = $this->surat_model->upload_rules();
+        $this->form_validation->set_rules($rules);
+
+        // Check Form Validation
+        if($this->form_validation->run() == FALSE) {
+            echo "Error";
+            $this->session->set_flashdata('message_error', validation_errors());
+            redirect("surat");
+        }
+
         // POST Method Form
         $no = $this->input->post('no_surat');
 
@@ -161,8 +172,15 @@ class Surat extends Roles {
         $this->load->model('pegawai_model');
 
         // Form Validation Rules
-        // $rules = $this->surat_model->rules();
-        // $this->form_validation->set_rules($rules);
+        $rules = $this->surat_model->create_rules();
+        $this->form_validation->set_rules($rules);
+
+        // Check Form Validation
+        if($this->form_validation->run() == FALSE) {
+            echo "Error";
+            $this->session->set_flashdata('message_error', validation_errors());
+            redirect("surat");
+        }
 
         $data_additional = [];
         // POST Method Form
@@ -208,11 +226,6 @@ class Surat extends Roles {
                 "kriteria" => $this->input->post('kriteria')
             ]);
         }
-
-        // if ($this->form_validation->run() == FALSE) {
-        //     $this->session->set_flashdata('message_error', 'Kesalahan dalam mengunggah surat!');
-        //     redirect("surat");
-        // }
 
         // Uploading File Surat
         $file_name = $this->do_upload("pdf", "file_surat");
@@ -266,6 +279,17 @@ class Surat extends Roles {
                 redirect("surat");
             }
         } else {
+            // Form Validation Rules
+            $rules = $this->surat_model->create_rules();
+            $this->form_validation->set_rules($rules);
+
+            // Check Form Validation
+            if($this->form_validation->run() == FALSE) {
+                echo "Error";
+                $this->session->set_flashdata('message_error', validation_errors());
+                redirect("surat");
+            }
+
             $data_additional = [];
             // POST Request
             $id = $this->input->post('id_surat');
