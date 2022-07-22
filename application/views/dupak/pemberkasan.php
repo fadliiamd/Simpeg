@@ -101,6 +101,9 @@
                                 <?php
                                 }
                                 ?>
+                                <a target="_blank" href="<?= base_url('dupak/pemberkasan/export_pdf/'.$value->id) ?>">
+                                    <button type="button" class="btn btn-warning">Cetak</button>
+                                </a>
                                 <?php if ($_SESSION['role'] !== 'pegawai') { ?>
                                     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deletetable-<?= $value->id ?>">Hapus</button>
 
