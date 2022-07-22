@@ -344,7 +344,7 @@
             </li>
           <?php
           } ?>
-          <?php if ($this->session->userdata('jabatan') == 'Kepala Bagian Umum') { ?>
+          <?php if ($this->session->userdata('jabatan') === 'Kepala Bagian Umum') { ?>
             <li class="nav-item">
               <a class="nav-link" data-toggle="collapse" href="#perangkingan" aria-expanded="false" aria-controls="perangkingan">
                 <i class="mdi mdi-trophy-variant menu-icon"></i>
