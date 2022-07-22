@@ -142,4 +142,21 @@ class Pemberkasan extends Roles {
             redirect("dupak/pemberkasan");
         }
     }
+
+    public function export_pdf($id)
+    {
+        $this->load->helper(array('dompdf'));
+        $unsur = $this->unsur_model->get_all();
+        $unsur_kegiatan = $this->unsur_kegiatan_model->get_all();
+        $nilai = $this->nilai_model->get_where(array("rekap_nilai_id" => $id));  
+
+        $html = $this->load->view('dupak/format_pak_pdf', [
+            'title' => ": Formulir PAK Ke-".$id,
+            "unsur" => $unsur,
+            "unsur_kegiatan" => $unsur_kegiatan,
+            "id" => $id,
+            "nilai" => $nilai
+        ], true);
+        $data = pdf_create($html, 'DUPAK_'.$id.'_'.date('d_m_Y'), TRUE, 'A4', 'potrait');
+    }
 }
