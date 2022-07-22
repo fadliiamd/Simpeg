@@ -208,12 +208,17 @@
                           <div class="form-group row">
                             <div class="col-md-6">
                               <label for="subjek">Subjek Surat (*)</label>
-                              <input type="text" class="form-control" id="subjek" value="<?php if($value->jenis_tujuan == 'semua') { echo 'Semua'; } else if($value->jenis_tujuan == 'divisi') { echo 'Spesifik'; } else if($value->jenis_tujuan == 'perorangan') { echo ucwords('Spesifik'); } ?>" disabled>
+                              <input type="text" class="form-control" id="subjek" value="<?php if($value->jenis_tujuan == 'semua') { echo 'Semua'; } else if($value->jenis_tujuan == 'tidak ada') { echo 'Tidak Ada'; } else if($value->jenis_tujuan == 'divisi') { echo 'Spesifik'; } else if($value->jenis_tujuan == 'perorangan') { echo ucwords('Spesifik'); } ?>" disabled>
                             </div>
                             <div class="col-md-6" id="detail_subjek">
-                              <?php if($value->jenis_tujuan != 'semua') { ?>
+                              <?php if($value->jenis_tujuan == 'divisi' || $value->jenis_tujuan == 'perorangan') { ?>
                               <label for="jenis_tujuan">Jenis Pegawai Tujuan Surat</label>
                               <input type="text" class="form-control" id="jenis_tujuan" value="<?=ucwords($value->jenis_tujuan) ?>" disabled>
+                              <?php } ?>
+
+                              <?php if($value->jenis_tujuan == 'tidak ada') { ?>
+                              <label for="kriteria">Kriteria</label>
+                              <textarea class="form-control" id="kriteria" name="kriteria" rows="6" disabled><?= $value->kriteria ?></textarea>
                               <?php } ?>
                             </div>
                           </div>
@@ -313,6 +318,7 @@
                         <div class="modal-body">
                           <input type="hidden" class="form-control-file" id="id_surat" name="id_surat" value="<?= $value->id ?>">
                           <div class="form-group row">
+                            <input type="hidden" name="no_surat_old" value=<?=$value->no; ?> required>
                             <div class="col-md-6">
                               <label for="no_surat_edit">Nomor Surat (*)</label>
                               <input type="text" class="form-control" id="no_surat_edit" name="no_surat" value=<?=$value->no; ?> required>
@@ -364,13 +370,17 @@
                               </select>
                             </div>
                             <div class="col-md-6" id="detail_subjek_edit_<?= $value->id ?>">
-                              <?php if($value->jenis_tujuan != NULL && $value->jenis_tujuan != 'semua') { ?>
+                              <?php if($value->jenis_tujuan != NULL && ($value->jenis_tujuan == 'divisi' || $value->jenis_tujuan == 'perorangan')) { ?>
                                 <label for="jenis_tujuan_edit_<?= $value->id ?>">Jenis Pegawai Tujuan Surat</label>
                                 <select class="form-control" id="jenis_tujuan_edit_<?= $value->id ?>" name="jenis_tujuan" onchange="change_jenis_tujuan(this, <?= $value->id ?>)">
                                   <option hidden <?= ($value->jenis_tujuan == NULL) ? "selected" : "" ?>>--- Pilih Jenis Pegawai Tujuan ---</option>
                                   <option value="divisi" <?php if($value->jenis_tujuan === 'divisi') echo "selected"; ?>>Divisi</option>
                                   <option value="perorangan" <?php if($value->jenis_tujuan === 'perorangan') echo "selected"; ?>>Perorangan</option>
                                 </select>
+                              <?php } ?>
+                              <?php if($value->jenis_tujuan == 'tidak ada') { ?>
+                                <label for="kriteria">Kriteria</label>
+                                <textarea class="form-control" id="kriteria" name="kriteria" rows="6"><?= $value->kriteria ?></textarea>
                               <?php } ?>
                             </div>
                           </div>

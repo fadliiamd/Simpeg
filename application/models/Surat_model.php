@@ -175,6 +175,27 @@ class Surat_model extends CI_Model
         ];
     }
 
+    public function update_rules() {
+        return [
+            [
+                'field' => 'jenis_kegiatan', 
+				'label' => 'Jenis Kegiatan', 
+				'rules' => 'required',
+                'errors' => [
+                    'required' => 'Anda perlu menambahkan %s.',
+                ],
+            ],
+            [
+                'field' => 'subjek', 
+				'label' => 'Subjek', 
+				'rules' => 'required',
+                'errors' => [
+                    'required' => 'Anda perlu menambahkan %s.',
+                ],
+            ],
+        ];
+    }
+
     public function file_check($str){
         $allowed_mime_type_arr = ['application/pdf'];
         $mime = get_mime_by_extension($_FILES['file']['name']);
