@@ -280,8 +280,22 @@ class Surat extends Roles {
             }
         } else {
             // Form Validation Rules
-            $rules = $this->surat_model->create_rules();
+            $rules = $this->surat_model->update_rules();
             $this->form_validation->set_rules($rules);
+            if ($this->input->post('no_surat') != $this->input->post('no_surat_old')) {
+                $is_unique = '|is_unique[surat.no]';
+            } else {
+                $is_unique = '';
+            }
+            $this->form_validation->set_rules(
+                'no_surat',
+                'no_surat',
+                'required' . $is_unique,
+                array(
+                    'required' => 'Anda perlu mengisi %s.',
+                    'is_unique' => '%s sudah digunakan.'
+                )
+            );
 
             // Check Form Validation
             if($this->form_validation->run() == FALSE) {
@@ -310,19 +324,19 @@ class Surat extends Roles {
                 if ($jenis_tujuan == 'divisi') {
                     $data_additional = array_merge($data_additional, [
                         "tujuan" => $this->input->post('divisi'),
-                        "status" => 'ready to send'
+                        "status" => "ready to send"
                     ]);
                 } else if ($jenis_tujuan == 'perorangan') {
                     $data_additional = array_merge($data_additional, [
                         "tujuan" => $this->input->post('jenis_pegawai'),
-                        "status" => 'ready to send'
+                        "status" => "ready to send"
                     ]);
                 }
                 $detail_tujuan = $this->input->post('tujuan');  
             } else if($subjek == 'semua') {
                 $jenis_tujuan = "semua";
                 $data_additional = array_merge($data_additional, [
-                    "status" => "ready to sent"
+                    "status" => "ready to send"
                 ]);
             } else {
                 $jenis_tujuan = "tidak ada";
