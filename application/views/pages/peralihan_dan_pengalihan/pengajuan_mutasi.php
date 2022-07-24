@@ -28,9 +28,7 @@
                         <div class="modal-body">
                             <div class="form-group">
                                 <?php if ($this->session->userdata("role") == "pegawai") { ?>
-                                    <?php foreach ($pegawai as $key => $value) { ?>
-                                        <input type="hidden" name="pegawai_nip" value="<?= $this->session->userdata("nip") ?>">
-                                    <?php } ?>
+                                    <input type="hidden" name="pegawai_nip" value="<?= $this->session->userdata("nip") ?>">
                                 <?php } else { ?>
                                     <label for="pegawai_nip">NIP</label>
                                     <select class="custom-select" id="pegawai_nip" name="pegawai_nip">
@@ -128,7 +126,7 @@
                                                 <div class="modal-content">
                                                     <form class="forms-sample" action="<?= base_url("mutasi/status_mutasi"); ?>" method="POST">
                                                         <div class="modal-header">
-                                                            <input type="hidden" name="id" value="<?= $value->id ?>">
+                                                            <input type="hidden" name="id" value="<?= $value->id_mutasi ?>">
                                                             <input type="hidden" name="email" value="<?= $value->email ?>">
                                                             <input type="hidden" name="status" value="setujui">
                                                             <h5 class="modal-title" id="exampleModalLabel">Setujui Pengajuan Mutasi NIP : <b><?= $value->pegawai_nip ?></b> </h5>
@@ -155,7 +153,7 @@
                                                 <div class="modal-content">
                                                     <form class="forms-sample" action="<?= base_url("mutasi/status_mutasi"); ?>" method="POST">
                                                         <div class="modal-header">
-                                                        <input type="hidden" name="id" value="<?= $value->id ?>">
+                                                        <input type="hidden" name="id" value="<?= $value->id_mutasi ?>">
                                                         <input type="hidden" name="status" value="tolak">
                                                         <h5 class="modal-title" id="exampleModalLabel">Tolak Pengajuan Mutasi NIP : <b><?= $value->pegawai_nip ?></b> </h5>
                                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">

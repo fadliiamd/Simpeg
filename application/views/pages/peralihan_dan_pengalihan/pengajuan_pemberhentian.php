@@ -3,8 +3,12 @@
         <h4>Pengajuan Pemberhentian</h4>
 
         <!-- Large modal -->
-        <?php foreach ($users as $key => $value) { ?>
-            <?php if ($this->session->userdata("role") == "pegawai" && !$pemberhentian && $value->status != "PNS"){ ?>
+        <?php 
+        date_default_timezone_set('Asia/Jakarta');
+        $time = new DateTime('now');
+        $newtime = $time->modify('-20 year')->format('Y-m-d H:i:s');
+        foreach ($users as $key => $value) { ?>
+            <?php if ($this->session->userdata("role") == "pegawai" && !$pemberhentian && ($value->status != "PNS" || ($value->status == "PNS" && $value->tgl_menjabat <= $newtime) )){ ?>
                 <button type="button" class="my-3 btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Tambah Pemberhentian</button>
             <?php } ?>
         <?php } ?>
@@ -38,13 +42,15 @@
                                     </select>
                                 </div>
                             <?php } else { ?>
-                                <input type="hidden" name="jenis_berhenti" value="Pengunduran diri">
+                                <?php if($value->status == "PNS" && $value->tgl_menjabat <= $newtime) { ?>
+                                        <input type="hidden" name="jenis_berhenti" value="Pensiun batas usia">
+                                    <?php } else { ?>
+                                        <input type="hidden" name="jenis_berhenti" value="Pengunduran diri">
+                                <?php } ?>
                             <?php } ?>
                             <div class="form-group">
                                 <?php if ($this->session->userdata("role") == "pegawai") { ?>
-                                    <?php foreach ($pegawaiNonPNS as $key => $value) { ?>
-                                        <input type="hidden" name="pegawai_nip" value="<?= $this->session->userdata("nip") ?>">
-                                    <?php } ?>
+                                    <input type="hidden" name="pegawai_nip" value="<?= $this->session->userdata("nip") ?>">
                                 <?php } else { ?>
                                     <div id="pegawaiPNSNonDini">
                                         <label for="pegawai_nip_pns_non_dini">Pegawai</label>
@@ -168,7 +174,7 @@
                                                     <div class="modal-content">
                                                         <form class="forms-sample" action="<?= base_url("pemberhentian/status_pemberhentian"); ?>" method="POST">
                                                             <div class="modal-header">
-                                                                <input type="hidden" name="id" value="<?= $value->id ?>">
+                                                                <input type="hidden" name="id" value="<?= $value->id_pemberhentian ?>">
                                                                 <input type="hidden" name="pegawai_nip" value="<?= $value->pegawai_nip ?>">
                                                                 <input type="hidden" name="status" value="setuju">
                                                                 <input type="hidden" name="email" value="<?= $value->email ?>">
@@ -197,7 +203,7 @@
                                                     <div class="modal-content">
                                                         <form class="forms-sample" action="<?= base_url("pemberhentian/status_pemberhentian"); ?>" method="POST">
                                                             <div class="modal-header">
-                                                            <input type="hidden" name="id" value="<?= $value->id ?>">
+                                                            <input type="hidden" name="id" value="<?= $value->id_pemberhentian ?>">
                                                             <input type="hidden" name="status" value="ditolak">
                                                             <h5 class="modal-title" id="exampleModalLabel">Tolak Pengajuan Mutasi NIP : <b><?= $value->pegawai_nip ?></b> </h5>
                                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -238,8 +244,8 @@
                                         <input type="hidden" name="alasan" value="<?= $value->alasan ?>">
                                         <button type="submit" class="btn btn-secondary">Unduh</button>
                                     </form>
-                                <?php } else { ?>
-                                    <form action="<?= base_url("pemberhentian/surat_pengajuan_pensiun"); ?>" method="POST">                            
+                                <?php } elseif ($value->jenis_berhenti == "Pensiun dini") { ?>
+                                    <form action="<?= base_url("pemberhentian/surat_pengajuan_pensiun_dini"); ?>" method="POST">                            
                                         <input type="hidden" name="nip" value="<?= $value->pegawai_nip ?>">
                                         <input type="hidden" name="nama" value="<?= $value->nama ?>">
                                         <input type="hidden" name="ttl" value="<?= $value->tempat_lahir ?>, <?= $value->tgl_lahir ?>">
@@ -247,6 +253,14 @@
                                         <input type="hidden" name="masa" value="<?= $value->tgl_menjabat ?>">
                                         <input type="hidden" name="jabatan" value="<?= $value->nama_jabatan ?>">
                                         <input type="hidden" name="alamat" value="<?= $value->alamat ?>">
+                                        <button type="submit" class="btn btn-secondary">Unduh</button>
+                                    </form>
+                                <?php } else { ?>
+                                    <form action="<?= base_url("pemberhentian/surat_pengajuan_pensiun_batas_usia"); ?>" method="POST">                            
+                                        <input type="hidden" name="nip" value="<?= $value->pegawai_nip ?>">
+                                        <input type="hidden" name="nama" value="<?= $value->nama ?>">
+                                        <input type="hidden" name="pangkat" value="<?= $value->pangkat ?>">
+                                        <input type="hidden" name="jabatan" value="<?= $value->nama_jabatan ?>">
                                         <button type="submit" class="btn btn-secondary">Unduh</button>
                                     </form>
                                 <?php } ?>
@@ -331,8 +345,6 @@
                                         </div>
                                     </div>
                                 </div>
-
-                                <a href="<?= base_url().'uploads/'.$value->surat_pengunduran_diri ?>" download class="btn btn-secondary">Unduh</a>
                             </td>
                         </tr>
                     <?php $i++; } ?>

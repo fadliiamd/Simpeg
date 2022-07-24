@@ -436,8 +436,13 @@ class Pemberhentian extends Roles {
 		$this->pemberhentian_model->surat_pengajuan_pemberhentian();
 	}
 
-	public function surat_pengajuan_pensiun()
+	public function surat_pengajuan_pensiun_dini()
 	{
-		$this->pemberhentian_model->surat_pengajuan_pensiun();
+		$this->pemberhentian_model->surat_pengajuan_pensiun_dini();
+	}
+
+	public function surat_pengajuan_pensiun_batas_usia()
+	{
+		$this->pemberhentian_model->surat_pengajuan_pensiun_batas_usia();
 	}
 }

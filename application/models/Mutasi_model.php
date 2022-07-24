@@ -47,7 +47,7 @@ class Mutasi_model extends CI_Model
     public function get_all_with_join_pegawai()
     {
         $this->db->select(
-            '*'
+            '*,mutasi.id AS id_mutasi'
         );
         $this->db->from($this->table);
         $this->db->join('pegawai', 'pegawai.account_nip = mutasi.pegawai_nip','LEFT');
@@ -63,7 +63,7 @@ class Mutasi_model extends CI_Model
     public function get_all_with_join_one_pegawai()
     {
         $this->db->select(
-            '*'
+            '*,mutasi.id AS id_mutasi'
         );
         $this->db->from($this->table);
         $this->db->join('pegawai', 'pegawai.account_nip = mutasi.pegawai_nip','LEFT');
@@ -180,7 +180,7 @@ class Mutasi_model extends CI_Model
     public function status_mutasi($id)
     {        
         date_default_timezone_set('Asia/Jakarta');
-        $date = date("Y-m-d H:i:s");
+        $date = date("Y-m-d");
 
         if ($this->input->post('status') == "tolak") {
             $data_mutasi = array(
