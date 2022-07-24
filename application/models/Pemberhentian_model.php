@@ -62,7 +62,7 @@ class Pemberhentian_model extends CI_Model
     public function get_all_with_join_pegawai()
     {
         $this->db->select(
-            '*'
+            '*,pemberhentian.id AS id_pemberhentian'
         );
 
         $this->db->from($this->table);
@@ -79,7 +79,7 @@ class Pemberhentian_model extends CI_Model
     public function get_all_with_join_one_pegawai()
     {
         $this->db->select(
-            '*'
+            '*,pemberhentian.id AS id_pemberhentian'
         );
 
         $this->db->from($this->table);
@@ -122,10 +122,10 @@ class Pemberhentian_model extends CI_Model
         $date = date("Y-m-d H:i:s");
         $jenis_berhenti = $this->input->post('jenis_berhenti');
         $alasan = $this->input->post('alasan');
-        list($pegawai_nip, $email) = explode(' - ', $this->input->post('pegawai_nip'));
         // $surat_pengunduran_diri = $this->do_upload("pdf", "surat_pengunduran_diri");
-
+        
         if ($this->session->userdata("role") == "admin") {
+            list($pegawai_nip, $email) = explode(' - ', $this->input->post('pegawai_nip'));
             if ($jenis_berhenti == "Pengunduran diri") {
                 $status_pengajuan = "pending";
                 $tgl_persetujuan = null;
@@ -135,10 +135,11 @@ class Pemberhentian_model extends CI_Model
                 }else{
                     $this->email_pengajuan_pensiun($email);
                 }
-                    $status_pengajuan = "setuju";
-                    $tgl_persetujuan = $date;
+                $status_pengajuan = "setuju";
+                $tgl_persetujuan = $date;
             }
         }else {
+            $pegawai_nip = $this->input->post('pegawai_nip');
             $status_pengajuan = "pending";
             $tgl_persetujuan = null;
         }
@@ -368,7 +369,7 @@ class Pemberhentian_model extends CI_Model
         return $diff->format("%Y tahun");
     }
 
-    public function surat_pengajuan_pensiun()
+    public function surat_pengajuan_pensiun_dini()
     {
         date_default_timezone_set('Asia/Jakarta');
         $date = date("Y-m-d");
@@ -395,6 +396,28 @@ class Pemberhentian_model extends CI_Model
 
         header("Content-type: application/msword");
         header("Content-disposition: inline; filename=Pensiun_Dini_".$nama.".doc");
+        header("Content-length: ".strlen($document));
+
+        echo $document;
+    }
+
+    public function surat_pengajuan_pensiun_batas_usia()
+    {
+        $nama = $this->input->post('nama');
+        $nip = $this->input->post('nip');
+        $pangkat = $this->input->post('pangkat');
+        $jabatan = $this->input->post('jabatan');
+
+        $document = file_get_contents(base_url('assets/pdf/pensiun_batas_usia.rtf'));
+        // isi dokumen dinyatakan dalam bentuk string
+        $document = str_replace("#NAMA", $nama, $document);
+        $document = str_replace("#NIP", $nip, $document);
+        $document = str_replace("#PANGKAT", $pangkat , $document);
+        $document = str_replace("#JABATAN", $jabatan , $document);
+        // header untuk membuka file output RTF dengan MS. Word
+
+        header("Content-type: application/msword");
+        header("Content-disposition: inline; filename=Pensiun_Batas_Usia_".$nama.".doc");
         header("Content-length: ".strlen($document));
 
         echo $document;
