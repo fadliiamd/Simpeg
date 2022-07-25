@@ -113,6 +113,51 @@ class Pemberhentian extends Roles {
         }
     }
 
+    public function status_pemberhentian_1()
+    {
+        $update = $this->pemberhentian_model->status_pemberhentian_1($this->input->post('id'));
+
+        if($update)
+        {
+            $this->session->set_flashdata('message_success', 'Berhasil mengupdate data pemberhentian!');
+            redirect("pemberhentian/pengajuan_pemberhentian");
+        }else
+        {
+            $this->session->set_flashdata('message_error', 'Gagal mengupdate data pemberhentian!');
+            redirect("pemberhentian/pengajuan_pemberhentian");
+        }
+    }
+
+	public function status_pemberhentian_2()
+    {
+        $update = $this->pemberhentian_model->status_pemberhentian_2($this->input->post('id'));
+
+        if($update)
+        {
+            $this->session->set_flashdata('message_success', 'Berhasil mengupdate data pemberhentian!');
+            redirect("pemberhentian/pengajuan_pemberhentian");
+        }else
+        {
+            $this->session->set_flashdata('message_error', 'Gagal mengupdate data pemberhentian!');
+            redirect("pemberhentian/pengajuan_pemberhentian");
+        }
+    }
+
+	public function status_pemberhentian_3()
+    {
+        $update = $this->pemberhentian_model->status_pemberhentian_3($this->input->post('id'));
+
+        if($update)
+        {
+            $this->session->set_flashdata('message_success', 'Berhasil mengupdate data pemberhentian!');
+            redirect("pemberhentian/pengajuan_pemberhentian");
+        }else
+        {
+            $this->session->set_flashdata('message_error', 'Gagal mengupdate data pemberhentian!');
+            redirect("pemberhentian/pengajuan_pemberhentian");
+        }
+    }
+
     public function status_pemberhentian()
     {
         $update = $this->pemberhentian_model->status_pemberhentian($this->input->post('id'));

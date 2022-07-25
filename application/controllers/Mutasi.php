@@ -115,7 +115,7 @@ class Mutasi extends Roles {
         $pegawai = $this->pegawai_model->get_condition("status_kerja","aktif");
         $users = $this->pegawai_model->get_condition("account_nip",$this->session->userdata("nip"));
         
-		if ($this->session->userdata("role") == "admin") {
+		if ($this->session->userdata("role") == "admin" || $this->session->userdata("role") == "direktur") {
             $mutasi = $this->mutasi_model->get_all_with_join_pegawai();
         }
         
@@ -185,6 +185,51 @@ class Mutasi extends Roles {
             redirect("mutasi/pengajuan_mutasi");
         }else{
             $this->session->set_flashdata('message_error', 'Gagal menghapus data mutasi!');
+            redirect("mutasi/pengajuan_mutasi");
+        }
+    }
+
+    public function status_mutasi_1()
+    {
+        $update = $this->mutasi_model->status_mutasi_1($this->input->post('id'));
+
+        if($update)
+        {
+            $this->session->set_flashdata('message_success', 'Berhasil mengupdate data mutasi!');
+            redirect("mutasi/pengajuan_mutasi");
+        }else
+        {
+            $this->session->set_flashdata('message_error', 'Gagal mengupdate data mutasi!');
+            redirect("mutasi/pengajuan_mutasi");
+        }
+    }
+
+    public function status_mutasi_2()
+    {
+        $update = $this->mutasi_model->status_mutasi_2($this->input->post('id'));
+
+        if($update)
+        {
+            $this->session->set_flashdata('message_success', 'Berhasil mengupdate data mutasi!');
+            redirect("mutasi/pengajuan_mutasi");
+        }else
+        {
+            $this->session->set_flashdata('message_error', 'Gagal mengupdate data mutasi!');
+            redirect("mutasi/pengajuan_mutasi");
+        }
+    }
+
+    public function status_mutasi_3()
+    {
+        $update = $this->mutasi_model->status_mutasi_3($this->input->post('id'));
+
+        if($update)
+        {
+            $this->session->set_flashdata('message_success', 'Berhasil mengupdate data mutasi!');
+            redirect("mutasi/pengajuan_mutasi");
+        }else
+        {
+            $this->session->set_flashdata('message_error', 'Gagal mengupdate data mutasi!');
             redirect("mutasi/pengajuan_mutasi");
         }
     }

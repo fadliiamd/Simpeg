@@ -73,7 +73,7 @@
         <?php endif ?>
         
         <div class="table-responsive">
-            <table class="table table-striped table-bordered table-datatable">
+            <table class="table text-center table-striped table-bordered table-datatable">
                 <thead class="thead-dark">
                     <tr>
                         <th>No</th>

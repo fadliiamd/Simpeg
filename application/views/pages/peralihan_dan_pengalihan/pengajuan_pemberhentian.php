@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-lg-12">
-        <h4>Pengajuan Pemberhentian</h4>
+        <h4>Pengajuan Pemberhentian <?= $this->session->userdata("nama_jabatan") ?> </h4>
 
         <!-- Large modal -->
         <?php 
@@ -134,13 +134,16 @@
         <?php endif ?>
 
         <div class="table-responsive">
-            <table class="table table-striped table-bordered table-datatable">
+            <table class="table text-center table-striped table-bordered table-datatable">
                 <thead>
                     <tr class="thead-dark">
                         <th>No</th>
                         <th>Pegawai</th>
                         <th>Jenis Berhenti</th>
                         <th>Alasan</th>
+                        <th>Persetujuan 1</th>
+                        <th>Persetujuan 2</th>
+                        <th>Persetujuan 3</th>
                         <th>Status Pengajuan</th>
                         <th>Tanggal Pengajuan</th>
                         <th>Tanggal Persetujuan</th>
@@ -153,16 +156,250 @@
                 <tbody>
                     <?php 
                     $i = 1;
-                    foreach ($pemberhentian as $key => $value) { ?>
+                    foreach ($pemberhentian as $key => $value) {  ?>
                         <tr>
                             <td><?= $i ?></td>
                             <td><?= $value->pegawai_nip ?> - <?= $value->nama ?></td>  
                             <td><?= $value->jenis_berhenti ?></td>
                             <td><?= $value->alasan ?></td>
                             <td>
+                                <?php if ($value->jenis_berhenti != "Pensiun batas usia") { ?>
+                                    <?php if($value->persetujuan_1 == "pending") {?>
+                                        <span class="badge badge-warning"><?= $value->persetujuan_1; ?></span>
+                                            <?php if(($this->session->userdata("nama_jabatan") == "Ketua Jurusan" && $value->jenis_jabatan == "fungsional") || ($this->session->userdata("nama_jabatan") == "Kepala Bagian Umum" && $value->jenis_jabatan == "struktural")){ ?>
+                                            <div class="mt-3">
+                                                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#approvetablepersetujuan1_<?=$i?>">
+                                                    Setujui
+                                                </button>
+
+                                                <!-- Modal -->
+                                                <div class="modal fade" id="approvetablepersetujuan1_<?=$i?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <form class="forms-sample" action="<?= base_url("pemberhentian/status_pemberhentian_1"); ?>" method="POST">
+                                                                <div class="modal-header">
+                                                                    <input type="hidden" name="id" value="<?= $value->id_pemberhentian ?>">
+                                                                    <input type="hidden" name="pegawai_nip" value="<?= $value->pegawai_nip ?>">
+                                                                    <input type="hidden" name="status" value="setujui">
+                                                                    <input type="hidden" name="email" value="<?= $value->email ?>">
+                                                                    <input type="hidden" name="jenis_berhenti" value="<?= $value->jenis_berhenti ?>">
+                                                                    <h5 class="modal-title" id="exampleModalLabel">Setujui Pengajuan Pemberhentian NIP : <b><?= $value->pegawai_nip ?></b> </h5>
+                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                    <button type="submit" class="btn btn-success">Setujui Pemberhentian</button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#noapprovetablepersetujuan1_<?=$i?>">
+                                                    Tolak
+                                                </button>
+
+                                                <!-- Modal -->
+                                                <div class="modal fade" id="noapprovetablepersetujuan1_<?=$i?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <form class="forms-sample" action="<?= base_url("pemberhentian/status_pemberhentian_1"); ?>" method="POST">
+                                                                <div class="modal-header">
+                                                                <input type="hidden" name="id" value="<?= $value->id_pemberhentian ?>">
+                                                                <input type="hidden" name="status" value="tolak">
+                                                                <h5 class="modal-title" id="exampleModalLabel">Tolak Pengajuan Pemberhentian NIP : <b><?= $value->pegawai_nip ?></b> </h5>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <div class="form-group">
+                                                                    <label for="alasan">Alasan</label>
+                                                                    <textarea class="form-control" id="alasan" rows="4" name="alasan_tolak" required></textarea>
+                                                                </div>
+                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                <button type="submit" class="btn btn-danger">Tolak Pemberhentian</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <?php }; ?>
+                                    <?php } else { ?>
+                                        <?php if($value->persetujuan_1 == "setuju") {?>
+                                            <span class="badge badge-success"><?= $value->persetujuan_1; ?></span>
+                                        <?php }; ?>
+                                        <?php if($value->persetujuan_1 == "tolak") {?>
+                                            <span class="badge badge-danger"><?= $value->persetujuan_1; ?></span>
+                                        <?php }; ?>
+                                    <?php }; ?>
+                                <?php }else{ ?>
+                                    -
+                                <?php } ?>
+                            </td>
+                            <td>
+                                <?php if ($value->jenis_berhenti != "Pensiun batas usia") { ?>
+                                    <?php if($value->persetujuan_2 == "pending") {?>
+                                        <span class="badge badge-warning"><?= $value->persetujuan_2; ?></span>
+                                        <?php if(($this->session->userdata("nama_jabatan") == "Wakil Direktur I" && $value->jenis_jabatan == "fungsional") || ($this->session->userdata("nama_jabatan") == "Wakil Direktur II" && $value->jenis_jabatan == "struktural") && $value->persetujuan_1 == "setujui"){ ?>
+                                            <div class="mt-3">
+                                                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#approvetablepersetujuan2_<?=$i?>">
+                                                    Setujui
+                                                </button>
+
+                                                <!-- Modal -->
+                                                <div class="modal fade" id="approvetablepersetujuan2_<?=$i?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <form class="forms-sample" action="<?= base_url("pemberhentian/status_pemberhentian_2"); ?>" method="POST">
+                                                                <div class="modal-header">
+                                                                    <input type="hidden" name="id" value="<?= $value->id_pemberhentian ?>">
+                                                                    <input type="hidden" name="pegawai_nip" value="<?= $value->pegawai_nip ?>">
+                                                                    <input type="hidden" name="status" value="setujui">
+                                                                    <input type="hidden" name="email" value="<?= $value->email ?>">
+                                                                    <input type="hidden" name="jenis_berhenti" value="<?= $value->jenis_berhenti ?>">
+                                                                    <h5 class="modal-title" id="exampleModalLabel">Setujui Pengajuan Pemberhentian NIP : <b><?= $value->pegawai_nip ?></b> </h5>
+                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                    <button type="submit" class="btn btn-success">Setujui Pemberhentian</button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#noapprovetablepersetujuan2_<?=$i?>">
+                                                    Tolak
+                                                </button>
+
+                                                <!-- Modal -->
+                                                <div class="modal fade" id="noapprovetablepersetujuan2_<?=$i?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <form class="forms-sample" action="<?= base_url("pemberhentian/status_pemberhentian_2"); ?>" method="POST">
+                                                                <div class="modal-header">
+                                                                <input type="hidden" name="id" value="<?= $value->id_pemberhentian ?>">
+                                                                <input type="hidden" name="status" value="tolak">
+                                                                <h5 class="modal-title" id="exampleModalLabel">Tolak Pengajuan Pemberhentian NIP : <b><?= $value->pegawai_nip ?></b> </h5>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <div class="form-group">
+                                                                    <label for="alasan">Alasan</label>
+                                                                    <textarea class="form-control" id="alasan" rows="4" name="alasan_tolak" required></textarea>
+                                                                </div>
+                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                <button type="submit" class="btn btn-danger">Tolak Pemberhentian</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <?php }; ?>
+                                    <?php } else { ?>
+                                        <?php if($value->persetujuan_2 == "setuju") {?>
+                                            <span class="badge badge-success"><?= $value->persetujuan_2; ?></span>
+                                        <?php }; ?>
+                                        <?php if($value->persetujuan_2 == "tolak") {?>
+                                            <span class="badge badge-danger"><?= $value->persetujuan_2; ?></span>
+                                        <?php }; ?>
+                                    <?php }; ?>
+                                <?php }else{ ?>
+                                    -
+                                <?php } ?>
+                            </td>
+                            <td>
+                                <?php if ($value->jenis_berhenti != "Pensiun batas usia") { ?>
+                                    <?php if($value->persetujuan_3 == "pending") {?>
+                                        <span class="badge badge-warning"><?= $value->persetujuan_3; ?></span>
+                                        <?php if($this->session->userdata("role") == "admin" && $value->persetujuan_1 == "setujui" && $value->persetujuan_2 == "setujui"){ ?>
+                                            <div class="mt-3">
+                                                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#approvetablepersetujuan3_<?=$i?>">
+                                                    Setujui
+                                                </button>
+
+                                                <!-- Modal -->
+                                                <div class="modal fade" id="approvetablepersetujuan3_<?=$i?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <form class="forms-sample" action="<?= base_url("pemberhentian/status_pemberhentian_3"); ?>" method="POST">
+                                                                <div class="modal-header">
+                                                                    <input type="hidden" name="id" value="<?= $value->id_pemberhentian ?>">
+                                                                    <input type="hidden" name="pegawai_nip" value="<?= $value->pegawai_nip ?>">
+                                                                    <input type="hidden" name="status" value="setujui">
+                                                                    <input type="hidden" name="email" value="<?= $value->email ?>">
+                                                                    <input type="hidden" name="jenis_berhenti" value="<?= $value->jenis_berhenti ?>">
+                                                                    <h5 class="modal-title" id="exampleModalLabel">Setujui Pengajuan Pemberhentian NIP : <b><?= $value->pegawai_nip ?></b> </h5>
+                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                    <button type="submit" class="btn btn-success">Setujui Pemberhentian</button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#noapprovetablepersetujuan3_<?=$i?>">
+                                                    Tolak
+                                                </button>
+
+                                                <!-- Modal -->
+                                                <div class="modal fade" id="noapprovetablepersetujuan3_<?=$i?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <form class="forms-sample" action="<?= base_url("pemberhentian/status_pemberhentian_3"); ?>" method="POST">
+                                                                <div class="modal-header">
+                                                                <input type="hidden" name="id" value="<?= $value->id_pemberhentian ?>">
+                                                                <input type="hidden" name="status" value="tolak">
+                                                                <h5 class="modal-title" id="exampleModalLabel">Tolak Pengajuan Pemberhentian NIP : <b><?= $value->pegawai_nip ?></b> </h5>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <div class="form-group">
+                                                                    <label for="alasan">Alasan</label>
+                                                                    <textarea class="form-control" id="alasan" rows="4" name="alasan_tolak" required></textarea>
+                                                                </div>
+                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                <button type="submit" class="btn btn-danger">Tolak Pemberhentian</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <?php }; ?>
+                                    <?php } else { ?>
+                                        <?php if($value->persetujuan_3 == "setuju") {?>
+                                            <span class="badge badge-success"><?= $value->persetujuan_3; ?></span>
+                                        <?php }; ?>
+                                        <?php if($value->persetujuan_3 == "tolak") {?>
+                                            <span class="badge badge-danger"><?= $value->persetujuan_3; ?></span>
+                                        <?php }; ?>
+                                    <?php }; ?>
+                                <?php }else{ ?>
+                                -
+                                <?php } ?>
+                            </td>
+                            <td>
                                 <?php if($value->status_pengajuan == "pending") {?>
                                     <span class="badge badge-warning"><?= $value->status_pengajuan; ?></span>
-                                    <?php if( ($this->session->userdata("role") == "admin" && $value->jenis_berhenti != "Pengunduran diri") || ($this->session->userdata("role") == "direktur" && $value->jenis_berhenti == "Pengunduran diri") ){ ?>
+                                    <?php if(($value->jenis_berhenti == "Pensiun batas usia" && $this->session->userdata("nama_jabatan") == "Direktur Utama")||($this->session->userdata("nama_jabatan") == "Direktur Utama" && $value->persetujuan_1 == "setujui" && $value->persetujuan_2 == "setujui" && $value->persetujuan_3 == "setujui")){ ?>
                                         <div class="mt-3">
                                             <button type="button" class="btn btn-success" data-toggle="modal" data-target="#approvetable<?=$i?>">
                                                 Setujui
@@ -176,7 +413,7 @@
                                                             <div class="modal-header">
                                                                 <input type="hidden" name="id" value="<?= $value->id_pemberhentian ?>">
                                                                 <input type="hidden" name="pegawai_nip" value="<?= $value->pegawai_nip ?>">
-                                                                <input type="hidden" name="status" value="setuju">
+                                                                <input type="hidden" name="status" value="setujui">
                                                                 <input type="hidden" name="email" value="<?= $value->email ?>">
                                                                 <input type="hidden" name="jenis_berhenti" value="<?= $value->jenis_berhenti ?>">
                                                                 <h5 class="modal-title" id="exampleModalLabel">Setujui Pengajuan Pemberhentian NIP : <b><?= $value->pegawai_nip ?></b> </h5>
@@ -186,7 +423,7 @@
                                                             </div>
                                                             <div class="modal-body">
                                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                                <button type="submit" class="btn btn-success">Setujui Mutasi</button>
+                                                                <button type="submit" class="btn btn-success">Setujui Pemberhentian</button>
                                                             </div>
                                                         </form>
                                                     </div>
@@ -204,15 +441,19 @@
                                                         <form class="forms-sample" action="<?= base_url("pemberhentian/status_pemberhentian"); ?>" method="POST">
                                                             <div class="modal-header">
                                                             <input type="hidden" name="id" value="<?= $value->id_pemberhentian ?>">
-                                                            <input type="hidden" name="status" value="ditolak">
-                                                            <h5 class="modal-title" id="exampleModalLabel">Tolak Pengajuan Mutasi NIP : <b><?= $value->pegawai_nip ?></b> </h5>
+                                                            <input type="hidden" name="status" value="tolak">
+                                                            <h5 class="modal-title" id="exampleModalLabel">Tolak Pengajuan Pemberhentian NIP : <b><?= $value->pegawai_nip ?></b> </h5>
                                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                                 <span aria-hidden="true">&times;</span>
                                                             </button>
                                                         </div>
                                                         <div class="modal-body">
+                                                            <div class="form-group">
+                                                                <label for="alasan">Alasan</label>
+                                                                <textarea class="form-control" id="alasan" rows="4" name="alasan_tolak" required></textarea>
+                                                            </div>
                                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                            <button type="submit" class="btn btn-danger">Tolak Mutasi</button>
+                                                            <button type="submit" class="btn btn-danger">Tolak Pemberhentian</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -224,8 +465,9 @@
                                     <?php if($value->status_pengajuan == "setuju") {?>
                                         <span class="badge badge-success"><?= $value->status_pengajuan; ?></span>
                                     <?php }; ?>
-                                    <?php if($value->status_pengajuan == "ditolak") {?>
+                                    <?php if($value->status_pengajuan == "tolak") {?>
                                         <span class="badge badge-danger"><?= $value->status_pengajuan; ?></span>
+                                        <p class="mt-3"><?= $value->alasan_tolak ?></p>
                                     <?php }; ?>
                                 <?php }; ?>
                             </td>

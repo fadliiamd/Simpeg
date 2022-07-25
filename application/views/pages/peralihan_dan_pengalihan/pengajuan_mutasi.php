@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-lg-12">
-        <h4>Pengajuan Mutasi</h4>
+        <h4>Pengajuan Mutasi <?= $this->session->userdata("nama_jabatan") ?></h4>
 
         <!-- Large modal -->
         <?php foreach ($users as $key => $value) { ?>
@@ -86,7 +86,7 @@
         <?php endif ?>
 
         <div class="table-responsive">
-            <table class="table table-striped table-bordered table-datatable">
+            <table class="table text-center table-striped table-bordered table-datatable">
                 <thead class="thead-dark">
                     <tr>
                         <th>No</th>
@@ -94,6 +94,9 @@
                         <th>Jenis Mutasi</th>
                         <th>Alasan</th>
                         <th>Tanggal Pengajuan</th>
+                        <th>Persetujuan 1</th>
+                        <th>Persetujuan 2</th>
+                        <th>Persetujuan 3</th>
                         <th>Status Pengajuan</th>
                         <th>Tanggal Persetujuan</th>
                         <th>Bukti Pengajuan</th>
@@ -111,10 +114,225 @@
                         <td><?= $value->alasan; ?></td>
                         <td><?= $value->tgl_pengajuan; ?></td>
                         <td>
+                            <?php if($value->persetujuan_1 == "pending") {?>
+                                <span class="badge badge-warning"><?= $value->persetujuan_1; ?></span>
+                                <?php if(($this->session->userdata("nama_jabatan") == "kajur" && $value->jenis_jabatan == "fungsional") || ($this->session->userdata("nama_jabatan") == "Kepala Bagian Umum" && $value->jenis_jabatan == "struktural")){ ?>
+                                    <div class="mt-3">
+                                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#approvetablepersetujuan_1<?=$i?>">
+                                            Setujui
+                                        </button>
 
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="approvetablepersetujuan_1<?=$i?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <form class="forms-sample" action="<?= base_url("mutasi/status_mutasi_1"); ?>" method="POST">
+                                                        <div class="modal-header">
+                                                            <input type="hidden" name="id" value="<?= $value->id_mutasi ?>">
+                                                            <input type="hidden" name="email" value="<?= $value->email ?>">
+                                                            <input type="hidden" name="status" value="setujui">
+                                                            <h5 class="modal-title" id="exampleModalLabel">Setujui Pengajuan Mutasi NIP : <b><?= $value->pegawai_nip ?></b> </h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                            <button type="submit" class="btn btn-success">Setujui Mutasi</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#noapprovetablepersetujuan_1<?=$i?>">
+                                            Tolak
+                                        </button>
+
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="noapprovetablepersetujuan_1<?=$i?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <form class="forms-sample" action="<?= base_url("mutasi/status_mutasi_1"); ?>" method="POST">
+                                                        <div class="modal-header">
+                                                        <input type="hidden" name="id" value="<?= $value->id_mutasi ?>">
+                                                        <input type="hidden" name="status" value="tolak">
+                                                        <h5 class="modal-title" id="exampleModalLabel">Tolak Pengajuan Mutasi NIP : <b><?= $value->pegawai_nip ?></b> </h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="form-group">
+                                                            <label for="alasan">Alasan</label>
+                                                            <textarea class="form-control" id="alasan" rows="4" name="alasan_tolak" required></textarea>
+                                                        </div>
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                        <button type="submit" class="btn btn-danger">Tolak Mutasi</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <?php }; ?>
+                            <?php } else { ?>
+                                <?php if($value->persetujuan_1 == "setujui") {?>
+                                    <span class="badge badge-success"><?= $value->persetujuan_1; ?></span>
+                                <?php }; ?>
+                                <?php if($value->persetujuan_1 == "tolak") {?>
+                                    <span class="badge badge-danger"><?= $value->persetujuan_1; ?></span>
+                                <?php }; ?>
+                            <?php }; ?>
+                        </td>
+                        <td>
+                            <?php if($value->persetujuan_2 == "pending") {?>
+                                <span class="badge badge-warning"><?= $value->persetujuan_2; ?></span>
+                                <?php if(($this->session->userdata("nama_jabatan") == "Wakil Direktur I" && $value->jenis_jabatan == "fungsional") || ($this->session->userdata("nama_jabatan") == "Wakil Direktur II" && $value->jenis_jabatan == "struktural") && $value->persetujuan_1 == "setujui"){ ?>
+                                    <div class="mt-3">
+                                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#approvetablepersetujuan_2<?=$i?>">
+                                            Setujui
+                                        </button>
+
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="approvetablepersetujuan_2<?=$i?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <form class="forms-sample" action="<?= base_url("mutasi/status_mutasi_2"); ?>" method="POST">
+                                                        <div class="modal-header">
+                                                            <input type="hidden" name="id" value="<?= $value->id_mutasi ?>">
+                                                            <input type="hidden" name="email" value="<?= $value->email ?>">
+                                                            <input type="hidden" name="status" value="setujui">
+                                                            <h5 class="modal-title" id="exampleModalLabel">Setujui Pengajuan Mutasi NIP : <b><?= $value->pegawai_nip ?></b> </h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                            <button type="submit" class="btn btn-success">Setujui Mutasi</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#noapprovetablepersetujuan_2<?=$i?>">
+                                            Tolak
+                                        </button>
+
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="noapprovetablepersetujuan_2<?=$i?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <form class="forms-sample" action="<?= base_url("mutasi/status_mutasi_2"); ?>" method="POST">
+                                                        <div class="modal-header">
+                                                        <input type="hidden" name="id" value="<?= $value->id_mutasi ?>">
+                                                        <input type="hidden" name="status" value="tolak">
+                                                        <h5 class="modal-title" id="exampleModalLabel">Tolak Pengajuan Mutasi NIP : <b><?= $value->pegawai_nip ?></b> </h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="form-group">
+                                                            <label for="alasan">Alasan</label>
+                                                            <textarea class="form-control" id="alasan" rows="4" name="alasan_tolak" required></textarea>
+                                                        </div>
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                        <button type="submit" class="btn btn-danger">Tolak Mutasi</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <?php }; ?>
+                            <?php } else { ?>
+                                <?php if($value->persetujuan_2 == "setujui") {?>
+                                    <span class="badge badge-success"><?= $value->persetujuan_2; ?></span>
+                                <?php }; ?>
+                                <?php if($value->persetujuan_2 == "tolak") {?>
+                                    <span class="badge badge-danger"><?= $value->persetujuan_2; ?></span>
+                                <?php }; ?>
+                            <?php }; ?>
+                        </td>
+                        <td>
+                            <?php if($value->persetujuan_3 == "pending") {?>
+                                <span class="badge badge-warning"><?= $value->persetujuan_3; ?></span>
+                                <?php if($this->session->userdata("role") == "admin" && $value->persetujuan_1 == "setujui" && $value->persetujuan_2 == "setujui"){ ?>
+                                    <div class="mt-3">
+                                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#approvetablepersetujuan_3<?=$i?>">
+                                            Setujui
+                                        </button>
+
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="approvetablepersetujuan_3<?=$i?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <form class="forms-sample" action="<?= base_url("mutasi/status_mutasi_3"); ?>" method="POST">
+                                                        <div class="modal-header">
+                                                            <input type="hidden" name="id" value="<?= $value->id_mutasi ?>">
+                                                            <input type="hidden" name="email" value="<?= $value->email ?>">
+                                                            <input type="hidden" name="status" value="setujui">
+                                                            <h5 class="modal-title" id="exampleModalLabel">Setujui Pengajuan Mutasi NIP : <b><?= $value->pegawai_nip ?></b> </h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                            <button type="submit" class="btn btn-success">Setujui Mutasi</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#noapprovetablepersetujuan_3<?=$i?>">
+                                            Tolak
+                                        </button>
+
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="noapprovetablepersetujuan_3<?=$i?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <form class="forms-sample" action="<?= base_url("mutasi/status_mutasi_3"); ?>" method="POST">
+                                                        <div class="modal-header">
+                                                        <input type="hidden" name="id" value="<?= $value->id_mutasi ?>">
+                                                        <input type="hidden" name="status" value="tolak">
+                                                        <h5 class="modal-title" id="exampleModalLabel">Tolak Pengajuan Mutasi NIP : <b><?= $value->pegawai_nip ?></b> </h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="form-group">
+                                                            <label for="alasan">Alasan</label>
+                                                            <textarea class="form-control" id="alasan" rows="4" name="alasan_tolak" required></textarea>
+                                                        </div>
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                        <button type="submit" class="btn btn-danger">Tolak Mutasi</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <?php }; ?>
+                            <?php } else { ?>
+                                <?php if($value->persetujuan_3 == "setujui") {?>
+                                    <span class="badge badge-success"><?= $value->persetujuan_3; ?></span>
+                                <?php }; ?>
+                                <?php if($value->persetujuan_3 == "tolak") {?>
+                                    <span class="badge badge-danger"><?= $value->persetujuan_3; ?></span>
+                                <?php }; ?>
+                            <?php }; ?>
+                        </td>
+                        <td>
                             <?php if($value->status_pengajuan == "pending") {?>
                                 <span class="badge badge-warning"><?= $value->status_pengajuan; ?></span>
-                                <?php if($this->session->userdata("role") == "admin"){ ?>
+                                <?php if($this->session->userdata("role") == "direktur" && $value->persetujuan_1 == "setujui" && $value->persetujuan_2 == "setujui" && $value->persetujuan_3 == "setujui"){ ?>
                                     <div class="mt-3">
                                         <button type="button" class="btn btn-success" data-toggle="modal" data-target="#approvetable<?=$i?>">
                                             Setujui
@@ -161,6 +379,10 @@
                                                         </button>
                                                     </div>
                                                     <div class="modal-body">
+                                                        <div class="form-group">
+                                                            <label for="alasan">Alasan</label>
+                                                            <textarea class="form-control" id="alasan" rows="4" name="alasan_tolak" required></textarea>
+                                                        </div>
                                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                                         <button type="submit" class="btn btn-danger">Tolak Mutasi</button>
                                                     </div>
@@ -176,9 +398,9 @@
                                 <?php }; ?>
                                 <?php if($value->status_pengajuan == "tolak") {?>
                                     <span class="badge badge-danger"><?= $value->status_pengajuan; ?></span>
+                                    <p class="mt-3"><?= $value->alasan_tolak ?></p>
                                 <?php }; ?>
                             <?php }; ?>
-
                         </td>
                         <td><?= ($value->tgl_persetujuan == null) ? "-" : $value->tgl_persetujuan ; ?></td>
                         <td>
