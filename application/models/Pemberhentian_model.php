@@ -127,7 +127,6 @@ class Pemberhentian_model extends CI_Model
         if ($this->session->userdata("role") == "admin") {
             list($pegawai_nip, $email) = explode(' - ', $this->input->post('pegawai_nip'));
             if ($jenis_berhenti == "Pengunduran diri") {
-                $status_pengajuan = "pending";
                 $tgl_persetujuan = null;
             }else{
                 if ($jenis_berhenti == "Pensiun dini") {
@@ -135,13 +134,16 @@ class Pemberhentian_model extends CI_Model
                 }else{
                     $this->email_pengajuan_pensiun($email);
                 }
-                $status_pengajuan = "setuju";
+                // $status_pengajuan = "setuju";
                 $tgl_persetujuan = $date;
             }
+            $persetujuan_1 = "setujui";
+            $persetujuan_2 = "setujui";
         }else {
             $pegawai_nip = $this->input->post('pegawai_nip');
-            $status_pengajuan = "pending";
             $tgl_persetujuan = null;
+            $persetujuan_1 = "pending";
+            $persetujuan_2 = "pending";
         }
 
         $data_pemberhentian = array(
@@ -149,11 +151,14 @@ class Pemberhentian_model extends CI_Model
             "jenis_berhenti" => $jenis_berhenti,
             "alasan" => $alasan,
             "tgl_pengajuan" => $date,
-            "status_pengajuan" => $status_pengajuan,
+            "status_pengajuan" => "pending",
             "tgl_persetujuan" => $tgl_persetujuan,
             "mpp" => $mpp,
             "tunjangan" => $tunjangan,
             "pegawai_nip" => $pegawai_nip,
+            "persetujuan_1" => $persetujuan_1,
+            "persetujuan_2" => $persetujuan_2,
+            "persetujuan_3" => "pending",
             // "surat_pengunduran_diri" => $surat_pengunduran_diri,
         );
     
@@ -224,14 +229,96 @@ class Pemberhentian_model extends CI_Model
         return true;
     }
 
+    public function status_pemberhentian_1($id)
+    {        
+        if ($this->input->post('status') == "setujui") {
+            $data_mutasi = array(
+                "persetujuan_1" => $this->input->post('status'),
+            ); 
+        }else {
+            $data_mutasi = array(
+                "status_pengajuan" => $this->input->post('status'),
+                "persetujuan_1" => $this->input->post('status'),
+                "persetujuan_2" => $this->input->post('status'),
+                "persetujuan_3" => $this->input->post('status'),
+                "alasan_tolak" => $this->input->post('alasan_tolak'),
+            ); 
+        }
+
+        $this->db->trans_start();
+        $this->db->where('id', $id);
+        $this->db->update($this->table, $data_pemberhentian);
+        $this->db->trans_complete();
+
+        if ($this->db->trans_status() === FALSE) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public function status_pemberhentian_2($id)
+    {        
+        if ($this->input->post('status') == "setujui") {
+            $data_mutasi = array(
+                "persetujuan_2" => $this->input->post('status'),
+            ); 
+        }else {
+            $data_mutasi = array(
+                "status_pengajuan" => $this->input->post('status'),
+                "persetujuan_2" => $this->input->post('status'),
+                "persetujuan_3" => $this->input->post('status'),
+                "alasan_tolak" => $this->input->post('alasan_tolak'),
+            ); 
+        }
+
+        $this->db->trans_start();
+        $this->db->where('id', $id);
+        $this->db->update($this->table, $data_pemberhentian);
+        $this->db->trans_complete();
+
+        if ($this->db->trans_status() === FALSE) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public function status_pemberhentian_3($id)
+    {        
+        if ($this->input->post('status') == "setujui") {
+            $data_mutasi = array(
+                "persetujuan_3" => $this->input->post('status'),
+            ); 
+        }else {
+            $data_mutasi = array(
+                "status_pengajuan" => $this->input->post('status'),
+                "persetujuan_3" => $this->input->post('status'),
+                "alasan_tolak" => $this->input->post('alasan_tolak'),
+            ); 
+        }
+
+        $this->db->trans_start();
+        $this->db->where('id', $id);
+        $this->db->update($this->table, $data_pemberhentian);
+        $this->db->trans_complete();
+
+        if ($this->db->trans_status() === FALSE) {
+            return false;
+        }
+
+        return true;
+    }
+
     public function status_pemberhentian($id)
     {        
         date_default_timezone_set('Asia/Jakarta');
         $date = date("Y-m-d H:i:s");
 
-        if ($this->input->post('status') == "ditolak") {
+        if ($this->input->post('status') == "tolak") {
             $data_pemberhentian = array(
-                "status_pengajuan" => $this->input->post('status')
+                "status_pengajuan" => $this->input->post('status'),
+                "alasan_tolak" => $this->input->post('alasan_tolak'),
             ); 
         }else{
             $data_pemberhentian = array(

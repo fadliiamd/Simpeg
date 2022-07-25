@@ -164,7 +164,7 @@
   <div class="container-scroller">
     <!-- partial:partials/_navbar.html -->
     <nav class="flex-row p-0 navbar col-lg-12 col-12 fixed-top d-flex">
-      <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center mt-0">
+      <div class="mt-0 text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
         <a class="mr-5 navbar-brand brand-logo" href="<?= base_url(); ?>"><img src="<?= base_url(); ?>assets/images/simpeg2.png" class="mr-2" alt="logo" /></a>
         <a class="navbar-brand brand-logo-mini" href="<?= base_url(); ?>"><img src="<?= base_url(); ?>assets/images/favpolsub60.png" alt="logo" /></a>
       </div>
@@ -263,7 +263,7 @@
           </li>
           <hr>
           <li class="nav-item">
-            <span class="font-weight-bold nav-link p-0 disable menu-title" style="word-wrap: break-word;white-space:normal;">Peralihan dan Pengalihan</span>
+            <span class="p-0 font-weight-bold nav-link disable menu-title" style="word-wrap: break-word;white-space:normal;">Peralihan dan Pengalihan</span>
             <hr>
           </li>
           <li class="nav-item">
@@ -275,8 +275,8 @@
             <div class="collapse" id="peralihan">
               <ul class="nav flex-column sub-menu">
                 <li class="nav-item"> <a class="nav-link" href="<?= base_url("Mutasi/penjadwalan_mutasi"); ?>">Penjadwalan</a></li>
+                <li class="nav-item"> <a class="nav-link" href="<?= base_url("Mutasi/pengajuan_mutasi"); ?>">Pengajuan</a></li>
                 <?php if ($this->session->userdata("role") == "admin" || $this->session->userdata("role") == "pegawai") { ?>
-                  <li class="nav-item"> <a class="nav-link" href="<?= base_url("Mutasi/pengajuan_mutasi"); ?>">Pengajuan</a></li>
                   <li class="nav-item"> <a class="nav-link" href="<?= base_url("Mutasi/berkas_mutasi"); ?>">Berkas Persyaratan</a></li>
                 <?php } ?>
                 <?php if ($this->session->userdata("role") == "admin" || $this->session->userdata("role") == "direktur") { ?>
@@ -297,7 +297,6 @@
               <ul class="nav flex-column sub-menu">
                 <li class="nav-item"> <a class="nav-link" href="<?= base_url("Pemberhentian/pengajuan_pemberhentian"); ?>">Pengajuan</a></li>
                 <?php if ($this->session->userdata("role") == "admin" || $this->session->userdata("role") == "pegawai") { ?>
-
                   <li class="nav-item"> <a class="nav-link" href="<?= base_url("Pemberhentian/berkas_pemberhentian"); ?>">Berkas Persyaratan</a></li>
                 <?php } ?>
                 <?php if ($this->session->userdata("role") == "admin" || $this->session->userdata("role") == "direktur") { ?>
@@ -310,7 +309,7 @@
           </li>
           <hr>
           <li class="nav-item">
-            <span class="font-weight-bold nav-link p-0 disable menu-title" style="word-wrap: break-word;white-space:normal;">Kepegawaian</span>
+            <span class="p-0 font-weight-bold nav-link disable menu-title" style="word-wrap: break-word;white-space:normal;">Kepegawaian</span>
             <hr>
           </li>
           <?php if ($_SESSION['role'] !== 'pegawai') { ?>
@@ -376,7 +375,7 @@
 
           <hr>
           <li class="nav-item">
-            <span class="font-weight-bold nav-link p-0 disable menu-title" style="word-wrap: break-word;white-space:normal;">Peningkatan Karir</span>
+            <span class="p-0 font-weight-bold nav-link disable menu-title" style="word-wrap: break-word;white-space:normal;">Peningkatan Karir</span>
             <hr>
           </li>
           <li class="nav-item">
@@ -408,7 +407,7 @@
           </li>
           <hr>
           <li class="nav-item">
-            <span class="font-weight-bold nav-link p-0 disable menu-title" style="word-wrap: break-word;white-space:normal;">User dan Aplikasi</span>
+            <span class="p-0 font-weight-bold nav-link disable menu-title" style="word-wrap: break-word;white-space:normal;">User dan Aplikasi</span>
             <hr>
           </li>
           <?php if ($_SESSION['role'] !== 'pegawai') { ?>

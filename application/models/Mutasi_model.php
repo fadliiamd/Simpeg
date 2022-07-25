@@ -106,11 +106,13 @@ class Mutasi_model extends CI_Model
 
         if ($this->session->userdata("role") == "admin") {
             $this->email_pengajuan_mutasi($email);
-            $status_pengajuan = "setujui";
             $tgl_persetujuan = $date;
+            $persetujuan_1 = "setujui";
+            $persetujuan_2 = "setujui";
         }else {
-            $status_pengajuan = "pending";
             $tgl_persetujuan = null;
+            $persetujuan_1 = "pending";
+            $persetujuan_2 = "pending";
         }
 
 
@@ -118,11 +120,14 @@ class Mutasi_model extends CI_Model
             "id" => "",
             "alasan" => $alasan,
             "tgl_pengajuan" => $date,
-            "status_pengajuan" => $status_pengajuan,
+            "status_pengajuan" => "pending",
             "tgl_persetujuan" => $tgl_persetujuan,
             "pegawai_nip" => $pegawai_nip,
             "surat_pengajuan" => $surat_pengajuan,
-            "jenis_mutasi" => $jenis_mutasi
+            "jenis_mutasi" => $jenis_mutasi,
+            "persetujuan_1" => $persetujuan_1,
+            "persetujuan_2" => $persetujuan_2,
+            "persetujuan_3" => "pending",
         );
     
         $this->db->insert($this->table, $data_mutasi);
@@ -177,6 +182,87 @@ class Mutasi_model extends CI_Model
         return true;
     }
 
+    public function status_mutasi_1($id)
+    {        
+        if ($this->input->post('status') == "setujui") {
+            $data_mutasi = array(
+                "persetujuan_1" => $this->input->post('status'),
+            ); 
+        }else {
+            $data_mutasi = array(
+                "status_pengajuan" => $this->input->post('status'),
+                "persetujuan_1" => $this->input->post('status'),
+                "persetujuan_2" => $this->input->post('status'),
+                "persetujuan_3" => $this->input->post('status'),
+                "alasan_tolak" => $this->input->post('alasan_tolak'),
+            ); 
+        }
+
+        $this->db->trans_start();
+        $this->db->where('id', $id);
+        $this->db->update($this->table, $data_mutasi);
+        $this->db->trans_complete();
+
+        if ($this->db->trans_status() === FALSE) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public function status_mutasi_2($id)
+    {        
+        if ($this->input->post('status') == "setujui") {
+            $data_mutasi = array(
+                "persetujuan_2" => $this->input->post('status'),
+            ); 
+        }else {
+            $data_mutasi = array(
+                "status_pengajuan" => $this->input->post('status'),
+                "persetujuan_2" => $this->input->post('status'),
+                "persetujuan_3" => $this->input->post('status'),
+                "alasan_tolak" => $this->input->post('alasan_tolak'),
+            ); 
+        }
+
+        $this->db->trans_start();
+        $this->db->where('id', $id);
+        $this->db->update($this->table, $data_mutasi);
+        $this->db->trans_complete();
+
+        if ($this->db->trans_status() === FALSE) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public function status_mutasi_3($id)
+    {        
+        if ($this->input->post('status') == "setujui") {
+            $data_mutasi = array(
+                "persetujuan_3" => $this->input->post('status'),
+            ); 
+        }else {
+            $data_mutasi = array(
+                "status_pengajuan" => $this->input->post('status'),
+                "persetujuan_3" => $this->input->post('status'),
+                "alasan_tolak" => $this->input->post('alasan_tolak'),
+            ); 
+        } 
+
+        $this->db->trans_start();
+        $this->db->where('id', $id);
+        $this->db->update($this->table, $data_mutasi);
+        $this->db->trans_complete();
+
+        if ($this->db->trans_status() === FALSE) {
+            return false;
+        }
+
+        return true;
+    }
+
     public function status_mutasi($id)
     {        
         date_default_timezone_set('Asia/Jakarta');
@@ -184,7 +270,8 @@ class Mutasi_model extends CI_Model
 
         if ($this->input->post('status') == "tolak") {
             $data_mutasi = array(
-                "status_pengajuan" => $this->input->post('status')
+                "status_pengajuan" => $this->input->post('status'),
+                "alasan_tolak" => $this->input->post('alasan_tolak'),
             ); 
         }else{
             $data_mutasi = array(

@@ -45,11 +45,22 @@ class Auth_model extends CI_Model
 			if ($pegawai->status_kerja !== 'aktif'){
 				return FALSE;
 			}
-			$this->session->set_userdata('jabatan', $pegawai->nama_jabatan);
+			$this->session->set_userdata('nama_jabatan', $pegawai->nama_jabatan);
+			$this->session->set_userdata('jenis_jabatan', $pegawai->jenis_jabatan);
 		}		
 
+		// cek apakah status akun pegawai masih aktif?
+		if($user->role === 'direktur'){			
+			$this->db->join('jabatan', 'jabatan.id = direktur.jabatan_id', 'left');
+			$this->db->where('account_nip', $nip);			
+			$query = $this->db->get('direktur');
+			$direktur = $query->row();
+			$this->session->set_userdata('nama_jabatan', $direktur->nama_jabatan);
+			$this->session->set_userdata('jenis_jabatan', $direktur->jenis_jabatan);
+		}
+
 		// bikin session
-		$this->session->set_userdata([self::SESSION_KEY => $user->nip,'role' => $user->role, 'nama' => $user->nama]);
+		$this->session->set_userdata([self::SESSION_KEY => $user->nip,'role' => $user->role, 'nama' => $user->nama ]);
 		// $this->_update_last_login($user->nip);
 
 		return $this->session->has_userdata(self::SESSION_KEY);
