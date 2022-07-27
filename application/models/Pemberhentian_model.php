@@ -232,11 +232,11 @@ class Pemberhentian_model extends CI_Model
     public function status_pemberhentian_1($id)
     {        
         if ($this->input->post('status') == "setujui") {
-            $data_mutasi = array(
+            $data_pemberhentian = array(
                 "persetujuan_1" => $this->input->post('status'),
             ); 
         }else {
-            $data_mutasi = array(
+            $data_pemberhentian = array(
                 "status_pengajuan" => $this->input->post('status'),
                 "persetujuan_1" => $this->input->post('status'),
                 "persetujuan_2" => $this->input->post('status'),
@@ -260,11 +260,11 @@ class Pemberhentian_model extends CI_Model
     public function status_pemberhentian_2($id)
     {        
         if ($this->input->post('status') == "setujui") {
-            $data_mutasi = array(
+            $data_pemberhentian = array(
                 "persetujuan_2" => $this->input->post('status'),
             ); 
         }else {
-            $data_mutasi = array(
+            $data_pemberhentian = array(
                 "status_pengajuan" => $this->input->post('status'),
                 "persetujuan_2" => $this->input->post('status'),
                 "persetujuan_3" => $this->input->post('status'),
@@ -287,11 +287,11 @@ class Pemberhentian_model extends CI_Model
     public function status_pemberhentian_3($id)
     {        
         if ($this->input->post('status') == "setujui") {
-            $data_mutasi = array(
+            $data_pemberhentian = array(
                 "persetujuan_3" => $this->input->post('status'),
             ); 
         }else {
-            $data_mutasi = array(
+            $data_pemberhentian = array(
                 "status_pengajuan" => $this->input->post('status'),
                 "persetujuan_3" => $this->input->post('status'),
                 "alasan_tolak" => $this->input->post('alasan_tolak'),
