@@ -88,10 +88,14 @@
                     <tr>
                         <th>No</th>
                         <th>ID</th>
+                        <th>Tanggal Pengajuan</th>
                         <th>NIP</th>
                         <th>Jabatan Tujuan</th>
                         <th>Bukti 1</th>
                         <th>Bukti 2</th>                        
+                        <th>AK Tujuan</th>
+                        <th>AK</th>
+                        <th>Sisa AK</th>
                         <th>Status</th>
                         <?php
                         $bagian = $this->pegawai_model->get_one_with_join(array(
@@ -121,10 +125,15 @@
                         "disetujui berkas" => "badge-success",
                         "disetujui" => "badge-success"
                     ];
+                    $angka_kredit_tujuan = [
+                        "asisten ahli" => 150,
+                        "lektor" => 200
+                    ];
                     foreach ($pengajuan as $key => $value) { ?>
                         <tr>
                             <td><?php echo $no ?></td>
                             <td><?php echo $value->id; ?></td>
+                            <td><?php echo $value->created_at; ?></td>
                             <td><?php echo $value->account_nip; ?></td>
                             <td>
                                 <?= $value->jabatan_tujuan ?>
@@ -139,6 +148,31 @@
                                     <?= !is_null($value->bukti_2) ? "Lihat " . $label_bukti_2[$value->jabatan_tujuan] : "-" ?>
                                 </a>
                             </td>
+                            <td><?= $angka_kredit_tujuan[$value->jabatan_tujuan] ?></td>
+                            <td>
+                                <?php
+                                $this->load->model("rekap_nilai_model");
+                                $last_akk = $this->rekap_nilai_model->get_akk_terakhir([
+                                    "account_nip"=> $value->account_nip,
+                                    "tgl_usulan <=" => $value->created_at,
+                                    "status" => 'disetujui'
+                                ]);
+                                if(is_null($last_akk)){
+                                    $last_akk = 0;                                    
+                                }
+                                echo $last_akk;
+                                ?>
+                            </td>
+                            <td>
+                            <?php 
+                                $sisa = $angka_kredit_tujuan[$value->jabatan_tujuan] - $last_akk;
+                                if($sisa<=0){
+                                    echo 0;
+                                }else{
+                                    echo $sisa;
+                                }
+                            ?>
+                             </td>
                             <td>
                                 <span class="badge <?= $label_badge[$value->status] ?>">
                                     <?= $value->status ?>
@@ -250,7 +284,7 @@
 
                                     </div>
                                 <?php } ?>
-                            </td>
+                            </td>                            
                             <td>
                                 <!-- Large modal -->
                                 <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#edittable<?= $value->id ?>">Edit</button>

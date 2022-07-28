@@ -7,34 +7,34 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>SPK POLSUB <?= $title ?></title>
   <!-- plugins:css -->
-  <link rel="stylesheet" href="<?= base_url() ?>assets/vendors/feather/feather.css">
-  <link rel="stylesheet" href="<?= base_url() ?>assets/vendors/ti-icons/css/themify-icons.css">
-  <link rel="stylesheet" href="<?= base_url() ?>assets/vendors/css/vendor.bundle.base.css">
-  <link rel="stylesheet" href="<?= base_url() ?>assets/vendors/mdi/css/materialdesignicons.min.css">
+  <link rel="stylesheet" href="<?= site_url() ?>assets/vendors/feather/feather.css">
+  <link rel="stylesheet" href="<?= site_url() ?>assets/vendors/ti-icons/css/themify-icons.css">
+  <link rel="stylesheet" href="<?= site_url() ?>assets/vendors/css/vendor.bundle.base.css">
+  <link rel="stylesheet" href="<?= site_url() ?>assets/vendors/mdi/css/materialdesignicons.min.css">
   <script src="https://kit.fontawesome.com/48c190b106.js" crossorigin="anonymous"></script>
   <!-- endinject -->
   <!-- Plugin css for this page -->
-  <link rel="stylesheet" href="<?= base_url() ?>assets/vendors/datatables.net-bs4/dataTables.bootstrap4.css">
-  <link rel="stylesheet" href="<?= base_url() ?>assets/vendors/ti-icons/css/themify-icons.css">
-  <link rel="stylesheet" type="text/css" href="<?= base_url(); ?>assets/js/select.dataTables.min.css">
-  <link rel="stylesheet" href="<?= base_url() ?>assets/vendors/select2/select2.min.css" />
+  <link rel="stylesheet" href="<?= site_url() ?>assets/vendors/datatables.net-bs4/dataTables.bootstrap4.css">
+  <link rel="stylesheet" href="<?= site_url() ?>assets/vendors/ti-icons/css/themify-icons.css">
+  <link rel="stylesheet" type="text/css" href="<?= site_url(); ?>assets/js/select.dataTables.min.css">
+  <link rel="stylesheet" href="<?= site_url() ?>assets/vendors/select2/select2.min.css" />
   <!-- End plugin css for this page -->
   <!-- inject:css --> 
-  <link rel="stylesheet" href="<?= base_url() ?>assets/css/vertical-layout-light/style.css">
+  <link rel="stylesheet" href="<?= site_url() ?>assets/css/vertical-layout-light/style.css">
   <!-- endinject -->
-  <link rel="shortcut icon" href="<?= base_url(); ?>assets/images/favicon.png" />
+  <link rel="shortcut icon" href="<?= site_url(); ?>assets/images/favicon.png" />
 
   <!-- plugins:js -->
-  <script src="<?= base_url() ?>assets/vendors/js/vendor.bundle.base.js"></script>
+  <script src="<?= site_url() ?>assets/vendors/js/vendor.bundle.base.js"></script>
   <!-- endinject -->
 
   <!-- Plugin js for this page -->
-  <script src="<?= base_url() ?>assets/vendors/chart.js/Chart.min.js"></script>
-  <script src="<?= base_url() ?>assets/vendors/datatables.net/jquery.dataTables.js"></script>
-  <script src="<?= base_url() ?>assets/vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
-  <script src="<?= base_url() ?>assets/js/dataTables.select.min.js"></script>
-  <script src="<?= base_url() ?>assets/js/dataTables.buttons.min.js"></script>
-  <script src="<?= base_url() ?>assets/vendors/select2/select2.min.js"></script>
+  <script src="<?= site_url() ?>assets/vendors/chart.js/Chart.min.js"></script>
+  <script src="<?= site_url() ?>assets/vendors/datatables.net/jquery.dataTables.js"></script>
+  <script src="<?= site_url() ?>assets/vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+  <script src="<?= site_url() ?>assets/js/dataTables.select.min.js"></script>
+  <script src="<?= site_url() ?>assets/js/dataTables.buttons.min.js"></script>
+  <script src="<?= site_url() ?>assets/vendors/select2/select2.min.js"></script>
   <style>
     .container-image {
       position: relative;
@@ -165,8 +165,8 @@
     <!-- partial:partials/_navbar.html -->
     <nav class="flex-row p-0 navbar col-lg-12 col-12 fixed-top d-flex">
       <div class="mt-0 text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-        <a class="mr-5 navbar-brand brand-logo" href="<?= base_url(); ?>"><img src="<?= base_url(); ?>assets/images/simpeg2.png" class="mr-2" alt="logo" /></a>
-        <a class="navbar-brand brand-logo-mini" href="<?= base_url(); ?>"><img src="<?= base_url(); ?>assets/images/favpolsub60.png" alt="logo" /></a>
+        <a class="mr-5 navbar-brand brand-logo" href="<?= site_url(); ?>"><img src="<?= site_url(); ?>assets/images/simpeg2.png" class="mr-2" alt="logo" /></a>
+        <a class="navbar-brand brand-logo-mini" href="<?= site_url(); ?>"><img src="<?= site_url(); ?>assets/images/favpolsub60.png" alt="logo" /></a>
       </div>
       <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
         <button class="navbar-toggler align-self-center" type="button" data-toggle="minimize">
@@ -186,7 +186,7 @@
         </ul> -->
         <ul class="navbar-nav navbar-nav-right">
           <li class="nav-item dropdown">
-            <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="<?= base_url(); ?>#" data-toggle="dropdown">
+            <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="<?= site_url(); ?>#" data-toggle="dropdown">
               <i class="mx-0 icon-bell"></i>
               <span class="count"></span>
             </a>
@@ -195,8 +195,8 @@
             </div>
           </li>
           <li class="nav-item nav-profile dropdown">
-            <a class="nav-link dropdown-toggle" href="<?= base_url(); ?>#" data-toggle="dropdown" id="profileDropdown">
-              <img src="<?= base_url(); ?>assets/images/faces/face28.jpg" alt="profile" />
+            <a class="nav-link dropdown-toggle" href="<?= site_url(); ?>#" data-toggle="dropdown" id="profileDropdown">
+              <img src="<?= site_url(); ?>assets/images/faces/face28.jpg" alt="profile" />
             </a>
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
               <a class="dropdown-item" href="<?= base_url('account/profile/' . $_SESSION['nip']) ?>">
@@ -210,7 +210,7 @@
             </div>
           </li>
           <!-- <li class="nav-item nav-settings d-none d-lg-flex">
-            <a class="nav-link" href="<?= base_url(); ?>#">
+            <a class="nav-link" href="<?= site_url(); ?>#">
               <i class="icon-ellipsis"></i>
             </a>
           </li> -->
@@ -250,13 +250,13 @@
       <nav class="sidebar sidebar-offcanvas" id="sidebar">
         <ul class="nav">
           <li id="base-url" class="nav-item">
-            <a class="nav-link" href="<?= base_url(); ?>">
+            <a class="nav-link" href="<?= site_url(); ?>">
               <i class="icon-grid menu-icon"></i>
               <span class="menu-title">Dashboard</span>
             </a>
           </li>
           <li id="base-url" class="nav-item">
-            <a class="nav-link" href="<?= base_url(); ?>notifikasi">
+            <a class="nav-link" href="<?= site_url(); ?>notifikasi">
               <i class="mdi mdi-bell menu-icon"></i>
               <span class="menu-title">Notifikasi</span>
             </a>
@@ -314,14 +314,14 @@
           </li>
           <?php if ($_SESSION['role'] !== 'pegawai') { ?>
             <li class="nav-item">
-              <a class="nav-link" href="<?= base_url() . 'surat' ?>">
+              <a class="nav-link" href="<?= site_url() . 'surat' ?>">
                 <i class="mdi mdi-email menu-icon"></i>
                 <span class="menu-title">Surat</span>
               </a>
             </li>
           <?php } ?>
           <li class="nav-item">
-            <a class="nav-link" href="<?= base_url() . 'sertifikat' ?>">
+            <a class="nav-link" href="<?= site_url() . 'sertifikat' ?>">
               <i class="mdi mdi-certificate menu-icon"></i>
               <span class="menu-title">Sertifikat</span>
             </a>
@@ -470,7 +470,7 @@
           } ?>
           <?php if ($_SESSION['role'] === 'pegawai') { ?>
             <li class="nav-item">
-              <a class="nav-link" href="<?= base_url() . 'account/profile/' . $_SESSION['nip'] ?>">
+              <a class="nav-link" href="<?= site_url() . 'account/profile/' . $_SESSION['nip'] ?>">
                 <i class="mdi mdi-account-outline menu-icon"></i>
                 <span class="menu-title">Profile</span>
               </a>
@@ -485,9 +485,9 @@
             </a>
             <div class="collapse" id="ui-basic">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="<?= base_url(); ?>welcome/uiButton">Buttons</a></li>
-                <li class="nav-item"> <a class="nav-link" href="<?= base_url(); ?>welcome/uiDropdown">Dropdowns</a></li>
-                <li class="nav-item"> <a class="nav-link" href="<?= base_url(); ?>welcome/uiTypo">Typography</a></li>
+                <li class="nav-item"> <a class="nav-link" href="<?= site_url(); ?>welcome/uiButton">Buttons</a></li>
+                <li class="nav-item"> <a class="nav-link" href="<?= site_url(); ?>welcome/uiDropdown">Dropdowns</a></li>
+                <li class="nav-item"> <a class="nav-link" href="<?= site_url(); ?>welcome/uiTypo">Typography</a></li>
               </ul>
             </div>
           </li>
@@ -499,7 +499,7 @@
             </a>
             <div class="collapse" id="form-elements">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"><a class="nav-link" href="<?= base_url(); ?>welcome/formBasic">Basic Elements</a></li>
+                <li class="nav-item"><a class="nav-link" href="<?= site_url(); ?>welcome/formBasic">Basic Elements</a></li>
               </ul>
             </div>
           </li>
@@ -511,7 +511,7 @@
             </a>
             <div class="collapse" id="charts">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="<?= base_url(); ?>welcome/chartsJS">ChartJs</a></li>
+                <li class="nav-item"> <a class="nav-link" href="<?= site_url(); ?>welcome/chartsJS">ChartJs</a></li>
               </ul>
             </div>
           </li>
@@ -523,7 +523,7 @@
             </a>
             <div class="collapse" id="tables">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="<?= base_url(); ?>welcome/tableBasic">Basic table</a></li>
+                <li class="nav-item"> <a class="nav-link" href="<?= site_url(); ?>welcome/tableBasic">Basic table</a></li>
               </ul>
             </div>
           </li>
@@ -535,7 +535,7 @@
             </a>
             <div class="collapse" id="icons">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="<?= base_url(); ?>welcome/iconsMdi">Mdi icons</a></li>
+                <li class="nav-item"> <a class="nav-link" href="<?= site_url(); ?>welcome/iconsMdi">Mdi icons</a></li>
               </ul>
             </div>
           </li>
@@ -547,8 +547,8 @@
             </a>
             <div class="collapse" id="auth">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="<?= base_url(); ?>welcome/userLogin"> Login </a></li>
-                <li class="nav-item"> <a class="nav-link" href="<?= base_url(); ?>welcome/userRegister"> Register </a></li>
+                <li class="nav-item"> <a class="nav-link" href="<?= site_url(); ?>welcome/userLogin"> Login </a></li>
+                <li class="nav-item"> <a class="nav-link" href="<?= site_url(); ?>welcome/userRegister"> Register </a></li>
               </ul>
             </div>
           </li>
@@ -560,13 +560,13 @@
             </a>
             <div class="collapse" id="error">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="<?= base_url(); ?>welcome/page404"> 404 </a></li>
-                <li class="nav-item"> <a class="nav-link" href="<?= base_url(); ?>welcome/page500"> 500 </a></li>
+                <li class="nav-item"> <a class="nav-link" href="<?= site_url(); ?>welcome/page404"> 404 </a></li>
+                <li class="nav-item"> <a class="nav-link" href="<?= site_url(); ?>welcome/page500"> 500 </a></li>
               </ul>
             </div>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="<?= base_url(); ?>welcome/documentation">
+            <a class="nav-link" href="<?= site_url(); ?>welcome/documentation">
               <i class="icon-paper menu-icon"></i>
               <span class="menu-title">Documentation</span>
             </a>

@@ -8,7 +8,8 @@ class Kenaikan_jabatan extends Roles {
 		parent::__construct(['admin', 'pegawai', 'direktur']);
         $this->load->model([
             'kenaikan_jabatan_model',
-            'notifikasi_model'
+            'notifikasi_model',
+            'rekap_nilai_model'
         ]);
 	}
 
@@ -32,7 +33,7 @@ class Kenaikan_jabatan extends Roles {
         $this->load->model('pegawai_model');
 
         $pegawai = $this->pegawai_model->get_all();
-        $pengajuan = $this->kenaikan_jabatan_model->get_all();
+        $pengajuan = $this->kenaikan_jabatan_model->get_all();        
 
         $this->load->view('partials/main-header', ['title' => ": Pengajuan Kenaikan Jabatan"]);
 		$this->load->view('kenaikan_jabatan/pengajuan', [
