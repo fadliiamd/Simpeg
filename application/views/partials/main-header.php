@@ -450,6 +450,7 @@
                   <li class="nav-item"> <a class="nav-link" href="<?= base_url("account/pegawai_struktural"); ?>">Pegawai Struktural</a></li>
                   <li class="nav-item"> <a class="nav-link" href="<?= base_url("golpang"); ?>">Golongan/Pangkat</a></li>
                   <li class="nav-item"> <a class="nav-link" href="<?= base_url("jabatan"); ?>">Jabatan</a></li>
+                  <li class="nav-item"> <a class="nav-link" href="<?= base_url("keahlian"); ?>">Bidang Keahlian</a></li>
                 </ul>
               </div>
             </li>

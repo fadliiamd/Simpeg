@@ -117,10 +117,14 @@ class Pegawai_model extends CI_Model
     }
 
     public function get_all_where($where, $limit = 0)
-    {
-        $this->db->select('*');
+    {        
         if($limit == 0) {
-            $query = $this->db->get_where($this->table, $where);
+            $this->db->select('*');
+            $this->db->from($this->table);  
+            $this->db->join("jabatan", 'jabatan.id = pegawai.jabatan_id', 'left');
+            $this->db->join("sertifikat", 'sertifikat.account_nip = pegawai.account_nip', 'left');
+            $this->db->where($where);            
+            $query = $this->db->get();
         } else {
             $query = $this->db->get_where($this->table, $where, $limit);
         }
@@ -153,12 +157,13 @@ class Pegawai_model extends CI_Model
 
     public function get_one_with_join($id)
     {
-        $this->db->select('pegawai.*, jabatan.*, account.role as role, jurusan.nama as nama_jurusan, bagian.nama as nama_bagian, unit.nama as nama_unit');
+        $this->db->select('pegawai.*, jabatan.*, bidang_keahlian.*, account.role as role, jurusan.nama as nama_jurusan, bagian.nama as nama_bagian, unit.nama as nama_unit');
         $this->db->join('jabatan', 'pegawai.jabatan_id = jabatan.id', 'left');
         $this->db->join('jurusan', 'pegawai.jurusan_id = jurusan.id', 'left');
         $this->db->join('bagian', 'pegawai.bagian_id = bagian.id', 'left');
         $this->db->join('unit', 'pegawai.unit_id = unit.id', 'left');        
         $this->db->join('account', 'pegawai.account_nip = account.nip');        
+        $this->db->join('bidang_keahlian', 'pegawai.bidang_keahlian_id = bidang_keahlian.id_keahlian', 'left');
 
         $query = $this->db->get_where($this->table, $id);
 
@@ -375,6 +380,7 @@ class Pegawai_model extends CI_Model
             $tgl_lahir = $this->input->post('tgl_lahir');
             $alamat = $this->input->post('alamat');
             $email = $this->input->post('email');
+            $keahlian_id = $this->input->post('keahlian_id');
 
             $foto = $this->do_upload("jpg|png", "foto");
             $ijazah = $this->do_upload("pdf", "ijazah");
@@ -387,7 +393,8 @@ class Pegawai_model extends CI_Model
                 "tempat_lahir" => $tempat_lahir,
                 "tgl_lahir" => $tgl_lahir,
                 "alamat" => $alamat,
-                "email" => $email
+                "email" => $email,
+                "bidang_keahlian_id" => $keahlian_id
             );
             
             if(!is_null($foto)){

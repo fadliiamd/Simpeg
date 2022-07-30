@@ -45,7 +45,7 @@
                             <li class="list-group-item d-flex align-items-center flex-wrap">
                                 <i class="mdi mdi-file mr-3"></i>
                                 <h6 class="mb-0">
-                                    <a id="name-ijazah" href="<?= !is_null($profiles->ijazah) ? base_url('uploads/' . $profiles->ijazah).'" target="_blank' : "#" ?>"><?= !is_null($profiles->ijazah) ? "Lihat Ijazah": "Belum Ada Ijazah" ?></a>
+                                    <a id="name-ijazah" href="<?= !is_null($profiles->ijazah) ? base_url('uploads/' . $profiles->ijazah) . '" target="_blank' : "#" ?>"><?= !is_null($profiles->ijazah) ? "Lihat Ijazah" : "Belum Ada Ijazah" ?></a>
                                 </h6>
                                 <div class="emp">
                                     <label for="ijazah">
@@ -57,7 +57,7 @@
                             <li class="list-group-item d-flex align-items-center flex-wrap">
                                 <i class="mdi mdi-file mr-3"></i>
                                 <h6 class="mb-0">
-                                    <a id="name-karpeg" href="<?= !is_null($profiles->karpeg) ? base_url('uploads/' . $profiles->karpeg).'" target="_blank' : "#" ?>"><?= !is_null($profiles->karpeg) ? "Lihat Kartu Pegawai": "Belum Ada karpeg" ?></a>
+                                    <a id="name-karpeg" href="<?= !is_null($profiles->karpeg) ? base_url('uploads/' . $profiles->karpeg) . '" target="_blank' : "#" ?>"><?= !is_null($profiles->karpeg) ? "Lihat Kartu Pegawai" : "Belum Ada karpeg" ?></a>
                                 </h6>
                                 <div class="emp">
                                     <label for="karpeg">
@@ -210,6 +210,23 @@
                                 </div>
                             </div>
                             <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">Bidang Keahlian</h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary text-capitalize">
+                                    <select class="form-control" id="jurusan_id" name="keahlian_id">
+                                        <option value="">-- Pilih Bidang Keahlian --</option>
+                                        <?php foreach ($bidang_keahlian as $k => $v) { ?>
+                                            <option value="<?= $v->id_keahlian ?>" <?php if ($profiles->bidang_keahlian_id === $v->id_keahlian)  echo "selected"; ?>>
+                                                <?= $v->nama_keahlian ?>
+                                            </option>
+                                        <?php
+                                        } ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <hr>
                             <?php
                             if (!is_null($profiles->jurusan_id)) { ?>
                                 <div class="row">
@@ -290,12 +307,12 @@
 </div>
 
 <script>
-    $(document).ready(function(){
+    $(document).ready(function() {
         var nip_default = $('#nip').val();
-        $("#nip").on('change', function(){
-            if(nip_default !== $(this).val()){
+        $("#nip").on('change', function() {
+            if (nip_default !== $(this).val()) {
                 alert("Kamu mengubah NIP. Setelah klik tombol simpan anda diharuskan login kembali!");
-            }            
+            }
         })
     });
 </script>

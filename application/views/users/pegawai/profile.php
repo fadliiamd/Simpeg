@@ -258,7 +258,7 @@
                                 <h6 class="mb-0">Gaji</h6>
                             </div>
                             <div class="col-sm-9 text-secondary">
-                                <?= $profiles->gaji ?>
+                                <?= is_null($profiles->gaji)? "Belum Diatur" : "Rp. ".$profiles->gaji ?>
                             </div>
                         </div>
                         <hr>
@@ -268,6 +268,15 @@
                             </div>
                             <div class="col-sm-9 text-secondary">
                                 <?= $profiles->status ?>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Bidang Keahlian</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                <?= is_null($profiles->nama_keahlian) ? "Belum Diatur" : $profiles->nama_keahlian ?>
                             </div>
                         </div>
                         <hr>

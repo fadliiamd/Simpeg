@@ -35,6 +35,16 @@ class Prajabatan_model extends CI_Model
         return $query->result();
     }
 
+        public function get_tema($where)
+    {
+        $this->db->select('prajabatan.id as prajabatan_id, surat.tema');        
+        $this->db->join('surat', 'surat.id = prajabatan.surat_id');
+
+        $query = $this->db->get_where('prajabatan', $where);
+        return $query->row()->tema;
+    }
+
+
     public function get_one($where)
     {
         $query = $this->db->get_where($this->table, $where);

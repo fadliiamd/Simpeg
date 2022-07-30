@@ -16,14 +16,13 @@ class Bimtek_model extends CI_Model
         return $query->result();
     }
 
-    public function get_one_join_limit($where, $limit)
+    public function get_tema($where)
     {
-        $this->db->select('*');        
-        $this->db->join('surat', 'surat.id = bimtek.surat_id');        
-        $this->db->limit($limit);
+        $this->db->select('bimtek.id as bimtek_id, surat.tema');        
+        $this->db->join('surat', 'surat.id = bimtek.surat_id');
 
         $query = $this->db->get_where('bimtek', $where);
-        return $query->result();
+        return $query->row()->tema;
     }
 
     public function get_all_join_sertifikat()
@@ -45,7 +44,7 @@ class Bimtek_model extends CI_Model
     {
         $this->db->select('*');
         $this->db->from('bimtek');
-        $this->db->join('sertifikat', 'bimtek.sertifikat_id = sertifikat.id');
+        $this->db->join('sertifikat', 'bimtek.sertifikat_id = sertifikat.id', 'left');        
         $this->db->where($where);
 
         $query = $this->db->get();

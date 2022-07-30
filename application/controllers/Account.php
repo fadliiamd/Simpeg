@@ -18,7 +18,8 @@ class Account extends Roles
             'admin_model',
             'diklat_model',
             'bimtek_model',
-            'prajabatan_model'
+            'prajabatan_model',
+            'keahlian_model'
         ]);
     }
 
@@ -116,6 +117,7 @@ class Account extends Roles
     public function profile_pegawai($id)
     {
         $data = $this->pegawai_model->get_one_with_join(array('pegawai.account_nip' => $id));
+        $bidang_keahlian = $this->keahlian_model->get_all();
         $diklat = $this->diklat_model->get_one_join_limit([
             'diklat.pegawai_nip' => $id
         ], 5);
@@ -129,6 +131,7 @@ class Account extends Roles
         $this->load->view('partials/main-header', ['title' => ": Profile Pegawai " . $id]);
         $this->load->view('users/pegawai/profile', [
             "profiles" => $data,
+            "bidang_keahlian" => $bidang_keahlian,
             "diklat" => $diklat,
             "prajabatan" => $prajabatan,
             "bimtek" => $bimtek,
@@ -140,6 +143,7 @@ class Account extends Roles
     public function edit_profile_pegawai($id)
     {
         $data = $this->pegawai_model->get_one_with_join(array('pegawai.account_nip' => $id));
+        $bidang_keahlian = $this->keahlian_model->get_all();
         $jurusan = $this->jurusan_model->get_all();
         $bagian = $this->bagian_model->get_all();
         $unit = $this->unit_model->get_all();
@@ -148,6 +152,7 @@ class Account extends Roles
         $this->load->view('partials/main-header', ['title' => ': Profile ' . $id]);
         $this->load->view('users/pegawai/profile-edit', [
             "jabatan" => $jabatan,
+            "bidang_keahlian" => $bidang_keahlian,
             "jurusan" => $jurusan,
             "bagian" => $bagian,
             "unit" => $unit,

@@ -31,6 +31,15 @@ class Diklat_model extends CI_Model
         return $query->row();
     }
 
+    public function get_tema($where)
+    {
+        $this->db->select('diklat.id as diklat_id, surat.tema');        
+        $this->db->join('surat', 'surat.id = diklat.surat_id');
+
+        $query = $this->db->get_where('diklat', $where);
+        return $query->row()->tema;
+    }
+
     public function get_one_join($where)
     {
         $this->db->select('*');
@@ -44,7 +53,7 @@ class Diklat_model extends CI_Model
 
     public function get_one_join_limit($where, $limit)
     {
-        $this->db->select('*');        
+        $this->db->select('*, diklat.id as diklat_id');        
         $this->db->join('surat', 'surat.id = diklat.surat_id');        
         $this->db->limit($limit);
 
