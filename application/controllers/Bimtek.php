@@ -304,7 +304,8 @@ class Bimtek extends CI_Controller {
         $file_materi_name = $this->do_upload("pdf", "file_materi");
         //get tema
         $tema = $this->bimtek_model->get_tema(["bimtek.id" => $bimtek_id]);
-        $serti_name = time().'-'.$tema.'-'.$_FILES["file_sertifikat"]['name'];
+        $ext = end(explode(".", $_FILES["file_sertifikat"]['name']));
+        $serti_name = time().'-'.$tema.'-file'. $ext;
         $file_sertifikat_name = $this->do_upload("pdf", "file_sertifikat", $serti_name);
         $angka_kredit = $this->input->post('angka_kredit');
 

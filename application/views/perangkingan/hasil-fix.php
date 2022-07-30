@@ -16,15 +16,15 @@
         </button>
       </div>
     <?php endif ?>
-    <h4>Hasil Perangkingan</h4>
+    <h4>Pilih Pegawai Untuk Mengikuti Kegiatan</h4>
 
     <?php if ($this->session->userdata('jabatan') != 'Kepala Bagian Umum') { ?>
       <div class="d-flex">
-        <div class="my-3 mr-3">
+        <!-- <div class="my-3 mr-3">
           <a href="<?= base_url("hasil/perhitungan") ?>">
             <button type="button" class="btn btn-primary">Hitung Hasil</button>
           </a>
-        </div>
+        </div> -->
         <div class="my-3">
           <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#filter">Filter</button>
         </div>
@@ -170,7 +170,7 @@
                     <b>Sertifikat Kegiatan</b>
                     <?php
                     $curr_tema = [];
-                    foreach ($sertifikat as $key => $value) {                      
+                    foreach ($sertifikat as $key => $value) {
                       $tema = str_replace('_', ' ', explode("-", $value->nama_serti)[1]);
                       if (!in_array($tema, $curr_tema)) { ?>
                         <div class="form-check">
@@ -205,17 +205,32 @@
       <div class="table-responsive">
         <table id="list_hasil_perangkingan" class="table table-striped table-bordered">
           <thead class="thead-dark">
-            <tr>
-              <th>Pilih</th>
-              <th>No</th>
-              <th>NIP</th>
-              <th>Nama Pegawai</th>
-              <th>Jenis Pegawai</th>
-              <th>Nilai Rank</th>
+            <tr class="text-center">
+              <th rowspan="2">Pilih</th>
+              <th rowspan="2">No</th>
+              <th rowspan="2">NIP</th>
+              <th rowspan="2">Nama Pegawai</th>
+              <th rowspan="2">Jabatan</th>
+              <th rowspan="2">Mulai Masuk</th>
+              <th rowspan="2">Pendidikan</th>
+              <th rowspan="2">Jurusan</th>
+              <th rowspan="2">Bagian</th>
+              <th rowspan="2">Unit</th>
+              <th rowspan="2">Bidang Keahlian</th>
+              <th colspan="4">Sertifikat
+                <!-- <th>Nilai Rank</th> -->
+            </tr>
+            <tr class="teext-center">
+              <th>Diklat</th>
+              <th>Bimtek</th>
+              <th>Prajabatan</th>
+              <th>Lainnya</th>
             </tr>
           </thead>
           <tbody>
             <?php
+            $CI =& get_instance();
+            $CI->load->model(["diklat_model", "bimtek_model", "prajabatan_model", "sertifikat_model"]);
             $no = 1;
             if (!is_null($pegawai)) {
               foreach ($pegawai as $key => $value) { ?>
@@ -229,7 +244,62 @@
                       <?= $list_jabatan[$value->jabatan_id]->nama_jabatan ?>
                     <?php  } ?>
                   </td>
-                  <td><?= $value->nilai_rank ?></td>
+                  <td>
+                    <?= $value->tgl_masuk ?>
+                  </td>
+                  <td>
+                    <?= $value->pendidikan ?>
+                  </td>
+                  <td><?= $value->nama_jurusan ?></td>
+                  <td><?= $value->nama_bagian ?></td>
+                  <td><?= $value->nama_unit ?></td>
+                  <td><?= $value->nama_keahlian ?></td>
+                  <td style="max-width:200px;word-wrap:break-word;white-space:normal;">
+                    <ul class="m-0">
+                      <?php
+                      $diklat = $CI->diklat_model->get_all_where(["diklat.pegawai_nip" => $value->account_nip]);
+                      foreach ($diklat as $k => $v) { ?>
+                        <li><a href="<?= base_url("uploads/".$v->nama_serti) ?>" target="_blank"><?= $v->nama_serti ?></li>
+                      <?php
+                      }
+                      ?>
+                    </ul>
+                  </td>                  
+                  <td style="max-width:200px;word-wrap:break-word;white-space:normal;">
+                    <ul class="m-0">
+                      <?php
+                      $bimtek = $CI->bimtek_model->get_all_where(["bimtek.pegawai_nip" => $value->account_nip]);
+                      foreach ($bimtek as $k => $v) { ?>
+                        <li><a href="<?= base_url("uploads/".$v->nama_serti) ?>" target="_blank"><?= $v->nama_serti ?></li>
+                      <?php
+                      }
+                      ?>
+                    </ul>
+                  </td>                  
+                  <td style="max-width:200px;word-wrap:break-word;white-space:normal;">
+                    <ul class="m-0">
+                      <?php
+                      $prajabatan = $CI->prajabatan_model->get_all_where(["prajabatan.pegawai_nip" => $value->account_nip]);
+                      foreach ($prajabatan as $k => $v) { ?>
+                        <li><a href="<?= base_url("uploads/".$v->nama_serti) ?>" target="_blank"><?= $v->nama_serti ?></li>
+                      <?php
+                      }
+                      ?>
+                    </ul>
+                  </td>       
+                  <td style="max-width:200px;word-wrap:break-word;white-space:normal;">
+                    <ul class="m-0">
+                      <?php
+                      $sertifikat = $CI->sertifikat_model->get_all_where(["sertifikat.account_nip" => $value->account_nip, "sertifikat.is_kegiatan" => 0]);
+                      foreach ($sertifikat as $k => $v) { ?>
+                        <li><a href="<?= base_url("uploads/".$v->nama_serti) ?>" target="_blank"><?= $v->nama_serti ?></li>
+                      <?php
+                      }
+                      ?>
+                    </ul>
+                  </td>       
+
+                  <!-- <td><?= $value->nilai_rank ?></td> -->
                 </tr>
               <?php
                 $no++;
@@ -246,7 +316,7 @@
       </div>
       <div class="my-3">
         <!-- Large modal -->
-        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#choose_surat">Ajukan Perangkingan</button>
+        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#choose_surat">Ajukan Pegawai</button>
 
         <!-- Modal -->
         <div id="choose_surat" class="modal fade edittable" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
@@ -274,7 +344,7 @@
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Kembali</button>
-                <button type="submit" class="btn btn-primary">Ajukan Perangkingan</button>
+                <button type="submit" class="btn btn-primary">Ajukan!</button>
               </div>
             </div>
           </div>

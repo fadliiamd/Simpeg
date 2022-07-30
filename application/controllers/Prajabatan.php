@@ -305,7 +305,8 @@ class Prajabatan extends CI_Controller {
 
         //get tema
         $tema = $this->prajabatan_model->get_tema(["prajabatan.id" => $prajabatan_id]);
-        $serti_name = time().'-'.$tema.'-'.$_FILES["file_sertifikat"]['name'];
+        $ext = end(explode(".", $_FILES["file_sertifikat"]['name']));
+        $serti_name = time().'-'.$tema.'-file'. $ext;
         $file_sertifikat_name = $this->do_upload("pdf", "file_sertifikat", $serti_name);        
 
         $angka_kredit = $this->input->post('angka_kredit');

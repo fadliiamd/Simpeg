@@ -22,6 +22,8 @@ class Prajabatan_model extends CI_Model
 
     public function get_all_where($where)
     {
+        $this->db->select('*');        
+        $this->db->join('sertifikat', $this->table.'.sertifikat_id = sertifikat.id');        
         $query = $this->db->get_where($this->table, $where);
         return $query->result();
     }

@@ -335,8 +335,8 @@
               </a>
               <div class="collapse" id="perangkingan">
                 <ul class="nav flex-column sub-menu">
-                  <li class="nav-item"> <a class="nav-link" href="<?= base_url("kriteria"); ?>">Kriteria</a></li>
-                  <li class="nav-item"> <a class="nav-link" href="<?= base_url("subkriteria"); ?>">Sub Kriteria</a></li>
+                  <!-- <li class="nav-item"> <a class="nav-link" href="<?= base_url("kriteria"); ?>">Kriteria</a></li>
+                  <li class="nav-item"> <a class="nav-link" href="<?= base_url("subkriteria"); ?>">Sub Kriteria</a></li> -->
                   <li class="nav-item"> <a class="nav-link" href="<?= base_url("hasil"); ?>">Hasil</a></li>
                 </ul>
               </div>
@@ -451,6 +451,7 @@
                   <li class="nav-item"> <a class="nav-link" href="<?= base_url("golpang"); ?>">Golongan/Pangkat</a></li>
                   <li class="nav-item"> <a class="nav-link" href="<?= base_url("jabatan"); ?>">Jabatan</a></li>
                   <li class="nav-item"> <a class="nav-link" href="<?= base_url("keahlian"); ?>">Bidang Keahlian</a></li>
+                  <li class="nav-item"> <a class="nav-link" href="<?= base_url("jenis_sertifikat"); ?>">Jenis Sertifikat</a></li>
                 </ul>
               </div>
             </li>

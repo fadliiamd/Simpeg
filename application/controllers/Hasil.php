@@ -1,12 +1,12 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Hasil extends CI_Controller
+class Hasil extends Roles
 {
 
     public function __construct()
     {
-        parent::__construct();
+        parent::__construct(["admin"]);
         $this->load->model([
             "surat_model",
             "pegawai_model",

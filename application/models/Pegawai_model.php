@@ -119,10 +119,14 @@ class Pegawai_model extends CI_Model
     public function get_all_where($where, $limit = 0)
     {        
         if($limit == 0) {
-            $this->db->select('*');
+            $this->db->select('sertifikat.*, pegawai.*, bidang_keahlian.*, jabatan.*, jurusan.nama as nama_jurusan, bagian.nama as nama_bagian, unit.nama as nama_unit');
             $this->db->from($this->table);  
             $this->db->join("jabatan", 'jabatan.id = pegawai.jabatan_id', 'left');
             $this->db->join("sertifikat", 'sertifikat.account_nip = pegawai.account_nip', 'left');
+            $this->db->join('jurusan', 'pegawai.jurusan_id = jurusan.id', 'left');
+            $this->db->join('bagian', 'pegawai.bagian_id = bagian.id', 'left');
+            $this->db->join('unit', 'pegawai.unit_id = unit.id', 'left');
+            $this->db->join('bidang_keahlian', 'pegawai.bidang_keahlian_id = bidang_keahlian.id_keahlian', 'left');            
             $this->db->where($where);            
             $query = $this->db->get();
         } else {
@@ -132,8 +136,12 @@ class Pegawai_model extends CI_Model
     }
 
     public function get_all_order($coloumn, $type_order){
-        $this->db->select('*');
+        $this->db->select('pegawai.*, bidang_keahlian.*, jurusan.nama as nama_jurusan, bagian.nama as nama_bagian, unit.nama as nama_unit');
         $this->db->from($this->table);        
+        $this->db->join('jurusan', 'pegawai.jurusan_id = jurusan.id', 'left');
+        $this->db->join('bagian', 'pegawai.bagian_id = bagian.id', 'left');
+        $this->db->join('unit', 'pegawai.unit_id = unit.id', 'left');
+        $this->db->join('bidang_keahlian', 'pegawai.bidang_keahlian_id = bidang_keahlian.id_keahlian', 'left');
         $this->db->where('status_kerja', 'aktif');
         $this->db->order_by($coloumn, $type_order);
 
