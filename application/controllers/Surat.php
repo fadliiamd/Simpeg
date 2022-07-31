@@ -210,8 +210,7 @@ class Surat extends Roles {
                     "tujuan" => $this->input->post('jenis_pegawai')
                 ]);
             }
-            $detail_tujuan = $this->input->post('tujuan');
-        
+            $detail_tujuan = $this->input->post('tujuan');            
         // Jenis Tujuan Surat Kedua: Semua Subjek
         } else if($subjek == 'semua') {
             $jenis_tujuan = "semua";
@@ -225,8 +224,7 @@ class Surat extends Roles {
             $data_additional = array_merge($data_additional, [
                 "kriteria" => $this->input->post('kriteria')
             ]);
-        }
-
+        }        
         // Uploading File Surat
         $file_name = $this->do_upload("pdf", "file_surat");
         if(is_null($file_name)) {
@@ -247,8 +245,8 @@ class Surat extends Roles {
         );
         $data = array_merge($data, $data_additional);
         
-        // Insert Surat
-        if($detail_tujuan != NULL) {
+        // Insert Surat                
+        if(!(is_null($detail_tujuan))) {                        
             $add = $this->surat_model->insert_one_with_subjek($data, $detail_tujuan);
         } else {
             $add = $this->surat_model->insert_one_with_subjek($data);

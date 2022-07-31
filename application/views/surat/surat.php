@@ -99,7 +99,7 @@
                     <option value="" selected hidden>--- Subjek Surat ---</option>
                     <option value="semua">Semua</option>
                     <option value="spesifik">Spesifik</option>
-                    <option value="tidak ada">Tidak Ada</option>
+                    <option value="tidak ada">Belum Jelas (Butuh Perangkingan)</option>
                   </select>
                 </div>
                 <div class="col-md-6" id="detail_subjek">
@@ -208,7 +208,7 @@
                           <div class="form-group row">
                             <div class="col-md-6">
                               <label for="subjek">Subjek Surat (*)</label>
-                              <input type="text" class="form-control" id="subjek" value="<?php if($value->jenis_tujuan == 'semua') { echo 'Semua'; } else if($value->jenis_tujuan == 'tidak ada') { echo 'Tidak Ada'; } else if($value->jenis_tujuan == 'divisi') { echo 'Spesifik'; } else if($value->jenis_tujuan == 'perorangan') { echo ucwords('Spesifik'); } ?>" disabled>
+                              <input type="text" class="form-control" id="subjek" value="<?php if($value->jenis_tujuan == 'semua') { echo 'Semua'; } else if($value->jenis_tujuan == 'tidak ada') { echo 'Belum Jelas (Butuh Perangkingan)'; } else if($value->jenis_tujuan == 'divisi') { echo 'Spesifik'; } else if($value->jenis_tujuan == 'perorangan') { echo ucwords('Spesifik'); } ?>" disabled>
                             </div>
                             <div class="col-md-6" id="detail_subjek">
                               <?php if($value->jenis_tujuan == 'divisi' || $value->jenis_tujuan == 'perorangan') { ?>
@@ -366,7 +366,7 @@
                                 <option hidden <?= ($value->jenis_tujuan == NULL) ? "selected" : "" ?>>--- Subjek Surat ---</option>
                                 <option value="semua" <?= ($value->jenis_tujuan == 'semua') ? "selected" : "" ?>>Semua</option>
                                 <option value="spesifik" <?= ($value->jenis_tujuan == 'divisi' || $value->jenis_tujuan == 'perorangan') ? "selected" : "" ?>>Spesifik</option>
-                                <option value="tidak ada" <?= ($value->jenis_tujuan == 'tidak ada') ? "selected" : "" ?>>Tidak Ada</option>
+                                <option value="tidak ada" <?= ($value->jenis_tujuan == 'tidak ada') ? "selected" : "" ?>>Belum Jelas (Butuh Perangkingan)</option>
                               </select>
                             </div>
                             <div class="col-md-6" id="detail_subjek_edit_<?= $value->id ?>">
