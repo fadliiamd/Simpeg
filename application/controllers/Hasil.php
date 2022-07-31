@@ -6,7 +6,7 @@ class Hasil extends Roles
 
     public function __construct()
     {
-        parent::__construct(["admin"]);
+        parent::__construct(["admin", "pegawai"]);
         $this->load->model([
             "surat_model",
             "pegawai_model",
@@ -24,12 +24,12 @@ class Hasil extends Roles
         $where = ["status_kerja" => "aktif"];
         foreach ($_GET as $key => $value) {
             if (!is_numeric($key)) {
-                if (!is_array($_GET[$key])) {                    
+                if (!is_array($_GET[$key])) {
                     $key = str_replace('@', ' ', $key);
                     $where += [$key => $value];
                 } else {
                     $this->db->group_start();
-                    $no = 1;                    
+                    $no = 1;
                     foreach ($_GET[$key] as $item) {
                         if ($no == 1) {
                             $key === 'nama_serti' ?  $this->db->like([$key => $item]) : $this->db->where([$key => $item]);
@@ -40,16 +40,22 @@ class Hasil extends Roles
                     }
                     $this->db->group_end();
                 }
+                if ($this->session->userdata('nama_jabatan') === "Kepala Jurusan") {
+                    $where += [
+                        "jurusan_id" => $this->session->userdata('jurusan_id'),
+                        "jabatan.jenis_jabatan" => "fungsional"
+                    ];
+                }
             }
         }
         return $this->pegawai_model->get_all_where($where);
     }
 
     public function index()
-    {        
+    {
         if (!empty($_GET)) {
             $pegawai = $this->get_filter_pegawai();
-        } else {
+        } else {            
             $pegawai = $this->pegawai_model->get_all_order('nilai_rank', 'desc');
         }
         $surat = $this->surat_model->get_all_where([
@@ -165,7 +171,7 @@ class Hasil extends Roles
     {
         // Auth Check
         $login_jabatan = $this->session->userdata('jabatan');
-        if ($login_jabatan != 'Kepala Bagian Umum') {
+        if (!(($login_jabatan === 'Kepala Bagian Umum') || ($login_jabatan === 'Kepala Jurusan'))) {
             $this->session->set_flashdata('message_error', 'Anda tidak memiliki akses!');
             redirect("dashboard");
         }

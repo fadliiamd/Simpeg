@@ -15,6 +15,7 @@ class Sertifikat_model extends CI_Model
 
     public function get_all_where($where)
     {
+        $this->db->join("jenis_sertifikat", "sertifikat.id_jenis_sertifikat = jenis_sertifikat.id_jenis_sertifikat", "left");
         $query = $this->db->get_where($this->table, $where);
         return $query->result();
     }
@@ -57,7 +58,7 @@ class Sertifikat_model extends CI_Model
             "account_nip" => $account_nip,
             "nama_serti" => $nama,
             "id_jenis_sertifikat" => $id_jenis_sertifikat,
-            "is_kegiatan" => 0
+            "tipe" => "lainnya"
         );
 
         $this->db->insert($this->table, $data);

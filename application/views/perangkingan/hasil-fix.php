@@ -75,121 +75,198 @@
                     }
                     ?>
                   </div>
-                  <div class="col-md-4">
-                    <b>Jenis Pegawai</b><br>
-                    <?php
-                    $label_jp = [
-                      "fungsional", "struktural"
-                    ];
-                    foreach ($label_jp as $key => $value) { ?>
-                      <div class="form-check form-check-inline" style="display:inline-flex">
-                        <input class="form-check-input ml-0" type="checkbox" name="jenis_jabatan[]" id="jp<?= $key ?>" value="<?= $value ?>" <?= checked("jenis_jabatan", $value) ?>>
-                        <label class="form-check-label ml-0 text-capitalize" for="jp<?= $key ?>"><?= $value ?></label>
-                      </div>
-                    <?php
-                    }
-                    ?>
-                  </div>
+                  <?php if ($this->session->userdata('nama_jabatan') !== "Kepala Jurusan") { ?>
+                    <div class="col-md-4">
+                      <b>Jenis Pegawai</b><br>
+                      <?php
+                      $label_jp = [
+                        "fungsional", "struktural"
+                      ];
+                      foreach ($label_jp as $key => $value) { ?>
+                        <div class="form-check form-check-inline" style="display:inline-flex">
+                          <input class="form-check-input ml-0" type="checkbox" name="jenis_jabatan[]" id="jp<?= $key ?>" value="<?= $value ?>" <?= checked("jenis_jabatan", $value) ?>>
+                          <label class="form-check-label ml-0 text-capitalize" for="jp<?= $key ?>"><?= $value ?></label>
+                        </div>
+                      <?php
+                      }
+                      ?>
+                    </div>
+                  <?php
+                  } ?>
                 </div>
                 <hr>
-                <div class="row">
-                  <div class="col-md-4">
-                    <b>Jurusan</b>
-                    <?php
-                    foreach ($jurusan as $key => $value) { ?>
-                      <div class="form-check">
-                        <input class="form-check-input ml-0" type="checkbox" name="jurusan_id[]" value="<?= $value->id ?>" id="jurusan<?= $key ?>" <?= checked("jurusan_id", $value->id) ?>>
-                        <label class="form-check-label" for="jurusan<?= $key ?>">
-                          <?= $value->nama ?>
-                        </label>
-                      </div>
-                    <?php
-                    }
-                    ?>
-                  </div>
-                  <div class="col-md-4">
-                    <b>Bagian</b>
-                    <?php
-                    foreach ($bagian as $key => $value) { ?>
-                      <div class="form-check">
-                        <input class="form-check-input ml-0" type="checkbox" name="bagian_id[]" value="<?= $value->id ?>" id="bagian<?= $key ?>" <?= checked("bagian_id",  $value->id) ?>>
-                        <label class="form-check-label" for="bagian<?= $key ?>">
-                          <?= $value->nama ?>
-                        </label>
-                      </div>
-                    <?php
-                    }
-                    ?>
-                  </div>
-                  <div class="col-md-4">
-                    <b>Unit</b>
-                    <?php
-                    foreach ($unit as $key => $value) { ?>
-                      <div class="form-check">
-                        <input class="form-check-input ml-0" type="checkbox" name="unit_id[]" value="<?= $value->id ?>" id="unit<?= $key ?>" <?= checked("unit_id",  $value->id) ?>>
-                        <label class="form-check-label" for="unit<?= $key ?>">
-                          <?= $value->nama ?>
-                        </label>
-                      </div>
-                    <?php
-                    }
-                    ?>
-                  </div>
-                </div>
-                <hr>
-                <div class="row">
-                  <div class="col-md-4">
-                    <b>Jabatan</b>
-                    <?php
-                    foreach ($jabatan as $key => $value) { ?>
-                      <div class="form-check">
-                        <input class="form-check-input ml-0" type="checkbox" name="jabatan_id[]" value="<?= $value->id ?>" id="jabatan<?= $key ?>" <?= checked("jabatan_id",  $value->id) ?>>
-                        <label class="form-check-label" for="jabatan<?= $key ?>">
-                          <?= $value->nama_jabatan ?>
-                        </label>
-                      </div>
-                    <?php
-                    }
-                    ?>
-                  </div>
-                  <div class="col-md-4">
-                    <b>Bidang Keahlian</b>
-                    <?php
-                    foreach ($bidang_keahlian as $key => $value) { ?>
-                      <div class="form-check">
-                        <input class="form-check-input ml-0" type="checkbox" name="bidang_keahlian_id[]" value="<?= $value->id_keahlian ?>" id="keahlian<?= $key ?>" <?= checked("bidang_keahlian_id",  $value->id_keahlian) ?>>
-                        <label class="form-check-label" for="keahlian<?= $key ?>">
-                          <?= $value->nama_keahlian ?>
-                        </label>
-                      </div>
-                    <?php
-                    }
-                    ?>
-                  </div>
-                  <div class="col-md-4">
-                    <b>Sertifikat Kegiatan</b>
-                    <?php
-                    $curr_tema = [];
-                    foreach ($sertifikat as $key => $value) {
-                      $tema = str_replace('_', ' ', explode("-", $value->nama_serti)[1]);
-                      if (!in_array($tema, $curr_tema)) { ?>
+                <?php if ($this->session->userdata('nama_jabatan') !== "Kepala Jurusan") { ?>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <b>Jurusan</b>
+                      <?php
+                      foreach ($jurusan as $key => $value) { ?>
                         <div class="form-check">
-                          <input class="form-check-input ml-0" type="checkbox" name="nama_serti[]" value="<?= explode("-", $value->nama_serti)[1] ?>" id="serti<?= $key ?>" <?= checked("nama_serti",  explode("-", $value->nama_serti)[1]) ?>>
-                          <label class="form-check-label" for="serti<?= $key ?>">
-                            <?php
-                            echo $tema;
-                            array_push($curr_tema, $tema);
-                            ?>
+                          <input class="form-check-input ml-0" type="checkbox" name="jurusan_id[]" value="<?= $value->id ?>" id="jurusan<?= $key ?>" <?= checked("jurusan_id", $value->id) ?>>
+                          <label class="form-check-label" for="jurusan<?= $key ?>">
+                            <?= $value->nama ?>
                           </label>
                         </div>
                       <?php
                       }
                       ?>
-                    <?php
-                    }
-                    ?>
+                    </div>
+                    <div class="col-md-4">
+                      <b>Bagian</b>
+                      <?php
+                      foreach ($bagian as $key => $value) { ?>
+                        <div class="form-check">
+                          <input class="form-check-input ml-0" type="checkbox" name="bagian_id[]" value="<?= $value->id ?>" id="bagian<?= $key ?>" <?= checked("bagian_id",  $value->id) ?>>
+                          <label class="form-check-label" for="bagian<?= $key ?>">
+                            <?= $value->nama ?>
+                          </label>
+                        </div>
+                      <?php
+                      }
+                      ?>
+                    </div>
+                    <div class="col-md-4">
+                      <b>Unit</b>
+                      <?php
+                      foreach ($unit as $key => $value) { ?>
+                        <div class="form-check">
+                          <input class="form-check-input ml-0" type="checkbox" name="unit_id[]" value="<?= $value->id ?>" id="unit<?= $key ?>" <?= checked("unit_id",  $value->id) ?>>
+                          <label class="form-check-label" for="unit<?= $key ?>">
+                            <?= $value->nama ?>
+                          </label>
+                        </div>
+                      <?php
+                      }
+                      ?>
+                    </div>
                   </div>
-                </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <b>Jabatan</b>
+                      <?php
+                      foreach ($jabatan as $key => $value) { ?>
+                        <div class="form-check">
+                          <input class="form-check-input ml-0" type="checkbox" name="jabatan_id[]" value="<?= $value->id ?>" id="jabatan<?= $key ?>" <?= checked("jabatan_id",  $value->id) ?>>
+                          <label class="form-check-label" for="jabatan<?= $key ?>">
+                            <?= $value->nama_jabatan ?>
+                          </label>
+                        </div>
+                      <?php
+                      }
+                      ?>
+                    </div>
+                    <div class="col-md-4">
+                      <b>Bidang Keahlian</b>
+                      <?php
+                      foreach ($bidang_keahlian as $key => $value) { ?>
+                        <div class="form-check">
+                          <input class="form-check-input ml-0" type="checkbox" name="bidang_keahlian_id[]" value="<?= $value->id_keahlian ?>" id="keahlian<?= $key ?>" <?= checked("bidang_keahlian_id",  $value->id_keahlian) ?>>
+                          <label class="form-check-label" for="keahlian<?= $key ?>">
+                            <?= $value->nama_keahlian ?>
+                          </label>
+                        </div>
+                      <?php
+                      }
+                      ?>
+                    </div>
+                    <div class="col-md-4">
+                      <b>Sertifikat Kegiatan</b>
+                      <?php
+                      $curr_tema = [];
+                      foreach ($sertifikat as $key => $value) {
+                        $tema = str_replace('_', ' ', explode("-", $value->nama_serti)[1]);
+                        if (!in_array($tema, $curr_tema)) { ?>
+                          <div class="form-check">
+                            <input class="form-check-input ml-0" type="checkbox" name="nama_serti[]" value="<?= explode("-", $value->nama_serti)[1] ?>" id="serti<?= $key ?>" <?= checked("nama_serti",  explode("-", $value->nama_serti)[1]) ?>>
+                            <label class="form-check-label" for="serti<?= $key ?>">
+                              <?php
+                              echo $tema;
+                              array_push($curr_tema, $tema);
+                              ?>
+                            </label>
+                          </div>
+                        <?php
+                        }
+                        ?>
+                      <?php
+                      }
+                      ?>
+                    </div>
+                  </div>
+                <?php
+                } else { ?>
+                  <div class="row">
+                    <div class="col-md-3">
+                      <b>Unit</b>
+                      <?php
+                      foreach ($unit as $key => $value) { ?>
+                        <div class="form-check">
+                          <input class="form-check-input ml-0" type="checkbox" name="unit_id[]" value="<?= $value->id ?>" id="unit<?= $key ?>" <?= checked("unit_id",  $value->id) ?>>
+                          <label class="form-check-label" for="unit<?= $key ?>">
+                            <?= $value->nama ?>
+                          </label>
+                        </div>
+                      <?php
+                      }
+                      ?>
+                    </div>
+                    <div class="col-md-3">
+                      <b>Jabatan</b>
+                      <?php
+                      foreach ($jabatan as $key => $value) {
+                        if ($value->jenis_jabatan === "fungsional") { ?>
+                          <div class="form-check">
+                            <input class="form-check-input ml-0" type="checkbox" name="jabatan_id[]" value="<?= $value->id ?>" id="jabatan<?= $key ?>" <?= checked("jabatan_id",  $value->id) ?>>
+                            <label class="form-check-label" for="jabatan<?= $key ?>">
+                              <?= $value->nama_jabatan ?>
+                            </label>
+                          </div>
+                      <?php
+                        }
+                      }
+                      ?>
+                    </div>
+                    <div class="col-md-3">
+                      <b>Bidang Keahlian</b>
+                      <?php
+                      foreach ($bidang_keahlian as $key => $value) { ?>
+                        <div class="form-check">
+                          <input class="form-check-input ml-0" type="checkbox" name="bidang_keahlian_id[]" value="<?= $value->id_keahlian ?>" id="keahlian<?= $key ?>" <?= checked("bidang_keahlian_id",  $value->id_keahlian) ?>>
+                          <label class="form-check-label" for="keahlian<?= $key ?>">
+                            <?= $value->nama_keahlian ?>
+                          </label>
+                        </div>
+                      <?php
+                      }
+                      ?>
+                    </div>
+                    <div class="col-md-3">
+                      <b>Sertifikat Kegiatan</b>
+                      <?php
+                      $curr_tema = [];
+                      foreach ($sertifikat as $key => $value) {
+                        $tema = str_replace('_', ' ', explode("-", $value->nama_serti)[1]);
+                        if (!in_array($tema, $curr_tema)) { ?>
+                          <div class="form-check">
+                            <input class="form-check-input ml-0" type="checkbox" name="nama_serti[]" value="<?= explode("-", $value->nama_serti)[1] ?>" id="serti<?= $key ?>" <?= checked("nama_serti",  explode("-", $value->nama_serti)[1]) ?>>
+                            <label class="form-check-label" for="serti<?= $key ?>">
+                              <?php
+                              echo $tema;
+                              array_push($curr_tema, $tema);
+                              ?>
+                            </label>
+                          </div>
+                        <?php
+                        }
+                        ?>
+                      <?php
+                      }
+                      ?>
+                    </div>
+                  </div>
+                <?php
+                } ?>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Kembali</button>
@@ -229,7 +306,7 @@
           </thead>
           <tbody>
             <?php
-            $CI =& get_instance();
+            $CI = &get_instance();
             $CI->load->model(["diklat_model", "bimtek_model", "prajabatan_model", "sertifikat_model"]);
             $no = 1;
             if (!is_null($pegawai)) {
@@ -259,45 +336,45 @@
                       <?php
                       $diklat = $CI->diklat_model->get_all_where(["diklat.pegawai_nip" => $value->account_nip]);
                       foreach ($diklat as $k => $v) { ?>
-                        <li><a href="<?= base_url("uploads/".$v->nama_serti) ?>" target="_blank"><?= $v->nama_serti ?></li>
+                        <li><a href="<?= base_url("uploads/" . $v->nama_serti) ?>" target="_blank"><?= $v->nama_serti ?></li>
                       <?php
                       }
                       ?>
                     </ul>
-                  </td>                  
+                  </td>
                   <td style="max-width:200px;word-wrap:break-word;white-space:normal;">
                     <ul class="m-0">
                       <?php
                       $bimtek = $CI->bimtek_model->get_all_where(["bimtek.pegawai_nip" => $value->account_nip]);
                       foreach ($bimtek as $k => $v) { ?>
-                        <li><a href="<?= base_url("uploads/".$v->nama_serti) ?>" target="_blank"><?= $v->nama_serti ?></li>
+                        <li><a href="<?= base_url("uploads/" . $v->nama_serti) ?>" target="_blank"><?= $v->nama_serti ?></li>
                       <?php
                       }
                       ?>
                     </ul>
-                  </td>                  
+                  </td>
                   <td style="max-width:200px;word-wrap:break-word;white-space:normal;">
                     <ul class="m-0">
                       <?php
                       $prajabatan = $CI->prajabatan_model->get_all_where(["prajabatan.pegawai_nip" => $value->account_nip]);
                       foreach ($prajabatan as $k => $v) { ?>
-                        <li><a href="<?= base_url("uploads/".$v->nama_serti) ?>" target="_blank"><?= $v->nama_serti ?></li>
+                        <li><a href="<?= base_url("uploads/" . $v->nama_serti) ?>" target="_blank"><?= $v->nama_serti ?></li>
                       <?php
                       }
                       ?>
                     </ul>
-                  </td>       
+                  </td>
                   <td style="max-width:200px;word-wrap:break-word;white-space:normal;">
                     <ul class="m-0">
                       <?php
-                      $sertifikat = $CI->sertifikat_model->get_all_where(["sertifikat.account_nip" => $value->account_nip, "sertifikat.is_kegiatan" => 0]);
+                      $sertifikat = $CI->sertifikat_model->get_all_where(["sertifikat.account_nip" => $value->account_nip, "sertifikat.tipe" => 'lainnya']);
                       foreach ($sertifikat as $k => $v) { ?>
-                        <li><a href="<?= base_url("uploads/".$v->nama_serti) ?>" target="_blank"><?= $v->nama_serti ?></li>
+                        <li><a href="<?= base_url("uploads/" . $v->nama_serti) ?>" target="_blank"><?= $v->nama_serti ?></li>
                       <?php
                       }
                       ?>
                     </ul>
-                  </td>       
+                  </td>
 
                   <!-- <td><?= $value->nilai_rank ?></td> -->
                 </tr>

@@ -136,13 +136,21 @@ class Pegawai_model extends CI_Model
     }
 
     public function get_all_order($coloumn, $type_order){
-        $this->db->select('pegawai.*, bidang_keahlian.*, jurusan.nama as nama_jurusan, bagian.nama as nama_bagian, unit.nama as nama_unit');
+        $this->db->select('pegawai.*, bidang_keahlian.*, jabatan.*, jurusan.nama as nama_jurusan, bagian.nama as nama_bagian, unit.nama as nama_unit');
         $this->db->from($this->table);        
+        $this->db->join("jabatan", 'jabatan.id = pegawai.jabatan_id', 'left');
         $this->db->join('jurusan', 'pegawai.jurusan_id = jurusan.id', 'left');
         $this->db->join('bagian', 'pegawai.bagian_id = bagian.id', 'left');
         $this->db->join('unit', 'pegawai.unit_id = unit.id', 'left');
         $this->db->join('bidang_keahlian', 'pegawai.bidang_keahlian_id = bidang_keahlian.id_keahlian', 'left');
-        $this->db->where('status_kerja', 'aktif');
+        $where = ["pegawai.status_kerja" => "aktif"];
+        if ($this->session->userdata('nama_jabatan') === "Kepala Jurusan") {
+            $where += [
+                "pegawai.jurusan_id" => $this->session->userdata('jurusan_id'),
+                "jabatan.jenis_jabatan" => "fungsional"
+            ];
+        }
+        $this->db->where($where);
         $this->db->order_by($coloumn, $type_order);
 
         $query = $this->db->get();        

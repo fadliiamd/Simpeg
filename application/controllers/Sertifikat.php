@@ -21,10 +21,10 @@ class Sertifikat extends Roles {
             $sertifikat = $this->sertifikat_model->get_all_where([
                 "account_nip" => $this->session->userdata('nip')
             ]);
-            $pegawai = $this->pegawai_model->get_one([
+            $pegawai = array($this->pegawai_model->get_one([
                 "account_nip" => $this->session->userdata('nip')
-            ]);
-        }        
+            ]));
+        }                
         $this->load->model('jenis_sertifikat_model');
 
         $jenis_sertifikat = $this->jenis_sertifikat_model->get_all();        

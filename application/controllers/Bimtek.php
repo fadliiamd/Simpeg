@@ -317,7 +317,8 @@ class Bimtek extends CI_Controller {
 
         $data_sertif = [
             "account_nip" => $this->session->userdata('nip'),
-            "nama_serti" => $file_sertifikat_name
+            "nama_serti" => $file_sertifikat_name,
+            "tipe" => "bimtek"
         ];
 
         $insert_sertif = $this->sertifikat_model->create_one($data_sertif);

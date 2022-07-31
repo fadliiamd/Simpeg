@@ -36,11 +36,17 @@
                                     <div class="form-group">
                                         <label for="account_nip">Pegawai (*)</label>
                                         <select class="form-control" name="account_nip" required>
-                                            <option value="" selected hidden>--- Pilih Pegawai ---</option>
                                             <?php
                                             $format = '';
-                                            foreach ($pegawai as $key => $value) {
-                                                $format .= '<option value="' . $value->account_nip . '">' . $value->account_nip . ' - ' . $value->nama . '</option>';
+                                            if ($this->session->userdata('role') == 'admin') {
+                                                echo '<option value="" selected hidden>--- Pilih Pegawai ---</option>';
+                                                foreach ($pegawai as $key => $value) {
+                                                    $format .= '<option value="' . $value->account_nip . '">' . $value->account_nip . ' - ' . $value->nama . '</option>';
+                                                }
+                                            } else {
+                                                foreach ($pegawai as $key => $value) {
+                                                    $format .= '<option value="' . $value->account_nip . '" selected>' . $value->account_nip . ' - ' . $value->nama . '</option>';
+                                                }
                                             }
                                             echo $format;
                                             ?>
@@ -101,6 +107,7 @@
                         <th>NIP</th>
                         <th>Sertifikat</th>
                         <th>Jenis</th>
+                        <th>Tipe</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -119,6 +126,9 @@
                             </td>
                             <td class="text-capitalize">
                                 <?= $value->nama_jenis_sertifikat ?>
+                            </td>
+                            <td class="text-capitalize">
+                                <?= $value->tipe ?>
                             </td>
                             <td>
                                 <!-- Large modal -->
