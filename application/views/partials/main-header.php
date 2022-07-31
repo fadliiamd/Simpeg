@@ -139,8 +139,7 @@
     }
 
     .feather {
-      font-family: 'feather' !important;
-      speak: none;
+      font-family: 'feather' !important;      
       font-style: normal;
       font-weight: normal;
       font-variant: normal;
@@ -335,15 +334,15 @@
               </a>
               <div class="collapse" id="perangkingan">
                 <ul class="nav flex-column sub-menu">
-                  <li class="nav-item"> <a class="nav-link" href="<?= base_url("kriteria"); ?>">Kriteria</a></li>
-                  <li class="nav-item"> <a class="nav-link" href="<?= base_url("subkriteria"); ?>">Sub Kriteria</a></li>
+                  <!-- <li class="nav-item"> <a class="nav-link" href="<?= base_url("kriteria"); ?>">Kriteria</a></li>
+                  <li class="nav-item"> <a class="nav-link" href="<?= base_url("subkriteria"); ?>">Sub Kriteria</a></li> -->
                   <li class="nav-item"> <a class="nav-link" href="<?= base_url("hasil"); ?>">Hasil</a></li>
                 </ul>
               </div>
             </li>
           <?php
           } ?>
-          <?php if ($this->session->userdata('jabatan') === 'Kepala Bagian Umum') { ?>
+          <?php if (($this->session->userdata('jabatan') === 'Kepala Bagian Umum') || ($this->session->userdata('jabatan') === 'Kepala Jurusan')) { ?>
             <li class="nav-item">
               <a class="nav-link" data-toggle="collapse" href="#perangkingan" aria-expanded="false" aria-controls="perangkingan">
                 <i class="mdi mdi-trophy-variant menu-icon"></i>
@@ -450,6 +449,8 @@
                   <li class="nav-item"> <a class="nav-link" href="<?= base_url("account/pegawai_struktural"); ?>">Pegawai Struktural</a></li>
                   <li class="nav-item"> <a class="nav-link" href="<?= base_url("golpang"); ?>">Golongan/Pangkat</a></li>
                   <li class="nav-item"> <a class="nav-link" href="<?= base_url("jabatan"); ?>">Jabatan</a></li>
+                  <li class="nav-item"> <a class="nav-link" href="<?= base_url("keahlian"); ?>">Bidang Keahlian</a></li>
+                  <li class="nav-item"> <a class="nav-link" href="<?= base_url("jenis_sertifikat"); ?>">Jenis Sertifikat</a></li>
                 </ul>
               </div>
             </li>

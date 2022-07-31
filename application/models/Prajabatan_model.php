@@ -22,6 +22,8 @@ class Prajabatan_model extends CI_Model
 
     public function get_all_where($where)
     {
+        $this->db->select('*');        
+        $this->db->join('sertifikat', $this->table.'.sertifikat_id = sertifikat.id');        
         $query = $this->db->get_where($this->table, $where);
         return $query->result();
     }
@@ -34,6 +36,16 @@ class Prajabatan_model extends CI_Model
         $query = $this->db->get();
         return $query->result();
     }
+
+        public function get_tema($where)
+    {
+        $this->db->select('prajabatan.id as prajabatan_id, surat.tema');        
+        $this->db->join('surat', 'surat.id = prajabatan.surat_id');
+
+        $query = $this->db->get_where('prajabatan', $where);
+        return $query->row()->tema;
+    }
+
 
     public function get_one($where)
     {

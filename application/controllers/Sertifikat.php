@@ -16,15 +16,23 @@ class Sertifikat extends Roles {
 
         if($this->session->userdata('role') == 'admin') {
             $sertifikat = $this->sertifikat_model->get_all();
+            $pegawai = $this->pegawai_model->get_all();
         } else {
             $sertifikat = $this->sertifikat_model->get_all_where([
                 "account_nip" => $this->session->userdata('nip')
             ]);
-        }
+            $pegawai = array($this->pegawai_model->get_one([
+                "account_nip" => $this->session->userdata('nip')
+            ]));
+        }                
+        $this->load->model('jenis_sertifikat_model');
 
-        $this->load->view('partials/main-header', ['title' => ': Data Sertifikat']);
+        $jenis_sertifikat = $this->jenis_sertifikat_model->get_all();        
+        $this->load->view('partials/main-header', ['title' => ': Data Sertifikat']);        
 		$this->load->view('users/admin/data_sertifikat', [
-            "sertifikat" => $sertifikat
+            "jenis_sertifikat" => $jenis_sertifikat,
+            "sertifikat" => $sertifikat,
+            "pegawai" => $pegawai
         ]);
 		$this->load->view('partials/main-footer');
     }

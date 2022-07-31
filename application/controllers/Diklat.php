@@ -197,12 +197,15 @@ class Diklat extends CI_Controller {
 		$this->load->view('partials/main-footer');
     }
 
-    public function do_upload($file_type, $post_name)
+    public function do_upload($file_type, $post_name, $file_name="")
     {
         // File
         $config['upload_path']          = './uploads';
         $config['allowed_types']        = $file_type;
         $config['max_size']             = 2048;
+        if($file_name!==""){            
+            $config['file_name'] = $file_name;
+        }
         $this->load->library('upload');
 
         $this->upload->initialize($config);
@@ -300,7 +303,13 @@ class Diklat extends CI_Controller {
         // POST Request and Upload File
         $diklat_id = $this->input->post('diklat_id');
         $file_materi_name = $this->do_upload("pdf", "file_materi");
-        $file_sertifikat_name = $this->do_upload("pdf", "file_sertifikat");
+
+        //get tema
+        $tema = $this->diklat_model->get_tema(["diklat.id" => $diklat_id]);
+        $ext = end(explode(".", $_FILES["file_sertifikat"]['name']));
+        $serti_name = time().'-'.$tema.'-file'. $ext;
+        $file_sertifikat_name = $this->do_upload("pdf", "file_sertifikat", $serti_name);        
+
         $angka_kredit = $this->input->post('angka_kredit');
 
         // Validation
@@ -311,7 +320,8 @@ class Diklat extends CI_Controller {
 
         $data_sertif = [
             "account_nip" => $this->session->userdata('nip'),
-            "nama_serti" => $file_sertifikat_name
+            "nama_serti" => $file_sertifikat_name,
+            "tipe" => "diklat"
         ];
 
         $insert_sertif = $this->sertifikat_model->create_one($data_sertif);

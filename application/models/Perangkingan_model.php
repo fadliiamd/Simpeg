@@ -7,7 +7,13 @@ class Perangkingan_model extends CI_Model
 
     public function get_all()
     {
-        $query = $this->db->get($this->table);
+        if ($this->session->userdata('nama_jabatan') === "Kepala Jurusan") {           
+            $query = $this->db->get_where($this->table, [
+                "created_by" => $this->session->userdata("nip")
+            ]);
+        } else {
+            $query = $this->db->get($this->table);
+        }
         return $query->result();
     }
 
@@ -22,7 +28,7 @@ class Perangkingan_model extends CI_Model
 
     public function get_one($where, $order_by = NULL)
     {
-        if($order_by != NULL) {
+        if ($order_by != NULL) {
             $this->db->order_by($order_by['column'], $order_by['order']);
         }
         return $this->db->get_where($this->table, $where)->row();
