@@ -1,5 +1,5 @@
 function change_jenis_kegiatan(element, id) {
-	if(element.value == 'diklat') {
+	if (element.value == 'diklat') {
 		$("#detail_jenis_kegiatan_edit_" + id).empty();
 		$("#detail_jenis_kegiatan_edit_" + id).append(`
 			<label for="jenis_diklat_edit_${id}">Jenis Diklat (*)</label>
@@ -16,9 +16,9 @@ function change_jenis_kegiatan(element, id) {
 }
 
 function change_subjek(element, id) {
-		if(element.value == 'spesifik') {
-			$("#detail_subjek_edit_" + id).empty();
-			$("#detail_subjek_edit_" + id).append(`
+	if (element.value == 'spesifik') {
+		$("#detail_subjek_edit_" + id).empty();
+		$("#detail_subjek_edit_" + id).append(`
 				<label for="jenis_tujuan_edit_${id}">Jenis Pegawai Tujuan Surat (*)</label>
 				<select class="form-control" id="jenis_tujuan_edit_${id}" name="jenis_tujuan" onchange="change_jenis_tujuan(this, ${id})">
 					<option value="" selected hidden>--- Jenis Pegawai Tujuan Surat ---</option>
@@ -26,39 +26,45 @@ function change_subjek(element, id) {
 					<option value="perorangan">Perorangan</option>
 				</select>
 			`);
-		} else if(element.value == 'tidak ada') {
-			$("#detail_subjek_edit_" + id).empty();
-			$("#detail_tujuan_edit_" + id).empty();
-			$("#detail_subjek_edit_" + id).append(`
+	} else if (element.value == 'tidak ada') {
+		$("#detail_subjek_edit_" + id).empty();
+		$("#detail_tujuan_edit_" + id).empty();
+		$("#detail_subjek_edit_" + id).append(`
 				<label for="kriteria_edit_${id}">Kriteria (*)</label>
 				<textarea class="form-control" id="kriteria_edit_${id}" name="kriteria" rows="6"></textarea>
 			`);
-		} else {
-			$("#detail_subjek_edit_" + id).empty();
-			$("#detail_tujuan_edit_" + id).empty();
-		}
+	} else {
+		$("#detail_subjek_edit_" + id).empty();
+		$("#detail_tujuan_edit_" + id).empty();
+	}
 }
 
 function change_jenis_tujuan(element, id) {
 	switch (element.value) {
 		case "perorangan":
-			$("#detail_tujuan_edit_" + id).empty();
-			$("#detail_tujuan_edit_" + id).append(`
-				<div class="form-group">
-					<label for="jenis_pegawai_edit_${id}">Jenis Tujuan Pegawai (*)</label>
-					<select class="form-control" id="jenis_pegawai_edit_${id}" name="jenis_pegawai" onchange="change_jenis_pegawai(this, ${id})">
-						<option value="" selected hidden>--- Pilih Jenis Tujuan Pegawai ---</option>
-						<option value="struktural">Struktural</option>
-						<option value="fungsional">Fungsional</option>
-					</select>
-				</div>
-				<div class="form-group">
-					<label for="tujuan_edit_${id}">Pegawai Tujuan (*)</label>
-					<select class="form-control search-select" id="tujuan_edit_${id}" name="tujuan[]" multiple="multiple" required>
-						<option value="" hidden>--- Pegawai ---</option>
-					</select>
-				</div>
-			`);
+			var opt = "";			
+			$.ajax({
+				type: "GET",
+				url: "surat/get_pegawai/semua",
+				success: function (data) {					
+					data = JSON.parse(data);
+					for (let i = 0; i < data.length; i++) {
+						var nip = data[i].account_nip;
+						var nama = data[i].nama;
+						opt += "<option value=" + nip + ">" + '(' + nip + ') ' + nama + "</option>";
+					}
+					$("#detail_tujuan_edit_"+id).empty();
+					$("#detail_tujuan_edit_"+id).append(`
+							<div class="form-group">
+								<label for="tujuan">Pegawai Tujuan (*)</label>
+								<select class="form-control search-select js-example-multiple" id="tujuan" name="tujuan[]" multiple="multiple" required>							
+									`+ opt + `
+								</select>
+							</div>
+						`);
+					$(".js-example-multiple").select2();
+				},
+			});
 			break;
 		case "divisi":
 			$("#detail_tujuan_edit_" + id).empty();
@@ -120,30 +126,39 @@ function change_jenis_pegawai(element, id) {
 }
 
 $(document).ready(function () {
+	const delay = ms => new Promise(res => setTimeout(res, ms));
+	const yourFunction = async () => {
+		await delay(5000);
+		$(".js-example-basic-multiple").select2();
+	  
+		await delay(5000);
+		$(".js-example-basic-multiple").select2();
+	  };
+	  yourFunction();
 	$("#tbl-pengajuan-mutasi").DataTable({});
 
 	$("#tbl-sk-mutasi").DataTable({});
-	
+
 	$('#list-surat').DataTable({
 		"bDestroy": true
-	}); 
+	});
 
 	$('#list_table').DataTable({
 		'columnDefs': [{
-		 'targets': 0,
-		 'searchable': false,
-		 'orderable': false,
-		 'className': 'dt-body-center'
+			'targets': 0,
+			'searchable': false,
+			'orderable': false,
+			'className': 'dt-body-center'
 		}],
 		'order': [[1, 'asc']]
 	});
 
 	$('#list_hasil_perangkingan').DataTable({
 		'columnDefs': [{
-		 'targets': 0,
-		 'searchable': false,
-		 'orderable': false,
-		 'className': 'dt-body-center'		 
+			'targets': 0,
+			'searchable': false,
+			'orderable': false,
+			'className': 'dt-body-center'
 		}],
 		'order': [[1, 'asc']],
 		"bDestroy": true
@@ -152,8 +167,8 @@ $(document).ready(function () {
 	// -------------
 	// Form Unggah
 	// -------------
-	$('#jenis_kegiatan').change(function() {
-		if($(this).val() == 'diklat') {
+	$('#jenis_kegiatan').change(function () {
+		if ($(this).val() == 'diklat') {
 			$("#detail_jenis_kegiatan").empty();
 			$("#detail_jenis_kegiatan").append(`
 				<label for="jenis_diklat">Jenis Diklat (*)</label>
@@ -169,8 +184,8 @@ $(document).ready(function () {
 		}
 	});
 
-	$('#subjek').change(function() {
-		if($(this).val() == 'spesifik') {
+	$('#subjek').change(function () {
+		if ($(this).val() == 'spesifik') {
 			$("#detail_subjek").empty();
 			$("#detail_subjek").append(`
 				<label for="jenis_tujuan">Jenis Pegawai Tujuan Surat (*)</label>
@@ -180,7 +195,7 @@ $(document).ready(function () {
 					<option value="perorangan">Perorangan</option>
 				</select>
 			`);
-		} else if($(this).val() == 'tidak ada') {
+		} else if ($(this).val() == 'tidak ada') {
 			$("#detail_subjek").empty();
 			$("#detail_tujuan").empty();
 			$("#detail_subjek").append(`
@@ -192,27 +207,33 @@ $(document).ready(function () {
 			$("#detail_tujuan").empty();
 		}
 	});
-	
+
 	$("#detail_subjek").on("change", "#jenis_tujuan", function () {
 		switch ($(this).val()) {
 			case "perorangan":
-				$("#detail_tujuan").empty();
-				$("#detail_tujuan").append(`
-					<div class="form-group">
-						<label for="jenis_pegawai">Jenis Tujuan Pegawai (*)</label>
-						<select class="form-control" id="jenis_pegawai" name="jenis_pegawai" required>
-							<option value="" selected hidden>--- Pilih Jenis Tujuan Pegawai ---</option>
-							<option value="struktural">Struktural</option>
-							<option value="fungsional">Fungsional</option>
-						</select>
-					</div>
-					<div class="form-group">
-						<label for="tujuan">Pegawai Tujuan (*)</label>
-						<select class="form-control search-select" id="tujuan" name="tujuan[]" multiple="multiple" required>
-							<option value="" hidden>--- Pegawai ---</option>
-						</select>
-					</div>
-				`);
+				var opt = "";
+				$.ajax({
+					type: "GET",
+					url: "surat/get_pegawai/semua",
+					success: function (data) {
+						data = JSON.parse(data);
+						for (let i = 0; i < data.length; i++) {
+							var nip = data[i].account_nip;
+							var nama = data[i].nama;
+							opt += "<option value=" + nip + ">" + '(' + nip + ') ' + nama + "</option>";
+						}
+						$("#detail_tujuan").empty();
+						$("#detail_tujuan").append(`
+							<div class="form-group">
+								<label for="tujuan">Pegawai Tujuan (*)</label>
+								<select class="form-control search-select js-example-basic-multiple" id="tujuan" name="tujuan[]" multiple="multiple" required>							
+									`+ opt + `
+								</select>
+							</div>
+						`);
+						$(".js-example-basic-multiple").select2();
+					},
+				});
 				break;
 			case "divisi":
 				$("#detail_tujuan").empty();

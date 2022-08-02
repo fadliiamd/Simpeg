@@ -35,6 +35,7 @@
   <script src="<?= site_url() ?>assets/js/dataTables.select.min.js"></script>
   <script src="<?= site_url() ?>assets/js/dataTables.buttons.min.js"></script>
   <script src="<?= site_url() ?>assets/vendors/select2/select2.min.js"></script>
+  
   <style>
     .container-image {
       position: relative;
