@@ -384,7 +384,7 @@
                               <?php } ?>
                             </div>
                           </div>
-                          <div id="detail_tujuan_edit_<?= $value->id ?>">
+                          <div id="detail_tujuan_edit_<?= $value->id ?>" class="row">
                             <?php if($value->jenis_tujuan === 'divisi') { ?>
                               <div class="form-group">
                                 <label for="divisi_edit_<?= $value->id ?>">Divisi Tujuan</label>
@@ -460,13 +460,13 @@
                                 </select>
                               </div>
                             <?php } else if($value->jenis_tujuan === 'perorangan') { ?>
-                              <div class="form-group">
+                              <!-- <div class="form-group">
                                 <label for="jenis_pegawai_edit_<?= $value->id ?>">Jenis Tujuan Pegawai</label>
                                 <select class="form-control" id="jenis_pegawai_edit_<?= $value->id ?>" name="jenis_pegawai" onchange="change_jenis_pegawai(this, <?= $value->id ?>)">
                                   <option value="struktural" <?php if($value->tujuan === 'struktural') echo "selected"; ?>>Struktural</option>
                                   <option value="fungsional" <?php if($value->tujuan === 'fungsional') echo "selected"; ?>>Fungsional</option>
                                 </select>
-                              </div>
+                              </div> -->
                               <div class="form-group">
                                 <label for="tujuan">Pegawai Tujuan</label>
                                 <div class="table-responsive">
@@ -512,8 +512,7 @@
                               </div>
                               <div class="form-group">
                                 <label for="tujuan_edit_<?= $value->id ?>">Tambah Pegawai Tujuan</label>
-                                <select class="form-control" size="10" id="tujuan_edit_<?= $value->id ?>" name="tujuan[]" multiple="multiple">
-                                  <option selected hidden>--- Tujuan ---</option>
+                                <select class="form-control js-example-basic-multiple" size="10" id="tujuan_edit_<?= $value->id ?>" name="tujuan[]" multiple="multiple">
                                   <?php
                                   if(isset($list_detail_tujuan[$value->id])) {
                                     foreach($pegawai as $item) {
@@ -525,7 +524,7 @@
                                         }
                                       }
                                       if($found != 1) { ?>
-                                      <option value="<?= $item->account_nip ?>"><?= $item->nama ?></option>
+                                      <option value="<?= $item->account_nip ?>">(<?= $item->account_nip ?>) <?= $item->nama ?></option>
                                   <?php } } } ?>
                                 </select>
                               </div>
