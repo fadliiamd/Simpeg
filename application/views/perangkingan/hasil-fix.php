@@ -56,9 +56,13 @@
               <div class="modal-body">
                 <div class="row">
                   <div class="col-md-4">
-                    <b>Mulai Masuk</b>
-                    <input type="date" id="tgl_masuk@>=" class="form-control" value="<?= isset($_GET['tgl_masuk@>=']) ? $_GET['tgl_masuk@>='] : "" ?>" style="margin:10px 0px">
-                    <input class="form-check-input ml-0" name="tgl_masuk@>=" type="checkbox" value="" hidden>
+                    <b>Masa Kerja</b>
+                    <!-- <input type="date" id="tgl_masuk@>=" class="form-control" value="<?= isset($_GET['tgl_masuk@>=']) ? $_GET['tgl_masuk@>='] : "" ?>" style="margin:10px 0px"> -->
+                    <div class="d-flex align-items-center">
+                      <input type="number" class="form-control" id="tgl_masuk" min="0" value="<?= isset($_GET['YEAR(tgl_masuk)']) ? (date('Y') - $_GET['YEAR(tgl_masuk)']) : "" ?>" oninput="this.value = Math.abs(this.value)" style="margin:10px 0px;max-width:100px;">
+                      <span class="pl-2">Tahun</span>
+                    </div>
+                    <input id="tgl_masuk_on" class="form-check-input ml-0" name="YEAR(tgl_masuk)" type="number" value="<?= isset($_GET['YEAR(tgl_masuk)']) ? $_GET['YEAR(tgl_masuk)'] : "" ?>" hidden>
                   </div>
                   <div class="col-md-4">
                     <b>Pendidikan</b><br>
@@ -289,6 +293,7 @@
               <th rowspan="2">Nama Pegawai</th>
               <th rowspan="2">Jabatan</th>
               <th rowspan="2">Mulai Masuk</th>
+              <th rowspan="2">Masa Kerja</th>
               <th rowspan="2">Pendidikan</th>
               <th rowspan="2">Jurusan</th>
               <th rowspan="2">Bagian</th>
@@ -323,6 +328,9 @@
                   </td>
                   <td>
                     <?= $value->tgl_masuk ?>
+                  </td>
+                  <td>
+                    <?= date_create($value->tgl_masuk)->diff(date_create('now'))->y ?> Tahun
                   </td>
                   <td>
                     <?= $value->pendidikan ?>
@@ -433,11 +441,16 @@
 </div>
 
 <script>
-  $('input[type="date"]').on('change', function() {
+  function getYearDiff(count_year) {
+    var curr_year = new Date().getFullYear();
+    return curr_year - count_year;
+  }
+
+  $('#tgl_masuk').on('input', function() {
     var id = $(this).attr("id");
     var value = $(this).val();
-
-    $('input[name="' + id + '"').val(value);
-    $('input[name="' + id + '"').attr("checked", true);
+    value = getYearDiff(value);
+    console.log(value);
+    $('#tgl_masuk_on').val(value);    
   });
 </script>

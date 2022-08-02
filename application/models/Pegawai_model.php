@@ -127,7 +127,8 @@ class Pegawai_model extends CI_Model
             $this->db->join('bagian', 'pegawai.bagian_id = bagian.id', 'left');
             $this->db->join('unit', 'pegawai.unit_id = unit.id', 'left');
             $this->db->join('bidang_keahlian', 'pegawai.bidang_keahlian_id = bidang_keahlian.id_keahlian', 'left');            
-            $this->db->where($where);            
+            $this->db->where($where);  
+            $this->db->group_by('pegawai.account_nip');          
             $query = $this->db->get();
         } else {
             $query = $this->db->get_where($this->table, $where, $limit);
