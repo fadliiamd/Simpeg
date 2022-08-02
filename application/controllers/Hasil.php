@@ -54,7 +54,7 @@ class Hasil extends Roles
     public function index()
     {
         if (!empty($_GET)) {
-            $pegawai = $this->get_filter_pegawai();
+            $pegawai = $this->get_filter_pegawai();            
         } else {            
             $pegawai = $this->pegawai_model->get_all_order('nilai_rank', 'desc');
         }
@@ -72,8 +72,7 @@ class Hasil extends Roles
         $list_jabatan = [];
         foreach ($jabatan as $value) {
             $list_jabatan[$value->id] = $value;
-        }
-
+        }        
         $this->load->view('partials/main-header', [
             "title" => "Hasil Perangkingan"
         ]);
