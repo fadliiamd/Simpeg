@@ -161,11 +161,12 @@ class Pegawai_model extends CI_Model
 
     public function get_all_with_join($where = ["1" => "1"])
     {
-        $this->db->select('pegawai.*, pegawai.nama as nama_pegawai, jurusan.nama as nama_jurusan, bagian.nama as nama_bagian, unit.nama as nama_unit');        
+        $this->db->select('pegawai.*, b.nama as nama_atasan, pegawai.nama as nama_pegawai, jurusan.nama as nama_jurusan, bagian.nama as nama_bagian, unit.nama as nama_unit');        
         $this->db->join('jurusan', 'pegawai.jurusan_id = jurusan.id', 'left');
         $this->db->join('bagian', 'pegawai.bagian_id = bagian.id', 'left');
         $this->db->join('unit', 'pegawai.unit_id = unit.id', 'left');
         $this->db->join('jabatan', 'pegawai.jabatan_id = jabatan.id', 'left');
+        $this->db->join('pegawai b', 'b.account_nip = pegawai.atasan_nip', 'left');
 
         $query = $this->db->get_where($this->table, $where);
 

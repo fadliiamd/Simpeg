@@ -79,7 +79,7 @@
                     }
                     ?>
                   </div>
-                  <?php if ($this->session->userdata('nama_jabatan') !== "Kepala Jurusan") { ?>
+                  <?php if (($this->session->userdata('nama_jabatan') !== "Ketua Jurusan") && ($this->session->userdata('nama_jabatan') !== "Kepala Bagian Umum")) { ?>
                     <div class="col-md-4">
                       <b>Jenis Pegawai</b><br>
                       <?php
