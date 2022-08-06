@@ -96,7 +96,7 @@
                     <?php } else { ?>
                       <button type="submit" class="btn btn-success" disabled>Baca</button>
                     <?php } ?>
-                    <button type="button" class="btn btn-danger">Hapus</button>
+                    <!-- <button type="button" class="btn btn-danger">Hapus</button> -->
                     <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#detail-<?= $el->account_nip ?>-<?= $el->notifikasi_id ?>">Lihat</button>
 
                     <!-- Modal -->

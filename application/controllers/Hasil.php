@@ -40,10 +40,16 @@ class Hasil extends Roles
                     }
                     $this->db->group_end();
                 }
-                if ($this->session->userdata('nama_jabatan') === "Kepala Jurusan") {
+                if ($this->session->userdata('nama_jabatan') === "Ketua Jurusan") {
                     $where += [
                         "jurusan_id" => $this->session->userdata('jurusan_id'),
                         "jabatan.jenis_jabatan" => "fungsional"
+                    ];
+                }
+                if ($this->session->userdata('nama_jabatan') === "Kepala Bagian Umum") {
+                    $where += [
+                        "jurusan_id" => $this->session->userdata('jurusan_id'),
+                        "jabatan.jenis_jabatan" => "struktural"
                     ];
                 }
             }
@@ -56,7 +62,11 @@ class Hasil extends Roles
         if (!empty($_GET)) {
             $pegawai = $this->get_filter_pegawai();            
         } else {            
-            $pegawai = $this->pegawai_model->get_all_order('nilai_rank', 'desc');
+            if($this->session->userdata('jabatan') == 'Kepala Bagian Umum'){
+                $pegawai = $this->pegawai->get_all_where(['jabatan.jenis_jabatan' => "struktural"]);
+            }else{
+                $pegawai = $this->pegawai_model->get_all_order('nilai_rank', 'desc');
+            }
         }
         $surat = $this->surat_model->get_all_where([
             'status' => 'need ranking'
