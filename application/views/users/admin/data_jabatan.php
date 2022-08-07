@@ -44,6 +44,17 @@
                                     <option value="fungsional">Fungsional</option>
                                 </select>
                             </div>
+                            <div class="form-group">
+                                <label>Apakah jabatan tersebut diisi oleh atasan?</label>
+                                <div class="form-check-inline">
+                                    <input class="form-check-input" type="radio" name="is_atasan" id="inlineRadio1" value="1">
+                                    <label class="form-check-label" for="inlineRadio1">Iya</label>
+                                </div>
+                                <div class="form-check-inline">
+                                    <input class="form-check-input" type="radio" name="is_atasan" id="inlineRadio2" value="0">
+                                    <label class="form-check-label" for="inlineRadio2">Tidak</label>
+                                </div>
+                            </div>
                         </div>
                         <div class="modal-footer">
                             <div class="row">
@@ -78,7 +89,7 @@
                     foreach ($jabatan as $key => $value) { ?>
                         <tr>
 
-                            <td><?php echo $key+1 ?></td>
+                            <td><?php echo $key + 1 ?></td>
                             <td><?php echo $value->id ?></td>
                             <td><?php echo $value->nama_jabatan; ?></td>
                             <td><?php echo $value->jenis_jabatan; ?></td>
@@ -96,7 +107,7 @@
                                                     <span aria-hidden="true">&times;</span>
                                                 </button>
                                             </div>
-                                            <form class="forms-sample" action="<?= base_url("jabatan/update/".$value->id); ?>" method="POST" enctype="multipart/form-data">
+                                            <form class="forms-sample" action="<?= base_url("jabatan/update/" . $value->id); ?>" method="POST" enctype="multipart/form-data">
                                                 <div class="modal-body">
                                                     <div class="form-group">
                                                         <label for="nama">Nama</label>
@@ -109,6 +120,17 @@
                                                             <option value="struktural">Struktural</option>
                                                             <option value="fungsional">Fungsional</option>
                                                         </select>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>Apakah jabatan tersebut diisi oleh atasan?</label><br>
+                                                        <div class="form-check-inline">
+                                                            <input class="form-check-input" type="radio" name="is_atasan" id="inlineRadio1" value="1" <?= $value->is_atasan == 1 ? "checked" : ""?>>
+                                                            <label class="form-check-label" for="inlineRadio1">Iya</label>
+                                                        </div>
+                                                        <div class="form-check-inline">
+                                                            <input class="form-check-input" type="radio" name="is_atasan" id="inlineRadio2" value="0" <?= $value->is_atasan == 0 ? "checked" : "" ?>>
+                                                            <label class="form-check-label" for="inlineRadio2">Tidak</label>
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">
@@ -139,7 +161,7 @@
                                                     <span aria-hidden="true">&times;</span>
                                                 </button>
                                             </div>
-                                            <form class="forms-sample" action="<?= base_url("jabatan/delete/".$value->id); ?>" method="POST" enctype="multipart/form-data">
+                                            <form class="forms-sample" action="<?= base_url("jabatan/delete/" . $value->id); ?>" method="POST" enctype="multipart/form-data">
                                                 <div class="modal-body">
                                                     <p>Apakah anda yakin ingin menghapus jabatan ini?</p>
                                                     <input type="hidden" id="id_jabatan" name="id_jabatan" value="<?= $value->id ?>">

@@ -16,7 +16,7 @@ class Jabatan extends Admin {
     {        
         $jabatan = $this->jabatan_model->get_all();
 
-        $this->load->view('partials/main-header');
+        $this->load->view('partials/main-header', ["title" => " : Data Jabatan"]);
 		$this->load->view('users/admin/data_jabatan', [
             "jabatan" => $jabatan
         ]);
