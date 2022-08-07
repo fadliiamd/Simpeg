@@ -21,7 +21,8 @@ class Jabatan_model extends CI_Model
     {        
         $data = array(
             "nama_jabatan" => $this->input->post('nama'),
-            "jenis_jabatan" => $this->input->post('jenis')
+            "jenis_jabatan" => $this->input->post('jenis'),
+            "is_atasan" => $this->input->post('is_atasan')
         );
 
         $this->db->insert($this->table, $data);
@@ -34,7 +35,8 @@ class Jabatan_model extends CI_Model
         $this->db->trans_start();        
         $data = array(
             "nama_jabatan" => $this->input->post('nama'),
-            "jenis_jabatan" => $this->input->post('jenis')
+            "jenis_jabatan" => $this->input->post('jenis'),
+            "is_atasan" => $this->input->post('is_atasan')
         );
         $this->db->where('id', $id);
         $this->db->update($this->table, $data);

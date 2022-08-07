@@ -147,6 +147,21 @@
                                 </div>
                             </div>
                             <div class="form-group row">
+                                <div class="col">
+                                    <label for="unit_id">Atasan</label>
+                                    <select class="form-control" id="atasan" name="atasan">
+                                        <option value="" selected>-- Pilih Jabatan --</option>
+                                        <?php
+                                        $option = '';
+                                        foreach ($atasan as $key => $value) {
+                                            $option .= '<option value="' . $value->account_nip . '">' . $value->nama . ' - ' . $value->nama_jabatan . ' ' . $value->nama_jurusan . '</option>';
+                                        }
+                                        echo $option;
+                                        ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
                                 <div class="col-md-4">
                                     <label for="jurusan_id">Jurusan</label>
                                     <select class="form-control" id="jurusan_id" name="jurusan_id">
@@ -160,7 +175,6 @@
                                     </select>
                                 </div>
                                 <div class="col-md-4">
-
                                     <label for="bagian_id">Bagian</label>
                                     <select class="form-control" id="bagian_id" name="bagian_id">
                                         <option value="">-- Pilih Bagian --</option>
@@ -376,6 +390,22 @@
                                                                         $selected = '';
                                                                     }
                                                                     $option .= '<option value="' . $v->id . '" ' . $selected . '>' . $v->nama_jabatan . ' - ' . $v->jenis_jabatan . '</option>';
+                                                                }
+                                                                echo $option;
+                                                                ?>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <div class="col">
+                                                            <label for="unit_id">Atasan</label>
+                                                            <select class="form-control" id="atasan" name="atasan">
+                                                                <option value="" selected>-- Pilih Jabatan --</option>
+                                                                <?php
+                                                                $option = '';
+                                                                foreach ($atasan as $k => $v) {
+                                                                    $selected = $value->atasan_nip === $v->account_nip  ? "selected" : "";
+                                                                    $option .= '<option value="' . $v->account_nip . '" ' . $selected . '>' . $v->nama . ' - ' . $v->nama_jabatan . ' ' . $v->nama_jurusan . '</option>';
                                                                 }
                                                                 echo $option;
                                                                 ?>

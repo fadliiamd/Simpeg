@@ -222,6 +222,10 @@ class Account extends Roles
         $unit = $this->unit_model->get_all();
         $pegawai = $this->pegawai_model->get_all_with_join();
         $jabatan = $this->jabatan_model->get_all();
+        $atasan =  $this->pegawai_model->get_all_where([
+            "status_kerja" => "aktif",
+            "is_atasan" => 1
+        ]);
 
         $this->load->view('partials/main-header', ['title' => ': Data Pegawai']);
         $this->load->view('users/admin/data_pegawai', [
@@ -230,7 +234,8 @@ class Account extends Roles
             "bagian" => $bagian,
             "unit" => $unit,
             "golpang" => $golpang,
-            "pegawai" => $pegawai
+            "pegawai" => $pegawai,
+            "atasan" => $atasan
         ]);
         $this->load->view('partials/main-footer');
     }
