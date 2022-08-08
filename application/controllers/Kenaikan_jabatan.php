@@ -102,7 +102,7 @@ class Kenaikan_jabatan extends Roles {
 
     public function send_notification()
     {         
-        $id = $this->notifikasi_model->create_notification([
+        $id = $this->notifikasi_model->create_notification([                        
             "judul" => "Progress Berkas Pengajuan Kenaikan Jabatan",
             "pesan" => "Ayo selesaikan upload berkas pengajuan kenaikan jabatan Anda! Perlu ".$this->input->post('sisa')." lagi untuk melengkapi berkasnya.",
             "redirect_to" => "kenaikan_jabatan/pengajuan_kenaikan"

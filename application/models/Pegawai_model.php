@@ -245,6 +245,7 @@ class Pegawai_model extends CI_Model
             $tgl_masuk = $this->input->post('tgl_masuk');
             $pendidikan = $this->input->post('pendidikan');
             $atasan = $this->input->post('atasan');
+            $no_hp = $this->input->post('no_hp');
 
             $jurusan_id = $this->input->post('jurusan_id');
             $bagian_id = $this->input->post('bagian_id');
@@ -278,7 +279,8 @@ class Pegawai_model extends CI_Model
                 "karpeg" => $karpeg,
                 "status_kerja" =>$status_kerja,
                 "tgl_menjabat" =>$tgl_menjabat,
-                "atasan_nip" =>$atasan
+                "atasan_nip" =>$atasan,
+                "no_hp" => $no_hp
             );
     
             $this->db->insert($this->table, $data_pegawai);
@@ -320,6 +322,7 @@ class Pegawai_model extends CI_Model
             $tgl_masuk = $this->input->post('tgl_masuk');
             $pendidikan = $this->input->post('pendidikan');
             $atasan = $this->input->post('atasan');
+            $no_hp = $this->input->post('no_hp');
 
             $jurusan_id = $this->input->post('jurusan_id');
             $bagian_id = $this->input->post('bagian_id');
@@ -346,7 +349,8 @@ class Pegawai_model extends CI_Model
                 "jurusan_id" => $jurusan_id,
                 "bagian_id" => $bagian_id,
                 "unit_id" => $unit_id,
-                "atasan_nip" => $atasan
+                "atasan_nip" => $atasan,
+                "no_hp" => $no_hp
             );
             
             if(!is_null($foto)){
