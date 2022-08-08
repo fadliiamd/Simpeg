@@ -65,6 +65,9 @@
                                     <div class="form-group">
                                         <label for="file_sertifikat">File Sertifikat (*)</label>
                                         <input type="file" class="form-control" id="file_sertifikat" name="file_sertifikat" required>
+                                        <p class="card-description mt-1">
+                                            Format file: .pdf&emsp;Maksimal ukuran file: 2MB
+                                        </p>
                                     </div>
                                 </div>
                                 <div class="col-md-8">
@@ -175,6 +178,9 @@
                                                             <div class="form-group">
                                                                 <label for="nama">File Sertifikat</label>
                                                                 <input type="file" class="form-control" id="nama" name="file_sertifikat" value="">
+                                                                <p class="card-description mt-1">
+                                                                    Format file: .pdf&emsp;Maksimal ukuran file: 2MB
+                                                                </p>
                                                                 <?php if (!is_null($value->nama_serti)) { ?>
                                                                     <a href="<?= base_url() . 'uploads/' . $value->nama_serti ?>" target="_blank">Lihat Sertifikat</a>
                                                                 <?php } ?>

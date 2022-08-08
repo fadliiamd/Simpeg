@@ -105,6 +105,9 @@
                                 <div class="col-md-4">
                                     <label for="foto">Foto</label>
                                     <input type="file" class="form-control-file" id="foto" name="foto">
+                                    <p class="card-description mt-1">
+                                      Format file: .pdf&emsp;Maksimal ukuran file: 2MB
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -240,6 +243,9 @@
                                                         <div class="col-md-4">
                                                             <label for="foto">Foto</label>
                                                             <input type="file" class="form-control-file" id="foto" name="foto">
+                                                            <p class="card-description mt-1">
+                                                                Format file: .pdf&emsp;Maksimal ukuran file: 2MB
+                                                            </p>
                                                             <?php if( ! is_null($value->foto)) {?>
                                                                 <a href="<?= base_url().'uploads/'.$value->foto ?>" download>Download Foto</a>
                                                             <?php

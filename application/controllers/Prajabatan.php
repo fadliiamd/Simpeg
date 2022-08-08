@@ -232,9 +232,9 @@ class Prajabatan extends CI_Controller {
         ));
 
         // POST Request and Upload File
-        $file_foto_name = $this->do_upload("pdf", "file_foto");
-        $file_ktp_name = $this->do_upload("pdf", "file_ktp");
-        $file_kk_name = $this->do_upload("pdf", "file_kk");
+        $file_foto_name = $this->do_upload("jpg|png", "file_foto");
+        $file_ktp_name = $this->do_upload("pdf|jpg|png", "file_ktp");
+        $file_kk_name = $this->do_upload("pdf|jpg|png", "file_kk");
         $file_ijazah_name = $this->do_upload("pdf", "file_ijazah");
         $file_surat_sehat_name = $this->do_upload("pdf", "file_surat_sehat");
         $file_tambahan_name = $this->do_upload("pdf", "file_tambahan");
@@ -245,11 +245,26 @@ class Prajabatan extends CI_Controller {
             redirect("prajabatan");
         }
 
-        $data = array(
-            "foto" => $file_foto_name,
-            "ktp" => $file_ktp_name,
-            "kk" => $file_kk_name,
-            "ijazah" => $file_ijazah_name,
+        // Modify Berkas Pegawai
+        $data_mod = [];
+        if(!is_null($file_foto_name)) {
+            $data_mod += [ 'foto' => $file_foto_name ];
+        }
+        if(!is_null($file_ktp_name)) {
+            $data_mod += [ 'ktp' => $file_ktp_name ];
+        }
+        if(!is_null($file_kk_name)) {
+            $data_mod += [ 'kk' => $file_kk_name ];
+        }
+        if(!is_null($file_ijazah_name)) {
+            $data_mod += [ 'ijazah' => $file_ijazah_name ];
+        }
+        $modify = $this->pegawai_model->update_one_where(
+            [ "account_nip" => $this->session->userdata('nip')],
+            $data_mod
+        );
+
+        $data_ins = array(
             "surat_sehat" => $file_surat_sehat_name,
             "tambahan" => $file_tambahan_name,
             "surat_id" => $surat_id,
@@ -257,9 +272,9 @@ class Prajabatan extends CI_Controller {
             "created_at" => date("Y-m-d h:i:s")
         );
 
-        $add = $this->prajabatan_model->insert_one($data);
+        $add = $this->prajabatan_model->insert_one($data_ins);
 
-        if($add) {
+        if($modify && $add) {
             $this->session->set_flashdata('message_success', 'Berhasil melakukan pemberkasan prajabatan!');
             redirect("prajabatan");
         } else {

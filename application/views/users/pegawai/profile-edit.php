@@ -45,6 +45,30 @@
                             <li class="list-group-item d-flex align-items-center flex-wrap">
                                 <i class="mdi mdi-file mr-3"></i>
                                 <h6 class="mb-0">
+                                    <a id="name-ktp" href="<?= !is_null($profiles->ijazah) ? base_url('uploads/' . $profiles->ktp) . '" target="_blank' : "#" ?>"><?= !is_null($profiles->ktp) ? "Lihat KTP" : "Belum Ada KTP" ?></a>
+                                </h6>
+                                <div class="emp">
+                                    <label for="ktp">
+                                        <i class="btn p-0 px-2 mdi mdi-lead-pencil text-primary"></i>
+                                    </label>
+                                    <input type="file" class="form-control-file d-none" id="ktp" name="ktp" onchange="document.getElementById('name-ktp').innerHTML = this.value.replace(/C:\\fakepath\\/i, '');">
+                                </div>
+                            </li>
+                            <li class="list-group-item d-flex align-items-center flex-wrap">
+                                <i class="mdi mdi-file mr-3"></i>
+                                <h6 class="mb-0">
+                                    <a id="name-kk" href="<?= !is_null($profiles->kk) ? base_url('uploads/' . $profiles->kk) . '" target="_blank' : "#" ?>"><?= !is_null($profiles->kk) ? "Lihat Kartu Keluarga" : "Belum Ada Kartu Keluarga" ?></a>
+                                </h6>
+                                <div class="emp">
+                                    <label for="kk">
+                                        <i class="btn p-0 px-2 mdi mdi-lead-pencil text-primary"></i>
+                                    </label>
+                                    <input type="file" class="form-control-file d-none" id="kk" name="kk" onchange="document.getElementById('name-kk').innerHTML = this.value.replace(/C:\\fakepath\\/i, '');">
+                                </div>
+                            </li>
+                            <li class="list-group-item d-flex align-items-center flex-wrap">
+                                <i class="mdi mdi-file mr-3"></i>
+                                <h6 class="mb-0">
                                     <a id="name-ijazah" href="<?= !is_null($profiles->ijazah) ? base_url('uploads/' . $profiles->ijazah) . '" target="_blank' : "#" ?>"><?= !is_null($profiles->ijazah) ? "Lihat Ijazah" : "Belum Ada Ijazah" ?></a>
                                 </h6>
                                 <div class="emp">

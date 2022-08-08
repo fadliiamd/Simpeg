@@ -186,14 +186,23 @@
                                 <div class="col-md-4">
                                     <label for="foto">Foto</label>
                                     <input type="file" class="form-control-file" id="foto" name="foto">
+                                    <p class="card-description mt-1">
+                                      Format file: .pdf&emsp;Maksimal ukuran file: 2MB
+                                    </p>
                                 </div>
                                 <div class="col-md-4">
                                     <label for="ijazah">Ijazah (*)</label>
                                     <input type="file" class="form-control-file" id="ijazah" name="ijazah" required>
+                                    <p class="card-description mt-1">
+                                      Format file: .pdf&emsp;Maksimal ukuran file: 2MB
+                                    </p>
                                 </div>
                                 <div class="col-md-4">
                                     <label for="karpeg">Kartu Pegawai</label>
                                     <input type="file" class="form-control-file" id="karpeg" name="karpeg">
+                                    <p class="card-description mt-1">
+                                      Format file: .pdf&emsp;Maksimal ukuran file: 2MB
+                                    </p>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -417,6 +426,9 @@
                                                         <div class="col-md-4">
                                                             <label for="foto">Foto</label>
                                                             <input type="file" class="form-control-file" id="foto" name="foto">
+                                                            <p class="card-description mt-1">
+                                                                Format file: .pdf&emsp;Maksimal ukuran file: 2MB
+                                                            </p>
                                                             <?php if (!is_null($value->foto)) { ?>
                                                                 <a href="<?= base_url() . 'uploads/' . $value->foto ?>" target="_blank">Lihat Foto</a>
                                                             <?php
@@ -425,11 +437,17 @@
                                                         <div class="col-md-4">
                                                             <label for="ijazah">Ijazah (*)</label>
                                                             <input type="file" class="form-control-file" id="ijazah" name="ijazah">
+                                                            <p class="card-description mt-1">
+                                                                Format file: .pdf&emsp;Maksimal ukuran file: 2MB
+                                                            </p>
                                                             <a href="<?= base_url() . 'uploads/' . $value->ijazah ?>" target="_blank">Lihat Ijazah</a>
                                                         </div>
                                                         <div class="col-md-4">
                                                             <label for="karpeg">Kartu Pegawai</label>
                                                             <input type="file" class="form-control-file" id="karpeg" name="karpeg">
+                                                            <p class="card-description mt-1">
+                                                                Format file: .pdf&emsp;Maksimal ukuran file: 2MB
+                                                            </p>
                                                             <?php if (!is_null($value->karpeg)) { ?>
                                                                 <a href="<?= base_url() . 'uploads/' . $value->karpeg ?>" target="_blank">Lihat Kartu Pegawai</a>
                                                             <?php

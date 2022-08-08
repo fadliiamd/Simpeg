@@ -1,5 +1,21 @@
 <div class="row">
   <div class="col-lg-12">
+    <?php if ($this->session->flashdata('message_success')) : ?>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <?= $this->session->flashdata('message_success') ?>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    <?php endif ?>
+    <?php if ($this->session->flashdata('message_error')) : ?>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <?= $this->session->flashdata('message_error') ?>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    <?php endif ?>
     <h4>Penugasan Undangan Bimbingan Teknis (Bimtek)</h4>
     <div class="table-responsive">
       <table class="table table-striped table-bordered table-datatable">
@@ -216,34 +232,110 @@
                           <form action="<?= base_url() ?>bimtek/create" method="post" class="forms-sample" enctype="multipart/form-data">
                             <div class="modal-body">
                               <input type="hidden" id="surat_id" name="surat_id" value=<?= $value->id ?>>
+                              <div class="form-group">
+                                <?php if($uploaded_berkas->foto != NULL && $uploaded_berkas->ktp != NULL && $uploaded_berkas->kk != NULL && $uploaded_berkas->ijazah != NULL) { ?>
+                                  <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    Berkas utama telah lengkap. Jika anda ingin mengubahnya silahkan menuju halaman profil
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                      <span aria-hidden="true">&times;</span>
+                                    </button>
+                                  </div>
+                                <?php } else { ?>
+                                  <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                    Silahkan untuk melengkapi berkas utama yang diperlukan.
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                      <span aria-hidden="true">&times;</span>
+                                    </button>
+                                  </div>
+                                <?php } ?>
+                              </div>
+                              <h4>
+                                Utama
+                              </h4>
+                              <hr />
                               <div class="form-group row">
                                 <div class="col-md-6">
                                   <label for="file_foto">Pas Foto (*)</label>
-                                  <input type="file" class="form-control-file" id="file_foto" name="file_foto" required>  
+                                  <?php if($uploaded_berkas->foto == NULL) { ?>
+                                    <input type="file" class="form-control-file" id="file_foto" name="file_foto" required>  
+                                    <p class="card-description mt-1">
+                                      Format file: jpg, png&emsp;Maksimal ukuran file: 2MB
+                                    </p>
+                                  <?php } else { ?>
+                                    <div class="mt-1">
+                                      <a href="<?= base_url() . 'uploads/' . $uploaded_berkas->foto ?>" target="_blank">                              
+                                        Lihat Pas Foto
+                                      </a>
+                                    </div>
+                                  <?php } ?>
                                 </div>
                                 <div class="col-md-6">
                                   <label for="file_ktp">KTP (*)</label>
-                                  <input type="file" class="form-control-file" id="file_ktp" name="file_ktp" required>  
+                                  <?php if($uploaded_berkas->ktp == NULL) { ?>
+                                    <input type="file" class="form-control-file" id="file_ktp" name="file_ktp" required>  
+                                    <p class="card-description mt-1">
+                                      Format file: pdf, jpg, png&emsp;Maksimal ukuran file: 2MB
+                                    </p>
+                                  <?php } else { ?>
+                                    <div class="mt-1">
+                                      <a href="<?= base_url() . 'uploads/' . $uploaded_berkas->ktp ?>" target="_blank">                              
+                                        Lihat KTP
+                                      </a>
+                                    </div>
+                                  <?php } ?>
                                 </div>
                               </div>
                               <div class="form-group row">
                                 <div class="col-md-6">
                                   <label for="file_kk">KK (*)</label>
-                                  <input type="file" class="form-control-file" id="file_kk" name="file_kk" required>  
+                                  <?php if($uploaded_berkas->kk == NULL) { ?>
+                                    <input type="file" class="form-control-file" id="file_kk" name="file_kk" required>  
+                                    <p class="card-description mt-1">
+                                      Format file: pdf, jpg, png&emsp;Maksimal ukuran file: 2MB
+                                    </p>
+                                  <?php } else { ?>
+                                    <div class="mt-1">
+                                      <a href="<?= base_url() . 'uploads/' . $uploaded_berkas->kk ?>" target="_blank">                              
+                                        Lihat KK
+                                      </a>
+                                    </div> 
+                                  <?php } ?>
                                 </div>
                                 <div class="col-md-6">
                                   <label for="file_ijazah">Ijazah (*)</label>
-                                  <input type="file" class="form-control-file" id="file_ijazah" name="file_ijazah" required>  
+                                  <?php if($uploaded_berkas->ijazah == NULL) { ?>
+                                    <input type="file" class="form-control-file" id="file_ijazah" name="file_ijazah" required>  
+                                    <p class="card-description mt-1">
+                                      Format file: pdf&emsp;Maksimal ukuran file: 2MB
+                                    </p>
+                                    <?php } else { ?>
+                                    <div class="mt-1">
+                                      <a href="<?= base_url() . 'uploads/' . $uploaded_berkas->ijazah ?>" target="_blank">                              
+                                        Lihat Ijazah
+                                      </a>
+                                    </div>
+                                  <?php } ?>
                                 </div>
                               </div>
+                              <br />
+                              <h4>
+                                Tambahan
+                              </h4>
+                              <hr />
                               <div class="form-group row">
                                 <div class="col-md-6">
                                   <label for="file_surat_sehat">Surat Sehat (opsional)</label>
                                   <input type="file" class="form-control-file" id="file_surat_sehat" name="file_surat_sehat">  
+                                  <p class="card-description mt-1">
+                                    Format file: pdf&emsp;Maksimal ukuran file: 2MB
+                                  </p>
                                 </div>
                                 <div class="col-md-6">
                                   <label for="file_tambahan">Dokumen Lainnya (opsional)</label>
                                   <input type="file" class="form-control-file" id="file_tambahan" name="file_tambahan">  
+                                  <p class="card-description mt-1">
+                                    Format file: pdf&emsp;Maksimal ukuran file: 2MB
+                                  </p>
                                 </div>
                               </div>
                             </div>

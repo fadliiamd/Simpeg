@@ -181,6 +181,13 @@ class Diklat extends CI_Controller {
             $list_jabatan[$value->id] = $value; 
         }
 
+        // Check if has Upload Berkas and Get
+        $uploaded_berkas = new stdClass();
+        $uploaded_berkas->foto = $pegawai_data->foto;
+        $uploaded_berkas->ktp = $pegawai_data->ktp;
+        $uploaded_berkas->kk = $pegawai_data->kk;
+        $uploaded_berkas->ijazah = $pegawai_data->ijazah;
+
         // Load View
         $this->load->view('partials/main-header', [
             "title" => " | Diklat"
@@ -190,6 +197,7 @@ class Diklat extends CI_Controller {
             "list_diklat" => $list_diklat,
             "check_diklat" => $check_diklat,
             "has_upload_hasil" => $has_upload_hasil,
+            "uploaded_berkas" => $uploaded_berkas,
             "list_diklat_berkas" => $list_diklat_berkas,
             "list_diklat_hasil" => $list_diklat_hasil,
             "list_jabatan" => $list_jabatan
@@ -232,9 +240,9 @@ class Diklat extends CI_Controller {
         ));
 
         // POST Request and Upload File
-        $file_foto_name = $this->do_upload("pdf", "file_foto");
-        $file_ktp_name = $this->do_upload("pdf", "file_ktp");
-        $file_kk_name = $this->do_upload("pdf", "file_kk");
+        $file_foto_name = $this->do_upload("jpg|png", "file_foto");
+        $file_ktp_name = $this->do_upload("pdf|jpg|png", "file_ktp");
+        $file_kk_name = $this->do_upload("pdf|jpg|png", "file_kk");
         $file_ijazah_name = $this->do_upload("pdf", "file_ijazah");
         $file_surat_sehat_name = $this->do_upload("pdf", "file_surat_sehat");
         $file_tambahan_name = $this->do_upload("pdf", "file_tambahan");
@@ -245,22 +253,37 @@ class Diklat extends CI_Controller {
             redirect("diklat");
         }
 
-        $data = array(
+        // Modify Berkas Pegawai
+        $data_mod = [];
+        if(!is_null($file_foto_name)) {
+            $data_mod += [ 'foto' => $file_foto_name ];
+        }
+        if(!is_null($file_ktp_name)) {
+            $data_mod += [ 'ktp' => $file_ktp_name ];
+        }
+        if(!is_null($file_kk_name)) {
+            $data_mod += [ 'kk' => $file_kk_name ];
+        }
+        if(!is_null($file_ijazah_name)) {
+            $data_mod += [ 'ijazah' => $file_ijazah_name ];
+        }
+        $modify = $this->pegawai_model->update_one_where(
+            [ "account_nip" => $this->session->userdata('nip')],
+            $data_mod
+        );
+
+        // Insert Data to Diklat
+        $data_ins = array(
             "jenis" => $surat->jenis_diklat,
-            "foto" => $file_foto_name,
-            "ktp" => $file_ktp_name,
-            "kk" => $file_kk_name,
-            "ijazah" => $file_ijazah_name,
             "surat_sehat" => $file_surat_sehat_name,
             "tambahan" => $file_tambahan_name,
             "surat_id" => (int)$surat_id,
             "pegawai_nip" => $this->session->userdata('nip'),
             "created_at" => date("Y-m-d h:i:s")
         );
+        $add = $this->diklat_model->insert_one($data_ins);
 
-        $add = $this->diklat_model->insert_one($data);
-
-        if($add) {
+        if($modify && $add) {
             $this->session->set_flashdata('message_success', 'Berhasil melakukan pemberkasan diklat!');
             redirect("diklat");
         } else {

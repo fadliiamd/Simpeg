@@ -5,6 +5,7 @@ class Pegawai_model extends CI_Model
 
     public $table = "pegawai";
     public $account_table = "account";
+    public $berkas_table = "pegawai_berkas";
 
     public function get_all_column($col, $where = NULL)
     {
@@ -401,6 +402,8 @@ class Pegawai_model extends CI_Model
             $keahlian_id = $this->input->post('keahlian_id');
 
             $foto = $this->do_upload("jpg|png", "foto");
+            $ktp = $this->do_upload("pdf|jpg|png", "ktp");
+            $kk = $this->do_upload("pdf|jpg|png", "kk");
             $ijazah = $this->do_upload("pdf", "ijazah");
             $karpeg = $this->do_upload("pdf|jpg|png", "karpeg");                    
 
@@ -418,6 +421,16 @@ class Pegawai_model extends CI_Model
             if(!is_null($foto)){
                 $data_pegawai += array(
                     'foto' => $foto
+                );
+            }
+            if(!is_null($ktp)){
+                $data_pegawai += array(
+                    'ktp' => $ktp
+                );
+            }
+            if(!is_null($kk)){
+                $data_pegawai += array(
+                    'kk' => $kk
                 );
             }
             if(!is_null($ijazah)){
@@ -443,6 +456,19 @@ class Pegawai_model extends CI_Model
             return false;
         }
 
+        return true;
+    }
+
+    public function update_one_where($where, $data)
+    {
+        $this->db->trans_start();
+        $this->db->where($where);
+        $this->db->update($this->table, $data);
+        $this->db->trans_complete();
+
+        if ($this->db->trans_status() === FALSE) {
+            return false;
+        }
         return true;
     }
 

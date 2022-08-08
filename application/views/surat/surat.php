@@ -40,6 +40,9 @@
               <div class="form-group">
                 <label for="file_surat">File Surat (*)</label>
                 <input type="file" class="form-control-file" id="file_surat" name="file_surat" required>
+                <p class="card-description mt-1">
+                  Format file: .pdf&emsp;Maksimal ukuran file: 2MB
+                </p>
               </div>
             </div>
             <div class="modal-footer">
@@ -72,6 +75,9 @@
                 <div class="col-md-4">
                   <label for="file_surat">File Surat (*)</label>
                   <input type="file" class="form-control-file" id="file_surat" name="file_surat" required>
+                  <p class="card-description mt-1">
+                    Format file: .pdf&emsp;Maksimal ukuran file: 2MB
+                  </p>
                 </div>
               </div>
               <div class="form-group row">
@@ -326,6 +332,9 @@
                             <div class="col-md-6">
                               <label for="file_surat_edit">File Surat (*)</label>
                               <input type="file" class="form-control-file" id="file_surat_edit" name="file_surat">
+                              <p class="card-description mt-1">
+                                Format file: .pdf&emsp;Maksimal ukuran file: 2MB
+                              </p>
                               <div class="mt-1">
                                 <a href="<?= base_url() . 'uploads/' . $value->file_name ?>" target="_blank">                              
                                     Lihat Surat                              
