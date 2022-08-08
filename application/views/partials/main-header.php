@@ -19,7 +19,7 @@
   <link rel="stylesheet" type="text/css" href="<?= site_url(); ?>assets/js/select.dataTables.min.css">
   <link rel="stylesheet" href="<?= site_url() ?>assets/vendors/select2/select2.min.css" />
   <!-- End plugin css for this page -->
-  <!-- inject:css --> 
+  <!-- inject:css -->
   <link rel="stylesheet" href="<?= site_url() ?>assets/css/vertical-layout-light/style.css">
   <!-- endinject -->
   <link rel="shortcut icon" href="<?= site_url(); ?>assets/images/favicon.png" />
@@ -35,8 +35,19 @@
   <script src="<?= site_url() ?>assets/js/dataTables.select.min.js"></script>
   <script src="<?= site_url() ?>assets/js/dataTables.buttons.min.js"></script>
   <script src="<?= site_url() ?>assets/vendors/select2/select2.min.js"></script>
-  
+
   <style>
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      -webkit-appearance: none !important;
+      margin: 0;
+    }
+
+    /* Firefox */
+    input[type=number].hide-arrows {
+      -moz-appearance: textfield !important;
+    }
+
     .container-image {
       position: relative;
       text-align: center;
@@ -140,7 +151,7 @@
     }
 
     .feather {
-      font-family: 'feather' !important;      
+      font-family: 'feather' !important;
       font-style: normal;
       font-weight: normal;
       font-variant: normal;

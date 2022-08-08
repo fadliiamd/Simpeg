@@ -75,15 +75,19 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <div class="col-md-4">
+                                <div class="col-md-3">
+                                    <label for="no_hp">No. Handphone</label>
+                                    <input type="number" class="form-control hide-arrows" id="no_hp" name="no_hp">
+                                </div>
+                                <div class="col-md-3">
                                     <label for="tempat_lahir">Tempat Lahir (*)</label>
                                     <input class="form-control" id="tempat_lahir" name="tempat_lahir" required>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <label for="tgl_lahir">Tanggal Lahir (*)</label>
                                     <input type="date" class="form-control" id="tgl_lahir" name="tgl_lahir" required>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <label for="alamat">Alamat</label>
                                     <input class="form-control" id="alamat" name="alamat">
                                 </div>
@@ -321,15 +325,19 @@
                                                         </div>
                                                     </div>
                                                     <div class="form-group row">
-                                                        <div class="col-md-4">
+                                                        <div class="col-md-3">
+                                                            <label for="no_hp">No. Handphone</label>
+                                                            <input type="number" class="form-control hide-arrows" id="no_hp" name="no_hp" value="<?= $value->no_hp ?>">
+                                                        </div>
+                                                        <div class="col-md-3">
                                                             <label for="tempat_lahir">Tempat Lahir (*)</label>
                                                             <input class="form-control" id="tempat_lahir" name="tempat_lahir" value="<?= $value->tempat_lahir ?>">
                                                         </div>
-                                                        <div class="col-md-4">
+                                                        <div class="col-md-3">
                                                             <label for="tgl_lahir">Tanggal Lahir (*)</label>
                                                             <input type="date" class="form-control" id="tgl_lahir" name="tgl_lahir" value="<?= date('Y-m-d', strtotime($value->tgl_lahir)) ?>">
                                                         </div>
-                                                        <div class="col-md-4">
+                                                        <div class="col-md-3">
                                                             <label for="alamat">Alamat</label>
                                                             <input class="form-control" id="alamat" name="alamat" value="<?= $value->alamat ?>">
                                                         </div>

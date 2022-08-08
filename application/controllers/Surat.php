@@ -466,7 +466,7 @@ class Surat extends Roles {
         ]);
 
         // Insert Notification
-        $create_notif = $this->notifikasi_model->create_notification(array(
+        $create_notif = $this->notifikasi_model->create_notification(array(            
             "judul" => "Undangan ".ucwords($surat_data->jenis_kegiatan),
             "pesan" => "Anda mendapatkan undangan kegiatan ".ucwords($surat_data->jenis_kegiatan).". Silahkan segera melakukan proses pemberkasan pada laman kegiatan ".$surat_data->jenis_kegiatan,
             "redirect_to" => $surat_data->jenis_kegiatan

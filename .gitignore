@@ -2,6 +2,8 @@
 
 uploads/*
 
+lib/wa/.wwebjs_auth/*
+lib/wa/node_modules/*
 application/cache/*
 !application/cache/index.html
 
