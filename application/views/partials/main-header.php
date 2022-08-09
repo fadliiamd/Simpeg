@@ -266,12 +266,6 @@
               <span class="menu-title">Dashboard</span>
             </a>
           </li>
-          <li id="base-url" class="nav-item">
-            <a class="nav-link" href="<?= site_url(); ?>notifikasi">
-              <i class="mdi mdi-bell menu-icon"></i>
-              <span class="menu-title">Notifikasi</span>
-            </a>
-          </li>
           <hr>
           <li class="nav-item">
             <span class="p-0 font-weight-bold nav-link disable menu-title" style="word-wrap: break-word;white-space:normal;">Peralihan dan Pengalihan</span>
