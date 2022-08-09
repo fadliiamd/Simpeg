@@ -238,9 +238,6 @@ class Surat extends Roles {
         } else {
             $jenis_tujuan = "tidak ada";
             $surat_status = "need ranking";
-            $data_additional = array_merge($data_additional, [
-                "kriteria" => $this->input->post('kriteria')
-            ]);
         }        
         // Uploading File Surat
         $file_name = $this->do_upload("pdf", "file_surat");
@@ -357,7 +354,6 @@ class Surat extends Roles {
                 $jenis_tujuan = "tidak ada";
                 $data_additional = array_merge($data_additional, [
                     "status" => "need ranking",
-                    "kriteria" => $this->input->post('kriteria')
                 ]);
             }
 

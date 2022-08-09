@@ -29,10 +29,6 @@ function change_subjek(element, id) {
 	} else if (element.value == 'tidak ada') {
 		$("#detail_subjek_edit_" + id).empty();
 		$("#detail_tujuan_edit_" + id).empty();
-		$("#detail_subjek_edit_" + id).append(`
-				<label for="kriteria_edit_${id}">Kriteria (*)</label>
-				<textarea class="form-control" id="kriteria_edit_${id}" name="kriteria" rows="6"></textarea>
-			`);
 	} else {
 		$("#detail_subjek_edit_" + id).empty();
 		$("#detail_tujuan_edit_" + id).empty();

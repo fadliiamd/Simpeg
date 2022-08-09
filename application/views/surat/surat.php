@@ -165,6 +165,7 @@
               </td>
               <td>
                 <!-- Modal: Add Filter -->
+                <?php if($value->jenis_tujuan == 'tidak ada') { ?>
                 <?php if($value->kriteria_id == NULL) { ?>
                 <button type="button" class="btn btn-success" data-toggle="modal" data-target="#filtersurat-<?= $value->id ?>">Tambah Kriteria</button>
                 <div id="filtersurat-<?= $value->id ?>" class="modal fade edittable" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
@@ -514,7 +515,7 @@
                     </div>
                   </div>
                 </div>
-                <?php } ?>
+                <?php } } ?>
 
                 <!-- Modal: Detail -->
                 <button type="button" class="btn btn-info" data-toggle="modal" data-target="#viewsurat-<?= $value->id ?>">Detail</button>
@@ -572,11 +573,6 @@
                               <?php if($value->jenis_tujuan == 'divisi' || $value->jenis_tujuan == 'perorangan') { ?>
                               <label for="jenis_tujuan">Jenis Pegawai Tujuan Surat</label>
                               <input type="text" class="form-control" id="jenis_tujuan" value="<?=ucwords($value->jenis_tujuan) ?>" disabled>
-                              <?php } ?>
-
-                              <?php if($value->jenis_tujuan == 'tidak ada') { ?>
-                              <label for="kriteria">Kriteria</label>
-                              <textarea class="form-control" id="kriteria" name="kriteria" rows="6" disabled><?= $value->kriteria ?></textarea>
                               <?php } ?>
                             </div>
                           </div>
@@ -738,10 +734,6 @@
                                   <option value="divisi" <?php if($value->jenis_tujuan === 'divisi') echo "selected"; ?>>Divisi</option>
                                   <option value="perorangan" <?php if($value->jenis_tujuan === 'perorangan') echo "selected"; ?>>Perorangan</option>
                                 </select>
-                              <?php } ?>
-                              <?php if($value->jenis_tujuan == 'tidak ada') { ?>
-                                <label for="kriteria">Kriteria</label>
-                                <textarea class="form-control" id="kriteria" name="kriteria" rows="6"><?= $value->kriteria ?></textarea>
                               <?php } ?>
                             </div>
                           </div>
