@@ -72,35 +72,57 @@ class Notifikasi_model extends CI_Model
     {
         // Notify to number phone      
         // For pegawai tujuan  
-        $this->load->model(['pegawai_model']);
+        $this->load->model(['pegawai_model', 'notifikasi_model']);
 
         $pegawai = $this->pegawai_model->get_one(["account_nip" => $data["account_nip"]]);
         $no_tujuan = $pegawai->no_hp;
 
         $pesan = (array) $this->get_pesan(["id" => $data["notifikasi_id"]]);
+
         unset($pesan["id"]);
+
         $pesan["redirect_to"] = base_url($pesan["redirect_to"]) . "\n";
         $pesan = implode("\n\n", $pesan);
 
         $res = $this->curl_get('localhost:3000/api', ["tujuan" => $no_tujuan, "pesan" => $pesan]);
 
         // Notify ke atasannya jika ada
-        $atasan = $this->pegawai_model->get_one(["account_nip" => $pegawai->atasan]);
-        if (!is_null($atasan)) {            
+        $atasan = $this->pegawai_model->get_one(["account_nip" => $pegawai->atasan_nip]);
+        if (!is_null($atasan) and $res) {
             $no_tujuan = $atasan->no_hp; // No HP tujuan
 
             // Setting pesan ke WA
-            $pesan = (array) $this->get_pesan(["id" => $data["notifikasi_id"]]);
-            unset($pesan["id"]);
-            $pesan["redirect_to"] = base_url($pesan["redirect_to"]) . "\n";
-            $pesan = implode("\n\n", $pesan);
+            // $pesan = (array) $this->get_pesan(["id" => $data["notifikasi_id"]]);
+            // unset($pesan["id"]);
+            // $pesan["redirect_to"] = base_url($pesan["redirect_to"]) . "\n";
+            // $pesan = implode("\n\n", $pesan);
 
-            $pesan = "Pegawai atas nama  ".$pegawai->nama." telah mendapatkan notifikasi dengan isi pesan :\n".$pesan;
+            // $pesan = "Pegawai atas nama  " . $pegawai->nama . " telah mendapatkan notifikasi dengan isi pesan :\n" . $pesan;
 
-            $res = $this->curl_get('localhost:3000/api', ["tujuan" => $no_tujuan, "pesan" => $pesan]);
+            // $res = $this->curl_get('localhost:3000/api', ["tujuan" => $no_tujuan, "pesan" => $pesan]);
 
-            // Jika berhasil then insert to db
+            // Jika berhasil then insert to db            
+            $id = $this->input->post('surat_id');
 
+            // Get Surat Data
+            $surat_data = $this->surat_model->get_one([
+                "id" => $id
+            ]);
+
+            // Insert Notification
+            $create_notif = $this->notifikasi_model->create_notification(array(
+                "judul" => "Undangan " . ucwords($surat_data->jenis_kegiatan),
+                "pesan" => "Pegawai anda mendapatkan undangan kegiatan " . ucwords($surat_data->jenis_kegiatan) . " untuk pegawai Anda atas nama ".$pegawai->account_nip."-".$pegawai->nama. ". Silahkan segera melakukan proses pemberkasan pada laman kegiatan " . $surat_data->jenis_kegiatan,
+                "redirect_to" => $surat_data->jenis_kegiatan
+            ));
+
+            // Pair Notification with Account
+            $this->notifikasi_model->pair_notification(array(
+                "account_nip" => $atasan->account_nip,
+                "notifikasi_id" => $create_notif,
+                "status" => "Unseen",
+                "created_at" => date("Y-m-d h:i:s")
+            ));
         }
 
         // Then insert to db
