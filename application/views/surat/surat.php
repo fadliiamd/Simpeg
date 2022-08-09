@@ -190,7 +190,7 @@
                             <div class="col-md-4">
                               <b>Pendidikan</b><br>
                               <div class="d-flex align-items-center">
-                                <select class="form-control js-example-basic-multiple" name="pendidikan[]" multiple="multiple">
+                                <select class="form-control js-example-basic-multiple" name="pendidikan[]" multiple="multiple" style="width:100%">
                                 <?php
                                 $label_pendidikan = [
                                   "SMA", "D3", "S1", "S2", "S3"
@@ -206,7 +206,7 @@
                             <div class="col-md-4">
                               <b>Jenis Pegawai</b><br>
                               <div class="d-flex align-items-center">
-                                <select class="form-control js-example-basic-multiple" name="jenis_pegawai[]" multiple="multiple">
+                                <select class="form-control js-example-basic-multiple" name="jenis_pegawai[]" multiple="multiple" style="width:100%">
                                 <?php
                                 $label_pendidikan = [
                                   "fungsional", "struktural"
@@ -224,7 +224,7 @@
                           <div class="row">
                             <div class="col-md-4">
                               <b>Jurusan</b><br>
-                              <select class="form-control js-example-basic-multiple" name="jurusan[]" multiple="multiple">
+                              <select class="form-control js-example-basic-multiple" name="jurusan[]" multiple="multiple" style="width:100%">
                               <?php
                               foreach ($jurusan as $key => $el) { ?>
                                 <option value="<?= $el->id ?>"><?= ucwords($el->nama) ?></option>
@@ -235,7 +235,7 @@
                             </div>
                             <div class="col-md-4">
                               <b>Bagian</b><br>
-                              <select class="form-control js-example-basic-multiple" name="bagian[]" multiple="multiple">
+                              <select class="form-control js-example-basic-multiple" name="bagian[]" multiple="multiple" style="width:100%">
                               <?php
                               foreach ($bagian as $key => $el) { ?>
                                 <option value="<?= $el->id ?>"><?= ucwords($el->nama) ?></option>
@@ -246,7 +246,7 @@
                             </div>
                             <div class="col-md-4">
                               <b>Unit</b><br>
-                              <select class="form-control js-example-basic-multiple" name="unit[]" multiple="multiple">
+                              <select class="form-control js-example-basic-multiple" name="unit[]" multiple="multiple" style="width:100%">
                               <?php
                               foreach ($unit as $key => $el) { ?>
                                 <option value="<?= $el->id ?>"><?= ucwords($el->nama) ?></option>
@@ -260,7 +260,7 @@
                           <div class="row">
                             <div class="col-md-4">
                               <b>Jabatan</b><br>
-                              <select class="form-control js-example-basic-multiple" name="jabatan[]" multiple="multiple">
+                              <select class="form-control js-example-basic-multiple" name="jabatan[]" multiple="multiple" style="width:100%">
                               <?php
                               foreach ($jabatan as $key => $el) { ?>
                                 <option value="<?= $el->id ?>"><?= ucwords($el->nama_jabatan) ?></option>
@@ -271,7 +271,7 @@
                             </div>
                             <div class="col-md-4">
                               <b>Bidang Keahlian</b><br>
-                              <select class="form-control js-example-basic-multiple" name="bidang_keahlian[]" multiple="multiple">
+                              <select class="form-control js-example-basic-multiple" name="bidang_keahlian[]" multiple="multiple" style="width:100%">
                               <?php
                               foreach ($bidang_keahlian as $key => $el) { ?>
                                 <option value="<?= $el->id_keahlian ?>"><?= ucwords($el->nama_keahlian) ?></option>
@@ -282,7 +282,7 @@
                             </div>
                             <div class="col-md-4">
                               <b>Sertifikat Kegiatan</b><br>
-                              <select class="form-control js-example-basic-multiple" name="sertifikat_kegiatan[]" multiple="multiple">
+                              <select class="form-control js-example-basic-multiple" name="sertifikat_kegiatan[]" multiple="multiple" style="width:100%">
                               <?php
                               $curr_tema = [];
                               foreach ($sertifikat as $key => $el) {
@@ -329,7 +329,7 @@
                             <div class="col-md-4">
                               <b>Pendidikan</b><br>
                               <div class="d-flex align-items-center">
-                                <select class="form-control js-example-basic-multiple" name="pendidikan[]" multiple="multiple">
+                                <select class="form-control js-example-basic-multiple" name="pendidikan[]" multiple="multiple" style="width:100%">
                                 <?php
                                 $label_pendidikan = [
                                   "SMA", "D3", "S1", "S2", "S3"
@@ -354,7 +354,7 @@
                             <div class="col-md-4">
                               <b>Jenis Pegawai</b><br>
                               <div class="d-flex align-items-center">
-                                <select class="form-control js-example-basic-multiple" name="jenis_pegawai[]" multiple="multiple">
+                                <select class="form-control js-example-basic-multiple" name="jenis_pegawai[]" multiple="multiple" style="width:100%">
                                 <?php
                                 $label_pendidikan = [
                                   "fungsional", "struktural"
@@ -381,7 +381,7 @@
                           <div class="row">
                             <div class="col-md-4">
                               <b>Jurusan</b><br>
-                              <select class="form-control js-example-basic-multiple" name="jurusan[]" multiple="multiple">
+                              <select class="form-control js-example-basic-multiple" name="jurusan[]" multiple="multiple" style="width:100%">
                               <?php
                               foreach ($jurusan as $key => $el) {
                                 $arr = explode(",", $list_kriteria[$value->kriteria_id]->jurusan_id);
@@ -401,7 +401,7 @@
                             </div>
                             <div class="col-md-4">
                               <b>Bagian</b><br>
-                              <select class="form-control js-example-basic-multiple" name="bagian[]" multiple="multiple">
+                              <select class="form-control js-example-basic-multiple" name="bagian[]" multiple="multiple" style="width:100%">
                               <?php
                               foreach ($bagian as $key => $el) {
                                 $arr = explode(",", $list_kriteria[$value->kriteria_id]->bagian_id);
@@ -421,7 +421,7 @@
                             </div>
                             <div class="col-md-4">
                               <b>Unit</b><br>
-                              <select class="form-control js-example-basic-multiple" name="unit[]" multiple="multiple">
+                              <select class="form-control js-example-basic-multiple" name="unit[]" multiple="multiple" style="width:100%">
                               <?php
                               foreach ($unit as $key => $el) {
                                 $arr = explode(",", $list_kriteria[$value->kriteria_id]->unit_id);
@@ -444,7 +444,7 @@
                           <div class="row">
                             <div class="col-md-4">
                               <b>Jabatan</b><br>
-                              <select class="form-control js-example-basic-multiple" name="jabatan[]" multiple="multiple">
+                              <select class="form-control js-example-basic-multiple" name="jabatan[]" multiple="multiple" style="width:100%">
                               <?php
                               foreach ($jabatan as $key => $el) {
                                 $arr = explode(",", $list_kriteria[$value->kriteria_id]->jabatan_id);
@@ -464,7 +464,7 @@
                             </div>
                             <div class="col-md-4">
                               <b>Bidang Keahlian</b><br>
-                              <select class="form-control js-example-basic-multiple" name="bidang_keahlian[]" multiple="multiple">
+                              <select class="form-control js-example-basic-multiple" name="bidang_keahlian[]" multiple="multiple" style="width:100%">
                               <?php
                               foreach ($bidang_keahlian as $key => $el) {
                                 $arr = explode(",", $list_kriteria[$value->kriteria_id]->bidang_keahlian_id);
@@ -484,7 +484,7 @@
                             </div>
                             <div class="col-md-4">
                               <b>Sertifikat Kegiatan</b><br>
-                              <select class="form-control js-example-basic-multiple" name="sertifikat_kegiatan[]" multiple="multiple">
+                              <select class="form-control js-example-basic-multiple" name="sertifikat_kegiatan[]" multiple="multiple" style="width:100%">
                               <?php
                               $curr_tema = [];
                               foreach ($sertifikat as $key => $el) {
