@@ -10,21 +10,28 @@ class Surat extends Roles {
 	public function index()
 	{
         // Load Model
-        $this->load->model('surat_model');
-        $this->load->model('pegawai_model');
-        $this->load->model('jurusan_model');
-        $this->load->model('bagian_model');
-        $this->load->model('unit_model');
-        $this->load->model('jabatan_model');
+        $this->load->model([
+            "surat_model",
+            "pegawai_model",
+            "jurusan_model",
+            "bagian_model",
+            "unit_model",
+            "jabatan_model",
+            "keahlian_model",
+            "sertifikat_model"
+        ]);
 
         // Get All Surat
         $surat = $this->surat_model->get_all();
 
-        // Get All Pegawai
+        // Get All Data
         $pegawai = $this->pegawai_model->get_all();
+        $jabatan = $this->jabatan_model->get_all();
         $jurusan = $this->jurusan_model->get_all();
         $bagian = $this->bagian_model->get_all();
         $unit = $this->unit_model->get_all();
+        $bidang_keahlian = $this->keahlian_model->get_all();
+        $sertifikat = $this->sertifikat_model->get_all();
 
         // Get Detail from Detail Tujuan
         $list_detail_tujuan = [];
@@ -79,7 +86,6 @@ class Surat extends Roles {
         }
 
         // Get List Jabatan
-        $jabatan = $this->jabatan_model->get_all();
         $list_jabatan = [];
         foreach($jabatan as $value) {
             $list_jabatan[$value->id] = $value; 
@@ -93,8 +99,11 @@ class Surat extends Roles {
             "surat" => $surat,
             "pegawai" => $pegawai,
             "jurusan" => $jurusan,
+            "jabatan" => $jabatan,
             "bagian" => $bagian,
             "unit" => $unit,
+            "sertifikat" => $sertifikat,
+            "bidang_keahlian" => $bidang_keahlian,
             "list_jabatan" => $list_jabatan
         ]);
 		$this->load->view('partials/main-footer');

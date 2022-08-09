@@ -164,6 +164,65 @@
                 </label>
               </td>
               <td>
+                <!-- Modal: Filter -->
+                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#filtersurat-<?= $value->id ?>">Edit Kriteria</button>
+                <div id="filtersurat-<?= $value->id ?>" class="modal fade edittable" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                  <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Filter Berdasarkan :</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <form method="GET" action="<?= base_url('surat') ?>" enctype="multipart/form-data">
+                        <div class="modal-body">
+                          <div class="row">
+                            <div class="col-md-4">
+                              <b>Masa Kerja Minimal</b>
+                              <!-- <input type="date" id="tgl_masuk@>=" class="form-control" value="<?= isset($_GET['tgl_masuk@>=']) ? $_GET['tgl_masuk@>='] : "" ?>" style="margin:10px 0px"> -->
+                              <div class="d-flex align-items-center">
+                                <input type="number" class="form-control" id="tgl_masuk" min="0" value="<?= isset($_GET['YEAR(tgl_masuk)']) ? (date('Y') - $_GET['YEAR(tgl_masuk)']) : "" ?>" oninput="this.value = Math.abs(this.value)" style="margin:10px 0px;max-width:100px;">
+                                <span class="pl-2">Tahun</span>
+                              </div>
+                              <input id="tgl_masuk_on" class="form-check-input ml-0" name="YEAR(tgl_masuk)@<=" type="number" value="<?= isset($_GET['YEAR(tgl_masuk)']) ? $_GET['YEAR(tgl_masuk)'] : "" ?>" hidden>
+                            </div>
+                            <div class="col-md-4">
+                              <b>Pendidikan</b><br>
+                              <?php
+                              $label_pendidikan = [
+                                "SMA", "D3", "S1", "S2", "S3"
+                              ];
+                              foreach ($label_pendidikan as $key => $el) { ?>
+                                <div class="form-check form-check-inline" style="display:inline-flex">
+                                  <input class="form-check-input ml-0" name="pendidikan[]" type="checkbox" id="lp<?= $el ?>" value="<?= $el ?>">
+                                  <label class="form-check-label ml-0" for="lp<?= $key ?>"><?= $el ?></label>
+                                </div>
+                              <?php
+                              }
+                              ?>
+                            </div>
+                            <div class="col-md-4">
+                              <b>Jenis Pegawai</b><br>
+                              <?php
+                              $label_pendidikan = [
+                                "SMA", "D3", "S1", "S2", "S3"
+                              ];
+                              foreach ($label_pendidikan as $key => $el) { ?>
+                                <div class="form-check form-check-inline" style="display:inline-flex">
+                                  <input class="form-check-input ml-0" name="pendidikan[]" type="checkbox" id="lp<?= $el ?>" value="<?= $el ?>">
+                                  <label class="form-check-label ml-0" for="lp<?= $key ?>"><?= $el ?></label>
+                                </div>
+                              <?php
+                              }
+                              ?>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+
                 <!-- Modal: Detail -->
                 <button type="button" class="btn btn-info" data-toggle="modal" data-target="#viewsurat-<?= $value->id ?>">Detail</button>
                 <div id="viewsurat-<?= $value->id ?>" class="modal fade edittable" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">

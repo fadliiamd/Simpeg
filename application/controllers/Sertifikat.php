@@ -91,4 +91,21 @@ class Sertifikat extends Roles {
     {
         
     }
+
+    public function verifikasi()
+    {
+        $this->load->model('sertifikat_model');
+        $id = $this->input->post('serti_id');
+
+        $update = $this->sertifikat_model->verify_serti($id);
+        if($update)
+        {
+            $this->session->set_flashdata('message_success', 'Behasil memverifikasi sertifikat');
+            redirect("sertifikat");
+        }else
+        {
+            $this->session->set_flashdata('message_error', 'Gagal memverifikasi sertifikat');
+            redirect("sertifikat");
+        }
+    }
 }
