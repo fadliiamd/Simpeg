@@ -1,15 +1,16 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Diklat extends CI_Controller {
+class Diklat extends CI_Controller
+{
     public $nama;
 
-	public function __construct()
+    public function __construct()
     {
         parent::__construct();
 
         // Auth Check
-        if($this->session->userdata('nip') == NULL) {
+        if ($this->session->userdata('nip') == NULL) {
             $this->session->set_flashdata('message_success', 'Harap login terlebih dahulu!');
             redirect("auth/login");
         }
@@ -37,34 +38,34 @@ class Diklat extends CI_Controller {
 
         // Get Detail from Detail Tujuan
         $list_detail_tujuan = [];
-        foreach($list_diklat as $key => $value) {
+        foreach ($list_diklat as $key => $value) {
             $list_detail = [];
-            if($value->jenis_tujuan == 'divisi') {
-                if($value->tujuan == 'jurusan') {
+            if ($value->jenis_tujuan == 'divisi') {
+                if ($value->tujuan == 'jurusan') {
                     $detail_tujuan = $this->surat_model->get_all_where_subjek([
                         "surat_id" => $value->id
                     ]);
-                    foreach($detail_tujuan as $item) {
+                    foreach ($detail_tujuan as $item) {
                         $get_data = $this->jurusan_model->get_one([
                             "id" => $item->subjek
                         ]);
                         array_push($list_detail, $get_data);
                     }
-                } else if($value->tujuan == 'bagian') {
+                } else if ($value->tujuan == 'bagian') {
                     $detail_tujuan = $this->surat_model->get_all_where_subjek([
                         "surat_id" => $value->id
                     ]);
-                    foreach($detail_tujuan as $item) {
+                    foreach ($detail_tujuan as $item) {
                         $get_data = $this->bagian_model->get_one([
                             "id" => $item->subjek
                         ]);
                         array_push($list_detail, $get_data);
                     }
-                } else if($value->tujuan == 'unit') {
+                } else if ($value->tujuan == 'unit') {
                     $detail_tujuan = $this->surat_model->get_all_where_subjek([
                         "surat_id" => $value->id
                     ]);
-                    foreach($detail_tujuan as $item) {
+                    foreach ($detail_tujuan as $item) {
                         $get_data = $this->unit_model->get_one([
                             "id" => $item->subjek
                         ]);
@@ -72,11 +73,11 @@ class Diklat extends CI_Controller {
                     }
                 }
                 $list_detail_tujuan[$value->id] = $list_detail;
-            } else if($value->jenis_tujuan == 'perorangan') {
+            } else if ($value->jenis_tujuan == 'perorangan') {
                 $detail_tujuan = $this->surat_model->get_all_where_subjek([
                     "surat_id" => $value->id
                 ]);
-                foreach($detail_tujuan as $item) {
+                foreach ($detail_tujuan as $item) {
                     $get_data = $this->pegawai_model->get_one([
                         "account_nip" => $item->subjek
                     ]);
@@ -91,51 +92,50 @@ class Diklat extends CI_Controller {
         $list_diklat_berkas = [];
         $list_diklat_hasil = [];
         // Filter "Surat Tugas" Addressed to Account
-        foreach($list_diklat as $key => $value) {
-            if($this->session->userdata('role') != 'admin') {
-                if($value->jenis_tujuan == 'perorangan') {
+        foreach ($list_diklat as $key => $value) {
+            if ($this->session->userdata('role') != 'admin') {
+                if ($value->jenis_tujuan == 'perorangan') {
                     $detail_tujuan = $this->surat_model->get_all_where_subjek([
                         "surat_id" => $value->id
                     ]);
 
                     // Compare "tujuan_detail" and Pegawai NIP
                     $found = false;
-                    foreach($detail_tujuan as $value2) {
-                        if($value2->subjek == $this->session->userdata('nip')) {
+                    foreach ($detail_tujuan as $value2) {
+                        if ($value2->subjek == $this->session->userdata('nip')) {
                             $found = true;
                             break;
                         }
                     }
-                    if($found == false) {
+                    if ($found == false) {
                         unset($list_diklat[$key]);
                     }
-
-                } else if($value->jenis_tujuan == 'divisi') {
+                } else if ($value->jenis_tujuan == 'divisi') {
                     // Check Type of "Divisi"
-                    if($value->tujuan == 'jurusan') {
+                    if ($value->tujuan == 'jurusan') {
                         $divisi_id = $pegawai_data->jurusan_id;
-                    } else if($value->tujuan == 'bagian') {
+                    } else if ($value->tujuan == 'bagian') {
                         $divisi_id = $pegawai_data->bagian_id;
-                    } else if($value->tujuan == 'unit') {
+                    } else if ($value->tujuan == 'unit') {
                         $divisi_id = $pegawai_data->unit_id;
                     } else {
                         $divisi_id = NULL;
                     }
 
-                    if($divisi_id != NULL) {
+                    if ($divisi_id != NULL) {
                         $detail_tujuan = $this->surat_model->get_all_where_subjek([
                             "surat_id" => $value->id
                         ]);
 
                         // Compare "tujuan_detail" and Pegawai Divisi
                         $found = false;
-                        foreach($detail_tujuan as $value2) {
-                            if($value2->subjek == $divisi_id) {
+                        foreach ($detail_tujuan as $value2) {
+                            if ($value2->subjek == $divisi_id) {
                                 $found = true;
                                 break;
                             }
                         }
-                        if($found == false) {
+                        if ($found == false) {
                             unset($list_diklat[$key]);
                         }
                     } else {
@@ -144,9 +144,9 @@ class Diklat extends CI_Controller {
                 }
             }
 
-            if(isset($list_diklat[$key])) {
+            if (isset($list_diklat[$key])) {
                 // Check if Diklat is Registered
-                if($this->session->userdata('role') != 'admin') {
+                if ($this->session->userdata('role') != 'admin') {
                     $status_check = $this->diklat_model->get_one(array(
                         "pegawai_nip" => $this->session->userdata('nip'),
                         "surat_id" => $value->id
@@ -157,8 +157,8 @@ class Diklat extends CI_Controller {
                     ));
                 }
 
-                if($status_check != NULL) {
-                    if($status_check->file_materi != NULL && $status_check->sertifikat_id != NULL) {
+                if ($status_check != NULL) {
+                    if ($status_check->file_materi != NULL && $status_check->sertifikat_id != NULL) {
                         $get_sertif_diklat = $this->diklat_model->get_one_join([
                             "diklat.id" => $status_check->id
                         ]);
@@ -177,8 +177,8 @@ class Diklat extends CI_Controller {
         // Get List Jabatan
         $jabatan = $this->jabatan_model->get_all();
         $list_jabatan = [];
-        foreach($jabatan as $value) {
-            $list_jabatan[$value->id] = $value; 
+        foreach ($jabatan as $value) {
+            $list_jabatan[$value->id] = $value;
         }
 
         $uploaded_berkas = new stdClass();
@@ -188,13 +188,18 @@ class Diklat extends CI_Controller {
             $uploaded_berkas->ktp = $pegawai_data->ktp;
             $uploaded_berkas->kk = $pegawai_data->kk;
             $uploaded_berkas->ijazah = $pegawai_data->ijazah;
+        } else {
+            $uploaded_berkas->foto = null;
+            $uploaded_berkas->ktp = null;
+            $uploaded_berkas->kk = null;
+            $uploaded_berkas->ijazah = null;
         }
 
         // Load View
         $this->load->view('partials/main-header', [
             "title" => " | Diklat"
         ]);
-		$this->load->view('diklat/diklat', [
+        $this->load->view('diklat/diklat', [
             "list_detail_tujuan" => $list_detail_tujuan,
             "list_diklat" => $list_diklat,
             "check_diklat" => $check_diklat,
@@ -204,16 +209,16 @@ class Diklat extends CI_Controller {
             "list_diklat_hasil" => $list_diklat_hasil,
             "list_jabatan" => $list_jabatan
         ]);
-		$this->load->view('partials/main-footer');
+        $this->load->view('partials/main-footer');
     }
 
-    public function do_upload($file_type, $post_name, $file_name="")
+    public function do_upload($file_type, $post_name, $file_name = "")
     {
         // File
         $config['upload_path']          = './uploads';
         $config['allowed_types']        = $file_type;
         $config['max_size']             = 2048;
-        if($file_name!==""){            
+        if ($file_name !== "") {
             $config['file_name'] = $file_name;
         }
         $this->load->library('upload');
@@ -250,27 +255,27 @@ class Diklat extends CI_Controller {
         $file_tambahan_name = $this->do_upload("pdf", "file_tambahan");
 
         // File Validation
-        if(is_null($file_foto_name && $file_ktp_name && $file_kk_name && $file_ijazah_name)) {
+        if (is_null($file_foto_name && $file_ktp_name && $file_kk_name && $file_ijazah_name)) {
             $this->session->set_flashdata('message_error', 'Kesalahan dalam mengunggah file!');
             redirect("diklat");
         }
 
         // Modify Berkas Pegawai
         $data_mod = [];
-        if(!is_null($file_foto_name)) {
-            $data_mod += [ 'foto' => $file_foto_name ];
+        if (!is_null($file_foto_name)) {
+            $data_mod += ['foto' => $file_foto_name];
         }
-        if(!is_null($file_ktp_name)) {
-            $data_mod += [ 'ktp' => $file_ktp_name ];
+        if (!is_null($file_ktp_name)) {
+            $data_mod += ['ktp' => $file_ktp_name];
         }
-        if(!is_null($file_kk_name)) {
-            $data_mod += [ 'kk' => $file_kk_name ];
+        if (!is_null($file_kk_name)) {
+            $data_mod += ['kk' => $file_kk_name];
         }
-        if(!is_null($file_ijazah_name)) {
-            $data_mod += [ 'ijazah' => $file_ijazah_name ];
+        if (!is_null($file_ijazah_name)) {
+            $data_mod += ['ijazah' => $file_ijazah_name];
         }
         $modify = $this->pegawai_model->update_one_where(
-            [ "account_nip" => $this->session->userdata('nip')],
+            ["account_nip" => $this->session->userdata('nip')],
             $data_mod
         );
 
@@ -285,7 +290,7 @@ class Diklat extends CI_Controller {
         );
         $add = $this->diklat_model->insert_one($data_ins);
 
-        if($modify && $add) {
+        if ($modify && $add) {
             $this->session->set_flashdata('message_success', 'Berhasil melakukan pemberkasan diklat!');
             redirect("diklat");
         } else {
@@ -295,7 +300,7 @@ class Diklat extends CI_Controller {
     }
 
     public function delete()
-    {        
+    {
         $this->load->model('diklat_model');
         $id = $this->input->post('diklat_id');
 
@@ -306,11 +311,11 @@ class Diklat extends CI_Controller {
 
         // Delete Rows and File Uploaded
         $delete = $this->diklat_model->delete_one($id);
-        if($delete) {
-            unlink("./uploads/".$get->foto);
-            unlink("./uploads/".$get->ktp);
-            unlink("./uploads/".$get->kk);
-            unlink("./uploads/".$get->ijazah);
+        if ($delete) {
+            unlink("./uploads/" . $get->foto);
+            unlink("./uploads/" . $get->ktp);
+            unlink("./uploads/" . $get->kk);
+            unlink("./uploads/" . $get->ijazah);
             $this->session->set_flashdata('message_success', 'Behasil membatalkan pemberkasan diklat!');
             redirect("diklat");
         } else {
@@ -332,13 +337,13 @@ class Diklat extends CI_Controller {
         //get tema
         $tema = $this->diklat_model->get_tema(["diklat.id" => $diklat_id]);
         $ext = end(explode(".", $_FILES["file_sertifikat"]['name']));
-        $serti_name = time().'-'.$tema.'-file'. $ext;
-        $file_sertifikat_name = $this->do_upload("pdf", "file_sertifikat", $serti_name);        
+        $serti_name = time() . '-' . $tema . '-file' . $ext;
+        $file_sertifikat_name = $this->do_upload("pdf", "file_sertifikat", $serti_name);
 
         $angka_kredit = $this->input->post('angka_kredit');
 
         // Validation
-        if(is_null($file_materi_name && $file_sertifikat_name)) {
+        if (is_null($file_materi_name && $file_sertifikat_name)) {
             $this->session->set_flashdata('message_success', 'Kesalahan dalam mengunggah file!');
             redirect("diklat");
         }
@@ -359,7 +364,7 @@ class Diklat extends CI_Controller {
 
         $update = $this->diklat_model->update_one($diklat_id, $data);
 
-        if($update) {
+        if ($update) {
             $this->session->set_flashdata('message_success', 'Berhasil mengunggah hasil diklat!');
             redirect("diklat");
         } else {
