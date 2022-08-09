@@ -70,19 +70,42 @@ class Notifikasi_model extends CI_Model
 
     public function pair_notification($data)
     {
-        $this->db->insert($this->second_table, $data);
-        //notify to number phone        
+        // Notify to number phone      
+        // For pegawai tujuan  
         $this->load->model(['pegawai_model']);
 
-        $no_tujuan = $this->pegawai_model->get_one(["account_nip" => $data["account_nip"]]);
-        $no_tujuan = $no_tujuan->no_hp;
+        $pegawai = $this->pegawai_model->get_one(["account_nip" => $data["account_nip"]]);
+        $no_tujuan = $pegawai->no_hp;
 
         $pesan = (array) $this->get_pesan(["id" => $data["notifikasi_id"]]);
         unset($pesan["id"]);
-        $pesan["redirect_to"] = base_url($pesan["redirect_to"])."\n";
+        $pesan["redirect_to"] = base_url($pesan["redirect_to"]) . "\n";
         $pesan = implode("\n\n", $pesan);
-        
+
         $res = $this->curl_get('localhost:3000/api', ["tujuan" => $no_tujuan, "pesan" => $pesan]);
+
+        // Notify ke atasannya jika ada
+        $atasan = $this->pegawai_model->get_one(["account_nip" => $pegawai->atasan]);
+        if (!is_null($atasan)) {            
+            $no_tujuan = $atasan->no_hp; // No HP tujuan
+
+            // Setting pesan ke WA
+            $pesan = (array) $this->get_pesan(["id" => $data["notifikasi_id"]]);
+            unset($pesan["id"]);
+            $pesan["redirect_to"] = base_url($pesan["redirect_to"]) . "\n";
+            $pesan = implode("\n\n", $pesan);
+
+            $pesan = "Pegawai atas nama  ".$pegawai->nama." telah mendapatkan notifikasi dengan isi pesan :\n".$pesan;
+
+            $res = $this->curl_get('localhost:3000/api', ["tujuan" => $no_tujuan, "pesan" => $pesan]);
+
+            // Jika berhasil then insert to db
+
+        }
+
+        // Then insert to db
+        if ($res)
+            $this->db->insert($this->second_table, $data);
 
         return ($this->db->affected_rows() != 1) ? false : true;
     }
