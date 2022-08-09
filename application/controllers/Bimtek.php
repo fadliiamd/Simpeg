@@ -181,6 +181,15 @@ class Bimtek extends CI_Controller {
             $list_jabatan[$value->id] = $value; 
         }
 
+        $uploaded_berkas = new stdClass();
+        if($this->session->userdata('role') != 'admin') {
+            // Check if has Upload Berkas and Get
+            $uploaded_berkas->foto = $pegawai_data->foto;
+            $uploaded_berkas->ktp = $pegawai_data->ktp;
+            $uploaded_berkas->kk = $pegawai_data->kk;
+            $uploaded_berkas->ijazah = $pegawai_data->ijazah;
+        }
+
         // Load View
         $this->load->view('partials/main-header', [
             "title" => " | Bimtek"
@@ -190,6 +199,7 @@ class Bimtek extends CI_Controller {
             "list_bimtek" => $list_bimtek,
             "check_bimtek" => $check_bimtek,
             "has_upload_hasil" => $has_upload_hasil,
+            "uploaded_berkas" => $uploaded_berkas,
             "list_bimtek_berkas" => $list_bimtek_berkas,
             "list_bimtek_hasil" => $list_bimtek_hasil,
             "list_jabatan" => $list_jabatan

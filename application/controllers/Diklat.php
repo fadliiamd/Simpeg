@@ -181,9 +181,9 @@ class Diklat extends CI_Controller
             $list_jabatan[$value->id] = $value;
         }
 
-        // Check if has Upload Berkas and Get
         $uploaded_berkas = new stdClass();
-        if (!is_null($pegawai_data)) {
+        if($this->session->userdata('role') != 'admin') {
+            // Check if has Upload Berkas and Get
             $uploaded_berkas->foto = $pegawai_data->foto;
             $uploaded_berkas->ktp = $pegawai_data->ktp;
             $uploaded_berkas->kk = $pegawai_data->kk;

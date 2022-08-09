@@ -181,6 +181,15 @@ class Prajabatan extends CI_Controller {
             $list_jabatan[$value->id] = $value; 
         }
 
+        $uploaded_berkas = new stdClass();
+        if($this->session->userdata('role') != 'admin') {
+            // Check if has Upload Berkas and Get
+            $uploaded_berkas->foto = $pegawai_data->foto;
+            $uploaded_berkas->ktp = $pegawai_data->ktp;
+            $uploaded_berkas->kk = $pegawai_data->kk;
+            $uploaded_berkas->ijazah = $pegawai_data->ijazah;
+        }
+
         // Load View
         $this->load->view('partials/main-header', [
             "title" => " | Prajabatan"
@@ -190,6 +199,7 @@ class Prajabatan extends CI_Controller {
             "list_prajabatan" => $list_prajabatan,
             "check_prajabatan" => $check_prajabatan,
             "has_upload_hasil" => $has_upload_hasil,
+            "uploaded_berkas" => $uploaded_berkas,
             "list_prajabatan_berkas" => $list_prajabatan_berkas,
             "list_prajabatan_hasil" => $list_prajabatan_hasil,
             "list_jabatan" => $list_jabatan
