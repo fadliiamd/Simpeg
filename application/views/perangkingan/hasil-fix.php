@@ -17,18 +17,10 @@
       </div>
     <?php endif ?>
     <h4>Pilih Pegawai Untuk Mengikuti Kegiatan</h4>
+    
 
+    <!-- Not Use -->
     <?php if ($this->session->userdata('jabatan') != 'Kepala Bagian Umum') { ?>
-      <div class="d-flex">
-        <!-- <div class="my-3 mr-3">
-          <a href="<?= base_url("hasil/perhitungan") ?>">
-            <button type="button" class="btn btn-primary">Hitung Hasil</button>
-          </a>
-        </div> -->
-        <div class="my-3">
-          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#filter">Filter</button>
-        </div>
-      </div>
       <div id="filter" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
           <div class="modal-content">
@@ -54,112 +46,10 @@
             ?>
             <form method="GET" action="<?= base_url('hasil') ?>" enctype="multipart/form-data">
               <div class="modal-body">
-                <div class="row">
-                  <div class="col-md-4">
-                    <b>Masa Kerja Minimal</b>
-                    <!-- <input type="date" id="tgl_masuk@>=" class="form-control" value="<?= isset($_GET['tgl_masuk@>=']) ? $_GET['tgl_masuk@>='] : "" ?>" style="margin:10px 0px"> -->
-                    <div class="d-flex align-items-center">
-                      <input type="number" class="form-control" id="tgl_masuk" min="0" value="<?= isset($_GET['YEAR(tgl_masuk)']) ? (date('Y') - $_GET['YEAR(tgl_masuk)']) : "" ?>" oninput="this.value = Math.abs(this.value)" style="margin:10px 0px;max-width:100px;">
-                      <span class="pl-2">Tahun</span>
-                    </div>
-                    <input id="tgl_masuk_on" class="form-check-input ml-0" name="YEAR(tgl_masuk)@<=" type="number" value="<?= isset($_GET['YEAR(tgl_masuk)']) ? $_GET['YEAR(tgl_masuk)'] : "" ?>" hidden>
-                  </div>
-                  <div class="col-md-4">
-                    <b>Pendidikan</b><br>
-                    <?php
-                    $label_pendidikan = [
-                      "SMA", "D3", "S1", "S2", "S3"
-                    ];
-                    foreach ($label_pendidikan as $key => $value) { ?>
-                      <div class="form-check form-check-inline" style="display:inline-flex">
-                        <input class="form-check-input ml-0" name="pendidikan[]" type="checkbox" id="lp<?= $key ?>" value="<?= $value ?>" <?= checked("pendidikan", $value) ?>>
-                        <label class="form-check-label ml-0" for="lp<?= $key ?>"><?= $value ?></label>
-                      </div>
-                    <?php
-                    }
-                    ?>
-                  </div>
-                  <?php if (($this->session->userdata('nama_jabatan') !== "Ketua Jurusan") && ($this->session->userdata('nama_jabatan') !== "Kepala Bagian Umum")) { ?>
-                    <div class="col-md-4">
-                      <b>Jenis Pegawai</b><br>
-                      <?php
-                      $label_jp = [
-                        "fungsional", "struktural"
-                      ];
-                      foreach ($label_jp as $key => $value) { ?>
-                        <div class="form-check form-check-inline" style="display:inline-flex">
-                          <input class="form-check-input ml-0" type="checkbox" name="jenis_jabatan[]" id="jp<?= $key ?>" value="<?= $value ?>" <?= checked("jenis_jabatan", $value) ?>>
-                          <label class="form-check-label ml-0 text-capitalize" for="jp<?= $key ?>"><?= $value ?></label>
-                        </div>
-                      <?php
-                      }
-                      ?>
-                    </div>
-                  <?php
-                  } ?>
-                </div>
                 <hr>
                 <?php if ($this->session->userdata('nama_jabatan') !== "Kepala Jurusan") { ?>
-                  <div class="row">
-                    <div class="col-md-4">
-                      <b>Jurusan</b>
-                      <?php
-                      foreach ($jurusan as $key => $value) { ?>
-                        <div class="form-check">
-                          <input class="form-check-input ml-0" type="checkbox" name="jurusan_id[]" value="<?= $value->id ?>" id="jurusan<?= $key ?>" <?= checked("jurusan_id", $value->id) ?>>
-                          <label class="form-check-label" for="jurusan<?= $key ?>">
-                            <?= $value->nama ?>
-                          </label>
-                        </div>
-                      <?php
-                      }
-                      ?>
-                    </div>
-                    <div class="col-md-4">
-                      <b>Bagian</b>
-                      <?php
-                      foreach ($bagian as $key => $value) { ?>
-                        <div class="form-check">
-                          <input class="form-check-input ml-0" type="checkbox" name="bagian_id[]" value="<?= $value->id ?>" id="bagian<?= $key ?>" <?= checked("bagian_id",  $value->id) ?>>
-                          <label class="form-check-label" for="bagian<?= $key ?>">
-                            <?= $value->nama ?>
-                          </label>
-                        </div>
-                      <?php
-                      }
-                      ?>
-                    </div>
-                    <div class="col-md-4">
-                      <b>Unit</b>
-                      <?php
-                      foreach ($unit as $key => $value) { ?>
-                        <div class="form-check">
-                          <input class="form-check-input ml-0" type="checkbox" name="unit_id[]" value="<?= $value->id ?>" id="unit<?= $key ?>" <?= checked("unit_id",  $value->id) ?>>
-                          <label class="form-check-label" for="unit<?= $key ?>">
-                            <?= $value->nama ?>
-                          </label>
-                        </div>
-                      <?php
-                      }
-                      ?>
-                    </div>
-                  </div>
                   <hr>
                   <div class="row">
-                    <div class="col-md-4">
-                      <b>Jabatan</b>
-                      <?php
-                      foreach ($jabatan as $key => $value) { ?>
-                        <div class="form-check">
-                          <input class="form-check-input ml-0" type="checkbox" name="jabatan_id[]" value="<?= $value->id ?>" id="jabatan<?= $key ?>" <?= checked("jabatan_id",  $value->id) ?>>
-                          <label class="form-check-label" for="jabatan<?= $key ?>">
-                            <?= $value->nama_jabatan ?>
-                          </label>
-                        </div>
-                      <?php
-                      }
-                      ?>
-                    </div>
                     <div class="col-md-4">
                       <b>Bidang Keahlian</b>
                       <?php
@@ -281,6 +171,49 @@
         </div>
       </div>
     <?php } ?>
+    <!-- Not Use -->
+
+    <!-- Aksi: Filter -->
+    <div class="d-flex">
+      <div class="my-3">
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#viewdiklat-<?= $value->id ?>">Filter</button>
+      </div>
+    </div>
+    <!-- Modal -->
+    <div id="viewdiklat-<?= $value->id ?>" class="modal fade edittable" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Filter Berdasarkan Surat<b></h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <form action="<?= base_url(); ?>hasil" method="post" class="forms-sample">
+            <div class="modal-body">
+              <div class="form-group row">
+                <div class="col-md-12">
+                  <label for="surat_id">Surat</label>
+                  <select class="form-control" id="surat_id" name="surat_id" required>
+                    <option>--- Pilih Surat ---</option>
+                    <?php
+                    foreach($list_all_surat as $item) {
+                    ?>
+                    <option value="<?= $item->id ?>"><?= $item->no ?> - "<?= ucwords($item->tema) ?>"</option>
+                    <?php } ?>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Kembali</button>
+              <button type="submit" name="filter" class="btn btn-primary">Filter</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!-- End Modal -->
 
     <form action="<?= base_url("hasil/pengajuan") ?>" method="POST" enctype="multipart/form-data">
       <div class="table-responsive">

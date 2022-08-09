@@ -208,6 +208,142 @@
                                 </div>
                                 <!-- End Modal -->
                                 <?php } ?>
+
+                                <?php if($this->session->userdata('role') == 'admin') { ?>
+                                <!-- Large modal -->
+                                <button type="button" class="btn btn-info" data-toggle="modal" data-target=".edittable-<?= $key ?>">Detail</button>
+
+                                <!-- Modal -->
+                                <div class="modal fade edittable-<?= $key ?>" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Lihat Sertifikat No : <b><?php echo $value->no_serti ?></b></h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <input type="hidden" class="form-control" name="serti_id" value="<?= $value->id ?>">
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="account_nip">Pegawai</label>
+                                                            <select class="form-control" name="account_nip" disabled>
+                                                                <option value="<?= $value->account_nip ?>" selected hidden><?= $value->account_nip ?></option>
+                                                                <?php
+                                                                $format = '';
+                                                                foreach ($pegawai as $k => $v) {
+                                                                    $format .= '<option value="' . $v->account_nip . '">' . $v->account_nip . ' - ' . $v->nama . '</option>';
+                                                                }
+                                                                echo $format;
+                                                                ?>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <?php if($this->session->userdata('role') == 'admin') { ?>
+                                                        <div class="col-md-8">
+                                                            <div class="form-group">
+                                                                <label for="is_verify">Status Verifikasi</label>
+                                                                <select class="form-control" name="is_verify" disabled>
+                                                                    <?php
+                                                                    if (!(is_null($value->is_verify))) { ?>
+                                                                        <option value="0" <?= $value->is_verify == 0 ? 'selected' : '' ?>>Belum Terverifikasi</option>
+                                                                        <option value="1" <?= $value->is_verify == 1 ? 'selected' : '' ?>>Terverifikasi</option>
+                                                                    <?php
+                                                                    } else { ?>
+                                                                        <option value="" selected hidden>--- Pilih Status Verifikasi ---</option>
+                                                                        <option value="0">Belum Terverifikasi</option>
+                                                                        <option value="1">Terverifikasi</option>
+                                                                    <?php } ?>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    <?php } ?>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="nama_serti">Nomor Sertifikat (*)</label>
+                                                            <input type="text" class="form-control" id="no_serti" name="no_serti" value="<?= $value->no_serti ?>" disabled>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        <div class="form-group">
+                                                            <label for="nama_serti">Nama Sertifikat (*)</label>
+                                                            <input type="text" class="form-control" id="nama_serti" name="nama_serti" value="<?= explode("-", $value->nama_serti)[1] ?>" disabled>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="id_jenis_sertifikat">Jenis Sertifikat</label>
+                                                            <select class="form-control" name="id_jenis_sertifikat" disabled>
+                                                                <?php
+                                                                if (!(is_null($value->id_jenis_sertifikat))) { ?>
+                                                                    <option value="<?= $value->id_jenis_sertifikat ?>" selected hidden><?= $value->nama_jenis_sertifikat ?></option>
+                                                                <?php
+                                                                } else { ?>
+                                                                    <option value="" selected hidden>--- Pilih Jenis Sertifikat ---</option>
+                                                                <?php
+                                                                }
+                                                                $format = '';
+                                                                foreach ($jenis_sertifikat as $k => $v) {
+                                                                    $format .= '<option value="' . $v->id_jenis_sertifikat . '">' . $v->nama_jenis_sertifikat . '</option>';
+                                                                }
+                                                                echo $format;
+                                                                ?>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="nama">File Sertifikat</label>
+                                                            
+                                                            <?php if (!is_null($value->nama_serti)) { ?>
+                                                            <div class="mt-1">
+                                                                <a href="<?= base_url() . 'uploads/' . $value->nama_serti ?>" target="_blank">Lihat Sertifikat</a>
+                                                            </div>
+                                                            <?php } ?>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="penyelenggara">Nama Penyelenggara (*)</label>
+                                                            <input type="text" class="form-control" id="penyelenggara" name="penyelenggara" value="<?= $value->penyelenggara ?>" disabled>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="data_pendukung">Data Pendukung</label>
+                                                            <?php if (!is_null($value->data_pendukung)) { ?>
+                                                            <div class="mt-1">
+                                                                <a href="<?= base_url() . 'uploads/' . $value->data_pendukung ?>" target="_blank">Lihat Data Pendukung</a>
+                                                            </div>
+                                                            <?php } else { ?>
+                                                            <div class="mt-1">
+                                                                <a href="#">Tidak Ada</a>
+                                                            </div>
+                                                            <?php } ?>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Kembali</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- End Modal -->
+                                <?php } else { ?>
                                 <!-- Large modal -->
                                 <button type="button" class="btn btn-warning" data-toggle="modal" data-target=".edittable-<?= $key ?>">Edit</button>
 
@@ -345,7 +481,9 @@
                                     </div>
                                 </div>
                                 <!-- End Modal -->
+                                <?php } ?>
 
+                                <?php if($this->session->userdata('role') != 'admin') { ?>
                                 <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deletetable-<?= $key ?>">Hapus</button>
 
                                 <!-- Modal -->
@@ -377,6 +515,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                <?php } ?>
                             </td>
                         </tr>
                     <?php $no++;

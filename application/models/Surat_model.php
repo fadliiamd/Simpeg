@@ -5,6 +5,7 @@ class Surat_model extends CI_Model
 
     public $table = "surat";
     public $sup_table = "surat_subjek";
+    public $kriteria_table = "surat_kriteria";
 
     public function get_all()
     {
@@ -208,5 +209,42 @@ class Surat_model extends CI_Model
         } else {
             return false;
         }
+    }
+
+    public function get_all_kriteria()
+    {
+        $query = $this->db->get($this->kriteria_table);
+        return $query->result();
+    }
+
+    public function get_kriteria($where)
+    {
+        $query = $this->db->get_where($this->kriteria_table, $where);
+        return $query->row();
+    }
+
+    public function insert_kriteria($data)
+    {
+        $this->db->insert($this->kriteria_table, $data);
+        return ($this->db->affected_rows() != 1) ? false : $this->db->insert_id();
+    }
+
+    public function update_kriteria($id, $data)
+    {
+        $this->db->trans_start();    
+        $this->db->where('id', $id);
+        $this->db->update($this->kriteria_table, $data);
+        $this->db->trans_complete();
+
+        if ($this->db->trans_status() === FALSE) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public function delete_kriteria()
+    {
+
     }
 }

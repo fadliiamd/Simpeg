@@ -91,6 +91,13 @@ class Surat extends Roles {
             $list_jabatan[$value->id] = $value; 
         }
 
+        // Get List Kriteria Surat
+        $get_all_kriteria = $this->surat_model->get_all_kriteria();
+        $list_kriteria = [];
+        foreach($get_all_kriteria as $value) {
+            $list_kriteria[$value->id] = $value; 
+        }
+
 		$this->load->view('partials/main-header', [
             "title" => " | Surat"
         ]);
@@ -104,7 +111,8 @@ class Surat extends Roles {
             "unit" => $unit,
             "sertifikat" => $sertifikat,
             "bidang_keahlian" => $bidang_keahlian,
-            "list_jabatan" => $list_jabatan
+            "list_jabatan" => $list_jabatan,
+            "list_kriteria" => $list_kriteria
         ]);
 		$this->load->view('partials/main-footer');
 	}
@@ -503,6 +511,74 @@ class Surat extends Roles {
         } else {
             $this->session->set_flashdata('message_error', 'Gagal mengirim surat kepada subjek');
             redirect("surat");
+        }
+    }
+
+    public function filter()
+    {
+        // Load Model
+        $this->load->model([
+            "surat_model"
+        ]);
+
+        $id = $this->input->post("surat_id");
+        $masa_kerja = $this->input->post("masa_kerja");
+        $pendidikan = implode(",", $this->input->post("pendidikan"));
+        $jenis_pegawai = implode(",", $this->input->post("jenis_pegawai"));
+        $jurusan = implode(",", $this->input->post("jurusan"));
+        $bagian = implode(",", $this->input->post("bagian"));
+        $unit = implode(",", $this->input->post("unit"));
+        $jabatan = implode(",", $this->input->post("jabatan"));
+        $sertifikat = implode(",", $this->input->post("sertifikat_kegiatan"));
+
+        // Prepare Data
+        $data = array(
+            "masa_kerja" => $masa_kerja,
+            "pendidikan" => $pendidikan,
+            "jenis_pegawai" => $jenis_pegawai,
+            "jurusan_id" => $jurusan,
+            "bagian_id" => $bagian,
+            "unit_id" => $unit,
+            "jabatan_id" => $jabatan,
+            "sertifikat_id" => $sertifikat
+        );
+
+        // Check if Exists
+        $check1 = $this->surat_model->get_one([
+            "id" => $id
+        ]);
+        $check2 = $this->surat_model->get_kriteria([
+            "id" => $check1->kriteria_id
+        ]);
+        if($check1->kriteria_id != NULL && $check2 != NULL) {
+            // Update Kriteria To Surat
+            $update = $this->surat_model->update_kriteria($check1->kriteria_id, $data);
+
+            // Checking
+            if($update) {
+                $this->session->set_flashdata('message_success', 'Berhasil mengubah kriteria pada surat');
+                redirect("surat");
+            } else {
+                $this->session->set_flashdata('message_error', 'Gagal mengubah kriteria pada surat');
+                redirect("surat");
+            }
+        } else {
+            // Insert Kriteria to Surat
+            $add = $this->surat_model->insert_kriteria($data);
+
+            // Updating Surat
+            $update = $this->surat_model->update_one($id, [
+                "kriteria_id" => $add
+            ]);
+
+            // Checking
+            if($add != false && $update) {
+                $this->session->set_flashdata('message_success', 'Berhasil menambahkan kriteria pada surat');
+                redirect("surat");
+            } else {
+                $this->session->set_flashdata('message_error', 'Gagal menambahkan kriteria pada surat');
+                redirect("surat");
+            }
         }
     }
 }

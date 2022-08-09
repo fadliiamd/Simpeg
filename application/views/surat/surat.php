@@ -164,8 +164,9 @@
                 </label>
               </td>
               <td>
-                <!-- Modal: Filter -->
-                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#filtersurat-<?= $value->id ?>">Edit Kriteria</button>
+                <!-- Modal: Add Filter -->
+                <?php if($value->kriteria_id == NULL) { ?>
+                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#filtersurat-<?= $value->id ?>">Tambah Kriteria</button>
                 <div id="filtersurat-<?= $value->id ?>" class="modal fade edittable" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
                   <div class="modal-dialog modal-lg">
                     <div class="modal-content">
@@ -175,53 +176,345 @@
                           <span aria-hidden="true">&times;</span>
                         </button>
                       </div>
-                      <form method="GET" action="<?= base_url('surat') ?>" enctype="multipart/form-data">
+                      <form method="POST" action="<?= base_url('surat/filter') ?>" enctype="multipart/form-data">
+                        <input type="hidden" name="surat_id" value="<?= $value->id ?>" />
                         <div class="modal-body">
                           <div class="row">
                             <div class="col-md-4">
                               <b>Masa Kerja Minimal</b>
-                              <!-- <input type="date" id="tgl_masuk@>=" class="form-control" value="<?= isset($_GET['tgl_masuk@>=']) ? $_GET['tgl_masuk@>='] : "" ?>" style="margin:10px 0px"> -->
                               <div class="d-flex align-items-center">
-                                <input type="number" class="form-control" id="tgl_masuk" min="0" value="<?= isset($_GET['YEAR(tgl_masuk)']) ? (date('Y') - $_GET['YEAR(tgl_masuk)']) : "" ?>" oninput="this.value = Math.abs(this.value)" style="margin:10px 0px;max-width:100px;">
+                                <input type="number" name="masa_kerja" class="form-control" min="0" style="max-width:100px;">
                                 <span class="pl-2">Tahun</span>
                               </div>
-                              <input id="tgl_masuk_on" class="form-check-input ml-0" name="YEAR(tgl_masuk)@<=" type="number" value="<?= isset($_GET['YEAR(tgl_masuk)']) ? $_GET['YEAR(tgl_masuk)'] : "" ?>" hidden>
                             </div>
                             <div class="col-md-4">
                               <b>Pendidikan</b><br>
-                              <?php
-                              $label_pendidikan = [
-                                "SMA", "D3", "S1", "S2", "S3"
-                              ];
-                              foreach ($label_pendidikan as $key => $el) { ?>
-                                <div class="form-check form-check-inline" style="display:inline-flex">
-                                  <input class="form-check-input ml-0" name="pendidikan[]" type="checkbox" id="lp<?= $el ?>" value="<?= $el ?>">
-                                  <label class="form-check-label ml-0" for="lp<?= $key ?>"><?= $el ?></label>
-                                </div>
-                              <?php
-                              }
-                              ?>
+                              <div class="d-flex align-items-center">
+                                <select class="form-control js-example-basic-multiple" name="pendidikan[]" multiple="multiple">
+                                <?php
+                                $label_pendidikan = [
+                                  "SMA", "D3", "S1", "S2", "S3"
+                                ];
+                                foreach ($label_pendidikan as $key => $el) { ?>
+                                  <option value="<?= $el ?>"><?= $el ?></option>
+                                <?php
+                                }
+                                ?>
+                                </select>
+                              </div>
                             </div>
                             <div class="col-md-4">
                               <b>Jenis Pegawai</b><br>
+                              <div class="d-flex align-items-center">
+                                <select class="form-control js-example-basic-multiple" name="jenis_pegawai[]" multiple="multiple">
+                                <?php
+                                $label_pendidikan = [
+                                  "fungsional", "struktural"
+                                ];
+                                foreach ($label_pendidikan as $key => $el) { ?>
+                                  <option value="<?= $el ?>"><?= ucwords($el) ?></option>
+                                <?php
+                                }
+                                ?>
+                                </select>
+                              </div>
+                            </div>
+                          </div>
+                          <hr />
+                          <div class="row">
+                            <div class="col-md-4">
+                              <b>Jurusan</b><br>
+                              <select class="form-control js-example-basic-multiple" name="jurusan[]" multiple="multiple">
                               <?php
-                              $label_pendidikan = [
-                                "SMA", "D3", "S1", "S2", "S3"
-                              ];
-                              foreach ($label_pendidikan as $key => $el) { ?>
-                                <div class="form-check form-check-inline" style="display:inline-flex">
-                                  <input class="form-check-input ml-0" name="pendidikan[]" type="checkbox" id="lp<?= $el ?>" value="<?= $el ?>">
-                                  <label class="form-check-label ml-0" for="lp<?= $key ?>"><?= $el ?></label>
-                                </div>
+                              foreach ($jurusan as $key => $el) { ?>
+                                <option value="<?= $el->id ?>"><?= ucwords($el->nama) ?></option>
                               <?php
                               }
                               ?>
+                              </select>
+                            </div>
+                            <div class="col-md-4">
+                              <b>Bagian</b><br>
+                              <select class="form-control js-example-basic-multiple" name="bagian[]" multiple="multiple">
+                              <?php
+                              foreach ($bagian as $key => $el) { ?>
+                                <option value="<?= $el->id ?>"><?= ucwords($el->nama) ?></option>
+                              <?php
+                              }
+                              ?>
+                              </select>
+                            </div>
+                            <div class="col-md-4">
+                              <b>Unit</b><br>
+                              <select class="form-control js-example-basic-multiple" name="unit[]" multiple="multiple">
+                              <?php
+                              foreach ($unit as $key => $el) { ?>
+                                <option value="<?= $el->id ?>"><?= ucwords($el->nama) ?></option>
+                              <?php
+                              }
+                              ?>
+                              </select>
                             </div>
                           </div>
+                          <hr />
+                          <div class="row">
+                            <div class="col-md-4">
+                              <b>Jabatan</b><br>
+                              <select class="form-control js-example-basic-multiple" name="jabatan[]" multiple="multiple">
+                              <?php
+                              foreach ($jabatan as $key => $el) { ?>
+                                <option value="<?= $el->id ?>"><?= ucwords($el->nama_jabatan) ?></option>
+                              <?php
+                              }
+                              ?>
+                              </select>
+                            </div>
+                            <div class="col-md-4">
+                              <b>Bidang Keahlian</b><br>
+                              <select class="form-control js-example-basic-multiple" name="bidang_keahlian[]" multiple="multiple">
+                              <?php
+                              foreach ($bidang_keahlian as $key => $el) { ?>
+                                <option value="<?= $el->id_keahlian ?>"><?= ucwords($el->nama_keahlian) ?></option>
+                              <?php
+                              }
+                              ?>
+                              </select>
+                            </div>
+                            <div class="col-md-4">
+                              <b>Sertifikat Kegiatan</b><br>
+                              <select class="form-control js-example-basic-multiple" name="sertifikat_kegiatan[]" multiple="multiple">
+                              <?php
+                              $curr_tema = [];
+                              foreach ($sertifikat as $key => $el) {
+                                $tema = str_replace('_', ' ', explode("-", $el->nama_serti)[1]);
+                                if (!in_array($tema, $curr_tema)) {
+                                ?>
+                                <option value="<?= $el->id ?>"><?php echo $tema; array_push($curr_tema, $tema); ?></option>
+                              <?php
+                              } }
+                              ?>
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Kembali</button>
+                          <button type="submit" name="filter" class="btn btn-primary">Ubah Filter Surat</button>
                         </div>
                     </div>
                   </div>
                 </div>
+                <?php } else { ?>
+                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#editfiltersurat-<?= $value->id ?>">Edit Kriteria</button>
+                <div id="editfiltersurat-<?= $value->id ?>" class="modal fade edittable" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                  <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Filter Berdasarkan :</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <form method="POST" action="<?= base_url('surat/filter') ?>" enctype="multipart/form-data">
+                        <input type="hidden" name="surat_id" value="<?= $value->id ?>" />
+                        <div class="modal-body">
+                          <div class="row">
+                            <div class="col-md-4">
+                              <b>Masa Kerja Minimal</b>
+                              <div class="d-flex align-items-center">
+                                <input type="number" name="masa_kerja" class="form-control" min="0" style="max-width:100px;" value="<?= $list_kriteria[$value->kriteria_id]->masa_kerja ?>">
+                                <span class="pl-2">Tahun</span>
+                              </div>
+                            </div>
+                            <div class="col-md-4">
+                              <b>Pendidikan</b><br>
+                              <div class="d-flex align-items-center">
+                                <select class="form-control js-example-basic-multiple" name="pendidikan[]" multiple="multiple">
+                                <?php
+                                $label_pendidikan = [
+                                  "SMA", "D3", "S1", "S2", "S3"
+                                ];
+                                foreach ($label_pendidikan as $key => $el) {
+                                  $arr = explode(",", $list_kriteria[$value->kriteria_id]->pendidikan);
+                                  $selected = "";
+                                  foreach($arr as $item) {
+                                    if($item == $el) {
+                                      $selected = "selected";
+                                      break;
+                                    }
+                                  }
+                                  ?>
+                                  <option value="<?= $el ?>" <?= $selected ?>>><?= $el ?></option>
+                                <?php
+                                }
+                                ?>
+                                </select>
+                              </div>
+                            </div>
+                            <div class="col-md-4">
+                              <b>Jenis Pegawai</b><br>
+                              <div class="d-flex align-items-center">
+                                <select class="form-control js-example-basic-multiple" name="jenis_pegawai[]" multiple="multiple">
+                                <?php
+                                $label_pendidikan = [
+                                  "fungsional", "struktural"
+                                ];
+                                foreach ($label_pendidikan as $key => $el) {
+                                  $arr = explode(",", $list_kriteria[$value->kriteria_id]->jenis_pegawai);
+                                  $selected = "";
+                                  foreach($arr as $item) {
+                                    if($item == $el) {
+                                      $selected = "selected";
+                                      break;
+                                    }
+                                  }
+                                  ?>
+                                  <option value="<?= $el ?>" <?= $selected ?>><?= ucwords($el) ?></option>
+                                <?php
+                                }
+                                ?>
+                                </select>
+                              </div>
+                            </div>
+                          </div>
+                          <hr />
+                          <div class="row">
+                            <div class="col-md-4">
+                              <b>Jurusan</b><br>
+                              <select class="form-control js-example-basic-multiple" name="jurusan[]" multiple="multiple">
+                              <?php
+                              foreach ($jurusan as $key => $el) {
+                                $arr = explode(",", $list_kriteria[$value->kriteria_id]->jurusan_id);
+                                $selected = "";
+                                foreach($arr as $item) {
+                                  if($item == $el->id) {
+                                    $selected = "selected";
+                                    break;
+                                  }
+                                }
+                                ?>
+                                <option value="<?= $el->id ?>" <?= $selected ?>><?= ucwords($el->nama) ?></option>
+                              <?php
+                              }
+                              ?>
+                              </select>
+                            </div>
+                            <div class="col-md-4">
+                              <b>Bagian</b><br>
+                              <select class="form-control js-example-basic-multiple" name="bagian[]" multiple="multiple">
+                              <?php
+                              foreach ($bagian as $key => $el) {
+                                $arr = explode(",", $list_kriteria[$value->kriteria_id]->bagian_id);
+                                $selected = "";
+                                foreach($arr as $item) {
+                                  if($item == $el->id) {
+                                    $selected = "selected";
+                                    break;
+                                  }
+                                }
+                                ?>
+                                <option value="<?= $el->id ?>" <?= $selected ?>><?= ucwords($el->nama) ?></option>
+                              <?php
+                              }
+                              ?>
+                              </select>
+                            </div>
+                            <div class="col-md-4">
+                              <b>Unit</b><br>
+                              <select class="form-control js-example-basic-multiple" name="unit[]" multiple="multiple">
+                              <?php
+                              foreach ($unit as $key => $el) {
+                                $arr = explode(",", $list_kriteria[$value->kriteria_id]->unit_id);
+                                $selected = "";
+                                foreach($arr as $item) {
+                                  if($item == $el->id) {
+                                    $selected = "selected";
+                                    break;
+                                  }
+                                }
+                                ?>
+                                <option value="<?= $el->id ?>" <?= $selected ?>><?= ucwords($el->nama) ?></option>
+                              <?php
+                              }
+                              ?>
+                              </select>
+                            </div>
+                          </div>
+                          <hr />
+                          <div class="row">
+                            <div class="col-md-4">
+                              <b>Jabatan</b><br>
+                              <select class="form-control js-example-basic-multiple" name="jabatan[]" multiple="multiple">
+                              <?php
+                              foreach ($jabatan as $key => $el) {
+                                $arr = explode(",", $list_kriteria[$value->kriteria_id]->jabatan_id);
+                                $selected = "";
+                                foreach($arr as $item) {
+                                  if($item == $el->id) {
+                                    $selected = "selected";
+                                    break;
+                                  }
+                                }
+                                ?>
+                                <option value="<?= $el->id ?>"><?= ucwords($el->nama_jabatan) ?></option>
+                              <?php
+                              }
+                              ?>
+                              </select>
+                            </div>
+                            <div class="col-md-4">
+                              <b>Bidang Keahlian</b><br>
+                              <select class="form-control js-example-basic-multiple" name="bidang_keahlian[]" multiple="multiple">
+                              <?php
+                              foreach ($bidang_keahlian as $key => $el) {
+                                $arr = explode(",", $list_kriteria[$value->kriteria_id]->bidang_keahlian_id);
+                                $selected = "";
+                                foreach($arr as $item) {
+                                  if($item == $el->id_keahlian) {
+                                    $selected = "selected";
+                                    break;
+                                  }
+                                }
+                                ?>
+                                <option value="<?= $el->id_keahlian ?>"><?= ucwords($el->nama_keahlian) ?></option>
+                              <?php
+                              }
+                              ?>
+                              </select>
+                            </div>
+                            <div class="col-md-4">
+                              <b>Sertifikat Kegiatan</b><br>
+                              <select class="form-control js-example-basic-multiple" name="sertifikat_kegiatan[]" multiple="multiple">
+                              <?php
+                              $curr_tema = [];
+                              foreach ($sertifikat as $key => $el) {
+                                $tema = str_replace('_', ' ', explode("-", $el->nama_serti)[1]);
+                                if (!in_array($tema, $curr_tema)) {
+                                  $arr = explode(",", $list_kriteria[$value->kriteria_id]->sertifikat_id);
+                                  $selected = "";
+                                  foreach($arr as $item) {
+                                    if($item == $el->id) {
+                                      $selected = "selected";
+                                      break;
+                                    }
+                                  }
+                                ?>
+                                <option value="<?= $el->id ?>"><?php echo $tema; array_push($curr_tema, $tema); ?></option>
+                              <?php
+                              } }
+                              ?>
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Kembali</button>
+                          <button type="submit" name="filter" class="btn btn-primary">Ubah Filter Surat</button>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+                <?php } ?>
 
                 <!-- Modal: Detail -->
                 <button type="button" class="btn btn-info" data-toggle="modal" data-target="#viewsurat-<?= $value->id ?>">Detail</button>

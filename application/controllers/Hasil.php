@@ -19,57 +19,158 @@ class Hasil extends Roles
         ]);
     }
 
-    private function get_filter_pegawai()
+    private function get_filter_pegawai($surat_id)
     {
-        $where = ["status_kerja" => "aktif"];
-        foreach ($_GET as $key => $value) {
-            if (!is_numeric($key)) {
-                if (!is_array($_GET[$key])) {
-                    $key = str_replace('@', ' ', $key);
-                    $where += [$key => $value];
-                } else {
-                    $this->db->group_start();
-                    $no = 1;
-                    foreach ($_GET[$key] as $item) {
-                        if ($no == 1) {
-                            $key === 'nama_serti' ?  $this->db->like([$key => $item]) : $this->db->where([$key => $item]);
-                        } else {
-                            $key === 'nama_serti' ?  $this->db->or_like([$key => $item]) : $this->db->or_where([$key => $item]);
-                        }
-                        $no++;
-                    }
-                    $this->db->group_end();
-                }
-                if ($this->session->userdata('nama_jabatan') === "Ketua Jurusan") {
-                    $where += [
-                        "jurusan_id" => $this->session->userdata('jurusan_id'),
-                        "jabatan.jenis_jabatan" => "fungsional"
-                    ];
-                }
-                if ($this->session->userdata('nama_jabatan') === "Kepala Bagian Umum") {
-                    $where += [
-                        "jurusan_id" => $this->session->userdata('jurusan_id'),
-                        "jabatan.jenis_jabatan" => "struktural"
-                    ];
-                }
+        // Get Detail Surat
+        $surat = $this->surat_model->get_one([
+            "id" => $surat_id
+        ]);
+
+        if($surat->kriteria_id != NULL) {
+            // Get Detail Kriteria
+            $detail_kriteria = $this->surat_model->get_kriteria([
+                "id" => $surat->kriteria_id
+            ]);
+
+            // Based Filter
+            $where_in = [];
+            $where = ["status_kerja" => "aktif"];
+            if($this->session->userdata('nama_jabatan') === "Ketua Jurusan") {
+                $where += [
+                    "jurusan_id" => $this->session->userdata('jurusan_id'),
+                    "jabatan.jenis_jabatan" => "fungsional"
+                ];
             }
+            if($this->session->userdata('nama_jabatan') === "Kepala Bagian Umum") {
+                $where += [
+                    "jurusan_id" => $this->session->userdata('jurusan_id'),
+                    "jabatan.jenis_jabatan" => "struktural"
+                ];
+            }
+
+            // Filter 1: Masa Kerja [ ERROR ]
+            // != diganti jadi == agar tidak dijalankan
+            if($detail_kriteria->masa_kerja != NULL) {
+                $date_point = date('Y', strtotime('-0 years'));
+                $where += [
+                    'YEAR(pegawai.tgl_masuk) <=', $date_point,
+                    // "DATE_FORMAT(pegawai.tgl_masuk,'%Y-%m-%d') > '".$date_point."'",NULL,FALSE
+                ];
+            }
+
+            // Filter 2: Pendidikan
+            if($detail_kriteria->pendidikan != NULL) {
+                $pendidikan = explode(",", $detail_kriteria->pendidikan);
+                $where_in += [
+                    "pegawai.pendidikan" => $pendidikan
+                ];
+            }
+
+            // Filter 3: Jenis Pegawai
+            if($detail_kriteria->jenis_pegawai != NULL) {
+                $jenis_pegawai = explode(",", $detail_kriteria->jenis_pegawai);
+                $where_in += [
+                    "jabatan.jenis_jabatan" => $jenis_pegawai
+                ];
+            }
+
+            // Filter 4: Jurusan
+            if($detail_kriteria->jurusan_id != NULL) {
+                $jurusan = explode(",", $detail_kriteria->jurusan_id);
+                $where_in += [
+                    "pegawai.jurusan_id" => $jurusan
+                ];
+            }
+
+            // Filter 5: Bagian
+            if($detail_kriteria->bagian_id != NULL) {
+                $bagian = explode(",", $detail_kriteria->bagian_id);
+                $where_in += [
+                    "pegawai.bagian_id" => $bagian
+                ];
+            }
+
+            // Filter 6: Unit
+            if($detail_kriteria->unit_id != NULL) {
+                $unit = explode(",", $detail_kriteria->unit_id);
+                $where_in += [
+                    "pegawai.unit_id" => $unit
+                ];
+            }
+
+            // Filter 7: Jabatan
+            if($detail_kriteria->jabatan_id != NULL) {
+                $jabatan = explode(",", $detail_kriteria->jabatan_id);
+                $where_in += [
+                    "pegawai.jabatan_id" => $jabatan
+                ];
+            }
+
+            // Filter 8: Bidang Keahlian
+            if($detail_kriteria->bidang_keahlian_id != NULL) {
+                $bidang_keahlian = explode(",", $detail_kriteria->bidang_keahlian_id);
+                $where_in += [
+                    "pegawai.bidang_keahlian_id" => $bidang_keahlian
+                ];
+            }
+
+            // Filter 9: Sertifikat
+            if($detail_kriteria->sertifikat_id != NULL) {
+                $sertifikat = explode(",", $detail_kriteria->sertifikat_id);
+                $where_in += [
+                    "pegawai.sertifikat_id" => $sertifikat
+                ];
+            }
+
+            return $this->pegawai_model->get_all_where($where, 0, $where_in);
+        } else {
+            return -1;
         }
-        return $this->pegawai_model->get_all_where($where);
     }
 
     public function index()
     {
-        if (!empty($_GET)) {
-            $pegawai = $this->get_filter_pegawai();            
+        if($this->session->userdata('role') != 'admin') {
+            // Get This User Info
+            $userinfo = $this->pegawai_model->get_one([
+                "account_nip" => $this->session->userdata('nip')
+            ]);
+
+            // Get Jabatan Info
+            if($userinfo->jabatan_id != NULL) {
+                $jabataninfo = $this->jabatan_model->get_one([
+                    "id" => $userinfo->jabatan_id
+                ]);
+            }
+        }
+
+        // If POST Request Exists
+        if (!empty($_POST)) {
+            $surat_id = $this->input->post('surat_id');
+
+            $pegawai = $this->get_filter_pegawai($surat_id);    
+            if($pegawai == -1) {
+                $this->session->set_flashdata('message_error', 'Gagal melakukan filter, kriteria surat belum diatur!');
+                redirect("hasil");
+            }        
         } else {            
-            if($this->session->userdata('jabatan') == 'Kepala Bagian Umum'){
-                $pegawai = $this->pegawai->get_all_where(['jabatan.jenis_jabatan' => "struktural"]);
-            }else{
+            if($this->session->userdata('jabatan') == 'Kepala Bagian Umum') {
+                // Get by Jenis Struktural
+                $pegawai = $this->pegawai_model->get_all_where(['jabatan.jenis_jabatan' => "struktural"]);
+            } else if($this->session->userdata('jabatan') == 'Ketua Jurusan') {
+                // Get by Nama Jurusan
+                $pegawai = $this->pegawai_model->get_all_where(
+                    ["jurusan.nama" => $jabataninfo->nama]
+                );
+            } else {
                 $pegawai = $this->pegawai_model->get_all_order('nilai_rank', 'desc');
             }
         }
         $surat = $this->surat_model->get_all_where([
             'status' => 'need ranking'
+        ]);
+        $all_surat = $this->surat_model->get_all_where([
+            "jenis_tujuan" => "tidak ada"
         ]);
         $jabatan = $this->jabatan_model->get_all();
 
@@ -92,6 +193,7 @@ class Hasil extends Roles
             "jabatan" => $jabatan,
             "pegawai" => $pegawai,
             "list_surat" => $surat,
+            "list_all_surat" => $all_surat,
             "list_jabatan" => $list_jabatan,
             "jurusan" => $jurusan,
             "bagian" => $bagian,

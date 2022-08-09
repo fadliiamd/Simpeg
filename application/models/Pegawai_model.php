@@ -117,7 +117,7 @@ class Pegawai_model extends CI_Model
         return $query->result();
     }
 
-    public function get_all_where($where, $limit = 0)
+    public function get_all_where($where, $limit = 0, $where_in = NULL)
     {        
         if($limit == 0) {
             $this->db->select('sertifikat.*, pegawai.*, bidang_keahlian.*, jabatan.*, jurusan.nama as nama_jurusan, bagian.nama as nama_bagian, unit.nama as nama_unit');
@@ -129,6 +129,11 @@ class Pegawai_model extends CI_Model
             $this->db->join('unit', 'pegawai.unit_id = unit.id', 'left');
             $this->db->join('bidang_keahlian', 'pegawai.bidang_keahlian_id = bidang_keahlian.id_keahlian', 'left');            
             $this->db->where($where);  
+            if($where_in != NULL) {
+                foreach($where_in as $key => $value) {
+                    $this->db->where_in($key, $value);
+                }
+            }
             $this->db->group_by('pegawai.account_nip');          
             $query = $this->db->get();
         } else {
