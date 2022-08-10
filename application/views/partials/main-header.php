@@ -37,6 +37,16 @@
   <script src="<?= site_url() ?>assets/vendors/select2/select2.min.js"></script>
 
   <style>
+    .btn-pink {
+      background-color: #fc47c0;      
+      color: #fff;
+    }
+
+    .btn-pink:hover {          
+      background-color: #ff00a9;
+      color: #fff;
+    }
+
     input::-webkit-outer-spin-button,
     input::-webkit-inner-spin-button {
       -webkit-appearance: none !important;

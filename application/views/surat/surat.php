@@ -167,7 +167,7 @@
                 <!-- Modal: Add Filter -->
                 <?php if($value->jenis_tujuan == 'tidak ada') { ?>
                 <?php if($value->kriteria_id == NULL) { ?>
-                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#filtersurat-<?= $value->id ?>">Tambah Kriteria</button>
+                <button type="button" class="btn btn-pink" data-toggle="modal" data-target="#filtersurat-<?= $value->id ?>">Tambah Kriteria</button>
                 <div id="filtersurat-<?= $value->id ?>" class="modal fade edittable" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
                   <div class="modal-dialog modal-lg">
                     <div class="modal-content">
