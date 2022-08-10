@@ -96,16 +96,30 @@ class Sertifikat extends Roles {
     {
         $this->load->model('sertifikat_model');
         $id = $this->input->post('serti_id');
+        $aksi = $this->input->post('aksi');
 
-        $update = $this->sertifikat_model->verify_serti($id);
-        if($update)
-        {
-            $this->session->set_flashdata('message_success', 'Behasil memverifikasi sertifikat');
-            redirect("sertifikat");
-        }else
-        {
-            $this->session->set_flashdata('message_error', 'Gagal memverifikasi sertifikat');
-            redirect("sertifikat");
+        if($aksi == 'verifikasi') {
+            $update = $this->sertifikat_model->verify_serti($id, 1);
+            if($update)
+            {
+                $this->session->set_flashdata('message_success', 'Behasil memverifikasi sertifikat');
+                redirect("sertifikat");
+            }else
+            {
+                $this->session->set_flashdata('message_error', 'Gagal memverifikasi sertifikat');
+                redirect("sertifikat");
+            }
+        } else if($aksi == 'tolak') {
+            $update = $this->sertifikat_model->verify_serti($id, 2);
+            if($update)
+            {
+                $this->session->set_flashdata('message_success', 'Behasil memverifikasi sertifikat');
+                redirect("sertifikat");
+            }else
+            {
+                $this->session->set_flashdata('message_error', 'Gagal memverifikasi sertifikat');
+                redirect("sertifikat");
+            }
         }
     }
 }

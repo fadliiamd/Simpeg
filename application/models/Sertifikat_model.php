@@ -162,9 +162,9 @@ class Sertifikat_model extends CI_Model
         return true;
     }
 
-    public function verify_serti($id) {
+    public function verify_serti($id, $code) {
         $data = [
-            "is_verify" => 1
+            "is_verify" => $code
         ];
 
         $this->db->trans_start();

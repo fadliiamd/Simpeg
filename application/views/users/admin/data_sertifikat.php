@@ -162,6 +162,8 @@
                             <td class="text-capitalize
                                 <?php
                                 if($value->is_verify == 0) {
+                                    echo "text-warning";
+                                } else if($value->is_verify == 2) {
                                     echo "text-danger";
                                 } else {
                                     echo "text-success";
@@ -170,6 +172,8 @@
                                 <?php
                                 if($value->is_verify == 0) {
                                     echo "Belum Terverifikasi";
+                                } else if($value->is_verify == 2) {
+                                    echo "Ditolak";
                                 } else {
                                     echo "Terverifikasi";
                                 }
@@ -199,6 +203,37 @@
                                     <div class="modal-footer">
                                         <form action="<?= base_url(); ?>sertifikat/verifikasi" method="post" class="forms-sample" enctype="multipart/form-data">
                                         <input type="hidden" class="form-control" name="serti_id" value="<?= $value->id ?>">
+                                        <input type="hidden" class="form-control" name="aksi" value="verifikasi">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tidak</button>
+                                        <button type="submit" class="btn btn-danger">Ya</button>
+                                        </form>
+                                    </div>
+                                    </div>
+                                </div>
+                                </div>
+                                <!-- End Modal -->
+
+                                <!-- Aksi: Tolak -->
+                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#tolak-<?= $key ?>">
+                                Tolak
+                                </button>
+                                <!-- Modal -->
+                                <div class="modal fade" id="tolak-<?= $key ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Tolak Verifikasi Sertifikat dengan Nomor Sertifikat : <b><?= $value->no_serti ?></b> </h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Apakah anda yakin untuk menolak verifikasi sertifikat ini?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <form action="<?= base_url(); ?>sertifikat/verifikasi" method="post" class="forms-sample" enctype="multipart/form-data">
+                                        <input type="hidden" class="form-control" name="serti_id" value="<?= $value->id ?>">
+                                        <input type="hidden" class="form-control" name="aksi" value="tolak">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Tidak</button>
                                         <button type="submit" class="btn btn-danger">Ya</button>
                                         </form>
@@ -343,7 +378,9 @@
                                     </div>
                                 </div>
                                 <!-- End Modal -->
-                                <?php } else { ?>
+                                <?php } else {
+                                if($value->is_verify != '2') {
+                                ?>
                                 <!-- Large modal -->
                                 <button type="button" class="btn btn-warning" data-toggle="modal" data-target=".edittable-<?= $key ?>">Edit</button>
 
@@ -481,7 +518,7 @@
                                     </div>
                                 </div>
                                 <!-- End Modal -->
-                                <?php } ?>
+                                <?php } } ?>
 
                                 <?php if($this->session->userdata('role') != 'admin') { ?>
                                 <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deletetable-<?= $key ?>">Hapus</button>

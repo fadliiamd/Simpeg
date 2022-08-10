@@ -102,7 +102,13 @@ class Surat extends Roles
         $get_all_pemilih = $this->surat_model->get_all_pemilih();
         $list_pemilih = [];
         foreach($get_all_pemilih as $val) {
-            $list_pemilih[$val->surat_id] = $val;
+            if(!isset($list_pemilih[$val->surat_id])) {
+                $list_pemilih[$val->surat_id] = [
+                    $val
+                ];
+            } else {
+                array_push($list_pemilih[$val->surat_id], $val);
+            }
         }
 
         // Get Pejabat
@@ -561,13 +567,13 @@ class Surat extends Roles
 
         $id = $this->input->post("surat_id");
         $masa_kerja = $this->input->post("masa_kerja");
-        $pendidikan = implode(",", $this->input->post("pendidikan"));
-        $jenis_pegawai = implode(",", $this->input->post("jenis_pegawai"));
-        $jurusan = implode(",", $this->input->post("jurusan"));
-        $bagian = implode(",", $this->input->post("bagian"));
-        $unit = implode(",", $this->input->post("unit"));
-        $jabatan = implode(",", $this->input->post("jabatan"));
-        $sertifikat = implode(",", $this->input->post("sertifikat_kegiatan"));
+        $pendidikan = implode(",", (array)$this->input->post("pendidikan"));
+        $jenis_pegawai = implode(",", (array)$this->input->post("jenis_pegawai"));
+        $jurusan = implode(",", (array)$this->input->post("jurusan"));
+        $bagian = implode(",", (array)$this->input->post("bagian"));
+        $unit = implode(",", (array)$this->input->post("unit"));
+        $jabatan = implode(",", (array)$this->input->post("jabatan"));
+        $sertifikat = implode(",", (array)$this->input->post("sertifikat_kegiatan"));
 
         // Prepare Data
         $data = array(
