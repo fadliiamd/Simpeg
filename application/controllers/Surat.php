@@ -98,6 +98,16 @@ class Surat extends Roles
             $list_kriteria[$value->id] = $value;
         }
 
+        // Get Penerima Surat
+        $get_all_pemilih = $this->surat_model->get_all_pemilih();
+        $list_pemilih = [];
+        foreach($get_all_pemilih as $val) {
+            $list_pemilih[$val->surat_id] = $val;
+        }
+
+        // Get Pejabat
+        $list_pejabat = $this->pegawai_model->get_pejabat();
+
         $this->load->view('partials/main-header', [
             "title" => " | Surat"
         ]);
@@ -112,7 +122,9 @@ class Surat extends Roles
             "sertifikat" => $sertifikat,
             "bidang_keahlian" => $bidang_keahlian,
             "list_jabatan" => $list_jabatan,
-            "list_kriteria" => $list_kriteria
+            "list_kriteria" => $list_kriteria,
+            "list_pemilih" => $list_pemilih,
+            "list_pejabat" => $list_pejabat
         ]);
         $this->load->view('partials/main-footer');
     }

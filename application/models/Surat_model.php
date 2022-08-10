@@ -14,6 +14,12 @@ class Surat_model extends CI_Model
         return $query->result();
     }
 
+    public function get_all_pemilih()
+    {
+        $query = $this->db->get($this->pemilih_table);
+        return $query->result();
+    }
+
     public function get_all_subjek()
     {
         $query = $this->db->get($this->sup_table);

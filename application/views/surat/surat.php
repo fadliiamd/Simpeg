@@ -17,6 +17,7 @@
         </div>
     <?php endif ?>
     <h4>Surat</h4>
+    <?= var_dump($list_pemilih) ?>
     
     <button type="button" class="my-3 btn btn-primary" data-toggle="modal" data-target="#unggah_surat">
       Unggah Surat
@@ -737,7 +738,28 @@
                               <?php } ?>
                             </div>
                           </div>
-                          <div id="detail_tujuan_edit_<?= $value->id ?>" class="row">
+                          <div class="form-group">
+                            <label for="pemilih_edit_<?= $value->id ?>">Pemilih</label>
+                            <br />
+                            <select class="form-control js-example-basic-multiple" id="pemilih_edit_<?= $value->id ?>" name="tujuan[]" multiple="multiple" style="width:100%;">
+                              <?php
+                                foreach($list_pejabat as $item) {
+                                  $is_selected = "";
+                                  foreach($list_pemilih[$value->id] as $el) {
+                                    if($item->account_nip == $el->pemilih_nip) {
+                                      $is_selected = "selected";
+                                      break;
+                                    } else {
+                                      $is_selected = "not selected";
+                                      break;
+                                    }
+                                  }
+                                  ?>
+                                  <option value="<?= $item->account_nip ?>"><?= $is_selected ?> (<?= $item->account_nip ?>) <?= $item->nama ?></option>
+                              <?php } ?>
+                            </select>
+                          </div>
+                          <div id="detail_tujuan_edit_<?= $value->id ?>">
                             <?php if($value->jenis_tujuan === 'divisi') { ?>
                               <div class="form-group">
                                 <label for="divisi_edit_<?= $value->id ?>">Divisi Tujuan</label>
@@ -785,7 +807,7 @@
                               </div>
                               <div class="form-group">
                                 <label for="tujuan_edit_<?= $value->id ?>">Tambah <?= ucwords($value->tujuan) ?> Tujuan</label>
-                                <select class="form-control" size="10" id="tujuan_edit_<?= $value->id ?>" name="tujuan[]" multiple="multiple">
+                                <select class="form-control" size="10" id="tujuan_edit_<?= $value->id ?>" name="tujuan[]" multiple="multiple" style="width:100%;">
                                   <option value="" hidden>--- Tujuan ---</option>
                                   <?php
                                   if(isset($list_detail_tujuan[$value->id])) {
@@ -865,7 +887,8 @@
                               </div>
                               <div class="form-group">
                                 <label for="tujuan_edit_<?= $value->id ?>">Tambah Pegawai Tujuan</label>
-                                <select class="form-control js-example-basic-multiple" size="10" id="tujuan_edit_<?= $value->id ?>" name="tujuan[]" multiple="multiple">
+                                <br />
+                                <select class="form-control js-example-basic-multiple" id="tujuan_edit_<?= $value->id ?>" name="tujuan[]" multiple="multiple">
                                   <?php
                                   if(isset($list_detail_tujuan[$value->id])) {
                                     foreach($pegawai as $item) {
