@@ -25,8 +25,8 @@ class Hasil extends Roles
         $surat = $this->surat_model->get_one([
             "id" => $surat_id
         ]);
-
-        if($surat->kriteria_id != NULL) {
+        
+        if(!is_null($surat->kriteria_id)) {
             // Get Detail Kriteria
             $detail_kriteria = $this->surat_model->get_kriteria([
                 "id" => $surat->kriteria_id
@@ -145,8 +145,8 @@ class Hasil extends Roles
         }
 
         // If POST Request Exists
-        if (!empty($_POST)) {
-            $surat_id = $this->input->post('surat_id');
+        if (!empty($_GET)) {
+            $surat_id = $_GET['surat_id'];
 
             $pegawai = $this->get_filter_pegawai($surat_id);    
             if($pegawai == -1) {
@@ -169,9 +169,17 @@ class Hasil extends Roles
         $surat = $this->surat_model->get_all_where([
             'status' => 'need ranking'
         ]);
-        $all_surat = $this->surat_model->get_all_where([
-            "jenis_tujuan" => "tidak ada"
-        ]);
+
+        if($this->session->userdata('role') != 'admin') {
+            //get surat yang punya akses dia saja
+            $all_surat = $this->surat_model->get_all_where([
+                "pemilih_nip" => $this->session->userdata('nip')
+            ]);            
+        }else{
+            $all_surat = $this->surat_model->get_all_where([
+                "jenis_tujuan" => "tidak ada"
+            ]);
+        }        
         $jabatan = $this->jabatan_model->get_all();
 
         $jurusan = $this->jurusan_model->get_all();

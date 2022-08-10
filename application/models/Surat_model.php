@@ -22,7 +22,12 @@ class Surat_model extends CI_Model
 
     public function get_all_where($where)
     {
-        $query = $this->db->get_where($this->table, $where);
+        $this->db->select('pemilih_pegawai.*, surat.*');
+        $this->db->from('surat');
+        $this->db->join($this->pemilih_table, "pemilih_pegawai.surat_id = surat.id", "left");
+        $this->db->where($where);
+        $this->db->group_by('surat.id');
+        $query = $this->db->get();
         return $query->result();
     }
 

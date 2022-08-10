@@ -17,170 +17,35 @@
       </div>
     <?php endif ?>
     <h4>Pilih Pegawai Untuk Mengikuti Kegiatan</h4>
-    
 
-    <!-- Not Use -->
-    <?php if ($this->session->userdata('jabatan') != 'Kepala Bagian Umum') { ?>
-      <div id="filter" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel"><b>Filter Berdasarkan :</b></h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
+    <form action="<?= base_url(); ?>hasil" method="get" class="forms-sample">
+      <div class="row d-flex align-items-center my-4">
+        <div class="col-md-7">
+          <select class="form-control" id="surat_id" name="surat_id" required>
+            <option value="">--- Pilih Surat ---</option>
             <?php
-            function checked($param, $value)
-            {
-              if (isset($_GET[$param])) {
-                if (is_array($_GET[$param])) {
-                  return in_array($value, $_GET[$param]) ? "checked" : "";
-                } else {
-                  return $_GET[$param] == $value ? "checked" : "";
-                }
-              } else {
-                return "";
-              }
-            }
+            foreach ($list_all_surat as $item) {
+              if(isset($_GET))
+                $selected = $item->id === $_GET["surat_id"] ? "selected" : "";
             ?>
-            <form method="GET" action="<?= base_url('hasil') ?>" enctype="multipart/form-data">
-              <div class="modal-body">
-                <hr>
-                <?php if ($this->session->userdata('nama_jabatan') !== "Kepala Jurusan") { ?>
-                  <hr>
-                  <div class="row">
-                    <div class="col-md-4">
-                      <b>Bidang Keahlian</b>
-                      <?php
-                      foreach ($bidang_keahlian as $key => $value) { ?>
-                        <div class="form-check">
-                          <input class="form-check-input ml-0" type="checkbox" name="bidang_keahlian_id[]" value="<?= $value->id_keahlian ?>" id="keahlian<?= $key ?>" <?= checked("bidang_keahlian_id",  $value->id_keahlian) ?>>
-                          <label class="form-check-label" for="keahlian<?= $key ?>">
-                            <?= $value->nama_keahlian ?>
-                          </label>
-                        </div>
-                      <?php
-                      }
-                      ?>
-                    </div>
-                    <div class="col-md-4">
-                      <b>Sertifikat Kegiatan</b>
-                      <?php
-                      $curr_tema = [];
-                      foreach ($sertifikat as $key => $value) {
-                        $tema = str_replace('_', ' ', explode("-", $value->nama_serti)[1]);
-                        if (!in_array($tema, $curr_tema)) { ?>
-                          <div class="form-check">
-                            <input class="form-check-input ml-0" type="checkbox" name="nama_serti[]" value="<?= explode("-", $value->nama_serti)[1] ?>" id="serti<?= $key ?>" <?= checked("nama_serti",  explode("-", $value->nama_serti)[1]) ?>>
-                            <label class="form-check-label" for="serti<?= $key ?>">
-                              <?php
-                              echo $tema;
-                              array_push($curr_tema, $tema);
-                              ?>
-                            </label>
-                          </div>
-                        <?php
-                        }
-                        ?>
-                      <?php
-                      }
-                      ?>
-                    </div>
-                  </div>
-                <?php
-                } else { ?>
-                  <div class="row">
-                    <div class="col-md-3">
-                      <b>Unit</b>
-                      <?php
-                      foreach ($unit as $key => $value) { ?>
-                        <div class="form-check">
-                          <input class="form-check-input ml-0" type="checkbox" name="unit_id[]" value="<?= $value->id ?>" id="unit<?= $key ?>" <?= checked("unit_id",  $value->id) ?>>
-                          <label class="form-check-label" for="unit<?= $key ?>">
-                            <?= $value->nama ?>
-                          </label>
-                        </div>
-                      <?php
-                      }
-                      ?>
-                    </div>
-                    <div class="col-md-3">
-                      <b>Jabatan</b>
-                      <?php
-                      foreach ($jabatan as $key => $value) {
-                        if ($value->jenis_jabatan === "fungsional") { ?>
-                          <div class="form-check">
-                            <input class="form-check-input ml-0" type="checkbox" name="jabatan_id[]" value="<?= $value->id ?>" id="jabatan<?= $key ?>" <?= checked("jabatan_id",  $value->id) ?>>
-                            <label class="form-check-label" for="jabatan<?= $key ?>">
-                              <?= $value->nama_jabatan ?>
-                            </label>
-                          </div>
-                      <?php
-                        }
-                      }
-                      ?>
-                    </div>
-                    <div class="col-md-3">
-                      <b>Bidang Keahlian</b>
-                      <?php
-                      foreach ($bidang_keahlian as $key => $value) { ?>
-                        <div class="form-check">
-                          <input class="form-check-input ml-0" type="checkbox" name="bidang_keahlian_id[]" value="<?= $value->id_keahlian ?>" id="keahlian<?= $key ?>" <?= checked("bidang_keahlian_id",  $value->id_keahlian) ?>>
-                          <label class="form-check-label" for="keahlian<?= $key ?>">
-                            <?= $value->nama_keahlian ?>
-                          </label>
-                        </div>
-                      <?php
-                      }
-                      ?>
-                    </div>
-                    <div class="col-md-3">
-                      <b>Sertifikat Kegiatan</b>
-                      <?php
-                      $curr_tema = [];
-                      foreach ($sertifikat as $key => $value) {
-                        $tema = str_replace('_', ' ', explode("-", $value->nama_serti)[1]);
-                        if (!in_array($tema, $curr_tema)) { ?>
-                          <div class="form-check">
-                            <input class="form-check-input ml-0" type="checkbox" name="nama_serti[]" value="<?= explode("-", $value->nama_serti)[1] ?>" id="serti<?= $key ?>" <?= checked("nama_serti",  explode("-", $value->nama_serti)[1]) ?>>
-                            <label class="form-check-label" for="serti<?= $key ?>">
-                              <?php
-                              echo $tema;
-                              array_push($curr_tema, $tema);
-                              ?>
-                            </label>
-                          </div>
-                        <?php
-                        }
-                        ?>
-                      <?php
-                      }
-                      ?>
-                    </div>
-                  </div>
-                <?php
-                } ?>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Kembali</button>
-                <button type="submit" class="btn btn-primary">Filter</button>
-              </div>
-            </form>
-          </div>
+              <option value="<?= $item->id ?>" <?= $selected ?>><?= $item->no ?> - "<?= ucwords($item->tema) ?>"</option>
+            <?php } ?>
+          </select>
+        </div>
+        <div class="col-md-3">
+          <button type="submit" class="btn btn-primary">Filter</button>
         </div>
       </div>
-    <?php } ?>
-    <!-- Not Use -->
+    </form>
 
     <!-- Aksi: Filter -->
-    <div class="d-flex">
+    <!-- <div class="d-flex">
       <div class="my-3">
-      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#viewdiklat-<?= $value->id ?>">Filter</button>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#viewdiklat">Filter</button>
       </div>
-    </div>
+    </div> -->
     <!-- Modal -->
-    <div id="viewdiklat-<?= $value->id ?>" class="modal fade edittable" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div id="viewdiklat" class="modal fade edittable" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
           <div class="modal-header">
@@ -197,9 +62,9 @@
                   <select class="form-control" id="surat_id" name="surat_id" required>
                     <option>--- Pilih Surat ---</option>
                     <?php
-                    foreach($list_all_surat as $item) {
+                    foreach ($list_all_surat as $item) {
                     ?>
-                    <option value="<?= $item->id ?>"><?= $item->no ?> - "<?= ucwords($item->tema) ?>"</option>
+                      <option value="<?= $item->id ?>"><?= $item->no ?> - "<?= ucwords($item->tema) ?>"</option>
                     <?php } ?>
                   </select>
                 </div>
@@ -333,9 +198,12 @@
           </tbody>
         </table>
       </div>
+
       <div class="my-3">
+        <input type="hidden" class="form-control" id="surat_id" name="surat_id" value="<?= isset($_GET["surat_id"]) ? $_GET["surat_id"] : "" ?>" required>
+        
         <!-- Large modal -->
-        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#choose_surat">Ajukan Pegawai</button>
+        <button type="submit" class="btn btn-success" data-toggle="modal" data-target="#choose_surat" <?= isset($_GET["surat_id"]) ? "" : "disabled" ?>>Ajukan Pegawai</button>
 
         <!-- Modal -->
         <div id="choose_surat" class="modal fade edittable" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
@@ -385,6 +253,6 @@
     var value = $(this).val();
     value = getYearDiff(value);
     console.log(value);
-    $('#tgl_masuk_on').val(value);    
+    $('#tgl_masuk_on').val(value);
   });
 </script>
