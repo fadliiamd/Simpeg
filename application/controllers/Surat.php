@@ -1,14 +1,15 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Surat extends Roles {
-	public function __construct()
-	{
-		parent::__construct(['admin']);
-	}
+class Surat extends Roles
+{
+    public function __construct()
+    {
+        parent::__construct(['admin']);
+    }
 
-	public function index()
-	{
+    public function index()
+    {
         // Load Model
         $this->load->model([
             "surat_model",
@@ -35,34 +36,34 @@ class Surat extends Roles {
 
         // Get Detail from Detail Tujuan
         $list_detail_tujuan = [];
-        foreach($surat as $key => $value) {
+        foreach ($surat as $key => $value) {
             $list_detail = [];
-            if($value->jenis_tujuan == 'divisi') {
-                if($value->tujuan == 'jurusan') {
+            if ($value->jenis_tujuan == 'divisi') {
+                if ($value->tujuan == 'jurusan') {
                     $detail_tujuan = $this->surat_model->get_all_where_subjek([
                         "surat_id" => $value->id
                     ]);
-                    foreach($detail_tujuan as $item) {
+                    foreach ($detail_tujuan as $item) {
                         $get_data = $this->jurusan_model->get_one([
                             "id" => $item->subjek
                         ]);
                         array_push($list_detail, $get_data);
                     }
-                } else if($value->tujuan == 'bagian') {
+                } else if ($value->tujuan == 'bagian') {
                     $detail_tujuan = $this->surat_model->get_all_where_subjek([
                         "surat_id" => $value->id
                     ]);
-                    foreach($detail_tujuan as $item) {
+                    foreach ($detail_tujuan as $item) {
                         $get_data = $this->bagian_model->get_one([
                             "id" => $item->subjek
                         ]);
                         array_push($list_detail, $get_data);
                     }
-                } else if($value->tujuan == 'unit') {
+                } else if ($value->tujuan == 'unit') {
                     $detail_tujuan = $this->surat_model->get_all_where_subjek([
                         "surat_id" => $value->id
                     ]);
-                    foreach($detail_tujuan as $item) {
+                    foreach ($detail_tujuan as $item) {
                         $get_data = $this->unit_model->get_one([
                             "id" => $item->subjek
                         ]);
@@ -70,12 +71,11 @@ class Surat extends Roles {
                     }
                 }
                 $list_detail_tujuan[$value->id] = $list_detail;
-
-            } else if($value->jenis_tujuan == 'perorangan') {
+            } else if ($value->jenis_tujuan == 'perorangan') {
                 $detail_tujuan = $this->surat_model->get_all_where_subjek([
                     "surat_id" => $value->id
                 ]);
-                foreach($detail_tujuan as $item) {
+                foreach ($detail_tujuan as $item) {
                     $get_data = $this->pegawai_model->get_one([
                         "account_nip" => $item->subjek
                     ]);
@@ -87,21 +87,21 @@ class Surat extends Roles {
 
         // Get List Jabatan
         $list_jabatan = [];
-        foreach($jabatan as $value) {
-            $list_jabatan[$value->id] = $value; 
+        foreach ($jabatan as $value) {
+            $list_jabatan[$value->id] = $value;
         }
 
         // Get List Kriteria Surat
         $get_all_kriteria = $this->surat_model->get_all_kriteria();
         $list_kriteria = [];
-        foreach($get_all_kriteria as $value) {
-            $list_kriteria[$value->id] = $value; 
+        foreach ($get_all_kriteria as $value) {
+            $list_kriteria[$value->id] = $value;
         }
 
-		$this->load->view('partials/main-header', [
+        $this->load->view('partials/main-header', [
             "title" => " | Surat"
         ]);
-		$this->load->view('surat/surat', [
+        $this->load->view('surat/surat', [
             "list_detail_tujuan" => $list_detail_tujuan,
             "surat" => $surat,
             "pegawai" => $pegawai,
@@ -114,8 +114,8 @@ class Surat extends Roles {
             "list_jabatan" => $list_jabatan,
             "list_kriteria" => $list_kriteria
         ]);
-		$this->load->view('partials/main-footer');
-	}
+        $this->load->view('partials/main-footer');
+    }
 
     public function do_upload($file_type, $post_name)
     {
@@ -146,7 +146,7 @@ class Surat extends Roles {
         $this->form_validation->set_rules($rules);
 
         // Check Form Validation
-        if($this->form_validation->run() == FALSE) {
+        if ($this->form_validation->run() == FALSE) {
             echo "Error";
             $this->session->set_flashdata('message_error', validation_errors());
             redirect("surat");
@@ -157,7 +157,7 @@ class Surat extends Roles {
 
         // Uploading File Surat
         $file_name = $this->do_upload("pdf", "file_surat");
-        if(is_null($file_name)) {
+        if (is_null($file_name)) {
             $this->session->set_flashdata('message_error', 'Kesalahan dalam mengunggah surat!');
             redirect("surat");
         }
@@ -173,7 +173,7 @@ class Surat extends Roles {
 
         // Insert Surat
         $add = $this->surat_model->insert_one($data);
-        if($add) {
+        if ($add) {
             $this->session->set_flashdata('message_success', 'Berhasil mengunggah surat!');
             redirect("surat");
         } else {
@@ -182,7 +182,7 @@ class Surat extends Roles {
         }
     }
 
-	public function create()
+    public function create()
     {
         // Load Model
         $this->load->model('surat_model');
@@ -193,7 +193,7 @@ class Surat extends Roles {
         $this->form_validation->set_rules($rules);
 
         // Check Form Validation
-        if($this->form_validation->run() == FALSE) {
+        if ($this->form_validation->run() == FALSE) {
             echo "Error";
             $this->session->set_flashdata('message_error', validation_errors());
             redirect("surat");
@@ -203,7 +203,7 @@ class Surat extends Roles {
         // POST Method Form
         $no = $this->input->post('no_surat');
         $jenis_kegiatan = $this->input->post('jenis_kegiatan');
-        if($jenis_kegiatan == 'diklat') {
+        if ($jenis_kegiatan == 'diklat') {
             $jenis_diklat = $this->input->post('jenis_diklat');
             $data_additional = array_merge($data_additional, [
                 "jenis_diklat" => $jenis_diklat
@@ -215,21 +215,21 @@ class Surat extends Roles {
         $detail_tujuan = NULL;
 
         // Jenis Tujuan Surat Pertama: Subjek Jelas
-        if($subjek == 'spesifik') {
+        if ($subjek == 'spesifik') {
             $surat_status = "ready to send";
             $jenis_tujuan = $this->input->post('jenis_tujuan');
             if ($jenis_tujuan == 'divisi') {
                 $data_additional = array_merge($data_additional, [
                     "tujuan" => $this->input->post('divisi')
-                ]); 
+                ]);
             } else if ($jenis_tujuan == 'perorangan') {
                 $data_additional = array_merge($data_additional, [
                     "tujuan" => $this->input->post('jenis_pegawai')
                 ]);
             }
-            $detail_tujuan = $this->input->post('tujuan');            
-        // Jenis Tujuan Surat Kedua: Semua Subjek
-        } else if($subjek == 'semua') {
+            $detail_tujuan = $this->input->post('tujuan');
+            // Jenis Tujuan Surat Kedua: Semua Subjek
+        } else if ($subjek == 'semua') {
             $jenis_tujuan = "semua";
             $surat_status = "ready to send";
             $detail_tujuan = $this->pegawai_model->get_all_column('*', [
@@ -238,10 +238,10 @@ class Surat extends Roles {
         } else {
             $jenis_tujuan = "tidak ada";
             $surat_status = "need ranking";
-        }        
+        }
         // Uploading File Surat
         $file_name = $this->do_upload("pdf", "file_surat");
-        if(is_null($file_name)) {
+        if (is_null($file_name)) {
             $this->session->set_flashdata('message_error', 'Kesalahan dalam mengunggah surat!');
             redirect("surat");
         }
@@ -258,14 +258,23 @@ class Surat extends Roles {
             "status" => $surat_status
         );
         $data = array_merge($data, $data_additional);
-        
+
         // Insert Surat                
-        if(!(is_null($detail_tujuan))) {                        
+        if (!(is_null($detail_tujuan))) {
             $add = $this->surat_model->insert_one_with_subjek($data, $detail_tujuan);
         } else {
             $add = $this->surat_model->insert_one_with_subjek($data);
+            //insert to tabel pemilih pegawai
+            $arr_pemilih = $this->input->post("pemilih");
+            foreach ($arr_pemilih as $pemilih) {
+                $data = [
+                    "surat_id" => $add,
+                    "pemilih_nip" => $pemilih
+                ];
+                $this->surat_model->insert_pemilih($data);
+            }
         }
-        if($add) {
+        if ($add) {
             $this->session->set_flashdata('message_success', 'Berhasil menambahkan data surat!');
             redirect("surat");
         } else {
@@ -273,17 +282,17 @@ class Surat extends Roles {
             redirect("surat");
         }
     }
-    
+
     public function update()
     {
         // Load Model
         $this->load->model('surat_model');
-        if(isset($_POST['delete_tujuan'])) {
+        if (isset($_POST['delete_tujuan'])) {
             $id = $this->input->post('id_surat');
             $checked_tujuan = $this->input->post('checked_subjek_id');
 
             $delete = $this->surat_model->delete_multi_subjek($id, $checked_tujuan);
-            if($delete) {
+            if ($delete) {
                 $this->session->set_flashdata('message_success', 'Berhasil menghapus tujuan yang dipilih');
                 redirect("surat");
             } else {
@@ -310,7 +319,7 @@ class Surat extends Roles {
             );
 
             // Check Form Validation
-            if($this->form_validation->run() == FALSE) {
+            if ($this->form_validation->run() == FALSE) {
                 echo "Error";
                 $this->session->set_flashdata('message_error', validation_errors());
                 redirect("surat");
@@ -321,7 +330,7 @@ class Surat extends Roles {
             $id = $this->input->post('id_surat');
             $no = $this->input->post('no_surat');
             $jenis_kegiatan = $this->input->post('jenis_kegiatan');
-            if($jenis_kegiatan == 'diklat') {
+            if ($jenis_kegiatan == 'diklat') {
                 $jenis_diklat = $this->input->post('jenis_diklat');
                 $data_additional = array_merge($data_additional, [
                     "jenis_diklat" => $jenis_diklat
@@ -331,7 +340,7 @@ class Surat extends Roles {
             $subjek = $this->input->post('subjek');
             $detail_tujuan = NULL;
 
-            if($subjek == 'spesifik') {
+            if ($subjek == 'spesifik') {
                 $jenis_tujuan = $this->input->post('jenis_tujuan');
                 if ($jenis_tujuan == 'divisi') {
                     $data_additional = array_merge($data_additional, [
@@ -344,8 +353,8 @@ class Surat extends Roles {
                         "status" => "ready to send"
                     ]);
                 }
-                $detail_tujuan = $this->input->post('tujuan');  
-            } else if($subjek == 'semua') {
+                $detail_tujuan = $this->input->post('tujuan');
+            } else if ($subjek == 'semua') {
                 $jenis_tujuan = "semua";
                 $data_additional = array_merge($data_additional, [
                     "status" => "ready to send"
@@ -358,8 +367,8 @@ class Surat extends Roles {
             }
 
             // Preparing Data for Update
-            if(!(empty($_FILES['file_surat']['name']))) {
-                $file_name = $this->do_upload("pdf", "file_surat");   
+            if (!(empty($_FILES['file_surat']['name']))) {
+                $file_name = $this->do_upload("pdf", "file_surat");
                 $data = array(
                     "no" => $no,
                     "jenis_kegiatan" => $jenis_kegiatan,
@@ -384,29 +393,42 @@ class Surat extends Roles {
             $get_surat = $this->surat_model->get_one([
                 "id" => $id
             ]);
-            
-            if($get_surat->jenis_tujuan != $jenis_tujuan) {
+
+            if ($get_surat->jenis_tujuan != $jenis_tujuan) {
                 $this->surat_model->delete_multi_subjek($id);
             }
 
             // Updating Surat
-            if($detail_tujuan != NULL) {
+            if ($detail_tujuan != NULL) {
                 $update = $this->surat_model->update_one($id, $data, $detail_tujuan);
             } else {
                 $update = $this->surat_model->update_one($id, $data);
+
+                //delete all surat_id
+                $this->surat_model->delete_pemilih($id);
+
+                //update to tabel pemilih pegawai                
+                $arr_pemilih = $this->input->post("pemilih");
+                foreach ($arr_pemilih as $pemilih) {
+                    $data = [
+                        "surat_id" => $id,
+                        "pemilih_nip" => $pemilih
+                    ];
+                    $this->surat_model->insert_pemilih($data);
+                }
             }
-            if($update) {
-                $this->session->set_flashdata('message_success', 'Berhasil mengupdate data surat dengan nomor '.$no.'!');
+            if ($update) {
+                $this->session->set_flashdata('message_success', 'Berhasil mengupdate data surat dengan nomor ' . $no . '!');
                 redirect("surat");
             } else {
-                $this->session->set_flashdata('message_error', 'Gagal mengupdate data surat dengan nomor '.$no.'!');
+                $this->session->set_flashdata('message_error', 'Gagal mengupdate data surat dengan nomor ' . $no . '!');
                 redirect("surat");
             }
         }
     }
-    
+
     public function delete()
-    {        
+    {
         // Load Model
         $this->load->model('surat_model');
 
@@ -417,16 +439,16 @@ class Surat extends Roles {
         $get = $this->surat_model->get_one(array(
             "id" => $id
         ));
-        
+
         // Deleting Surat
         $delete_subjek = $this->surat_model->delete_multi_subjek($id);
         $delete = $this->surat_model->delete_one($id);
-        if($delete) {
-            unlink("./uploads/".$get->file_name);
-            $this->session->set_flashdata('message_success', 'Berhasil menhapus data surat '.$get->no.'!');
+        if ($delete) {
+            unlink("./uploads/" . $get->file_name);
+            $this->session->set_flashdata('message_success', 'Berhasil menhapus data surat ' . $get->no . '!');
             redirect("surat");
         } else {
-            $this->session->set_flashdata('message_error', 'Gagal menghapus data surat '.$get->no.'!');
+            $this->session->set_flashdata('message_error', 'Gagal menghapus data surat ' . $get->no . '!');
             redirect("surat");
         }
     }
@@ -443,15 +465,23 @@ class Surat extends Roles {
         echo json_encode($this->pegawai_model->get_all());
     }
 
+    public function get_pejabat()
+    {
+        // Load Model
+        $this->load->model("pegawai_model");
+
+        echo json_encode($this->pegawai_model->get_pejabat());
+    }
+
     public function get_divisi($divisi)
     {
-        if($divisi == "jurusan") {
+        if ($divisi == "jurusan") {
             $this->load->model("jurusan_model");
             echo json_encode($this->jurusan_model->get_all());
-        } else if($divisi == "bagian") {
+        } else if ($divisi == "bagian") {
             $this->load->model("bagian_model");
             echo json_encode($this->bagian_model->get_all());
-        } else if($divisi == "unit") {
+        } else if ($divisi == "unit") {
             $this->load->model("unit_model");
             echo json_encode($this->unit_model->get_all());
         }
@@ -479,9 +509,9 @@ class Surat extends Roles {
         ]);
 
         // Insert Notification
-        $create_notif = $this->notifikasi_model->create_notification(array(            
-            "judul" => "Undangan ".ucwords($surat_data->jenis_kegiatan),
-            "pesan" => "Anda mendapatkan undangan kegiatan ".ucwords($surat_data->jenis_kegiatan).". Silahkan segera melakukan proses pemberkasan pada laman kegiatan ".$surat_data->jenis_kegiatan,
+        $create_notif = $this->notifikasi_model->create_notification(array(
+            "judul" => "Undangan " . ucwords($surat_data->jenis_kegiatan),
+            "pesan" => "Anda mendapatkan undangan kegiatan " . ucwords($surat_data->jenis_kegiatan) . ". Silahkan segera melakukan proses pemberkasan pada laman kegiatan " . $surat_data->jenis_kegiatan,
             "redirect_to" => $surat_data->jenis_kegiatan
         ));
 
@@ -491,7 +521,7 @@ class Surat extends Roles {
         ]);
 
         // Pair Notification with Account
-        foreach($subjek_data as $target) {
+        foreach ($subjek_data as $target) {
             $this->notifikasi_model->pair_notification(array(
                 "account_nip" => $target->subjek,
                 "notifikasi_id" => $create_notif,
@@ -501,7 +531,7 @@ class Surat extends Roles {
         }
 
         $this->db->trans_complete();
-        if($this->db->trans_status()) {
+        if ($this->db->trans_status()) {
             $this->session->set_flashdata('message_success', 'Berhasil mengirim surat kepada subjek');
             redirect("surat");
         } else {
@@ -546,12 +576,12 @@ class Surat extends Roles {
         $check2 = $this->surat_model->get_kriteria([
             "id" => $check1->kriteria_id
         ]);
-        if($check1->kriteria_id != NULL && $check2 != NULL) {
+        if ($check1->kriteria_id != NULL && $check2 != NULL) {
             // Update Kriteria To Surat
             $update = $this->surat_model->update_kriteria($check1->kriteria_id, $data);
 
             // Checking
-            if($update) {
+            if ($update) {
                 $this->session->set_flashdata('message_success', 'Berhasil mengubah kriteria pada surat');
                 redirect("surat");
             } else {
@@ -568,7 +598,7 @@ class Surat extends Roles {
             ]);
 
             // Checking
-            if($add != false && $update) {
+            if ($add != false && $update) {
                 $this->session->set_flashdata('message_success', 'Berhasil menambahkan kriteria pada surat');
                 redirect("surat");
             } else {

@@ -6,6 +6,7 @@ class Surat_model extends CI_Model
     public $table = "surat";
     public $sup_table = "surat_subjek";
     public $kriteria_table = "surat_kriteria";
+    public $pemilih_table = "pemilih_pegawai";
 
     public function get_all()
     {
@@ -48,6 +49,12 @@ class Surat_model extends CI_Model
         $this->db->insert($this->table, $data);
         return ($this->db->affected_rows() != 1) ? false : $this->db->insert_id();
     }
+    
+    public function insert_pemilih($data)
+    {
+        $this->db->insert($this->pemilih_table, $data);
+        return ($this->db->affected_rows() != 1) ? false : $this->db->insert_id();
+    }
 
     public function insert_one_with_subjek($data, $subjek = NULL)
     {
@@ -65,7 +72,7 @@ class Surat_model extends CI_Model
         }
         $this->db->trans_complete();
 
-        return ($this->db->trans_status() !== FALSE) ? true : false;
+        return ($this->db->trans_status() !== FALSE) ? $id : false;
     }
 
     public function update_one($id, $data, $subjek = NULL)
@@ -97,6 +104,20 @@ class Surat_model extends CI_Model
         $this->db->trans_start();
         $this->db->where('id', $id);
         $this->db->delete($this->table);
+        $this->db->trans_complete();
+
+        if ($this->db->trans_status() === FALSE) {
+            return false;
+        }
+
+        return true;
+    }
+    
+    public function delete_pemilih($id)
+    {
+        $this->db->trans_start();
+        $this->db->where('surat_id', $id);
+        $this->db->delete($this->pemilih_table);
         $this->db->trans_complete();
 
         if ($this->db->trans_status() === FALSE) {
