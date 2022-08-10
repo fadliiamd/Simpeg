@@ -293,7 +293,7 @@ class Hasil extends Roles
     {
         // Auth Check
         $login_jabatan = $this->session->userdata('jabatan');
-        if (!(($login_jabatan === 'Kepala Bagian Umum') || ($login_jabatan === 'Kepala Jurusan'))) {
+        if (!(($login_jabatan === 'Kepala Bagian Umum') || ($login_jabatan === 'Ketua Jurusan'))) {
             $this->session->set_flashdata('message_error', 'Anda tidak memiliki akses!');
             redirect("dashboard");
         }
