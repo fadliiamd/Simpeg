@@ -12,6 +12,11 @@ class Prodi_model extends CI_Model
         return $query->result();
     }
 
+    public function get_all_where($where)
+    {
+        return $this->db->get_where($this->table, $where)->result();
+    }
+
     public function get_one($where)
     {
         return $this->db->get_where($this->table, $where)->row();

@@ -73,4 +73,16 @@ class Prodi extends Admin {
             redirect("prodi");
         }
     }
+
+    public function get_prodi($by = NULL) {
+        $this->load->model('prodi_model');
+
+        if($by == NULL) {
+            echo json_encode($this->prodi_model->get_all());
+        } else {
+            echo json_encode($this->prodi_model->get_all_where([
+                "jurusan_id" => $by
+            ]));
+        }
+    }
 }

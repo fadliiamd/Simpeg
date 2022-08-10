@@ -345,7 +345,7 @@
                                     }
                                   }
                                   ?>
-                                  <option value="<?= $el ?>" <?= $selected ?>>><?= $el ?></option>
+                                  <option value="<?= $el ?>" <?= $selected ?>><?= $el ?></option>
                                 <?php
                                 }
                                 ?>
