@@ -358,7 +358,7 @@
             </li>
           <?php
           } ?>
-          <?php if (($this->session->userdata('jabatan') === 'Kepala Bagian Umum') || ($this->session->userdata('jabatan') === 'Kepala Jurusan')) { ?>
+          <?php if (($this->session->userdata('jabatan') === 'Kepala Bagian Umum') || ($this->session->userdata('jabatan') === 'Ketua Jurusan')) { ?>
             <li class="nav-item">
               <a class="nav-link" data-toggle="collapse" href="#perangkingan" aria-expanded="false" aria-controls="perangkingan">
                 <i class="mdi mdi-trophy-variant menu-icon"></i>
