@@ -207,6 +207,7 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Kembali</button>
+              <button type="submit" name="delete_filter" class="btn btn-danger">Hapus Filter</button>
               <button type="submit" name="filter" class="btn btn-primary">Filter</button>
             </div>
           </form>

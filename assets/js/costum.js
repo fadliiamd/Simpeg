@@ -1,3 +1,28 @@
+function change_jurusan(element, base_url) {
+	var opt = "";
+	$.ajax({
+		type: "GET",
+		url: base_url + "prodi/get_prodi/" + element.value,
+		success: function (data) {
+			data = JSON.parse(data);
+			for (let i = 0; i < data.length; i++) {
+				var id = data[i].id;
+				var nama = data[i].nama;
+				opt += "<option value=" + id + ">" + nama + "</option>";
+			}
+
+			$("#field_prodi").empty();
+			$("#field_prodi").append(`
+				<label for="prodi_id">Program Studi</label>
+				<select class="form-control" id="prodi_id" name="prodi_id">
+						<option value="">-- Pilih Program Studi --</option>
+						` + opt + `
+				</select>
+			`);
+		},
+	});
+}
+
 function change_jenis_kegiatan(element, id) {
 	if (element.value == 'diklat') {
 		$("#detail_jenis_kegiatan_edit_" + id).empty();
@@ -194,10 +219,6 @@ $(document).ready(function () {
 		} else if ($(this).val() == 'tidak ada') {
 			$("#detail_subjek").empty();
 			$("#detail_tujuan").empty();
-			$("#detail_subjek").append(`
-				<label for="kriteria">Kriteria (*)</label>
-				<textarea class="form-control" id="kriteria" name="kriteria" rows="6"></textarea>
-			`);
 		} else {
 			$("#detail_subjek").empty();
 			$("#detail_tujuan").empty();

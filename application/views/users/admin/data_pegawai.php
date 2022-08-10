@@ -166,10 +166,10 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-4 row">
+                                <div class="col-md-6 row">
                                     <div class="col form-group">
                                         <label for="jurusan_id">Jurusan</label>
-                                        <select class="form-control" id="jurusan_id" name="jurusan_id">
+                                        <select class="form-control" id="jurusan_id" name="jurusan_id" onchange="change_jurusan(this, '<?= base_url() ?>');">
                                             <option value="">-- Pilih Jurusan --</option>
                                             <?php foreach ($jurusan as $key => $value) { ?>
                                                 <option value="<?= $value->id ?>">
@@ -180,7 +180,11 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-6" id="field_prodi">                   
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
                                     <label for="bagian_id">Bagian</label>
                                     <select class="form-control" id="bagian_id" name="bagian_id">
                                         <option value="">-- Pilih Bagian --</option>
@@ -192,7 +196,7 @@
                                         } ?>
                                     </select>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                     <label for="unit_id">Unit</label>
                                     <select class="form-control" id="unit_id" name="unit_id">
                                         <option value="">-- Pilih Unit --</option>
@@ -432,9 +436,9 @@
                                                         </div>
                                                     </div>
                                                     <div class="form-group row">
-                                                        <div class="col-md-4">
+                                                        <div class="col-md-6">
                                                             <label for="jurusan_id">Jurusan</label>
-                                                            <select class="form-control" id="jurusan_id" name="jurusan_id">
+                                                            <select class="form-control" id="jurusan_id" name="jurusan_id" onchange="change_jurusan(this)">
                                                                 <option value="">-- Pilih Jurusan --</option>
                                                                 <?php foreach ($jurusan as $k => $v) { ?>
                                                                     <option value="<?= $v->id ?>" <?php if ($value->jurusan_id === $v->id)  echo "selected"; ?>>
@@ -444,7 +448,12 @@
                                                                 } ?>
                                                             </select>
                                                         </div>
-                                                        <div class="col-md-4">
+                                                        <div class="col-md-6" id="field_prodi">
+                                                            
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <div class="col-md-6">
                                                             <label for="bagian_id">Bagian</label>
                                                             <select class="form-control" id="bagian_id" name="bagian_id">
                                                                 <option value="">-- Pilih Bagian --</option>
@@ -456,7 +465,7 @@
                                                                 } ?>
                                                             </select>
                                                         </div>
-                                                        <div class="col-md-4">
+                                                        <div class="col-md-6">
                                                             <label for="unit_id">Unit</label>
                                                             <select class="form-control" id="unit_id" name="unit_id">
                                                                 <option value="">-- Pilih Unit --</option>
