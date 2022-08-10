@@ -436,10 +436,11 @@
                 <i class="menu-arrow"></i>
               </a>
               <div class="collapse" id="Divisi">
-                <ul class="nav flex-column sub-menu">
+                <ul class="nav flex-column sub-menu">                  
                   <li class="nav-item"> <a class="nav-link" href="<?= base_url("jurusan"); ?>">Jurusan</a></li>
                   <li class="nav-item"> <a class="nav-link" href="<?= base_url("bagian"); ?>">Bagian</a></li>
                   <li class="nav-item"> <a class="nav-link" href="<?= base_url("unit"); ?>">Unit</a></li>
+                  <li class="nav-item"> <a class="nav-link" href="<?= base_url("prodi"); ?>">Program Studi</a></li>
                 </ul>
               </div>
             </li>

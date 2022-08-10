@@ -49,13 +49,13 @@ class Hasil extends Roles
             }
 
             // Filter 1: Masa Kerja [ ERROR ]
-            // != diganti jadi == agar tidak dijalankan
+            // != diganti jadi == agar tidak dijalankan            
             if($detail_kriteria->masa_kerja != NULL) {
-                $date_point = date('Y', strtotime('-0 years'));
+                $date_point = intval(date('Y', strtotime('-'.$detail_kriteria->masa_kerja.' years')));                
                 $where += [
-                    'YEAR(pegawai.tgl_masuk) <=', $date_point,
+                    "YEAR(`pegawai`.`tgl_masuk`) <=" => $date_point,
                     // "DATE_FORMAT(pegawai.tgl_masuk,'%Y-%m-%d') > '".$date_point."'",NULL,FALSE
-                ];
+                ];                
             }
 
             // Filter 2: Pendidikan
@@ -122,7 +122,7 @@ class Hasil extends Roles
                 ];
             }
 
-            return $this->pegawai_model->get_all_where($where, 0, $where_in);
+            return $this->pegawai_model->get_all_where($where, 0, $where_in);            
         } else {
             return -1;
         }
