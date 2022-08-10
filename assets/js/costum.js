@@ -38,19 +38,19 @@ function change_subjek(element, id) {
 function change_jenis_tujuan(element, id) {
 	switch (element.value) {
 		case "perorangan":
-			var opt = "";			
+			var opt = "";
 			$.ajax({
 				type: "GET",
 				url: "surat/get_pegawai/semua",
-				success: function (data) {					
+				success: function (data) {
 					data = JSON.parse(data);
 					for (let i = 0; i < data.length; i++) {
 						var nip = data[i].account_nip;
 						var nama = data[i].nama;
 						opt += "<option value=" + nip + ">" + '(' + nip + ') ' + nama + "</option>";
 					}
-					$("#detail_tujuan_edit_"+id).empty();
-					$("#detail_tujuan_edit_"+id).append(`
+					$("#detail_tujuan_edit_" + id).empty();
+					$("#detail_tujuan_edit_" + id).append(`
 							<div class="form-group">
 								<label for="tujuan">Pegawai Tujuan (*)</label>
 								<select class="form-control search-select js-example-multiple" id="tujuan" name="tujuan[]" multiple="multiple" required>							
@@ -126,11 +126,11 @@ $(document).ready(function () {
 	const yourFunction = async () => {
 		await delay(5000);
 		$(".js-example-basic-multiple").select2();
-	  
+
 		await delay(5000);
 		$(".js-example-basic-multiple").select2();
-	  };
-	  yourFunction();
+	};
+	yourFunction();
 	$("#tbl-pengajuan-mutasi").DataTable({});
 
 	$("#tbl-sk-mutasi").DataTable({});
@@ -192,12 +192,32 @@ $(document).ready(function () {
 				</select>
 			`);
 		} else if ($(this).val() == 'tidak ada') {
+			var option_pemilih = "";
 			$("#detail_subjek").empty();
 			$("#detail_tujuan").empty();
-			$("#detail_subjek").append(`
-				<label for="kriteria">Kriteria (*)</label>
-				<textarea class="form-control" id="kriteria" name="kriteria" rows="6"></textarea>
-			`);
+			//add field milih siapa yang berhak memilih
+			$.ajax({
+				type: "GET",
+				url: "surat/get_pejabat",
+				success: function (data) {
+					data = JSON.parse(data);
+					for (let i = 0; i < data.length; i++) {
+						var nip = data[i].account_nip;
+						var nama = data[i].nama;						
+						var jabatan = data[i].nama_jabatan;	
+						var jurusan = data[i].nama_jurusan == null ? "" : data[i].nama_jurusan;			
+
+						option_pemilih += "<option value=" + nip + "> (" + nip + ") " + nama + " - "+ jabatan + " " + jurusan  +"</option>";		
+					}					
+					var pemilih = `
+					<label for="pemilih">Pemilih</label><br>
+					<select class="form-control js-example-basic-multiple" id="pemilih" name="pemilih[]" multiple="multiple">`+ option_pemilih + `
+					</select>
+					`;
+					$("#detail_subjek").append(pemilih);					
+					$(".js-example-basic-multiple").select2();					
+				},
+			});
 		} else {
 			$("#detail_subjek").empty();
 			$("#detail_tujuan").empty();
