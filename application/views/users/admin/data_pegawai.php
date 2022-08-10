@@ -165,18 +165,20 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="form-group row">
-                                <div class="col-md-4">
-                                    <label for="jurusan_id">Jurusan</label>
-                                    <select class="form-control" id="jurusan_id" name="jurusan_id">
-                                        <option value="">-- Pilih Jurusan --</option>
-                                        <?php foreach ($jurusan as $key => $value) { ?>
-                                            <option value="<?= $value->id ?>">
-                                                <?= $value->nama ?>
-                                            </option>
-                                        <?php
-                                        } ?>
-                                    </select>
+                            <div class="row">
+                                <div class="col-md-4 row">
+                                    <div class="col form-group">
+                                        <label for="jurusan_id">Jurusan</label>
+                                        <select class="form-control" id="jurusan_id" name="jurusan_id">
+                                            <option value="">-- Pilih Jurusan --</option>
+                                            <?php foreach ($jurusan as $key => $value) { ?>
+                                                <option value="<?= $value->id ?>">
+                                                    <?= $value->nama ?>
+                                                </option>
+                                            <?php
+                                            } ?>
+                                        </select>
+                                    </div>
                                 </div>
                                 <div class="col-md-4">
                                     <label for="bagian_id">Bagian</label>
@@ -208,21 +210,21 @@
                                     <label for="foto">Foto</label>
                                     <input type="file" class="form-control-file" id="foto" name="foto">
                                     <p class="card-description mt-1">
-                                      Format file: .pdf&emsp;Maksimal ukuran file: 2MB
+                                        Format file: .pdf&emsp;Maksimal ukuran file: 2MB
                                     </p>
                                 </div>
                                 <div class="col-md-4">
                                     <label for="ijazah">Ijazah (*)</label>
                                     <input type="file" class="form-control-file" id="ijazah" name="ijazah" required>
                                     <p class="card-description mt-1">
-                                      Format file: .pdf&emsp;Maksimal ukuran file: 2MB
+                                        Format file: .pdf&emsp;Maksimal ukuran file: 2MB
                                     </p>
                                 </div>
                                 <div class="col-md-4">
                                     <label for="karpeg">Kartu Pegawai</label>
                                     <input type="file" class="form-control-file" id="karpeg" name="karpeg">
                                     <p class="card-description mt-1">
-                                      Format file: .pdf&emsp;Maksimal ukuran file: 2MB
+                                        Format file: .pdf&emsp;Maksimal ukuran file: 2MB
                                     </p>
                                 </div>
                             </div>
