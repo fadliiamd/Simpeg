@@ -20,66 +20,20 @@
 
     <form action="<?= base_url(); ?>hasil" method="get" class="forms-sample">
       <div class="row d-flex align-items-center my-4">
-        <div class="col-md-7">
-          <select class="form-control" id="surat_id" name="surat_id" required>
-            <option value="">--- Pilih Surat ---</option>
+        <div class="col">
+          <select class="form-control text-capitalize" id="surat_id" name="surat_id" required>
+            <option value="">--- Pilih Kegiatan ---</option>
             <?php
             foreach ($list_all_surat as $item) {
               if(isset($_GET))
                 $selected = $item->id === $_GET["surat_id"] ? "selected" : "";
             ?>
-              <option value="<?= $item->id ?>" <?= $selected ?>><?= $item->no ?> - "<?= ucwords($item->tema) ?>"</option>
+              <option class="text-capitalize" value="<?= $item->id ?>" <?= $selected ?>><?= "[".$item->jenis_kegiatan."] ".$item->no ?> - "<?= ucwords($item->tema) ?>"</option>
             <?php } ?>
           </select>
-        </div>
-        <div class="col-md-3">
-          <button type="submit" class="btn btn-primary">Filter</button>
-        </div>
+        </div>        
       </div>
     </form>
-
-    <!-- Aksi: Filter -->
-    <!-- <div class="d-flex">
-      <div class="my-3">
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#viewdiklat">Filter</button>
-      </div>
-    </div> -->
-    <!-- Modal -->
-    <div id="viewdiklat" class="modal fade edittable" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Filter Berdasarkan Surat<b></h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <form action="<?= base_url(); ?>hasil" method="post" class="forms-sample">
-            <div class="modal-body">
-              <div class="form-group row">
-                <div class="col-md-12">
-                  <label for="surat_id">Surat</label>
-                  <select class="form-control" id="surat_id" name="surat_id" required>
-                    <option>--- Pilih Surat ---</option>
-                    <?php
-                    foreach ($list_all_surat as $item) {
-                    ?>
-                      <option value="<?= $item->id ?>"><?= $item->no ?> - "<?= ucwords($item->tema) ?>"</option>
-                    <?php } ?>
-                  </select>
-                </div>
-              </div>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Kembali</button>
-              <button type="submit" name="delete_filter" class="btn btn-danger">Hapus Filter</button>
-              <button type="submit" name="filter" class="btn btn-primary">Filter</button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-    <!-- End Modal -->
 
     <form action="<?= base_url("hasil/pengajuan") ?>" method="POST" enctype="multipart/form-data">
       <div class="table-responsive">
@@ -200,49 +154,21 @@
       </div>
 
       <div class="my-3">
-        <input type="hidden" class="form-control" id="surat_id" name="surat_id" value="<?= isset($_GET["surat_id"]) ? $_GET["surat_id"] : "" ?>" required>
+        <input type="hidden" class="form-control" name="surat_id" value="<?= isset($_GET["surat_id"]) ? $_GET["surat_id"] : "" ?>" required>
         
         <!-- Large modal -->
-        <button type="submit" class="btn btn-success" data-toggle="modal" data-target="#choose_surat" <?= isset($_GET["surat_id"]) ? "" : "disabled" ?>>Ajukan Pegawai</button>
-
-        <!-- Modal -->
-        <div id="choose_surat" class="modal fade edittable" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-          <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Pilih Surat Undangan<b></h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                <div class="form-group">
-                  <label for="surat_id">Pilih Surat/No. Surat Undangan (*)</label>
-                  <select class="form-control" id="surat_id" name="surat_id" required>
-                    <option value="" selected>--- Pilih Surat ---</option>
-                    <?php
-                    $list_surat = json_decode(json_encode($list_surat), true);
-                    foreach ($list_surat as $el) {
-                      echo '<option value="' . $el["id"] . '">' . $el["no"] . ' - "' . $el["tema"] . '"</option>';
-                    }
-                    ?>
-                  </select>
-                </div>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Kembali</button>
-                <button type="submit" class="btn btn-primary">Ajukan!</button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- End Modal -->
+        <button type="submit" class="btn btn-success" <?= isset($_GET["surat_id"]) ? "" : "disabled" ?>>Ajukan Pegawai</button>
       </div>
     </form>
   </div>
 </div>
 
 <script>
+
+  $("#surat_id").on("change", function(){
+    this.value != "" ? this.form.submit() : "";
+  });
+
   function getYearDiff(count_year) {
     var curr_year = new Date().getFullYear();
     return curr_year - count_year;

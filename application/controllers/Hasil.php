@@ -158,9 +158,9 @@ class Hasil extends Roles
                 // Get by Jenis Struktural
                 $pegawai = $this->pegawai_model->get_all_where(['jabatan.jenis_jabatan' => "struktural"]);
             } else if($this->session->userdata('jabatan') == 'Ketua Jurusan') {
-                // Get by Nama Jurusan
+                // Get by Nama Jurusan                
                 $pegawai = $this->pegawai_model->get_all_where(
-                    ["jurusan.nama" => $jabataninfo->nama]
+                    ["jurusan.id" => $userinfo->jurusan_id]
                 );
             } else {
                 $pegawai = $this->pegawai_model->get_all_order('nilai_rank', 'desc');
@@ -283,6 +283,9 @@ class Hasil extends Roles
                 $this->session->set_flashdata('message_success', 'Berhasil mengajukan hasil perankingan!');
                 redirect("hasil");
             }
+        }else{
+            $this->session->set_flashdata('message_error', 'Harap pilih minimal satu pegawai yang diajukan!');
+            redirect("hasil");
         }
     }
 
