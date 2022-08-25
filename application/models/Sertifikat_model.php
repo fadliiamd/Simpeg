@@ -20,6 +20,13 @@ class Sertifikat_model extends CI_Model
         return $query->result();
     }
 
+    public function get_one_where($where)
+    {
+        $this->db->join("jenis_sertifikat", "sertifikat.id_jenis_sertifikat = jenis_sertifikat.id_jenis_sertifikat", "left");
+        $query = $this->db->get_where($this->table, $where);
+        return $query->row();
+    }
+
     public function do_upload($file_type, $post_name, $file_name="")
     {
          // File

@@ -85,10 +85,10 @@ class Notifikasi_model extends CI_Model
         $pesan = implode("\n\n", $pesan);
 
         $res = $this->curl_get('localhost:3000/api', ["tujuan" => $no_tujuan, "pesan" => $pesan]);
-
+        
         // Notify ke atasannya jika ada
         $atasan = $this->pegawai_model->get_one(["account_nip" => $pegawai->atasan_nip]);
-        if (!is_null($atasan) and $res) {
+        if (!is_null($atasan) and $res and $data["isVerif"] == null) {
             $no_tujuan = $atasan->no_hp; // No HP tujuan
 
             // Setting pesan ke WA
@@ -124,6 +124,9 @@ class Notifikasi_model extends CI_Model
                 "created_at" => date("Y-m-d h:i:s")
             ));
         }
+
+        if($data["isVerif"] != null)
+            unset($data["isVerif"]);
 
         // Then insert to db
         if ($res)

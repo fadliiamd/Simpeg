@@ -1,20 +1,21 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Sertifikat extends Roles {
+class Sertifikat extends Roles
+{
     public $nama;
 
-	public function __construct()
-	{
-		parent::__construct(['admin', 'pegawai']);
-	}
+    public function __construct()
+    {
+        parent::__construct(['admin', 'pegawai']);
+    }
 
     public function index()
     {
         $this->load->model('sertifikat_model');
         $this->load->model('pegawai_model');
 
-        if($this->session->userdata('role') == 'admin') {
+        if ($this->session->userdata('role') == 'admin') {
             $sertifikat = $this->sertifikat_model->get_all();
             $pegawai = $this->pegawai_model->get_all();
         } else {
@@ -24,17 +25,17 @@ class Sertifikat extends Roles {
             $pegawai = array($this->pegawai_model->get_one([
                 "account_nip" => $this->session->userdata('nip')
             ]));
-        }                
+        }
         $this->load->model('jenis_sertifikat_model');
 
-        $jenis_sertifikat = $this->jenis_sertifikat_model->get_all();        
-        $this->load->view('partials/main-header', ['title' => ': Data Sertifikat']);        
-		$this->load->view('users/admin/data_sertifikat', [
+        $jenis_sertifikat = $this->jenis_sertifikat_model->get_all();
+        $this->load->view('partials/main-header', ['title' => ': Data Sertifikat']);
+        $this->load->view('users/admin/data_sertifikat', [
             "jenis_sertifikat" => $jenis_sertifikat,
             "sertifikat" => $sertifikat,
             "pegawai" => $pegawai
         ]);
-		$this->load->view('partials/main-footer');
+        $this->load->view('partials/main-footer');
     }
 
     public function create()
@@ -42,46 +43,40 @@ class Sertifikat extends Roles {
         $this->load->model('sertifikat_model');
         $add = $this->sertifikat_model->insert_one();
 
-        if($add)
-        {
+        if ($add) {
             $this->session->set_flashdata('message_success', 'Behasil menambahkan data sertifikat!');
             redirect("sertifikat");
-        }else
-        {
+        } else {
             $this->session->set_flashdata('message_error', 'Gagal menambahkan data sertifikat!');
             redirect("sertifikat");
         }
     }
-    
+
     public function update()
-    {        
+    {
         $this->load->model('sertifikat_model');
         $id = $this->input->post('serti_id');
         $update = $this->sertifikat_model->update_one($id);
 
-        if($update)
-        {
+        if ($update) {
             $this->session->set_flashdata('message_success', 'Behasil mengupdate data sertifikat');
             redirect("sertifikat");
-        }else
-        {
+        } else {
             $this->session->set_flashdata('message_error', 'Gagal mengupdate data sertifikat');
             redirect("sertifikat");
         }
     }
-    
+
     public function delete()
-    {        
+    {
         $this->load->model('sertifikat_model');
         $id = $this->input->post('serti_id');
         $update = $this->sertifikat_model->delete_one($id);
 
-        if($update)
-        {
+        if ($update) {
             $this->session->set_flashdata('message_success', 'Behasil menhapus data sertifikat');
             redirect("sertifikat");
-        }else
-        {
+        } else {
             $this->session->set_flashdata('message_error', 'Gagal menghapus data sertifikat');
             redirect("sertifikat");
         }
@@ -89,34 +84,53 @@ class Sertifikat extends Roles {
 
     public function redirect_back()
     {
-        
     }
 
     public function verifikasi()
     {
         $this->load->model('sertifikat_model');
+        $this->load->model('notifikasi_model');
         $id = $this->input->post('serti_id');
         $aksi = $this->input->post('aksi');
 
-        if($aksi == 'verifikasi') {
+        // Get Subjek by Sertifikat
+        $subjek_data = $this->sertifikat_model->get_one_where([
+            "id" => $id
+        ]);
+
+        $judul = explode("-", $subjek_data->nama_serti)[1];        
+
+        // Insert Notification
+        $create_notif = $this->notifikasi_model->create_notification(array(
+            "judul" => "Status Verifikasi Sertifikat",
+            "pesan" => "Sertifikat dengan judul " . $judul . " telah ter-" . $aksi,
+            "redirect_to" => "sertifikat"
+        ));
+
+        // Pair Notification with Account
+        $this->notifikasi_model->pair_notification(array(
+            "isVerif" => true,
+            "account_nip" => $subjek_data->account_nip,
+            "notifikasi_id" => $create_notif,
+            "status" => "Unseen",
+            "created_at" => date("Y-m-d h:i:s")
+        ));
+
+        if ($aksi == 'verifikasi') {
             $update = $this->sertifikat_model->verify_serti($id, 1);
-            if($update)
-            {
+            if ($update) {
                 $this->session->set_flashdata('message_success', 'Behasil memverifikasi sertifikat');
                 redirect("sertifikat");
-            }else
-            {
+            } else {
                 $this->session->set_flashdata('message_error', 'Gagal memverifikasi sertifikat');
                 redirect("sertifikat");
             }
-        } else if($aksi == 'tolak') {
+        } else if ($aksi == 'tolak') {
             $update = $this->sertifikat_model->verify_serti($id, 2);
-            if($update)
-            {
+            if ($update) {
                 $this->session->set_flashdata('message_success', 'Behasil memverifikasi sertifikat');
                 redirect("sertifikat");
-            }else
-            {
+            } else {
                 $this->session->set_flashdata('message_error', 'Gagal memverifikasi sertifikat');
                 redirect("sertifikat");
             }
