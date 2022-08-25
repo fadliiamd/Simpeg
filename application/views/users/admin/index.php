@@ -85,8 +85,8 @@
               <?php foreach($list_notifikasi as $el) { ?>
               <tr>
                 <td><?= $el->judul ?></td>
-                <td><?= timeAgo($el->created_at) ?></td>
-                <td><label class="badge badge-primary"><?= $el->status ?></label></td>
+                <td><?= timeAgo($el->created_at) ?></td>                
+                <td><label class="badge <?= $el->status=="Unseen" ? "badge-secondary" : "badge-primary" ?>"><?= $el->status ?></label></td>
                 <td>
                   <form method="POST" action="<?= base_url() ?>notifikasi/change_status">
                     <input type="hidden" name="account_nip" value="<?= $el->account_nip ?>">

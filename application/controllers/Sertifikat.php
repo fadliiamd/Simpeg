@@ -93,29 +93,28 @@ class Sertifikat extends Roles
         $id = $this->input->post('serti_id');
         $aksi = $this->input->post('aksi');
 
-        // Insert Notification
-        $create_notif = $this->notifikasi_model->create_notification(array(
-            "judul" => "Status Verifikasi Sertifikat #" . $id,
-            "pesan" => "Sertifikat dengan id " . $id . " telah ter-" . $aksi,
-            "redirect_to" => "sertifikat"
-        ));
-
-        // Get Subjek by Surat
-        $subjek_data = $this->sertifikat_model->get_all_where([
+        // Get Subjek by Sertifikat
+        $subjek_data = $this->sertifikat_model->get_one_where([
             "id" => $id
         ]);
 
-        // Pair Notification with Account
-        foreach ($subjek_data as $target) {
-            $this->notifikasi_model->pair_notification(array(
-                "isVerif" => true,
-                "account_nip" => $target->account_nip,
-                "notifikasi_id" => $create_notif,
-                "status" => "Unseen",
-                "created_at" => date("Y-m-d h:i:s")
-            ));
-        }
+        $judul = explode("-", $subjek_data->nama_serti)[1];        
 
+        // Insert Notification
+        $create_notif = $this->notifikasi_model->create_notification(array(
+            "judul" => "Status Verifikasi Sertifikat",
+            "pesan" => "Sertifikat dengan judul " . $judul . " telah ter-" . $aksi,
+            "redirect_to" => "sertifikat"
+        ));
+
+        // Pair Notification with Account
+        $this->notifikasi_model->pair_notification(array(
+            "isVerif" => true,
+            "account_nip" => $subjek_data->account_nip,
+            "notifikasi_id" => $create_notif,
+            "status" => "Unseen",
+            "created_at" => date("Y-m-d h:i:s")
+        ));
 
         if ($aksi == 'verifikasi') {
             $update = $this->sertifikat_model->verify_serti($id, 1);
