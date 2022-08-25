@@ -88,7 +88,7 @@ class Notifikasi_model extends CI_Model
         
         // Notify ke atasannya jika ada
         $atasan = $this->pegawai_model->get_one(["account_nip" => $pegawai->atasan_nip]);
-        if (!is_null($atasan) and $res and $data["isVerif"] == null) {
+        if (!is_null($atasan) and $res and !array_key_exists("isVerif", $data)) {
             $no_tujuan = $atasan->no_hp; // No HP tujuan
 
             // Setting pesan ke WA
@@ -125,7 +125,7 @@ class Notifikasi_model extends CI_Model
             ));
         }
 
-        if($data["isVerif"] != null)
+        if(array_key_exists("isVerif", $data))
             unset($data["isVerif"]);
 
         // Then insert to db
