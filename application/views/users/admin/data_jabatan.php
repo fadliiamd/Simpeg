@@ -76,8 +76,7 @@
             <table id="tbl-data-pegawai" class="table table-striped table-bordered">
                 <thead>
                     <tr>
-                        <th>No</th>
-                        <th>ID</th>
+                        <th>No</th>                        
                         <th>Nama</th>
                         <th>Jenis</th>
                         <th>Tipe</th>
@@ -90,8 +89,7 @@
                     foreach ($jabatan as $key => $value) { ?>
                         <tr>
 
-                            <td><?php echo $key + 1 ?></td>
-                            <td><?php echo $value->id ?></td>
+                            <td><?php echo $key + 1 ?></td>                            
                             <td><?php echo $value->nama_jabatan; ?></td>
                             <td><?php echo $value->jenis_jabatan; ?></td>                            
                             <td><?php echo $value->is_atasan==1 ? "Iya" : "Tidak"; ?></td>                            

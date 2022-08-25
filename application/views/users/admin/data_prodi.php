@@ -69,8 +69,7 @@
             <table id="tbl-data-pegawai" class="table table-striped table-bordered">
                 <thead>
                     <tr>
-                        <th>No</th>
-                        <th>ID</th>
+                        <th>No</th>                        
                         <th>Nama</th>
                         <th>Action</th>
                     </tr>
@@ -81,8 +80,7 @@
                     foreach ($prodi as $key => $value) { ?>
                         <tr>
 
-                            <td><?php echo $no ?></td>
-                            <td><?php echo "PS-" . $value->id; ?></td>
+                            <td><?php echo $no ?></td>                            
                             <td><?php echo $value->nama; ?></td>
                             <td>
                                 <!-- Large modal -->
