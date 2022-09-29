@@ -42,8 +42,14 @@ class Auth_model extends CI_Model
 			$this->db->where('account_nip', $nip);			
 			$query = $this->db->get('pegawai');
 			$pegawai = $query->row();
-			if ($pegawai->status_kerja !== 'aktif'){
+			if ($pegawai->status_kerja === 'nonaktif' || $pegawai->status_kerja === 'pending') {
 				return FALSE;
+			}
+			else if($pegawai->status_kerja === 'mutasi')
+			{				
+				$this->session->set_userdata('user', $pegawai);
+				$this->session->set_userdata([self::SESSION_KEY => $user->nip,'role' => $user->role, 'nama' => $user->nama ]);
+				return $this->session->has_userdata(self::SESSION_KEY);
 			}
 			$this->session->set_userdata('user', $pegawai);
 			$this->session->set_userdata('jabatan', $pegawai->nama_jabatan);

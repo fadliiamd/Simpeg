@@ -42,7 +42,17 @@ class Pemberhentian extends Roles {
 		}
 
 		if ($this->session->userdata("role") == "pegawai") {
-			$pemberhentian = $this->pemberhentian_model->get_all_with_join_one_pegawai();
+            // Kajur
+            if($this->session->userdata("user")->jabatan_id == 12)
+                $pemberhentian = $this->pemberhentian_model->get_all_with_join_pegawai($this->session->userdata("user")->jurusan_id);
+            // Wadir I
+            else if ($this->session->userdata("user")->jabatan_id == 9)
+                $pemberhentian = $this->pemberhentian_model->get_all_with_join_pegawai(null, 'fungsional');
+            // Wadir II
+            else if ($this->session->userdata("user")->jabatan_id == 10)
+                $pemberhentian = $this->pemberhentian_model->get_all_with_join_pegawai(null, 'struktural');
+            else
+			    $pemberhentian = $this->pemberhentian_model->get_all_with_join_one_pegawai();
 		}
 		
 		$this->load->view('partials/main-header',['title' => 'Pengajuan pemberhentian']);

@@ -44,7 +44,7 @@ class Mutasi_model extends CI_Model
         return $query->result();
     }
 
-    public function get_all_with_join_pegawai($jurusan_id=null)
+    public function get_all_with_join_pegawai($jurusan_id=null, $type=null)
     {
         $this->db->select(
             '*,mutasi.id AS id_mutasi'
@@ -56,7 +56,9 @@ class Mutasi_model extends CI_Model
 
         // $query = $this->db->where("status_kerja", "aktif");
         if(!is_null($jurusan_id))
-            $query = $this->db->where("pegawai.jurusan_id", $jurusan_id);
+            $query = $this->db->where("pegawai.jurusan_id", $jurusan_id);  
+        if(!is_null($type))
+            $query = $this->db->where("jabatan.jenis_jabatan", $type);
         $query = $this->db->get();
 
         return $query->result();

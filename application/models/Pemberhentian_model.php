@@ -59,7 +59,7 @@ class Pemberhentian_model extends CI_Model
         return $query->result();
     }
 
-    public function get_all_with_join_pegawai()
+    public function get_all_with_join_pegawai($jurusan_id=null, $type=null)
     {
         $this->db->select(
             '*,pemberhentian.id AS id_pemberhentian'
@@ -70,7 +70,11 @@ class Pemberhentian_model extends CI_Model
         $this->db->join('jabatan', 'pegawai.jabatan_id = jabatan.id','LEFT');
         $this->db->join('pangkatgolongan', 'pegawai.golongan_id  = pangkatgolongan.golongan','LEFT');
 
-        $query = $this->db->where("status_kerja", "aktif");
+        // $query = $this->db->where("status_kerja", "aktif");
+        if(!is_null($jurusan_id))
+            $query = $this->db->where("pegawai.jurusan_id", $jurusan_id);  
+        if(!is_null($type))
+            $query = $this->db->where("jabatan.jenis_jabatan", $type);  
         $query = $this->db->get();
 
         return $query->result();
@@ -139,11 +143,13 @@ class Pemberhentian_model extends CI_Model
             }
             $persetujuan_1 = "setujui";
             $persetujuan_2 = "setujui";
+            $persetujuan_3 = "setujui";
         }else {
             $pegawai_nip = $this->input->post('pegawai_nip');
             $tgl_persetujuan = null;
             $persetujuan_1 = "pending";
             $persetujuan_2 = "pending";
+            $persetujuan_3 = "pending";
         }
 
         $data_pemberhentian = array(
@@ -158,7 +164,7 @@ class Pemberhentian_model extends CI_Model
             "pegawai_nip" => $pegawai_nip,
             "persetujuan_1" => $persetujuan_1,
             "persetujuan_2" => $persetujuan_2,
-            "persetujuan_3" => "pending",
+            "persetujuan_3" => $persetujuan_3,
             // "surat_pengunduran_diri" => $surat_pengunduran_diri,
         );
     

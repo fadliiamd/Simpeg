@@ -119,8 +119,15 @@ class Mutasi extends Roles {
         || $this->session->userdata("role") == "direktur") {
             $mutasi = $this->mutasi_model->get_all_with_join_pegawai();
         } else if ($this->session->userdata("role") == "pegawai") {
+            // Kajur
             if($this->session->userdata("user")->jabatan_id == 12)
-                $mutasi = $this->mutasi_model->get_all_with_join_pegawai($this->session->userdata("user")->jurusan_id);            
+                $mutasi = $this->mutasi_model->get_all_with_join_pegawai($this->session->userdata("user")->jurusan_id);
+            // Wadir I
+            else if ($this->session->userdata("user")->jabatan_id == 9)
+                $mutasi = $this->mutasi_model->get_all_with_join_pegawai(null, 'fungsional');
+            // Wadir II
+            else if ($this->session->userdata("user")->jabatan_id == 10)
+                $mutasi = $this->mutasi_model->get_all_with_join_pegawai(null, 'struktural');
             else
 			    $mutasi = $this->mutasi_model->get_all_with_join_one_pegawai();
         }
