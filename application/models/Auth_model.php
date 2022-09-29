@@ -45,6 +45,7 @@ class Auth_model extends CI_Model
 			if ($pegawai->status_kerja !== 'aktif'){
 				return FALSE;
 			}
+			$this->session->set_userdata('user', $pegawai);
 			$this->session->set_userdata('jabatan', $pegawai->nama_jabatan);
 			$this->session->set_userdata('nama_jabatan', $pegawai->nama_jabatan);
 			$this->session->set_userdata('jurusan_id', $pegawai->jurusan_id);
@@ -57,6 +58,7 @@ class Auth_model extends CI_Model
 			$this->db->where('account_nip', $nip);			
 			$query = $this->db->get('direktur');
 			$direktur = $query->row();
+			$this->session->set_userdata('user', $direktur);
 			$this->session->set_userdata('jabatan', $direktur->nama_jabatan);
 			$this->session->set_userdata('nama_jabatan', $direktur->nama_jabatan);
 			$this->session->set_userdata('jenis_jabatan', $direktur->jenis_jabatan);

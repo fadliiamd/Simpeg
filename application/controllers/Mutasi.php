@@ -115,12 +115,14 @@ class Mutasi extends Roles {
         $pegawai = $this->pegawai_model->get_condition("status_kerja","aktif");
         $users = $this->pegawai_model->get_condition("account_nip",$this->session->userdata("nip"));
         
-		if ($this->session->userdata("role") == "admin" || $this->session->userdata("role") == "direktur") {
+		if ($this->session->userdata("role") == "admin" 
+        || $this->session->userdata("role") == "direktur") {
             $mutasi = $this->mutasi_model->get_all_with_join_pegawai();
-        }
-        
-        if ($this->session->userdata("role") == "pegawai") {
-			$mutasi = $this->mutasi_model->get_all_with_join_one_pegawai();
+        } else if ($this->session->userdata("role") == "pegawai") {
+            if($this->session->userdata("user")->jabatan_id == 12)
+                $mutasi = $this->mutasi_model->get_all_with_join_pegawai($this->session->userdata("user")->jurusan_id);            
+            else
+			    $mutasi = $this->mutasi_model->get_all_with_join_one_pegawai();
         }
 
 		$this->load->view('partials/main-header',['title' => 'Pengajuan mutasi']);
