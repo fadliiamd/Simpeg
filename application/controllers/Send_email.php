@@ -1,7 +1,8 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Send_email extends CI_Controller {
+class Send_email extends CI_Controller
+{
 
     /**
      * Kirim email dengan SMTP Gmail.
@@ -10,14 +11,15 @@ class Send_email extends CI_Controller {
     public function index()
     {
         $this->load->config('email');
-        $this->load->library('email');
-        
-        $from = $this->config->item('smtp_user');        
+        $this->load->library('email');        
+        $this->email->set_newline("\r\n");
+
+        $from = $this->config->item('smtp_user');
         $to = "nunoalwi@gmail.com";
-        $subject = 'Kirim Email dengan SMTP Gmail CodeIgniter | MasRud.com';        
+        $subject = "Kirim Email dengan SMTP Gmail CodeIgniter | MasRud.com";
         $message = "Ini adalah contoh email yang dikirim menggunakan SMTP Gmail pada CodeIgniter.<br><br> Klik <strong><a href='https://masrud.com/kirim-email-codeigniter/' target='_blank' rel='noopener'>disini</a></strong> untuk melihat tutorialnya.";
 
-        $this->email->set_newline("\r\n");
+        // $this->email->set_newline("\r\n");
         $this->email->from($from);
         $this->email->to($to);
         $this->email->subject($subject);
@@ -34,9 +36,9 @@ class Send_email extends CI_Controller {
     {
         $this->load->config('email');
         $this->load->library('email');
-        
-        $from = $this->config->item('smtp_user');        
-        $subject = 'Kirim Email dengan SMTP Gmail CodeIgniter | MasRud.com';        
+
+        $from = $this->config->item('smtp_user');
+        $subject = 'Kirim Email dengan SMTP Gmail CodeIgniter | MasRud.com';
         $message = "Ini adalah contoh email yang dikirim menggunakan SMTP Gmail pada CodeIgniter.<br><br> Klik <strong><a href='https://masrud.com/kirim-email-codeigniter/' target='_blank' rel='noopener'>disini</a></strong> untuk melihat tutorialnya.";
 
         $this->email->set_newline("\r\n");

@@ -17,7 +17,8 @@ class Dashboard extends Authentication
 			'pemberhentian_model',
 			'rekap_nilai_model',
 			'notifikasi_model',
-			'sk_mutasi_model'
+			'sk_mutasi_model',
+			'sk_pemberhentian_model',
 		]);
 	}
 
@@ -25,6 +26,11 @@ class Dashboard extends Authentication
 		$data = $this->sk_mutasi_model->get_one_with_join();
 		// var_dump($data);die();
 		$this->load->view('users/pegawai/mutasi', ['title' => ': Dashboard Pegawai Mutasi', 'mutasi' => $data]);		
+	}
+
+	public function pensiun(){
+		$data = $this->sk_pemberhentian_model->get_one_with_join();		
+		$this->load->view('users/pegawai/pensiun', ['title' => ': Dashboard Pegawai Pensiun', 'pensiun' => $data]);		
 	}
 
 	public function admin()

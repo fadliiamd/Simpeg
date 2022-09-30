@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-lg-12">
-        <h3>Berkas Persyaratan</h3>
-        <?php if (!empty($pemberhentian)) { ?>
+        <h3>Berkas Persyaratan</h3>        
+        <?php if (!empty($pemberhentian) || $this->session->userdata("role") == "admin") { ?>
             <?php if ($this->session->userdata("role") == "pegawai") { ?>
                 <!-- Large modal -->
                 <?php if (($this->session->userdata("role") == "pegawai" && !$berkas_pemberhentian)) { ?>

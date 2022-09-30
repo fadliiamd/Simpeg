@@ -49,7 +49,7 @@ class Pemberhentian extends Roles {
             else if ($this->session->userdata("user")->jabatan_id == 9)
                 $pemberhentian = $this->pemberhentian_model->get_all_with_join_pegawai(null, 'fungsional');
             // Wadir II
-            else if ($this->session->userdata("user")->jabatan_id == 10)
+            else if ($this->session->userdata("user")->jabatan_id == 10 || $this->session->userdata("user")->jabatan_id == 11)
                 $pemberhentian = $this->pemberhentian_model->get_all_with_join_pegawai(null, 'struktural');
             else
 			    $pemberhentian = $this->pemberhentian_model->get_all_with_join_one_pegawai();

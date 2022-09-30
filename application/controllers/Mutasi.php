@@ -126,7 +126,7 @@ class Mutasi extends Roles {
             else if ($this->session->userdata("user")->jabatan_id == 9)
                 $mutasi = $this->mutasi_model->get_all_with_join_pegawai(null, 'fungsional');
             // Wadir II
-            else if ($this->session->userdata("user")->jabatan_id == 10)
+            else if ($this->session->userdata("user")->jabatan_id == 10 || $this->session->userdata("user")->jabatan_id == 11)
                 $mutasi = $this->mutasi_model->get_all_with_join_pegawai(null, 'struktural');
             else
 			    $mutasi = $this->mutasi_model->get_all_with_join_one_pegawai();

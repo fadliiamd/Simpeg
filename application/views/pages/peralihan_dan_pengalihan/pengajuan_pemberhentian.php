@@ -6,11 +6,15 @@
         <?php 
         date_default_timezone_set('Asia/Jakarta');
         $time = new DateTime('now');
-        $newtime = $time->modify('-20 year')->format('Y-m-d H:i:s');
+        $newtime = $time->modify('-20 year')->format('Y-m-d H:i:s');        
         foreach ($users as $key => $value) { ?>
-            <?php if ($this->session->userdata("role") == "pegawai" && !$pemberhentian && ($value->status != "PNS" || ($value->status == "PNS" && $value->tgl_menjabat <= $newtime) )){ ?>
+            <?php if (
+            ($this->session->userdata("role") == "pegawai" && !$pemberhentian)
+            && 
+            ($value->status != "PNS" || ($value->status == "PNS" && $value->tgl_menjabat <= $newtime) )
+            ){ ?>
                 <button type="button" class="my-3 btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Tambah Pemberhentian</button>
-            <?php } ?>
+            <?php }?>            
         <?php } ?>
                 
         <?php if  ($this->session->userdata("role") == "admin"){ ?>
@@ -20,6 +24,7 @@
         <a href="<?= base_url().'assets/pdf/pengunduran_diri.docx'?>" download class="my-3 btn btn-secondary">Surat Pengunduran Diri</a>    
 
         <a href="<?= base_url().'assets/pdf/pensiun_dini.docx'?>" download class="my-3 btn btn-secondary">Surat Pensiun Dini</a>    
+
         <!-- Modal -->
         <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
@@ -43,7 +48,7 @@
                                 </div>
                             <?php } else { ?>
                                 <?php if($value->status == "PNS" && $value->tgl_menjabat <= $newtime) { ?>
-                                        <input type="hidden" name="jenis_berhenti" value="Pensiun batas usia">
+                                        <input type="hidden" name="jenis_berhenti" value="Pensiun dini">
                                     <?php } else { ?>
                                         <input type="hidden" name="jenis_berhenti" value="Pengunduran diri">
                                 <?php } ?>
@@ -168,12 +173,9 @@
                                             <span class="badge badge-warning"><?= $value->persetujuan_1; ?></span>
                                                 <?php if (isset($this->session->userdata("user")->jabatan_id)){
                                                     if(
-                                                    ($this->session->userdata("user")->jabatan_id == 12 
+                                                    ($this->session->userdata("user")->jabatan_id == 11 
                                                     && $value->jenis_jabatan == "fungsional"
-                                                    && $this->session->userdata("user")->jurusan_id == $value->jurusan_id) 
-                                                    || 
-                                                    ($this->session->userdata("nama_jabatan") == "Kepala Bagian Umum" 
-                                                    && $value->jenis_jabatan == "struktural")){ ?>
+                                                    && $this->session->userdata("user")->jurusan_id == $value->jurusan_id)){ ?>
                                                     <div class="mt-3">
                                                         <button type="button" class="btn btn-success" data-toggle="modal" data-target="#approvetablepersetujuan1_<?=$i?>">
                                                             Setujui

@@ -51,6 +51,24 @@ class Sk_pemberhentian_model extends CI_Model
         return $query->result();
     }
 
+    public function get_one_with_join()
+    {
+        $this->db->select(
+            'skpensiun.file_pensiun,
+            pemberhentian.pegawai_nip, pemberhentian.jenis_berhenti,
+            pegawai.nama AS pegawai_nama'
+        );
+        $this->db->from($this->table);        
+        $this->db->join('usulanpensiun', 'usulanpensiun.id = skpensiun.usulanpensiun_id','LEFT');        
+        $this->db->join('pemberhentian', 'pemberhentian.id = usulanpensiun.pemberhentian_id','LEFT');
+        $this->db->join('pegawai', 'pegawai.account_nip = pemberhentian.pegawai_nip','LEFT');
+
+        $query = $this->db->where('pegawai.account_nip', $this->session->userdata('nip'));
+        $query = $this->db->get();
+
+        return $query->row();
+    }
+
     public function insert_one()
     {
         

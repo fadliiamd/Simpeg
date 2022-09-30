@@ -36,6 +36,9 @@ class Account_model extends CI_Model
             if($this->session->userdata('user')->status_kerja == 'mutasi'){
                 return redirect('/dashboard/mutasi');
             }            
+            else if($this->session->userdata('user')->status_kerja == 'pensiun'){
+                return redirect('/dashboard/pensiun');
+            }
         }
 
         switch ($role) {
