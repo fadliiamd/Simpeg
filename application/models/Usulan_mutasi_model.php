@@ -67,7 +67,7 @@ class Usulan_mutasi_model extends CI_Model
 
         $data_usulan_mutasi = array(
             "id" => "",
-            "tgl_usulan" => null,
+            "tgl_usulan" => $date,
             "status_persetujuan" => "pending",
             "berkasmutasi_id" => $berkas_id,
             "mutasi_id" => $mutasi_id
@@ -151,7 +151,7 @@ class Usulan_mutasi_model extends CI_Model
 // ----------------------------------------- //
 
             $data_status_pegawai = array(
-                "status_kerja" => 'nonaktif',
+                "status_kerja" => 'mutasi',
             );
 
             $this->db->trans_start();

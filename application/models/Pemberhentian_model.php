@@ -59,7 +59,7 @@ class Pemberhentian_model extends CI_Model
         return $query->result();
     }
 
-    public function get_all_with_join_pegawai()
+    public function get_all_with_join_pegawai($jurusan_id=null, $type=null)
     {
         $this->db->select(
             '*,pemberhentian.id AS id_pemberhentian'
@@ -70,7 +70,11 @@ class Pemberhentian_model extends CI_Model
         $this->db->join('jabatan', 'pegawai.jabatan_id = jabatan.id','LEFT');
         $this->db->join('pangkatgolongan', 'pegawai.golongan_id  = pangkatgolongan.golongan','LEFT');
 
-        $query = $this->db->where("status_kerja", "aktif");
+        // $query = $this->db->where("status_kerja", "aktif");
+        if(!is_null($jurusan_id))
+            $query = $this->db->where("pegawai.jurusan_id", $jurusan_id);  
+        if(!is_null($type))
+            $query = $this->db->where("jabatan.jenis_jabatan", $type);  
         $query = $this->db->get();
 
         return $query->result();
@@ -96,7 +100,7 @@ class Pemberhentian_model extends CI_Model
 
     public function get_pegawai_berkas()
     {
-        $query = $this->db->where("status_pengajuan", "setuju");
+        $query = $this->db->where("status_pengajuan", "setujui");
         $query = $this->db->where("pegawai_nip", $this->session->userdata("nip"));
         $query = $this->db->where("jenis_berhenti !=", "Pengunduran diri");
         $query = $this->db->get("pemberhentian");
@@ -139,11 +143,13 @@ class Pemberhentian_model extends CI_Model
             }
             $persetujuan_1 = "setujui";
             $persetujuan_2 = "setujui";
+            $persetujuan_3 = "setujui";
         }else {
             $pegawai_nip = $this->input->post('pegawai_nip');
             $tgl_persetujuan = null;
             $persetujuan_1 = "pending";
             $persetujuan_2 = "pending";
+            $persetujuan_3 = "pending";
         }
 
         $data_pemberhentian = array(
@@ -158,7 +164,7 @@ class Pemberhentian_model extends CI_Model
             "pegawai_nip" => $pegawai_nip,
             "persetujuan_1" => $persetujuan_1,
             "persetujuan_2" => $persetujuan_2,
-            "persetujuan_3" => "pending",
+            "persetujuan_3" => $persetujuan_3,
             // "surat_pengunduran_diri" => $surat_pengunduran_diri,
         );
     
@@ -325,8 +331,8 @@ class Pemberhentian_model extends CI_Model
                 "status_pengajuan" => $this->input->post('status'),
                 "tgl_persetujuan" => $date
             ); 
-            if ($this->input->post('jenis_berhenti') != "Pengunduran diri") {
-                $this->email_pengajuan_pemberhentian($this->input->post('email'));
+            if ($this->input->post('jenis_berhenti') != "Pengunduran diri") {                                
+                $this->email_pengajuan_pensiun($this->input->post('email'));
             }else {
 
                 $data_pegawai = array(
@@ -339,11 +345,7 @@ class Pemberhentian_model extends CI_Model
                 $this->db->where('account_nip', $pegawai_nip);
                 $this->db->update('pegawai', $data_pegawai);
                 $this->db->trans_complete();
-                if ($this->input->post('jenis_berhenti') == "Pensiun dini") {
-                    $this->email_pengajuan_pemberhentian($this->input->post('email'));
-                }else {
-                    $this->email_pengajuan_pensiun($this->input->post('email'));
-                }
+                $this->email_pengajuan_pemberhentian($this->input->post('email'));                
             }
         }
 
@@ -366,7 +368,7 @@ class Pemberhentian_model extends CI_Model
         $this->load->library('email');
         
         $from = $this->config->item('smtp_user');        
-        $subject = 'Pengajuan Pemberhentian';        
+        $subject = "Pengajuan Pemberhentian";        
         $message = "<strong>Pengajuan Pemberhentian</strong><br><br>
 
         Status persetujuan telah dirubah oleh Bagan Kepegawaian. Untuk lebih jelasnya dapat dilihat pada Sistem Informasi Kepegawaian.<br>
@@ -391,10 +393,11 @@ class Pemberhentian_model extends CI_Model
         $this->email->to($email);
         $this->email->subject($subject);
         $this->email->message($message);
-        $this->email->attach(base_url('assets/pdf/SK Pangkat.pdf'));
+        $this->email->attach(base_url('assets/pdf/SKPangkat.pdf'));
         $this->email->attach(base_url('assets/pdf/dp3.pdf'));
         $this->email->attach(base_url('assets/pdf/karpeg.pdf'));
 
+        // var_dump($email);die();
         if ($this->email->send()) {
             echo 'Your Email has successfully been sent.';
         } else {
@@ -433,7 +436,7 @@ class Pemberhentian_model extends CI_Model
         $this->email->to($email);
         $this->email->subject($subject);
         $this->email->message($message);
-        $this->email->attach(base_url('assets/pdf/SK Pangkat.pdf'));
+        $this->email->attach(base_url('assets/pdf/SKPangkat.pdf'));
         $this->email->attach(base_url('assets/pdf/dp3.pdf'));
         $this->email->attach(base_url('assets/pdf/karpeg.pdf'));
 

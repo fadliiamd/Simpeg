@@ -32,6 +32,15 @@ class Account_model extends CI_Model
     {
         $role = $this->get_role($nip);
 
+        if(isset($this->session->userdata('user')->status_kerja)){
+            if($this->session->userdata('user')->status_kerja == 'mutasi'){
+                return redirect('/dashboard/mutasi');
+            }            
+            else if($this->session->userdata('user')->status_kerja == 'pensiun'){
+                return redirect('/dashboard/pensiun');
+            }
+        }
+
         switch ($role) {
             case "admin":
                 redirect('/dashboard/admin');

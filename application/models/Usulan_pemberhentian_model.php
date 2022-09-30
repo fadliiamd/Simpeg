@@ -148,6 +148,16 @@ class Usulan_pemberhentian_model extends CI_Model
             $this->db->update($this->table, $data_usulan_pensiun);
             $this->db->trans_complete();
 
+            //--------------
+            $data_status_pegawai = array(
+                "status_kerja" => 'pensiun',
+            );
+
+            $this->db->trans_start();
+            $this->db->where('account_nip', $this->input->post('pegawai_nip'));
+            $this->db->update('pegawai', $data_status_pegawai);
+            $this->db->trans_complete();
+
             return "setujui";
         }
 

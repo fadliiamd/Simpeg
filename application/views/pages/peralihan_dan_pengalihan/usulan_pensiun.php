@@ -45,8 +45,7 @@
                         <tr>
                             <td><?= $i ?></td>
                             <td><?= $value->pegawai_nip ?> - <?= $value->pegawai_nama ?></td>
-                            <td><?= $value->tgl_pensiun ?></td>
-                            <td><?= $value->tgl_pensiun ?></td>
+                            <td><?= $value->tgl_pensiun ?></td>                            
                             <td><?= $value->tgl_usulan ?></td> 
                             <td>
                                 <?php if($value->status_persetujuan == "pending") {?>
@@ -64,6 +63,7 @@
                                                         <form class="forms-sample" action="<?= base_url("pemberhentian/status_usulan"); ?>" method="POST">
                                                             <div class="modal-header">
                                                                 <input type="hidden" name="usulanpensiun_id" value="<?= $value->id ?>">
+                                                                <input type="hidden" name="pegawai_nip" value="<?= $value->pegawai_nip ?>">
                                                                 <input type="hidden" name="id" value="<?= $value->id ?>">
                                                                 <input type="hidden" name="tgl_pensiun" value="<?= $value->tgl_pensiun ?>">
                                                                 <input type="hidden" name="status" value="setujui">
