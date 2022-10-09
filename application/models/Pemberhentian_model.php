@@ -411,7 +411,7 @@ class Pemberhentian_model extends CI_Model
         $this->load->library('email');
         
         $from = $this->config->item('smtp_user');        
-        $subject = 'Pemberitahuan pensiun';        
+        $subject = "Pemberitahuan pensiun";        
         $message = "<strong>Pemberitahuan pensiun</strong><br><br>
 
         Diberitahukan kepada pegawai yang bersangkutan, masa jabatan yang anda miliki kurang lebih 1 (satu) tahun dari pemberitahuan ini disampaikan.
