@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-lg-12">
-        <h4>Pengajuan Pemberhentian</h4>
+        <h4>Pengajuan Pemberhentian</h4>        
 
         <!-- Large modal -->
         <?php 
@@ -173,9 +173,12 @@
                                             <span class="badge badge-warning"><?= $value->persetujuan_1; ?></span>
                                                 <?php if (isset($this->session->userdata("user")->jabatan_id)){
                                                     if(
-                                                    ($this->session->userdata("user")->jabatan_id == 11 
-                                                    && $value->jenis_jabatan == "fungsional"
-                                                    && $this->session->userdata("user")->jurusan_id == $value->jurusan_id)){ ?>
+                                                    ($this->session->userdata("user")->jabatan_id == 12 
+                                                    && $value->jenis_jabatan == "fungsional" 
+                                                    && $this->session->userdata("user")->jurusan_id == $value->jurusan_id) 
+                                                    || 
+                                                    ($this->session->userdata("nama_jabatan") == "Kepala Bagian Umum" 
+                                                    && $value->jenis_jabatan == "struktural")){ ?>
                                                     <div class="mt-3">
                                                         <button type="button" class="btn btn-success" data-toggle="modal" data-target="#approvetablepersetujuan1_<?=$i?>">
                                                             Setujui
