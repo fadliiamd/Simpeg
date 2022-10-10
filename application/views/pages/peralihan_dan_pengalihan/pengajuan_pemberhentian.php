@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-lg-12">
-        <h4>Pengajuan Pemberhentian</h4>        
+        <h4>Pengajuan Pemberhentian</h4>                
 
         <!-- Large modal -->
         <?php 
@@ -9,10 +9,9 @@
         $newtime = $time->modify('-20 year')->format('Y-m-d H:i:s');        
         foreach ($users as $key => $value) { ?>
             <?php if (
-            ($this->session->userdata("role") == "pegawai" && !$pemberhentian)
+            (($this->session->userdata("role") == "pegawai" && !$pemberhentian)
             && 
-            ($value->status != "PNS" || ($value->status == "PNS" && $value->tgl_menjabat <= $newtime) )
-            ){ ?>
+            ($value->status != "PNS") )|| ($value->status == "PNS" && $value->tgl_menjabat <= $newtime)){ ?>
                 <button type="button" class="my-3 btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Tambah Pemberhentian</button>
             <?php }?>            
         <?php } ?>
