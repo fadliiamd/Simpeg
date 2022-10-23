@@ -34,8 +34,8 @@ class Berkas_pemberhentian_model extends CI_Model
     public function get_all_with_join()
     {
         $this->db->select(
-            'berkaspensiun.id, berkaspensiun.sk_cpns, berkaspensiun.sk_pns, berkaspensiun.sk_kgb, berkaspensiun.sk_kp, berkaspensiun.dp3_akhir, berkaspensiun.pangkat_akhir, berkaspensiun.kartu_keluarga, berkaspensiun.pas_foto, berkaspensiun.status_persetujuan,
-            pemberhentian.pegawai_nip, pemberhentian.jenis_berhenti, pemberhentian.alasan,pemberhentian.status_pengajuan,pemberhentian.tgl_pengajuan ,pemberhentian.id AS id_pemberhentian,
+            'berkaspensiun.id, berkaspensiun.sk_cpns, berkaspensiun.sk_pns, berkaspensiun.sk_kgb, berkaspensiun.sk_kp, berkaspensiun.dp3_akhir, berkaspensiun.pangkat_akhir, berkaspensiun.kartu_keluarga, berkaspensiun.pas_foto, berkaspensiun.status_persetujuan, berkaspensiun.alasan_tolak,
+            pemberhentian.pegawai_nip, pemberhentian.jenis_berhenti, pemberhentian.alasan,pemberhentian.status_pengajuan, pemberhentian.tgl_pengajuan ,pemberhentian.id AS id_pemberhentian,
             pegawai.account_nip, pegawai.nama'
         );
         $this->db->from($this->table);
@@ -51,7 +51,7 @@ class Berkas_pemberhentian_model extends CI_Model
     public function get_all_with_join_pegawai()
     {
         $this->db->select(
-            'berkaspensiun.id, berkaspensiun.sk_cpns, berkaspensiun.sk_pns, berkaspensiun.sk_kgb, berkaspensiun.sk_kp, berkaspensiun.dp3_akhir, berkaspensiun.pangkat_akhir, berkaspensiun.kartu_keluarga, berkaspensiun.pas_foto, berkaspensiun.status_persetujuan,
+            'berkaspensiun.id, berkaspensiun.sk_cpns, berkaspensiun.sk_pns, berkaspensiun.sk_kgb, berkaspensiun.sk_kp, berkaspensiun.dp3_akhir, berkaspensiun.pangkat_akhir, berkaspensiun.kartu_keluarga, berkaspensiun.pas_foto, berkaspensiun.status_persetujuan, berkaspensiun.alasan_tolak,
             pemberhentian.pegawai_nip, pemberhentian.jenis_berhenti, pemberhentian.alasan,pemberhentian.status_pengajuan,pemberhentian.tgl_pengajuan ,pemberhentian.id AS id_pemberhentian,
             pegawai.account_nip, pegawai.nama'
         );
@@ -205,7 +205,8 @@ class Berkas_pemberhentian_model extends CI_Model
     {        
         if ($this->input->post('status') == "tolak") {
             $data_usulan_pensiun = array(
-                "status_persetujuan" => $this->input->post('status')
+                "status_persetujuan" => $this->input->post('status'),
+                "alasan_tolak" => $this->input->post('alasan')
             ); 
 
             $this->db->trans_start();

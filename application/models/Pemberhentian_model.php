@@ -292,10 +292,32 @@ class Pemberhentian_model extends CI_Model
 
     public function status_pemberhentian_3($id)
     {        
+        date_default_timezone_set('Asia/Jakarta');
+        $date = date("Y-m-d H:i:s");
+
         if ($this->input->post('status') == "setujui") {
             $data_pemberhentian = array(
                 "persetujuan_3" => $this->input->post('status'),
+                "status_pengajuan" => $this->input->post('status'),
+                "tgl_persetujuan" => $date
             ); 
+
+            if ($this->input->post('jenis_berhenti') != "Pengunduran diri") {                                
+                $this->email_pengajuan_pensiun($this->input->post('email'));
+            }else {
+
+                $data_pegawai = array(
+                    "status_kerja" => "nonaktif"
+                );
+        
+                $pegawai_nip = $this->input->post('pegawai_nip');
+    
+                $this->db->trans_start();
+                $this->db->where('account_nip', $pegawai_nip);
+                $this->db->update('pegawai', $data_pegawai);
+                $this->db->trans_complete();
+                $this->email_pengajuan_pemberhentian($this->input->post('email'));                
+            }
         }else {
             $data_pemberhentian = array(
                 "status_pengajuan" => $this->input->post('status'),
@@ -324,7 +346,7 @@ class Pemberhentian_model extends CI_Model
         if ($this->input->post('status') == "tolak") {
             $data_pemberhentian = array(
                 "status_pengajuan" => $this->input->post('status'),
-                "alasan_tolak" => $this->input->post('alasan_tolak'),
+                "alasan_tolak" => $this->input->post('alasan'),
             ); 
         }else{
             $data_pemberhentian = array(

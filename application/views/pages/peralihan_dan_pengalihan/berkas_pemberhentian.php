@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-lg-12">
-        <h3>Berkas Persyaratan</h3>        
+        <h3>Berkas Persyaratan</h3>
         <?php if (!empty($pemberhentian) || $this->session->userdata("role") == "admin") { ?>
             <?php if ($this->session->userdata("role") == "pegawai") { ?>
                 <!-- Large modal -->
@@ -195,6 +195,10 @@
                                                                     </button>
                                                                 </div>
                                                                 <div class="modal-body">
+                                                                    <div class="form-group">
+                                                                        <label for="alasan">Alasan</label>
+                                                                        <textarea class="form-control" id="alasan" rows="4" name="alasan" required></textarea>
+                                                                    </div>
                                                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                                                     <button type="submit" class="btn btn-danger">Tolak Mutasi</button>
                                                                 </div>
@@ -210,6 +214,7 @@
                                         <?php }; ?>
                                         <?php if ($value->status_persetujuan == "tolak") { ?>
                                             <span class="badge badge-danger"><?= $value->status_persetujuan; ?></span>
+                                            <p class="mt-3"><?= $value->alasan_tolak ?></p>
                                         <?php }; ?>
                                     <?php }; ?>
 
