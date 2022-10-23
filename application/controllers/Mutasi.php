@@ -143,18 +143,18 @@ class Mutasi extends Roles {
 
 	public function create_data_mutasi()
     {
-        $this->form_validation->set_rules(
-            'pegawai_nip',
-            'pegawai_nip',
-            'is_unique[mutasi.pegawai_nip]',
-            array(
-                'is_unique' => 'Mohon maaf %s telah terdaftar!'
-            )
-        );
-        if ($this->form_validation->run() == FALSE) {
-            $this->session->set_flashdata('message_error', validation_errors());
-            redirect("mutasi/pengajuan_mutasi");
-        }
+        // $this->form_validation->set_rules(
+        //     'pegawai_nip',
+        //     'pegawai_nip',
+        //     'is_unique[mutasi.pegawai_nip]',
+        //     array(
+        //         'is_unique' => 'Mohon maaf %s telah terdaftar!'
+        //     )
+        // );
+        // if ($this->form_validation->run() == FALSE) {
+        //     $this->session->set_flashdata('message_error', validation_errors());
+        //     redirect("mutasi/pengajuan_mutasi");
+        // }
 
         $add = $this->mutasi_model->insert_one();
 

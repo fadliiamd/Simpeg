@@ -4,7 +4,7 @@
 
         <!-- Large modal -->
         <?php foreach ($users as $key => $value) { ?>
-            <?php if ($this->session->userdata("role") == "pegawai" && !$mutasi) { ?>
+            <?php if (($this->session->userdata("role") == "pegawai" && !$mutasi) || (findObjectBy('status_pengajuan', 'tolak', $mutasi) != false && findObjectBy('status_pengajuan', 'pending', $mutasi) == false)) { ?>
                 <button type="button" class="my-3 btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Tambah Mutasi</button>
             <?php } ?>
         <?php } ?>
