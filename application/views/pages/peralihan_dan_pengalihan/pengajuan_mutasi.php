@@ -97,7 +97,6 @@
                         <th>Persetujuan 1</th>
                         <th>Persetujuan 2</th>
                         <th>Persetujuan 3</th>
-                        <th>Status Pengajuan</th>
                         <th>Tanggal Persetujuan</th>
                         <th>Bukti Pengajuan</th>
                         <th>Action</th>
@@ -190,6 +189,7 @@
                                     <?php }; ?>
                                     <?php if ($value->persetujuan_1 == "tolak") { ?>
                                         <span class="badge badge-danger"><?= $value->persetujuan_1; ?></span>
+                                        <p class="mt-3"><?= $value->alasan_tolak ?></p>
                                     <?php }; ?>
                                 <?php }; ?>
                             </td>
@@ -263,6 +263,9 @@
                                     <?php }; ?>
                                     <?php if ($value->persetujuan_2 == "tolak") { ?>
                                         <span class="badge badge-danger"><?= $value->persetujuan_2; ?></span>
+                                        <?php if ($value->persetujuan_1 != "tolak") { ?>
+                                            <p class="mt-3"><?= $value->alasan_tolak ?></p>
+                                        <?php }; ?>
                                     <?php }; ?>
                                 <?php }; ?>
                             </td>
@@ -336,80 +339,11 @@
                                     <?php }; ?>
                                     <?php if ($value->persetujuan_3 == "tolak") { ?>
                                         <span class="badge badge-danger"><?= $value->persetujuan_3; ?></span>
+                                        <?php if ($value->persetujuan_2 != "tolak") { ?>
+                                            <p class="mt-3"><?= $value->alasan_tolak ?></p>
+                                        <?php }; ?>
                                     <?php }; ?>
                                 <?php }; ?>
-                            </td>
-                            <!-- Recap Persetujuan -->
-                            <td>
-                                    <?php if ($value->status_pengajuan == "pending") { ?>
-                                        <span class="badge badge-warning"><?= $value->status_pengajuan; ?></span>
-                                        <?php if ($this->session->userdata("role") == "direktur" && $value->persetujuan_1 == "setujui" && $value->persetujuan_2 == "setujui" && $value->persetujuan_3 == "setujui") { ?>
-                                            <div class="mt-3">
-                                                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#approvetable<?= $i ?>">
-                                                    Setujui
-                                                </button>
-
-                                                <!-- Modal -->
-                                                <div class="modal fade" id="approvetable<?= $i ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                    <div class="modal-dialog" role="document">
-                                                        <div class="modal-content">
-                                                            <form class="forms-sample" action="<?= base_url("mutasi/status_mutasi"); ?>" method="POST">
-                                                                <div class="modal-header">
-                                                                    <input type="hidden" name="id" value="<?= $value->id_mutasi ?>">
-                                                                    <input type="hidden" name="email" value="<?= $value->email ?>">
-                                                                    <input type="hidden" name="status" value="setujui">
-                                                                    <h5 class="modal-title" id="exampleModalLabel">Setujui Pengajuan Mutasi NIP : <b><?= $value->pegawai_nip ?></b> </h5>
-                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                        <span aria-hidden="true">&times;</span>
-                                                                    </button>
-                                                                </div>
-                                                                <div class="modal-body">
-                                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                                    <button type="submit" class="btn btn-success">Setujui Mutasi</button>
-                                                                </div>
-                                                            </form>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#noapprovetable<?= $i ?>">
-                                                    Tolak
-                                                </button>
-
-                                                <!-- Modal -->
-                                                <div class="modal fade" id="noapprovetable<?= $i ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                    <div class="modal-dialog" role="document">
-                                                        <div class="modal-content">
-                                                            <form class="forms-sample" action="<?= base_url("mutasi/status_mutasi"); ?>" method="POST">
-                                                                <div class="modal-header">
-                                                                    <input type="hidden" name="id" value="<?= $value->id_mutasi ?>">
-                                                                    <input type="hidden" name="status" value="tolak">
-                                                                    <h5 class="modal-title" id="exampleModalLabel">Tolak Pengajuan Mutasi NIP : <b><?= $value->pegawai_nip ?></b> </h5>
-                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                        <span aria-hidden="true">&times;</span>
-                                                                    </button>
-                                                                </div>
-                                                                <div class="modal-body">
-                                                                    <div class="form-group">
-                                                                        <label for="alasan">Alasan</label>
-                                                                        <textarea class="form-control" id="alasan" rows="4" name="alasan_tolak" required></textarea>
-                                                                    </div>
-                                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                                    <button type="submit" class="btn btn-danger">Tolak Mutasi</button>
-                                                                </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        <?php }; 
-                                    } else  if ($value->status_pengajuan == "setujui") { ?>
-                                        <span class="badge badge-success"><?= $value->status_pengajuan; ?></span>
-                                    <?php };                                    
-                                    if ($value->status_pengajuan == "tolak") { ?>
-                                        <span class="badge badge-danger"><?= $value->status_pengajuan; ?></span>
-                                        <p class="mt-3"><?= $value->alasan_tolak ?></p>
-                                    <?php }; ?>                                
                             </td>
                             <td><?= ($value->tgl_persetujuan == null) ? "-" : $value->tgl_persetujuan; ?></td>
                             <td>

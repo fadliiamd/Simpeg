@@ -1,8 +1,8 @@
 <div class="row">
-	<div class="col-lg-12">
+    <div class="col-lg-12">
         <h3>Berkas Persyaratan</h3>
 
-        <?php if($this->session->userdata("role") == "pegawai"){ ?>
+        <?php if ($this->session->userdata("role") == "pegawai") { ?>
             <!-- Large modal -->
             <?php if (($this->session->userdata("role") == "pegawai" && !$berkas_mutasi)) { ?>
                 <button type="button" class="my-3 btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Tambah Berkas Persyaratan</button>
@@ -14,7 +14,7 @@
                         <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalLabel">Berkas Persyaratan</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
+                                <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <form class="forms-sample" action="<?= base_url("mutasi/create_data_berkas"); ?>" method="POST" enctype="multipart/form-data">
@@ -63,7 +63,7 @@
                     </div>
                 </div>
             </div>
-    <!-- End Modal -->
+            <!-- End Modal -->
         <?php } ?>
 
         <?php if ($this->session->flashdata('message_success')) : ?>
@@ -97,56 +97,56 @@
                         <th>Ijazah</th>
                         <th>Riwayat Hidup</th>
                         <th>Status Persetujuan</th>
-                        <?php if($this->session->userdata("role") == "pegawai"){ ?>   
+                        <?php if ($this->session->userdata("role") == "pegawai") { ?>
                             <th>Action</th>
                         <?php } ?>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php 
-                        $i = 1;
-                        foreach ($berkas_mutasi as $key => $value) { 
+                    <?php
+                    $i = 1;
+                    foreach ($berkas_mutasi as $key => $value) {
                     ?>
                         <tr>
                             <td><?= $i; ?></td>
-                            <?php if  ($this->session->userdata("role") == "admin" || $this->session->userdata("role") == "direktur"){ ?>
-                                <td><?= $value->pegawai_nip ?> - <?= $value->nama ?></td>  
+                            <?php if ($this->session->userdata("role") == "admin" || $this->session->userdata("role") == "direktur") { ?>
+                                <td><?= $value->pegawai_nip ?> - <?= $value->nama ?></td>
                             <?php } else { ?>
-                                <td><?= $value->pegawai_nip ?></td>  
+                                <td><?= $value->pegawai_nip ?></td>
                             <?php } ?>
                             <td>
-                                <a href="<?= base_url().'uploads/'.$value->sk_cpns ?>" download class="btn btn-secondary">Unduh</a>    
+                                <a href="<?= base_url() . 'uploads/' . $value->sk_cpns ?>" download class="btn btn-secondary">Unduh</a>
                             </td>
                             <td>
-                                <a href="<?= base_url().'uploads/'.$value->sk_pns ?>" download class="btn btn-secondary">Unduh</a>    
+                                <a href="<?= base_url() . 'uploads/' . $value->sk_pns ?>" download class="btn btn-secondary">Unduh</a>
                             </td>
                             <td>
-                                <a href="<?= base_url().'uploads/'.$value->pangkat_akhir ?>" download class="btn btn-secondary">Unduh</a>    
+                                <a href="<?= base_url() . 'uploads/' . $value->pangkat_akhir ?>" download class="btn btn-secondary">Unduh</a>
                             </td>
                             <td>
-                                <a href="<?= base_url().'uploads/'.$value->karpeg ?>" download class="btn btn-secondary">Unduh</a>    
+                                <a href="<?= base_url() . 'uploads/' . $value->karpeg ?>" download class="btn btn-secondary">Unduh</a>
                             </td>
                             <td>
-                                <a href="<?= base_url().'uploads/'.$value->dp3_akhir ?>" download class="btn btn-secondary">Unduh</a>    
+                                <a href="<?= base_url() . 'uploads/' . $value->dp3_akhir ?>" download class="btn btn-secondary">Unduh</a>
                             </td>
                             <td>
-                                <a href="<?= base_url().'uploads/'.$value->ijazah ?>" download class="btn btn-secondary">Unduh</a>    
+                                <a href="<?= base_url() . 'uploads/' . $value->ijazah ?>" download class="btn btn-secondary">Unduh</a>
                             </td>
                             <td>
-                                <a href="<?= base_url().'uploads/'.$value->riwayat_hidup ?>" download class="btn btn-secondary">Unduh</a>    
+                                <a href="<?= base_url() . 'uploads/' . $value->riwayat_hidup ?>" download class="btn btn-secondary">Unduh</a>
                             </td>
                             <td>
 
-                                <?php if($value->status_persetujuan == "pending") {?>
+                                <?php if ($value->status_persetujuan == "pending") { ?>
                                     <span class="badge badge-warning"><?= $value->status_persetujuan; ?></span>
-                                    <?php if($this->session->userdata("role") == "admin"){ ?>
+                                    <?php if ($this->session->userdata("role") == "admin") { ?>
                                         <div class="mt-3">
-                                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#approvetable<?=$i?>">
+                                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#approvetable<?= $i ?>">
                                                 Setujui
                                             </button>
 
                                             <!-- Modal -->
-                                            <div class="modal fade" id="approvetable<?=$i?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal fade" id="approvetable<?= $i ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                 <div class="modal-dialog" role="document">
                                                     <div class="modal-content">
                                                         <form class="forms-sample" action="<?= base_url("mutasi/status_berkas"); ?>" method="POST">
@@ -168,56 +168,62 @@
                                                 </div>
                                             </div>
 
-                                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#noapprovetable<?=$i?>">
+                                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#noapprovetable<?= $i ?>">
                                                 Tolak
                                             </button>
 
                                             <!-- Modal -->
-                                            <div class="modal fade" id="noapprovetable<?=$i?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal fade" id="noapprovetable<?= $i ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                 <div class="modal-dialog" role="document">
                                                     <div class="modal-content">
                                                         <form class="forms-sample" action="<?= base_url("mutasi/status_berkas"); ?>" method="POST">
                                                             <div class="modal-header">
-                                                            <input type="hidden" name="id" value="<?= $value->id ?>">
-                                                            <input type="hidden" name="status" value="tolak">
-                                                            <h5 class="modal-title" id="exampleModalLabel">Tolak Pengajuan Mutasi Id : <b><?= $value->id ?></b> </h5>
-                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                <span aria-hidden="true">&times;</span>
-                                                            </button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                            <button type="submit" class="btn btn-danger">Tolak Mutasi</button>
-                                                        </div>
+                                                                <input type="hidden" name="id" value="<?= $value->id ?>">
+                                                                <input type="hidden" name="status" value="tolak">
+                                                                <h5 class="modal-title" id="exampleModalLabel">Tolak Pengajuan Mutasi Id : <b><?= $value->id ?></b> </h5>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <div class="form-group">
+                                                                    <label for="alasan">Alasan</label>
+                                                                    <textarea class="form-control" id="alasan" rows="4" name="alasan" required></textarea>
+                                                                </div>
+                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                <button type="submit" class="btn btn-danger">Tolak Mutasi</button>
+                                                            </div>
+                                                        </form>
                                                     </div>
                                                 </div>
                                             </div>
 
                                         </div>
-                                        <?php }; ?>
+                                    <?php }; ?>
                                 <?php } else { ?>
-                                    <?php if($value->status_persetujuan == "setujui") {?>
+                                    <?php if ($value->status_persetujuan == "setujui") { ?>
                                         <span class="badge badge-success"><?= $value->status_persetujuan; ?></span>
                                     <?php }; ?>
-                                    <?php if($value->status_persetujuan == "tolak") {?>
+                                    <?php if ($value->status_persetujuan == "tolak") { ?>
                                         <span class="badge badge-danger"><?= $value->status_persetujuan; ?></span>
+                                        <p class="mt-3"><?= $value->alasan_tolak ?></p>
                                     <?php }; ?>
                                 <?php }; ?>
 
                             </td>
-                            <?php if($this->session->userdata("role") == "pegawai"){ ?>       
+                            <?php if ($this->session->userdata("role") == "pegawai") { ?>
                                 <td>
                                     <!-- Large modal -->
-                                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#edittable<?=$i?>">Edit</button>
+                                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#edittable<?= $i ?>">Edit</button>
 
                                     <!-- Modal -->
-                                    <div class="modal fade" id="edittable<?=$i?>" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                                    <div class="modal fade" id="edittable<?= $i ?>" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
                                         <div class="modal-dialog modal-lg">
                                             <div class="modal-content">
                                                 <div class="modal-header">
                                                     <h5 class="modal-title" id="exampleModalLabel">Edit Berkas Persyaratan No : <b><?= $i ?><b></h5>
                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
+                                                        <span aria-hidden="true">&times;</span>
                                                     </button>
                                                 </div>
                                                 <form class="forms-sample" action="<?= base_url("mutasi/update_data_berkas"); ?>" method="POST" enctype="multipart/form-data">
@@ -270,12 +276,12 @@
                                     </div>
                                     <!-- End Modal -->
 
-                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deletetable<?=$i?>">
-                                    Hapus
+                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deletetable<?= $i ?>">
+                                        Hapus
                                     </button>
 
                                     <!-- Modal -->
-                                    <div class="modal fade" id="deletetable<?=$i?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal fade" id="deletetable<?= $i ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
                                                 <form class="forms-sample" action="<?= base_url("mutasi/delete_data_berkas"); ?>" method="POST">
@@ -298,7 +304,8 @@
                             <?php } ?>
 
                         </tr>
-                    <?php $i++; } ?>
+                    <?php $i++;
+                    } ?>
                 </tbody>
             </table>
         </div>

@@ -244,10 +244,16 @@ class Mutasi_model extends CI_Model
 
     public function status_mutasi_3($id)
     {        
+        date_default_timezone_set('Asia/Jakarta');
+        $date = date("Y-m-d H:i:s");
+
         if ($this->input->post('status') == "setujui") {
             $data_mutasi = array(
                 "persetujuan_3" => $this->input->post('status'),
+                "status_pengajuan" => $this->input->post('status'),
+                "tgl_persetujuan" => $date
             ); 
+            $this->email_pengajuan_mutasi($this->input->post('email'));
         }else {
             $data_mutasi = array(
                 "status_pengajuan" => $this->input->post('status'),
