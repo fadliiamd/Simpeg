@@ -34,7 +34,7 @@ class Berkas_mutasi_model extends CI_Model
     public function get_all_with_join()
     {
         $this->db->select(
-            'berkasmutasi.id, berkasmutasi.sk_cpns, berkasmutasi.sk_pns, berkasmutasi.pangkat_akhir, berkasmutasi.karpeg, berkasmutasi.dp3_akhir, berkasmutasi.ijazah, berkasmutasi.riwayat_hidup, berkasmutasi.status_persetujuan, 
+            'berkasmutasi.id, berkasmutasi.sk_cpns, berkasmutasi.sk_pns, berkasmutasi.pangkat_akhir, berkasmutasi.karpeg, berkasmutasi.dp3_akhir, berkasmutasi.ijazah, berkasmutasi.riwayat_hidup, berkasmutasi.status_persetujuan, berkasmutasi.alasan_tolak,
             mutasi.pegawai_nip, mutasi.alasan, mutasi_id AS id_mutasi,
             pegawai.account_nip, pegawai.nama'
         );
@@ -50,7 +50,7 @@ class Berkas_mutasi_model extends CI_Model
     public function get_all_with_join_pegawai()
     {
         $this->db->select(
-            'berkasmutasi.id, berkasmutasi.sk_cpns, berkasmutasi.sk_pns, berkasmutasi.pangkat_akhir, berkasmutasi.karpeg, berkasmutasi.dp3_akhir, berkasmutasi.ijazah, berkasmutasi.riwayat_hidup, berkasmutasi.status_persetujuan, 
+            'berkasmutasi.id, berkasmutasi.sk_cpns, berkasmutasi.sk_pns, berkasmutasi.pangkat_akhir, berkasmutasi.karpeg, berkasmutasi.dp3_akhir, berkasmutasi.ijazah, berkasmutasi.riwayat_hidup, berkasmutasi.status_persetujuan, berkasmutasi.alasan_tolak, 
             mutasi.pegawai_nip, mutasi.alasan, mutasi_id AS id_mutasi'
         );
         $this->db->from($this->table);
@@ -188,7 +188,8 @@ class Berkas_mutasi_model extends CI_Model
     {        
         if ($this->input->post('status') == "tolak") {
             $data_berkas_mutasi = array(
-                "status_persetujuan" => $this->input->post('status')
+                "status_persetujuan" => $this->input->post('status'),
+                "alasan_tolak" => $this->input->post('alasan')
             ); 
 
             $this->db->trans_start();
