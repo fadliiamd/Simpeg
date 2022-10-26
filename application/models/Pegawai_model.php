@@ -406,6 +406,11 @@ class Pegawai_model extends CI_Model
         return true;
     }
 
+    public function update_pegawai($where, $data){
+        $this->db->update($this->table, $data, $where);
+        return $this->db->affected_rows();
+    }
+
     public function update_profile_one($id)
     {
 

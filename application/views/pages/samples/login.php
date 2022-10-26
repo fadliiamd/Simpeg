@@ -5,7 +5,7 @@
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>LOGIN SPK POLSUB</title>
+  <title>LOGIN SIMPEG POLSUB</title>
   <!-- plugins:css -->
   <link rel="stylesheet" href="<?= base_url(); ?>assets/vendors/feather/feather.css">
   <link rel="stylesheet" href="<?= base_url(); ?>assets/vendors/ti-icons/css/themify-icons.css">
@@ -47,7 +47,7 @@
               <div class="brand-logo d-flex justify-content-center">
                 <img src="<?= base_url(); ?>assets/images/polsub2.png" alt="logo">
               </div>
-              <h4>Sistem Pendukung Keputusan POLSUB</h4>
+              <h4>Sistem Informasi Kepegewaian POLSUB</h4>
               <h6 class="font-weight-light">Silahkan login terlebih dahulu!</h6>
               <form class="pt-3" action="<?= base_url(); ?>auth/do_login" method="post" enctype="multipart/form-data">
                 <?php if ($this->session->flashdata('message_login_error')) : ?>

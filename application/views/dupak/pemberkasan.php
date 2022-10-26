@@ -4,15 +4,6 @@
 
         <!-- Large modal -->
         <?php
-        function is_kepegawaian($pegawai){                                    
-            if (!is_null($pegawai)) {
-                $pegawai = $pegawai->nama_bagian;
-                if(strtolower($pegawai) == 'kepegawaian'){
-                    return true;
-                }
-            }
-            return false;
-        }
         if ($_SESSION['role'] === 'pegawai') { ?>
             <a href="<?= base_url('dupak/pemberkasan/create') ?>" class="">
                 <button type="button" class="my-3 btn btn-primary">Tambah Daftar Usulan PAK</button>
@@ -48,7 +39,8 @@
                         <th>NIP Pengusul</th>
                         <th>Tanggal Usulan</th>
                         <th>Total Angka Kredit</th>
-                        <th>Status</th>
+                        <th>Persetujuan 1</th>
+                        <th>Persetujuan 2</th>
                         <th>Tanggal Validasi</th>
                         <th>Action</th>
                     </tr>
@@ -70,6 +62,11 @@
                             <td><?php echo $value->tgl_usulan; ?></td>
                             <td><?= $value->hasil_akk ?></td>
                             <td>
+                                <span class="badge <?= $label_badge[$value->status_1] ?>">
+                                    <?= $value->status_1 ?>
+                                </span>
+                            </td>
+                            <td>
                                 <span class="badge <?= $label_badge[$value->status] ?>">
                                     <?= $value->status ?>
                                 </span>
@@ -89,7 +86,7 @@
                             <td>
                                 <!-- Large modal -->
                                 <?php 
-                                if(is_kepegawaian($pegawai)){ ?>
+                                if(is_wadir($pegawai) || $this->session->userdata('user')->access_pak){ ?>
                                     <a href="<?= base_url('dupak/pemberkasan/validasi_pak/'.$value->id) ?>">
                                         <button type="button" class="btn btn-warning">Validasi</button>
                                     </a>
