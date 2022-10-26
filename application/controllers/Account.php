@@ -23,6 +23,30 @@ class Account extends Roles
         ]);
     }
 
+    public function pemeriksa_pak()
+    {
+        // Get all where join table jabatan when jenis_jabatan = 'fungsional'
+        $data['pegawai'] = $this->pegawai_model->get_all_where_join(
+            [
+                "jabatan.jenis_jabatan" => "fungsional",
+                "pegawai.status_kerja" => "aktif"
+            ],
+            "jabatan",
+            "pegawai.jabatan_id = jabatan.id"
+        );
+        $this->load->view('partials/main-header', ['title' => ': Pemeriksa PAK']);
+        $this->load->view('dupak/pemeriksa_pak', $data);
+        $this->load->view('partials/main-footer');
+    }
+
+    public function update_pemeriksa_pak($id)
+    {        
+        if ($this->input->is_ajax_request()) {            
+            $update = $this->pegawai_model->update_pegawai(["account_nip" => $id], ["access_pak" => $this->input->post('access_pak')]);
+            echo json_encode(["status" =>  $update, 'id' => $id]);
+        }        
+    }
+
     public function profile($id)
     {
         switch ($_SESSION['role']) {
@@ -269,7 +293,7 @@ class Account extends Roles
         $unit = $this->unit_model->get_all();
         $pegawai = $this->pegawai_model->get_all_with_join(["jenis_jabatan" => "struktural"]);
         $jabatan = $this->jabatan_model->get_all(["jenis_jabatan" => "struktural"]);
-        
+
         $this->load->view('partials/main-header', ['title' => ': Data Pegawai Struktural']);
         $this->load->view('users/admin/data_pegawai_struktural', [
             "jabatan" => $jabatan,

@@ -12,7 +12,8 @@ class Pemberkasan extends Roles {
             'rekap_nilai_model',
             'kenaikan_jabatan_model',
             'unsur_model',
-            'unsur_kegiatan_model'
+            'unsur_kegiatan_model',
+            'pegawai_model'
         ]);
 	}
 
@@ -63,19 +64,62 @@ class Pemberkasan extends Roles {
     }
 
     public function validasi_pak($id)
-    {
-        $unsur = $this->unsur_model->get_all();
-        $unsur_kegiatan = $this->unsur_kegiatan_model->get_all();
-        $nilai = $this->nilai_model->get_where(array("rekap_nilai_id" => $id));
+    {                
+        // get rekap nilai
+        $rekap_nilai = $this->rekap_nilai_model->get_one(['id' => $id]);
 
-        $this->load->view('partials/main-header', ['title' => ": Validasi Formulir PAK Ke-".$id]);
-        $this->load->view('dupak/validasi',[
-            "unsur" => $unsur,
-            "unsur_kegiatan" => $unsur_kegiatan,
-            "id" => $id,
-            "nilai" => $nilai
-        ]);
-        $this->load->view('partials/main-footer');
+        // get jabatan pegawai 
+        $pegawai = $this->pegawai_model->get_one(["account_nip" => $rekap_nilai->account_nip]);        
+        
+        // get nama_jabatan from session
+        $id_jabatan_pemeriksa = $this->session->userdata('user')->jabatan_id;            
+
+        if($id_jabatan_pemeriksa == 9 || $id_jabatan_pemeriksa ==10)
+        {             
+             $unsur = $this->unsur_model->get_all();
+             $unsur_kegiatan = $this->unsur_kegiatan_model->get_all();
+             $nilai = $this->nilai_model->get_where(array("rekap_nilai_id" => $id));
+             $this->load->view('partials/main-header', ['title' => ": Validasi Formulir PAK Ke-".$id]);
+             $this->load->view('dupak/validasi',[
+                 "unsur" => $unsur,
+                 "unsur_kegiatan" => $unsur_kegiatan,
+                 "id" => $id,
+                 "nilai" => $nilai
+             ]);
+             $this->load->view('partials/main-footer');
+        }else{
+            // check if lebih tinggi
+            if ($id_jabatan_pemeriksa > $pegawai->jabatan_id)
+            {                
+                $unsur = $this->unsur_model->get_where(['unsur' => 'penelitian']);
+                // get all unsur id
+                $unsur_id = array_map(function($item){
+                    return $item->id;
+                }, $unsur);                
+                $unsur_kegiatan = $this->unsur_kegiatan_model->get_where_in($unsur_id);
+                $nilai = $this->nilai_model->get_join_where_in(
+                    'unsur_kegiatan', 
+                    'nilai.unsur_kegiatan_id = unsur_kegiatan.id', 
+                    ["nilai.rekap_nilai_id" => $id],
+                    ['key' => 'unsur_kegiatan.unsur_id',
+                    'value' => $unsur_id]
+                );                
+                
+                $this->load->view('partials/main-header', ['title' => ": Validasi Formulir PAK Ke-".$id]);
+                $this->load->view('dupak/validasi',[
+                    "unsur" => $unsur,
+                    "unsur_kegiatan" => $unsur_kegiatan,
+                    "id" => $id,
+                    "nilai" => $nilai
+                ]);
+                $this->load->view('partials/main-footer');
+            }           
+            else{
+                $this->load->view('partials/main-header', ['title' => ": Validasi Formulir PAK Ke-".$id]);
+                echo "<h1>Anda tidak dari jabatan yang lebih tinggi</h1>";
+                $this->load->view('partials/main-footer');            
+            }
+        }        
     }
     
     public function do_validasi_nilai($id, $rekap_nilai_id)

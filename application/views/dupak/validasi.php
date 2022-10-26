@@ -45,7 +45,13 @@
                             return false;
                         }
                         $current_u = '';
-                        $inc_char = 65;
+                        // if unsur = 'penelitian'
+                        if($unsur[0]->unsur == 'penelitian'){
+                            $inc_char = 67;
+                        }else{
+                            $inc_char = 65;
+                        }
+                        
                         $modals = array();
                         foreach ($unsur as $k => $u) {
                             if ($u->unsur != $current_u) { ?>

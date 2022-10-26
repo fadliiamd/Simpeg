@@ -11,6 +11,14 @@ class Unsur_kegiatan_model extends CI_Model
 
         return $query->result();
     }
+    
+    public function get_where_in($where)
+    {
+        $this->db->where_in('unsur_id', $where);
+        $query = $this->db->get($this->table);
+        
+        return $query->result();
+    }
 
     public function insert_one()
     {    

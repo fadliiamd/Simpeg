@@ -5,7 +5,7 @@
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>SPK POLSUB <?= $title ?></title>
+  <title>SIMPEG POLSUB <?= $title ?></title>
   <!-- plugins:css -->
   <link rel="stylesheet" href="<?= site_url() ?>assets/vendors/feather/feather.css">
   <link rel="stylesheet" href="<?= site_url() ?>assets/vendors/ti-icons/css/themify-icons.css">
@@ -38,11 +38,11 @@
 
   <style>
     .btn-pink {
-      background-color: #fc47c0;      
+      background-color: #fc47c0;
       color: #fff;
     }
 
-    .btn-pink:hover {          
+    .btn-pink:hover {
       background-color: #ff00a9;
       color: #fff;
     }
@@ -446,7 +446,7 @@
                 <i class="menu-arrow"></i>
               </a>
               <div class="collapse" id="Divisi">
-                <ul class="nav flex-column sub-menu">                  
+                <ul class="nav flex-column sub-menu">
                   <li class="nav-item"> <a class="nav-link" href="<?= base_url("jurusan"); ?>">Jurusan</a></li>
                   <li class="nav-item"> <a class="nav-link" href="<?= base_url("bagian"); ?>">Bagian</a></li>
                   <li class="nav-item"> <a class="nav-link" href="<?= base_url("unit"); ?>">Unit</a></li>
@@ -492,6 +492,25 @@
                 <i class="mdi mdi-account-outline menu-icon"></i>
                 <span class="menu-title">Profile</span>
               </a>
+            </li>
+          <?php
+          } ?>
+          <?php 
+          $pegawai = $this->pegawai_model->get_one_with_join(array(
+            'account_nip' => $this->session->userdata('nip')
+          ));
+          if (is_kepegawaian($pegawai)) { ?>
+            <li class="nav-item">
+              <a class="nav-link" data-toggle="collapse" href="#kepegawaian" aria-expanded="false" aria-controls="kepegawaian">
+                <i class="mdi mdi-account-settings menu-icon"></i>
+                <span class="menu-title">Kepegawaian</span>
+                <i class="menu-arrow"></i>
+              </a>
+              <div class="collapse" id="kepegawaian">
+                <ul class="nav flex-column sub-menu">
+                  <li class="nav-item"> <a class="nav-link" href="<?= base_url("account/pemeriksa_pak"); ?>">Pemeriksa PAK</a></li>                 
+                </ul>
+              </div>
             </li>
           <?php
           } ?>
