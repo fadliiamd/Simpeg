@@ -12,6 +12,12 @@ class Kenaikan_jabatan_model extends CI_Model
         return $query->result();
     }
 
+    public function get_where($where)
+    {
+        $query = $this->db->get_where($this->table, $where);        
+        return $query->result();
+    }
+
     public function do_upload($file_type, $post_name)
     {
         // File
@@ -41,12 +47,16 @@ class Kenaikan_jabatan_model extends CI_Model
 
         $bukti_1 = $this->do_upload("pdf", "bukti_1");
         $bukti_2 = $this->do_upload("pdf", "bukti_2");              
+        $bukti_3 = $this->do_upload("pdf", "bukti_3");              
+        $bukti_4 = $this->do_upload("pdf", "bukti_4");              
 
         $data = array(
             "account_nip" => $account_nip,
             "jabatan_tujuan" => $jabatan_tujuan,
             "bukti_1" => $bukti_1,
-            "bukti_2" => $bukti_2               
+            "bukti_2" => $bukti_2,                 
+            "bukti_3" => $bukti_3,
+            "bukti_4" => $bukti_4,
         );
 
         $this->db->insert($this->table, $data);

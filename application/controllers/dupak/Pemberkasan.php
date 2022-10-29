@@ -19,8 +19,18 @@ class Pemberkasan extends Roles {
 
     public function index()
     {
-        $nilai_rekap = $this->rekap_nilai_model->get_all();
-        $pengajuan = $this->kenaikan_jabatan_model->get_all();
+        if($this->session->userdata('role') == 'admin' || $this->session->userdata("user")->access_pak)
+        {            
+            $nilai_rekap = $this->rekap_nilai_model->get_all();
+            $pengajuan = $this->kenaikan_jabatan_model->get_all();
+        }else{
+            $nilai_rekap = $this->rekap_nilai_model->get_where(array(
+                'account_nip' => $this->session->userdata('nip')
+            ));
+            $pengajuan = $this->kenaikan_jabatan_model->get_where(array(
+                'account_nip' => $this->session->userdata('nip')
+            ));
+        }        
 
         $this->load->view('partials/main-header', ['title' => ': Data DUPAK']);
 		$this->load->view('dupak/pemberkasan',[
@@ -35,11 +45,14 @@ class Pemberkasan extends Roles {
         if($this->session->userdata('role')=='pegawai'){                    
             $unsur = $this->unsur_model->get_all();
             $unsur_kegiatan = $this->unsur_kegiatan_model->get_all();
+            $usulan = $this->rekap_nilai_model->get_where(["account_nip" => $this->session->userdata('user')->account_nip]);  
+            $number_usulan = count($usulan)+1;            
 
             $this->load->view('partials/main-header', ['title' => ": Formulir PAK"]);
             $this->load->view('dupak/create',[
                 "unsur" => $unsur,
-                "unsur_kegiatan" => $unsur_kegiatan
+                "unsur_kegiatan" => $unsur_kegiatan,
+                "number_usulan" => $number_usulan,
             ]);
             $this->load->view('partials/main-footer');
         }else{
@@ -52,9 +65,15 @@ class Pemberkasan extends Roles {
         $unsur = $this->unsur_model->get_all();
         $unsur_kegiatan = $this->unsur_kegiatan_model->get_all();
         $nilai = $this->nilai_model->get_where(array("rekap_nilai_id" => $id));
+        $rekap_nilai = $this->rekap_nilai_model->get_one(["id" => $id]);
+        $usulan = $this->rekap_nilai_model->get_where(["account_nip" => $rekap_nilai->account_nip]);  
+        $number_usulan = get_number_usulan($id, $usulan);      
+        $pegawai = $this->pegawai_model->get_one_with_jabatan(["pegawai.account_nip" => $rekap_nilai->account_nip]);        
 
         $this->load->view('partials/main-header', ['title' => ": Formulir PAK Ke-".$id]);
         $this->load->view('dupak/lihat',[
+            "number_usulan" => $number_usulan,
+            "pegawai" => $pegawai,
             "unsur" => $unsur,
             "unsur_kegiatan" => $unsur_kegiatan,
             "id" => $id,
@@ -68,19 +87,27 @@ class Pemberkasan extends Roles {
         // get rekap nilai
         $rekap_nilai = $this->rekap_nilai_model->get_one(['id' => $id]);
 
+        $rekap_nilai = $this->rekap_nilai_model->get_one(["id" => $id]);
+        $usulan = $this->rekap_nilai_model->get_where(["account_nip" => $rekap_nilai->account_nip]);  
+        $number_usulan = get_number_usulan($id, $usulan);              
+
         // get jabatan pegawai 
-        $pegawai = $this->pegawai_model->get_one(["account_nip" => $rekap_nilai->account_nip]);        
+        $pegawai = $this->pegawai_model->get_one_with_jabatan(["account_nip" => $rekap_nilai->account_nip]);        
         
         // get nama_jabatan from session
         $id_jabatan_pemeriksa = $this->session->userdata('user')->jabatan_id;            
+        
 
         if($id_jabatan_pemeriksa == 9 || $id_jabatan_pemeriksa ==10)
         {             
              $unsur = $this->unsur_model->get_all();
              $unsur_kegiatan = $this->unsur_kegiatan_model->get_all();
              $nilai = $this->nilai_model->get_where(array("rekap_nilai_id" => $id));
+             
              $this->load->view('partials/main-header', ['title' => ": Validasi Formulir PAK Ke-".$id]);
              $this->load->view('dupak/validasi',[
+                 "number_usulan" => $number_usulan,
+                 "pegawai" => $pegawai,
                  "unsur" => $unsur,
                  "unsur_kegiatan" => $unsur_kegiatan,
                  "id" => $id,
@@ -107,6 +134,8 @@ class Pemberkasan extends Roles {
                 
                 $this->load->view('partials/main-header', ['title' => ": Validasi Formulir PAK Ke-".$id]);
                 $this->load->view('dupak/validasi',[
+                    "number_usulan" => $number_usulan,
+                    "pegawai" => $pegawai,
                     "unsur" => $unsur,
                     "unsur_kegiatan" => $unsur_kegiatan,
                     "id" => $id,
@@ -116,7 +145,7 @@ class Pemberkasan extends Roles {
             }           
             else{
                 $this->load->view('partials/main-header', ['title' => ": Validasi Formulir PAK Ke-".$id]);
-                echo "<h1>Anda tidak dari jabatan yang lebih tinggi</h1>";
+                $this->load->view('dupak/validasi-error');
                 $this->load->view('partials/main-footer');            
             }
         }        

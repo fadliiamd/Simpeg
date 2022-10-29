@@ -28,5 +28,23 @@ function is_wadir($pegawai){
     }
     return false;
 }
+
+function get_number_usulan($id, $usulan){
+    $number = 1;
+    $is_ada = false;
+    foreach ($usulan as $item) {
+        if($item->id == $id){
+            $is_ada = true;
+            break;
+        }else{
+            $number++;
+        }
+    }
+    if($is_ada){
+        return $number;
+    }else{
+        return 0;
+    }    
+}
 /* End of file extra.php */
 /* Location: ./application/helpers/extra.php */
