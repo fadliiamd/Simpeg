@@ -32,8 +32,18 @@ class Kenaikan_jabatan extends Roles {
     {
         $this->load->model('pegawai_model');
 
-        $pegawai = $this->pegawai_model->get_all();
-        $pengajuan = $this->kenaikan_jabatan_model->get_all();        
+        if($this->session->userdata('role') == 'admin')
+        {            
+            $pegawai = $this->pegawai_model->get_all();
+            $pengajuan = $this->kenaikan_jabatan_model->get_all();        
+        }else{
+            $pegawai = $this->pegawai_model->get_one_with_join(array(
+                'account_nip' => $this->session->userdata('nip')
+            ));
+            $pengajuan = $this->kenaikan_jabatan_model->get_where(array(
+                'account_nip' => $this->session->userdata('nip')
+            ));            
+        }
 
         $this->load->view('partials/main-header', ['title' => ": Pengajuan Kenaikan Jabatan"]);
 		$this->load->view('kenaikan_jabatan/pengajuan', [

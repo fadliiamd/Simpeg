@@ -1,4 +1,8 @@
-<h3 class="text-center">Formulir Usulan Penilaian Angka Kredit Ke-<?= $id ?></h3>
+<h3 class="text-center">Formulir Usulan Penilaian Angka Kredit</h3>
+
+<h5>Usulan Ke-<?= $number_usulan ?></h5>
+<h5>Nama Pengusul : <?= $pegawai->nama ?></h5>
+<h5>Jabatan : <?= $pegawai->nama_jabatan ?></h5>
 
 <div class="card">
     <div class="card-body">

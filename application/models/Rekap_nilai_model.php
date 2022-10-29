@@ -10,6 +10,12 @@ class Rekap_nilai_model extends CI_Model
         return $query->result();
     }
 
+    public function get_where($where)
+    {
+        $query = $this->db->get_where($this->table, $where);
+        return $query->result();
+    }
+
     public function get_akk_terakhir($nip)
     {                
         $this->db->where($nip);

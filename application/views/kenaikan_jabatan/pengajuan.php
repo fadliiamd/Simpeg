@@ -93,6 +93,8 @@
                         <th>Jabatan Tujuan</th>
                         <th>Bukti 1</th>
                         <th>Bukti 2</th>                        
+                        <th>Bukti 3</th>                        
+                        <th>Bukti 4</th>                        
                         <th>AK Tujuan</th>
                         <th>AK</th>
                         <th>Sisa AK</th>
@@ -111,13 +113,9 @@
                 <tbody>
                     <?php $no = 1; ?>
                     <?php
-                    $label_bukti_1 = [
-                        'asisten ahli' => 'Ijazah Magister',
+                    $label_bukti_3 = [
+                        'asisten ahli' => 'Publikasi Jurnal/Ilmiah Nasional',
                         'lektor' => 'Bukti PKM'
-                    ];
-                    $label_bukti_2 = [
-                        'asisten ahli' => 'Bukti SKP',
-                        'lektor' => 'Bukti Asisten Ahli'
                     ];
                     $label_badge = [
                         "pending" => "badge-secondary",
@@ -140,12 +138,22 @@
                             </td>
                             <td>
                                 <a target="_blank" href="<?= !is_null($value->bukti_1) ? base_url('uploads/' . $value->bukti_1) : '#' ?>">
-                                    <?= !is_null($value->bukti_1) ? "Lihat " . $label_bukti_1[$value->jabatan_tujuan] : "-" ?>
+                                    <?= !is_null($value->bukti_1) ? "Lihat Ijazah Magister " : "-" ?>
                                 </a>
                             </td>
                             <td>
                                 <a target="_blank" href="<?= !is_null($value->bukti_2) ? base_url('uploads/' . $value->bukti_2) : '#' ?>">
-                                    <?= !is_null($value->bukti_2) ? "Lihat " . $label_bukti_2[$value->jabatan_tujuan] : "-" ?>
+                                    <?= !is_null($value->bukti_2) ? "Lihat Bukti SKP" : "-" ?>
+                                </a>
+                            </td>
+                            <td>
+                                <a target="_blank" href="<?= !is_null($value->bukti_3) ? base_url('uploads/' . $value->bukti_2) : '#' ?>">
+                                    <?= !is_null($value->bukti_3) ? "Lihat ". $label_bukti_3[$value->jabatan_tujuan] : "-" ?>
+                                </a>
+                            </td>
+                            <td>
+                                <a target="_blank" href="<?= !is_null($value->bukti_4) ? base_url('uploads/' . $value->bukti_2) : '#' ?>">
+                                    <?= !is_null($value->bukti_4) ? "Lihat Bukti Mengajar" : "-" ?>
                                 </a>
                             </td>
                             <td><?= $angka_kredit_tujuan[$value->jabatan_tujuan] ?></td>
@@ -302,16 +310,35 @@
                                             <form class="forms-sample" action="<?= base_url("kenaikan_jabatan/update_berkas/" . $value->id); ?>" method="POST" enctype="multipart/form-data">
                                                 <div class="modal-body">
                                                     <div class="form-group row">
-                                                        <div class="col-md-3">
-                                                            <label for="bukti_1">Bukti <?= $label_bukti_1[$value->jabatan_tujuan] ?></label>
+                                                        <div class="<?= $value->jabatan_tujuan == "asisten ahli" ? "col-md-4" : "col-md-6" ?> mb-3">
+                                                            <label for="bukti_1">Bukti Ijazah Magister</label>
                                                             <input type="file" class="form-control-file" id="bukti_1" name="bukti_1">
-                                                            <?= !is_null($value->bukti_1) ? '<a target="_blank" href="' . base_url('uploads/' . $value->bukti_1) . '">Lihat ' . $label_bukti_1[$value->jabatan_tujuan] . '</a>' : "" ?>
+                                                            <?= !is_null($value->bukti_1) ? '<a target="_blank" href="' . base_url('uploads/' . $value->bukti_1) . '">Lihat Ijazah Magister</a>' : "" ?>
                                                         </div>
-                                                        <div class="col-md-3">
-                                                            <label for="bukti_2">Bukti <?= !is_null($value->bukti_2) ? "Lihat " . $label_bukti_2[$value->jabatan_tujuan] : "-" ?></label>
+                                                        <div class="<?= $value->jabatan_tujuan == "asisten ahli" ? "col-md-4" : "col-md-6" ?> mb-3">
+                                                            <label for="bukti_2">Bukti SKP/Nilai Prestasi Kerja Selama 1 Tahun</label>
                                                             <input type="file" class="form-control-file" id="bukti_2" name="bukti_2">
-                                                            <?= !is_null($value->bukti_2) ? '<a target="_blank" href="' . base_url('uploads/' . $value->bukti_2) . '">Lihat ' . $label_bukti_2[$value->jabatan_tujuan] . '</a>' : "-" ?>
+                                                            <?= !is_null($value->bukti_2) ? '<a target="_blank" href="' . base_url('uploads/' . $value->bukti_2) . '">Lihat Bukti SKP</a>' : "" ?>
                                                         </div>
+                                                        <?php if($value->jabatan_tujuan == "asisten ahli") { ?>     
+                                                        <div class="col-md-4 mb-3">
+                                                            <label for="bukti_3">Publikasi Jurnal/Ilmiah Nasional</label>
+                                                            <input type="file" class="form-control-file" id="bukti_3" name="bukti_3">
+                                                            <?= !is_null($value->bukti_3) ? '<a target="_blank" href="' . base_url('uploads/' . $value->bukti_3) . '">Lihat Publikasi Jurnal/Ilmiah Nasional</a>' : "" ?>
+                                                        </div>
+                                                        <?php } 
+                                                        else { ?>
+                                                        <div class="col-md-6 mb-3">
+                                                            <label for="bukti_3">Bukti Pengabdian Kepada Masyarakat</label>
+                                                            <input type="file" class="form-control-file" id="bukti_3" name="bukti_3">
+                                                            <?= !is_null($value->bukti_3) ? '<a target="_blank" href="' . base_url('uploads/' . $value->bukti_3) . '">Lihat Bukti PKM</a>' : "" ?>
+                                                        </div>
+                                                        <div class="col-md-6 mb-3">
+                                                            <label for="bukti_3">Bukti Mengajar Paling Singkat 1 (satu) tahun</label>
+                                                            <input type="file" class="form-control-file" id="bukti_3" name="bukti_3">
+                                                            <?= !is_null($value->bukti_3) ? '<a target="_blank" href="' . base_url('uploads/' . $value->bukti_3) . '">Lihat Bukti Mengajar</a>' : "" ?>
+                                                        </div>
+                                                        <?php } ?>
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">
@@ -339,24 +366,36 @@
         $('select[name="jabatan"]').on('change', function() {
             if (this.value == 'asisten ahli') {
                 $("#container-file-upload").html(`
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-4">
                         <label for="nama">Ijazah Magister</label>
                         <input type="file" name="bukti_1" class="form-control">
                         </div>
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-4">
                         <label for="nama">Bukti SKP/Nilai Prestasi Kerja Selama 1 Tahun</label>
                         <input type="file" name="bukti_2" class="form-control">
+                    </div>     
+                    <div class="form-group col-md-4">
+                        <label for="nama">Publikasi Jurnal/Ilmiah Nasional</label>
+                        <input type="file" name="bukti_3" class="form-control">
                     </div>     
                 `);
             } else {
                 $("#container-file-upload").html(`
                     <div class="form-group col-md-6">
-                        <label for="nama">Bukti Pengabdian Kepada Masyarakat</label>
+                        <label for="nama">Ijazah Magister</label>
                         <input type="file" name="bukti_1" class="form-control">
+                    </div>      
+                    <div class="form-group col-md-6">
+                        <label for="nama">Bukti SKP/Nilai Prestasi Kerja Selama 1 Tahun</label>
+                        <input type="file" name="bukti_2" class="form-control">
+                    </div>      
+                    <div class="form-group col-md-6">
+                        <label for="nama">Bukti Pengabdian Kepada Masyarakat</label>
+                        <input type="file" name="bukti_3" class="form-control">
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="nama">Bukti Menjabat Asisten Ahli (2 Tahun)</label>
-                        <input type="file" name="bukti_2" class="form-control">
+                        <label for="nama">Bukti Mengajar Paling Singkat 1 (satu) tahun</label>
+                        <input type="file" name="bukti_4" class="form-control">
                     </div>      
                 `);
             }

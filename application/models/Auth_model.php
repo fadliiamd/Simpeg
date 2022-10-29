@@ -70,6 +70,14 @@ class Auth_model extends CI_Model
 			$this->session->set_userdata('jenis_jabatan', $direktur->jenis_jabatan);
 		}
 
+		// cek apakah status akun admin masih aktif?
+		if($user->role === 'admin'){						
+			$this->db->where('account_nip', $nip);			
+			$query = $this->db->get('admin');
+			$admin = $query->row();
+			$this->session->set_userdata('user', $admin);
+		}
+
 		// bikin session
 		$this->session->set_userdata([self::SESSION_KEY => $user->nip,'role' => $user->role, 'nama' => $user->nama ]);
 		// $this->_update_last_login($user->nip);

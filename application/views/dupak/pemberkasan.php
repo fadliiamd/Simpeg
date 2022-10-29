@@ -39,8 +39,8 @@
                         <th>NIP Pengusul</th>
                         <th>Tanggal Usulan</th>
                         <th>Total Angka Kredit</th>
-                        <th>Persetujuan 1</th>
-                        <th>Persetujuan 2</th>
+                        <th>Reviewer</th>
+                        <th>Reviewer PAK</th>
                         <th>Tanggal Validasi</th>
                         <th>Action</th>
                     </tr>
@@ -86,7 +86,7 @@
                             <td>
                                 <!-- Large modal -->
                                 <?php 
-                                if(is_wadir($pegawai) || $this->session->userdata('user')->access_pak){ ?>
+                                if(is_wadir($pegawai) || ($this->session->userdata('user')->access_pak && $this->session->userdata('user')->account_nip != 11)){ ?>
                                     <a href="<?= base_url('dupak/pemberkasan/validasi_pak/'.$value->id) ?>">
                                         <button type="button" class="btn btn-warning">Validasi</button>
                                     </a>

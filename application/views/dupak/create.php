@@ -1,4 +1,9 @@
 <h3 class="text-center">Formulir Penilaian Angka Kredit</h3>
+
+<h5>Usulan Ke-<?= $number_usulan ?></h5>
+<h5>Nama Pengusul : <?= $this->session->userdata('user')->nama ?></h5>
+<h5>Jabatan : <?= $this->session->userdata('nama_jabatan') ?></h5>
+
 <div class="card">
     <div class="card-body">
         <div class="table-responsive">

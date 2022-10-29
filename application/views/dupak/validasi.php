@@ -1,4 +1,9 @@
 <h3 class="text-center">Validasi Formulir Usulan Penilaian Angka Kredit Ke-<?= $id ?></h3>
+
+<h5>Usulan Ke-<?= $number_usulan ?></h5>
+<h5>Nama Pengusul : <?= $pegawai->nama ?></h5>
+<h5>Jabatan : <?= $pegawai->nama_jabatan ?></h5>
+
 <?php if ($this->session->flashdata('message_success')) : ?>
     <div class="alert alert-success alert-dismissible fade show" role="alert">
         <?= $this->session->flashdata('message_success') ?>
