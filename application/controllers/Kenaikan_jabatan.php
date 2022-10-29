@@ -32,7 +32,8 @@ class Kenaikan_jabatan extends Roles {
     {
         $this->load->model('pegawai_model');
 
-        if($this->session->userdata('role') == 'admin')
+        if($this->session->userdata('role') == 'admin'
+        || $this->session->userdata('user')->bagian_id == 4)
         {            
             $pegawai = $this->pegawai_model->get_all();
             $pengajuan = $this->kenaikan_jabatan_model->get_all();        

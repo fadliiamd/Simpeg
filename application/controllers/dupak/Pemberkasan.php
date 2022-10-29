@@ -19,7 +19,10 @@ class Pemberkasan extends Roles {
 
     public function index()
     {
-        if($this->session->userdata('role') == 'admin' || $this->session->userdata("user")->access_pak)
+        if($this->session->userdata('role') == 'admin' 
+        || $this->session->userdata("user")->access_pak 
+        || $this->session->userdata("user")->jabatan_id == 9 
+        || $this->session->userdata("user")->jabatan_id == 10)        
         {            
             $nilai_rekap = $this->rekap_nilai_model->get_all();
             $pengajuan = $this->kenaikan_jabatan_model->get_all();
