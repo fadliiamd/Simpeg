@@ -34,7 +34,7 @@ class Berkas_mutasi_model extends CI_Model
     public function get_all_with_join()
     {
         $this->db->select(
-            'berkasmutasi.id, berkasmutasi.sk_cpns, berkasmutasi.sk_pns, berkasmutasi.pangkat_akhir, berkasmutasi.karpeg, berkasmutasi.dp3_akhir, berkasmutasi.ijazah, berkasmutasi.riwayat_hidup, berkasmutasi.status_persetujuan, berkasmutasi.alasan_tolak,
+            'berkasmutasi.*,
             mutasi.pegawai_nip, mutasi.alasan, mutasi_id AS id_mutasi,
             pegawai.account_nip, pegawai.nama'
         );
@@ -50,7 +50,7 @@ class Berkas_mutasi_model extends CI_Model
     public function get_all_with_join_pegawai()
     {
         $this->db->select(
-            'berkasmutasi.id, berkasmutasi.sk_cpns, berkasmutasi.sk_pns, berkasmutasi.pangkat_akhir, berkasmutasi.karpeg, berkasmutasi.dp3_akhir, berkasmutasi.ijazah, berkasmutasi.riwayat_hidup, berkasmutasi.status_persetujuan, berkasmutasi.alasan_tolak, 
+            'berkasmutasi.*, 
             mutasi.pegawai_nip, mutasi.alasan, mutasi_id AS id_mutasi'
         );
         $this->db->from($this->table);
@@ -80,8 +80,8 @@ class Berkas_mutasi_model extends CI_Model
         $dp3_akhir = $this->do_upload("pdf", "dp3_akhir");
         $ijazah = $this->do_upload("pdf", "ijazah");
         $riwayat_hidup = $this->do_upload("pdf", "riwayat_hidup");
+        $surat_instansi_penerima = $this->do_upload("pdf", "surat_instansi_penerima");
         $mutasi_id = $this->input->post('mutasi_id');
-
 
         $data_berkas_mutasi = array(
             "id" => "",
@@ -92,6 +92,7 @@ class Berkas_mutasi_model extends CI_Model
             "dp3_akhir" => $dp3_akhir,
             "ijazah" => $ijazah,
             "riwayat_hidup" => $riwayat_hidup,
+            "surat_instansi_penerima" => $surat_instansi_penerima,
             "status_persetujuan" => "pending",
             "mutasi_id" => $mutasi_id
         );
@@ -119,6 +120,7 @@ class Berkas_mutasi_model extends CI_Model
         $dp3_akhir = $this->do_upload("pdf", "dp3_akhir");
         $ijazah = $this->do_upload("pdf", "ijazah");
         $riwayat_hidup = $this->do_upload("pdf", "riwayat_hidup");
+        $surat_instansi_penerima = $this->do_upload("pdf", "surat_instansi_penerima");
 
         $data_berkas_mutasi = array();
 
@@ -155,6 +157,11 @@ class Berkas_mutasi_model extends CI_Model
         if(!is_null($riwayat_hidup)){
             $data_berkas_mutasi += array(
                 'riwayat_hidup' => $riwayat_hidup
+            );
+        }
+        if(!is_null($surat_instansi_penerima)){
+            $data_berkas_mutasi += array(
+                'surat_instansi_penerima' => $surat_instansi_penerima
             );
         }
 

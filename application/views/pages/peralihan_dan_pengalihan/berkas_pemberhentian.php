@@ -42,19 +42,15 @@
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <div class="col-md-3">
+                                        <div class="col-md-4">
                                             <label for="dp3_akhir">DP3 Akhir</label>
                                             <input type="file" class="form-control-file" id="dp3_akhir" name="dp3_akhir">
-                                        </div>
-                                        <div class="col-md-3">
-                                            <label for="pangkat_akhir">Pangkat Akhir</label>
-                                            <input type="file" class="form-control-file" id="pangkat_akhir" name="pangkat_akhir">
-                                        </div>
-                                        <div class="col-md-3">
+                                        </div>                                        
+                                        <div class="col-md-4">
                                             <label for="kartu_keluarga">Kartu Keluarga</label>
                                             <input type="file" class="form-control-file" id="kartu_keluarga" name="kartu_keluarga">
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-4">
                                             <label for="pas_foto">Pas Photo</label>
                                             <input type="file" class="form-control-file" id="pas_foto" name="pas_foto">
                                         </div>
@@ -98,8 +94,7 @@
                             <th>SK PNS</th>
                             <th>SK KGB</th>
                             <th>SK KP</th>
-                            <th>DP3 Akhir</th>
-                            <th>Pangkat Akhir</th>
+                            <th>DP3 Akhir</th>                            
                             <th>Kartu Keluarga</th>
                             <th>Pas Photo</th>
                             <th>Status Pertujuan</th>
@@ -134,10 +129,7 @@
                                 </td>
                                 <td>
                                     <a href="<?= base_url() . 'uploads/' . $value->dp3_akhir ?>" download class="btn btn-secondary">Unduh</a>
-                                </td>
-                                <td>
-                                    <a href="<?= base_url() . 'uploads/' . $value->pangkat_akhir ?>" download class="btn btn-secondary">Unduh</a>
-                                </td>
+                                </td>                            
                                 <td>
                                     <a href="<?= base_url() . 'uploads/' . $value->kartu_keluarga ?>" download class="btn btn-secondary">Unduh</a>
                                 </td>
@@ -261,19 +253,15 @@
                                                                 </div>
                                                             </div>
                                                             <div class="form-group row">
-                                                                <div class="col-md-3">
+                                                                <div class="col-md-4">
                                                                     <label for="dp3_akhir">DP3 Akhir</label>
                                                                     <input type="file" class="form-control-file" id="dp3_akhir" name="dp3_akhir">
-                                                                </div>
-                                                                <div class="col-md-3">
-                                                                    <label for="pangkat_akhir">Pangkat Akhir</label>
-                                                                    <input type="file" class="form-control-file" id="pangkat_akhir" name="pangkat_akhir">
-                                                                </div>
-                                                                <div class="col-md-3">
+                                                                </div>                                                                
+                                                                <div class="col-md-4">
                                                                     <label for="kartu_keluarga">Kartu Keluarga</label>
                                                                     <input type="file" class="form-control-file" id="kartu_keluarga" name="kartu_keluarga">
                                                                 </div>
-                                                                <div class="col-md-3">
+                                                                <div class="col-md-4">
                                                                     <label for="pas_foto">Pas Photo</label>
                                                                     <input type="file" class="form-control-file" id="pas_foto" name="pas_foto">
                                                                 </div>

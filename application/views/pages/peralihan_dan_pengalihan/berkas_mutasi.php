@@ -25,33 +25,37 @@
                                 <div class="form-group row">
                                     <div class="col-md-3">
                                         <label for="sk_cpns">SK CPNS</label>
-                                        <input type="file" class="form-control-file" id="sk_cpns" name="sk_cpns">
+                                        <input type="file" class="form-control-file" id="sk_cpns" name="sk_cpns" required>
                                     </div>
                                     <div class="col-md-3">
                                         <label for="sk_pns">SK PNS</label>
-                                        <input type="file" class="form-control-file" id="sk_pns" name="sk_pns">
+                                        <input type="file" class="form-control-file" id="sk_pns" name="sk_pns" required>
                                     </div>
                                     <div class="col-md-3">
                                         <label for="pangkat_akhir">Pangkat Akhir</label>
-                                        <input type="file" class="form-control-file" id="pangkat_akhir" name="pangkat_akhir">
+                                        <input type="file" class="form-control-file" id="pangkat_akhir" name="pangkat_akhir" required>
                                     </div>
                                     <div class="col-md-3">
                                         <label for="karpeg">Karpeg</label>
-                                        <input type="file" class="form-control-file" id="karpeg" name="karpeg">
+                                        <input type="file" class="form-control-file" id="karpeg" name="karpeg" required>
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <div class="col-md-3">
                                         <label for="dp3_akhir">DP3 Akhir</label>
-                                        <input type="file" class="form-control-file" id="dp3_akhir" name="dp3_akhir">
+                                        <input type="file" class="form-control-file" id="dp3_akhir" name="dp3_akhir" required>
                                     </div>
                                     <div class="col-md-3">
                                         <label for="ijazah">Ijazah</label>
-                                        <input type="file" class="form-control-file" id="ijazah" name="ijazah">
+                                        <input type="file" class="form-control-file" id="ijazah" name="ijazah" required>
                                     </div>
                                     <div class="col-md-3">
                                         <label for="riwayat_hidup">Riwayat Hidup</label>
-                                        <input type="file" class="form-control-file" id="riwayat_hidup" name="riwayat_hidup">
+                                        <input type="file" class="form-control-file" id="riwayat_hidup" name="riwayat_hidup" required>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="surat_instansi_penerima">Surat Instansi Penerima</label>
+                                        <input type="file" class="form-control-file" id="surat_instansi_penerima" name="surat_instansi_penerima" required>
                                     </div>
                                 </div>
                             </div>
@@ -96,6 +100,7 @@
                         <th>DP3 Akhir</th>
                         <th>Ijazah</th>
                         <th>Riwayat Hidup</th>
+                        <th>Surat Instasi Penerima</th>
                         <th>Status Persetujuan</th>
                         <?php if ($this->session->userdata("role") == "pegawai") { ?>
                             <th>Action</th>
@@ -134,6 +139,9 @@
                             </td>
                             <td>
                                 <a href="<?= base_url() . 'uploads/' . $value->riwayat_hidup ?>" download class="btn btn-secondary">Unduh</a>
+                            </td>
+                            <td>
+                                <a href="<?= base_url() . 'uploads/' . $value->surat_instansi_penerima ?>" download class="btn btn-secondary">Unduh</a>
                             </td>
                             <td>
 
@@ -236,33 +244,37 @@
                                                         <div class="form-group row">
                                                             <div class="col-md-3">
                                                                 <label for="sk_cpns">SK CPNS</label>
-                                                                <input type="file" class="form-control-file" id="sk_cpns" name="sk_cpns" required>
+                                                                <input type="file" class="form-control-file" id="sk_cpns" name="sk_cpns">
                                                             </div>
                                                             <div class="col-md-3">
                                                                 <label for="sk_pns">SK PNS</label>
-                                                                <input type="file" class="form-control-file" id="sk_pns" name="sk_pns" required>
+                                                                <input type="file" class="form-control-file" id="sk_pns" name="sk_pns">
                                                             </div>
                                                             <div class="col-md-3">
                                                                 <label for="pangkat_akhir">Pangkat Akhir</label>
-                                                                <input type="file" class="form-control-file" id="pangkat_akhir" name="pangkat_akhir" required>
+                                                                <input type="file" class="form-control-file" id="pangkat_akhir" name="pangkat_akhir">
                                                             </div>
                                                             <div class="col-md-3">
                                                                 <label for="karpeg">Karpeg</label>
-                                                                <input type="file" class="form-control-file" id="karpeg" name="karpeg" required>
+                                                                <input type="file" class="form-control-file" id="karpeg" name="karpeg">
                                                             </div>
                                                         </div>
                                                         <div class="form-group row">
                                                             <div class="col-md-3">
                                                                 <label for="dp3_akhir">DP3 Akhir</label>
-                                                                <input type="file" class="form-control-file" id="dp3_akhir" name="dp3_akhir" required>
+                                                                <input type="file" class="form-control-file" id="dp3_akhir" name="dp3_akhir">
                                                             </div>
                                                             <div class="col-md-3">
                                                                 <label for="ijazah">Ijazah</label>
-                                                                <input type="file" class="form-control-file" id="ijazah" name="ijazah" required>
+                                                                <input type="file" class="form-control-file" id="ijazah" name="ijazah">
                                                             </div>
                                                             <div class="col-md-3">
                                                                 <label for="riwayat_hidup">Riwayat Hidup</label>
-                                                                <input type="file" class="form-control-file" id="riwayat_hidup" name="riwayat_hidup" required>
+                                                                <input type="file" class="form-control-file" id="riwayat_hidup" name="riwayat_hidup">
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <label for="surat_instansi_penerima">Surat Instansi Penerima</label>
+                                                                <input type="file" class="form-control-file" id="surat_instansi_penerima" name="surat_instansi_penerima">
                                                             </div>
                                                         </div>
                                                     </div>

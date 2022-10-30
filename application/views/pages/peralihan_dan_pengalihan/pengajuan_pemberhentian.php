@@ -109,7 +109,11 @@
                             </div>
                             <div class="form-group">
                                 <label for="surat_pengunduran_diri">Surat Pengajuan</label>
-                                <input type="file" class="form-control" id="surat_pengunduran_diri" name="surat_pengunduran_diri">
+                                <input type="file" class="form-control" id="surat_pengunduran_diri" name="surat_pengunduran_diri" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="dokumen_pendukung">Dokumen Pendukung (Optional)</label>
+                                <input type="file" class="form-control" id="dokumen_pendukung" name="dokumen_pendukung">
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -155,6 +159,7 @@
                         <th>MPP</th>
                         <th>Tunjangan</th>
                         <th>Surat Pengajuan</th>
+                        <th>Dokumen Pendukung</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -448,6 +453,13 @@
                                         <input type="hidden" name="jabatan" value="<?= $value->nama_jabatan ?>">
                                         <button type="submit" class="btn btn-secondary">Unduh</button>
                                     </form>
+                                <?php } ?>
+                            </td>
+                            <td>
+                                <?php if(!is_null($value->dokumen_pendukung)) { ?>
+                                <a href="<?= base_url() . 'uploads/' . $value->dokumen_pendukung ?>" download class="btn btn-secondary">Unduh</a>
+                                <?php } else { ?>
+                                -
                                 <?php } ?>
                             </td>
                             <td>
