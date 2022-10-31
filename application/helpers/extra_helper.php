@@ -13,9 +13,11 @@ function findObjectBy($key, $value, $array) {
 function is_kepegawaian($pegawai){                                    
     if (!is_null($pegawai)) {
         $pegawai = $pegawai->nama_bagian;
-        if(strtolower($pegawai) == 'kepegawaian'){
-            return true;
-        }
+        if(!is_null($pegawai)){
+            if(strtolower($pegawai) == 'kepegawaian'){
+                return true;
+            }
+        }        
     }
     return false;
 }
