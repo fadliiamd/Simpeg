@@ -1,6 +1,7 @@
 <div class="row">
     <div class="col-lg-12">
         <h3>Berkas Persyaratan</h3>
+        
         <?php if (!empty($pemberhentian) || $this->session->userdata("role") == "admin") { ?>
             <?php if ($this->session->userdata("role") == "pegawai") { ?>
                 <!-- Large modal -->
@@ -42,15 +43,15 @@
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <div class="col-md-4">
+                                        <div class="col-md-3">
                                             <label for="dp3_akhir">DP3 Akhir</label>
                                             <input type="file" class="form-control-file" id="dp3_akhir" name="dp3_akhir">
                                         </div>                                        
-                                        <div class="col-md-4">
+                                        <div class="col-md-3">
                                             <label for="kartu_keluarga">Kartu Keluarga</label>
                                             <input type="file" class="form-control-file" id="kartu_keluarga" name="kartu_keluarga">
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-3">
                                             <label for="pas_foto">Pas Photo</label>
                                             <input type="file" class="form-control-file" id="pas_foto" name="pas_foto">
                                         </div>

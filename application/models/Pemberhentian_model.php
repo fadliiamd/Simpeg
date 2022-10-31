@@ -100,7 +100,7 @@ class Pemberhentian_model extends CI_Model
 
     public function get_pegawai_berkas()
     {
-        $query = $this->db->where("status_pengajuan", "setujui");
+        $query = $this->db->where("persetujuan_3", "setujui");
         $query = $this->db->where("pegawai_nip", $this->session->userdata("nip"));
         $query = $this->db->where("jenis_berhenti !=", "Pengunduran diri");
         $query = $this->db->get("pemberhentian");
