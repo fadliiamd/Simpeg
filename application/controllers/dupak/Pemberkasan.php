@@ -127,7 +127,7 @@ class Pemberkasan extends Roles {
                     return $item->id;
                 }, $unsur);                
                 $unsur_kegiatan = $this->unsur_kegiatan_model->get_where_in($unsur_id);
-                $nilai = $this->nilai_model->get_join_where_in(
+                $nilai = $this->nilai_model->get_join_where_in('nilai.*',
                     'unsur_kegiatan', 
                     'nilai.unsur_kegiatan_id = unsur_kegiatan.id', 
                     ["nilai.rekap_nilai_id" => $id],

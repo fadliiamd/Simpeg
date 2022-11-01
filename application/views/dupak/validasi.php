@@ -89,14 +89,15 @@
                                             <div class="form-group">
                                                 Waktu Validasi : '.$val->tanggal_validasi.'
                                             </div>
-                                        ';
-                                        $type_button = "btn-success";
+                                        ';                                        
                                         $read_only = "readonly";
                                         $disabled = "disabled";
                                         if($val->status === 'disetujui'){
+                                            $type_button = "btn-success";
                                             $check_setuju = 'checked';
                                             $check_tolak = '';
                                         }else{
+                                            $type_button = "btn-danger";
                                             $check_setuju = '';
                                             $check_tolak = 'checked';
                                         }

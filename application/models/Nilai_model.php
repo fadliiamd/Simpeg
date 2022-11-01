@@ -19,9 +19,9 @@ class Nilai_model extends CI_Model
         return $query->result();
     }
 
-    public function get_join_where_in($table, $relation, $where, $where_in)
+    public function get_join_where_in($select, $table, $relation, $where, $where_in)
     {
-        $this->db->select('*');
+        $this->db->select($select);
         $this->db->from($this->table);
         $this->db->join($table, $relation);
         $this->db->where($where);
@@ -91,11 +91,12 @@ class Nilai_model extends CI_Model
             "status" => $this->input->post("validasi"),
             "tanggal_validasi" => date("Y-m-d H:i:s")
         );
-        $this->db->where('unsur_kegiatan_id', $id);
+        $this->db->where('id', $id);
         $this->db->where('rekap_nilai_id', $rekap_nilai_id);
-        $this->db->update($this->table, $data);                
-        $this->check_nilai_rekap_status($rekap_nilai_id);
+        $this->db->update($this->table, $data);
+        $this->check_nilai_rekap_status($rekap_nilai_id);        
         $this->db->trans_complete();
+
 
         if ($this->db->trans_status() === FALSE) {
             return false;
@@ -127,8 +128,6 @@ class Nilai_model extends CI_Model
     public function check_nilai_rekap_status($rekap_nilai_id)
     {
         $this->load->model('rekap_nilai_model');
-        // get rekap nilai
-        $rekap_nilai = $this->rekap_nilai_model->get_one(['id' => $rekap_nilai_id]);
 
         // get nama_jabatan from session
         $id_jabatan_pemeriksa = $this->session->userdata('user')->jabatan_id;
@@ -157,7 +156,7 @@ class Nilai_model extends CI_Model
             $unsur_id = array_map(function($item){
                     return $item->id;
             }, $unsur);            
-            $nilai = $this->get_join_where_in(
+            $nilai = $this->get_join_where_in("nilai.*",
                 'unsur_kegiatan', 
                 'nilai.unsur_kegiatan_id = unsur_kegiatan.id', 
                 ["nilai.rekap_nilai_id" => $rekap_nilai_id],
