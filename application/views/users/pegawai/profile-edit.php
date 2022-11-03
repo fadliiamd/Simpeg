@@ -90,6 +90,66 @@
                                     <input type="file" class="form-control-file d-none" id="karpeg" name="karpeg" onchange="document.getElementById('name-karpeg').innerHTML = this.value.replace(/C:\\fakepath\\/i, '');">
                                 </div>
                             </li>
+                            <li class="list-group-item d-flex align-items-center flex-wrap">
+                                <i class="mdi mdi-file mr-3"></i>
+                                <h6 class="mb-0">
+                                    <a id="name-sk_cpns" href="<?= !is_null($profiles->sk_cpns) ? base_url('uploads/' . $profiles->sk_cpns) . '" target="_blank' : "#" ?>"><?= !is_null($profiles->sk_cpns) ? "Lihat SK CPNS" : "Belum Ada SK CPNS" ?></a>
+                                </h6>
+                                <div class="emp">
+                                    <label for="sk_cpns">
+                                        <i class="btn p-0 px-2 mdi mdi-lead-pencil text-primary"></i>
+                                    </label>
+                                    <input type="file" class="form-control-file d-none" id="sk_cpns" name="sk_cpns" onchange="document.getElementById('name-sk_cpns').innerHTML = this.value.replace(/C:\\fakepath\\/i, '');">
+                                </div>
+                            </li>                            
+                            <li class="list-group-item d-flex align-items-center flex-wrap">
+                                <i class="mdi mdi-file mr-3"></i>
+                                <h6 class="mb-0">
+                                    <a id="name-sk_pns" href="<?= !is_null($profiles->sk_pns) ? base_url('uploads/' . $profiles->sk_pns) . '" target="_blank' : "#" ?>"><?= !is_null($profiles->sk_pns) ? "Lihat SK PNS" : "Belum Ada SK PNS" ?></a>
+                                </h6>
+                                <div class="emp">
+                                    <label for="sk_pns">
+                                        <i class="btn p-0 px-2 mdi mdi-lead-pencil text-primary"></i>
+                                    </label>
+                                    <input type="file" class="form-control-file d-none" id="sk_pns" name="sk_pns" onchange="document.getElementById('name-sk_pns').innerHTML = this.value.replace(/C:\\fakepath\\/i, '');">
+                                </div>
+                            </li>                            
+                            <li class="list-group-item d-flex align-items-center flex-wrap">
+                                <i class="mdi mdi-file mr-3"></i>
+                                <h6 class="mb-0">
+                                    <a id="name-sk_kgb" href="<?= !is_null($profiles->sk_kgb) ? base_url('uploads/' . $profiles->sk_kgb) . '" target="_blank' : "#" ?>"><?= !is_null($profiles->sk_kgb) ? "Lihat SK KGB" : "Belum Ada SK KGB" ?></a>
+                                </h6>
+                                <div class="emp">
+                                    <label for="sk_kgb">
+                                        <i class="btn p-0 px-2 mdi mdi-lead-pencil text-primary"></i>
+                                    </label>
+                                    <input type="file" class="form-control-file d-none" id="sk_kgb" name="sk_kgb" onchange="document.getElementById('name-sk_kgb').innerHTML = this.value.replace(/C:\\fakepath\\/i, '');">
+                                </div>
+                            </li>                            
+                            <li class="list-group-item d-flex align-items-center flex-wrap">
+                                <i class="mdi mdi-file mr-3"></i>
+                                <h6 class="mb-0">
+                                    <a id="name-sk_pangkat" href="<?= !is_null($profiles->sk_pangkat) ? base_url('uploads/' . $profiles->sk_pangkat) . '" target="_blank' : "#" ?>"><?= !is_null($profiles->sk_pangkat) ? "Lihat SK Pangkat" : "Belum Ada SK Pangkat" ?></a>
+                                </h6>
+                                <div class="emp">
+                                    <label for="sk_pangkat">
+                                        <i class="btn p-0 px-2 mdi mdi-lead-pencil text-primary"></i>
+                                    </label>
+                                    <input type="file" class="form-control-file d-none" id="sk_pangkat" name="sk_pangkat" onchange="document.getElementById('name-sk_pangkat').innerHTML = this.value.replace(/C:\\fakepath\\/i, '');">
+                                </div>
+                            </li>                            
+                            <li class="list-group-item d-flex align-items-center flex-wrap">
+                                <i class="mdi mdi-file mr-3"></i>
+                                <h6 class="mb-0">
+                                    <a id="name-dp3_akhir" href="<?= !is_null($profiles->dp3_akhir) ? base_url('uploads/' . $profiles->dp3_akhir) . '" target="_blank' : "#" ?>"><?= !is_null($profiles->dp3_akhir) ? "Lihat DP 3 Akhir" : "Belum Ada DP 3 Akhir" ?></a>
+                                </h6>
+                                <div class="emp">
+                                    <label for="dp3_akhir">
+                                        <i class="btn p-0 px-2 mdi mdi-lead-pencil text-primary"></i>
+                                    </label>
+                                    <input type="file" class="form-control-file d-none" id="dp3_akhir" name="dp3_akhir" onchange="document.getElementById('name-dp3_akhir').innerHTML = this.value.replace(/C:\\fakepath\\/i, '');">
+                                </div>
+                            </li>                            
                         </ul>
                     </div>
                 </div>

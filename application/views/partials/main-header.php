@@ -36,6 +36,8 @@
   <script src="<?= site_url() ?>assets/js/dataTables.buttons.min.js"></script>
   <script src="<?= site_url() ?>assets/vendors/select2/select2.min.js"></script>
 
+  <link rel="stylesheet" href="<?= site_url() ?>assets/css/custom.css">
+
   <style>
     .btn-pink {
       background-color: #fc47c0;

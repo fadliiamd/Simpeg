@@ -169,9 +169,9 @@ class Mutasi extends Roles {
         }
     }
 	
-    public function update_data_mutasi()
+    public function update_data_mutasi($id)
     {
-        $update = $this->mutasi_model->update_one($this->input->post('id'));
+        $update = $this->mutasi_model->update_one($id);
 
         if($update)
         {

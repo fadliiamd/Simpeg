@@ -133,6 +133,8 @@ class Mutasi_model extends CI_Model
             "persetujuan_1" => $persetujuan_1,
             "persetujuan_2" => $persetujuan_2,
             "persetujuan_3" => $persetujuan_3,
+            "instansi_tujuan" => $this->input->post('instansi_tujuan'),
+            "jabatan_tujuan" => $this->input->post('jabatan_tujuan'),
         );
     
         $this->db->insert($this->table, $data_mutasi);
@@ -151,20 +153,20 @@ class Mutasi_model extends CI_Model
             $_POST[$key] = $value;            
         }
 
-        $alasan = $this->input->post('alasan');
-        $surat_pengajuan = $this->do_upload("pdf|jpg|png", "surat_pengajuan");                    
+        $alasan = $this->input->post('alasan');                           
         $jenis_mutasi = $this->input->post('jenis_mutasi');
 
         $data_mutasi = array(
-            "alasan" => $alasan,
-            "surat_pengajuan" => $surat_pengajuan,
-            "jenis_mutasi" => $jenis_mutasi
+            "alasan" => $alasan,            
+            "jenis_mutasi" => $jenis_mutasi,
+            "instansi_tujuan" => $this->input->post('instansi_tujuan'),
+            "jabatan_tujuan" => $this->input->post('jabatan_tujuan'),
         );
 
         $this->db->trans_start();
         $this->db->where('id', $id);
         $this->db->update($this->table, $data_mutasi);
-        $this->db->trans_complete();
+        $this->db->trans_complete();        
 
         if ($this->db->trans_status() === FALSE) {
             return false;
@@ -309,7 +311,7 @@ class Mutasi_model extends CI_Model
     {
         $this->load->config('email');
         $this->load->library('email');
-        
+        $pegawai = $this->db->get_where('pegawai', array('email' => $email))->row();        
         $from = $this->config->item('smtp_user');        
         $subject = 'Pengajuan mutasi';        
         $message = "<strong>Pengajuan mutasi</strong><br><br>
@@ -326,17 +328,37 @@ class Mutasi_model extends CI_Model
             <li>Fotocopy Kartu Pegawai</li>
             <li>Riwayat Hidup</li>
         </ol><br><br>
-        Lampiran Contoh Berkas : ";
+        Berikut adalah lampiran berkas pegawai yang telah dikirim : ";
 
         $this->email->set_newline("\r\n");
         $this->email->from($from);
         $this->email->to($email);
-        $this->email->subject($subject);
+        $this->email->subject($subject);        
+        // $this->email->attach(base_url('assets/pdf/SK Pangkat.pdf'));
+        // $this->email->attach(base_url('assets/pdf/dp3.pdf'));
+        // $this->email->attach(base_url('assets/pdf/karpeg.pdf'));
+        // $this->email->attach(base_url('assets/pdf/Riwayat_hidup.docx'));
+        if(!is_null($pegawai->sk_cpns)){
+            $message .= "<br><br>++ SK CPNS";
+            $this->email->attach(base_url('uploads/'.$pegawai->sk_cpns));
+        }        
+        if(!is_null($pegawai->sk_pns)){
+            $message .= "<br>++ SK PNS";
+            $this->email->attach(base_url('uploads/'.$pegawai->sk_pns));
+        }        
+        if(!is_null($pegawai->sk_kgb)){
+            $message .= "<br>++ SK KGB";
+            $this->email->attach(base_url('uploads/'.$pegawai->sk_kgb));
+        }
+        if(!is_null($pegawai->sk_pangkat)){
+            $message .= "<br>++ SK Pangkat";
+            $this->email->attach(base_url('uploads/'.$pegawai->sk_pangkat));
+        }
+        if(!is_null($pegawai->dp3_akhir)){
+            $message .= "<br>++ DP3 Terakhir";
+            $this->email->attach(base_url('uploads/'.$pegawai->dp3_akhir));
+        }
         $this->email->message($message);
-        $this->email->attach(base_url('assets/pdf/SK Pangkat.pdf'));
-        $this->email->attach(base_url('assets/pdf/dp3.pdf'));
-        $this->email->attach(base_url('assets/pdf/karpeg.pdf'));
-        $this->email->attach(base_url('assets/pdf/Riwayat_hidup.docx'));
 
         if ($this->email->send()) {
             echo 'Your Email has successfully been sent.';

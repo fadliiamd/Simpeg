@@ -1,7 +1,40 @@
 <div class="row">
     <div class="col-lg-12">
-        <h4>Pengajuan Mutasi <?= $this->session->userdata("nama_jabatan") ?></h4>
+        <div class="d-flex justify-content-between">
+            <h4>Pengajuan Mutasi <?= $this->session->userdata("nama_jabatan") ?></h4>
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#staticBackdrop">
+                <i class="mdi mdi-information"></i> Persyaratan
+            </button>
 
+            <!-- Modal -->
+            <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="staticBackdropLabel">Berkas Persyaratan Mutasi</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <ol>
+                                <li>SK CPNS</li>
+                                <li>SK PNS</li>
+                                <li>SK Pangkat</li>
+                                <li>Dp3 Akhir</li>
+                                <li>Ijazah</li>
+                                <li>Kartu Pegawai</li>
+                                <li>Daftar Riwayat Hidup</li>
+                            </ol>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">Oke</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <!-- Large modal -->
         <?php foreach ($users as $key => $value) { ?>
             <?php if (($this->session->userdata("role") == "pegawai" && !$mutasi) || (findObjectBy('status_pengajuan', 'tolak', $mutasi) != false && findObjectBy('status_pengajuan', 'pending', $mutasi) == false)) { ?>
@@ -57,6 +90,14 @@
                                     <option value="Perwakilan NKRI di luar negeri">Perwakilan NKRI di luar negeri</option>
                                 </select>
                             </div>
+                            <div class="form-group">
+                                <label for="instansi_tujuan">Instansi Tujuan</label>
+                                <input type="text" class="form-control" id="instansi_tujuan" name="instansi_tujuan" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="jabatan_tujuan">Jabatan Tujuan</label>
+                                <input type="text" class="form-control" id="jabatan_tujuan" name="jabatan_tujuan" required />
+                            </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Kembali</button>
@@ -93,6 +134,8 @@
                         <th>Pegawai</th>
                         <th>Jenis Mutasi</th>
                         <th>Alasan</th>
+                        <th>Institusi Tujuan</th>
+                        <th>Jabatan Tujuan</th>
                         <th>Tanggal Pengajuan</th>
                         <th>Persetujuan 1</th>
                         <th>Persetujuan 2</th>
@@ -111,19 +154,22 @@
                             <td><?= $value->pegawai_nip ?> - <?= $value->nama ?></td>
                             <td><?= $value->jenis_mutasi ?></td>
                             <td><?= $value->alasan; ?></td>
+                            <td><?= $value->instansi_tujuan; ?></td>
+                            <td><?= $value->jabatan_tujuan; ?></td>
                             <td><?= $value->tgl_pengajuan; ?></td>
                             <!-- Persetujuan 1-->
                             <td>
                                 <?php if ($value->persetujuan_1 == "pending") { ?>
                                     <span class="badge badge-warning"><?= $value->persetujuan_1; ?></span>
-                                    <?php if (isset($this->session->userdata("user")->jabatan_id)){
+                                    <?php if (isset($this->session->userdata("user")->jabatan_id)) {
                                         if (
-                                            ($this->session->userdata("user")->jabatan_id == 12 
-                                            && $value->jenis_jabatan == "fungsional" 
-                                            && $this->session->userdata("user")->jurusan_id == $value->jurusan_id) 
-                                            || 
-                                            ($this->session->userdata("nama_jabatan") == "Kepala Bagian Umum" 
-                                            && $value->jenis_jabatan == "struktural")) { ?>
+                                            ($this->session->userdata("user")->jabatan_id == 12
+                                                && $value->jenis_jabatan == "fungsional"
+                                                && $this->session->userdata("user")->jurusan_id == $value->jurusan_id)
+                                            ||
+                                            ($this->session->userdata("nama_jabatan") == "Kepala Bagian Umum"
+                                                && $value->jenis_jabatan == "struktural")
+                                        ) { ?>
                                             <div class="mt-3">
                                                 <button type="button" class="btn btn-success" data-toggle="modal" data-target="#approvetablepersetujuan_1<?= $i ?>">
                                                     Setujui
@@ -182,8 +228,9 @@
                                                 </div>
 
                                             </div>
-                                        <?php }}; 
-                                    } else { ?>
+                                    <?php }
+                                    };
+                                } else { ?>
                                     <?php if ($value->persetujuan_1 == "setujui") { ?>
                                         <span class="badge badge-success"><?= $value->persetujuan_1; ?></span>
                                     <?php }; ?>
@@ -365,10 +412,10 @@
                                 <div class="modal fade" id="edittable<?= $i ?>" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
                                     <div class="modal-dialog modal-lg">
                                         <div class="modal-content">
-                                            <form class="forms-sample" action="<?= base_url("mutasi/update_data_mutasi"); ?>" method="POST">
+                                            <form class="forms-sample" action="<?= base_url("mutasi/update_data_mutasi/" . $value->id_mutasi); ?>" method="POST">
                                                 <div class="modal-header">
                                                     <h5 class="modal-title" id="exampleModalLabel">Edit Pengajuan Mutasi No : <b><?= $i ?></b></h5>
-                                                    <input type="hidden" name="id" value="<?= $value->id ?>">
+                                                    <input type="hidden" name="id" value="<?= $value->id_mutasi ?>">
                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                         <span aria-hidden="true">&times;</span>
                                                     </button>
@@ -395,20 +442,17 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="row">
-                                                        <div class="col">
-                                                            <div class="form-group">
-                                                                <label for="alasan">Alasan</label>
-                                                                <textarea class="form-control" id="alasan" rows="4" name="alasan"><?= $value->alasan ?></textarea>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col">
-                                                            <div class="form-group mb-2">
-                                                                <label for="surat_pengajuan">Surat Pengajuan</label>
-                                                                <input type="file" class="form-control" id="surat_pengajuan" name="surat_pengajuan">                                   
-                                                            </div>
-                                                            <a href="<?= base_url() . 'uploads/' . $value->surat_pengajuan ?>" download>Download Surat Pengajuan</a>
-                                                        </div>
+                                                    <div class="form-group">
+                                                        <label for="alasan">Alasan</label>
+                                                        <textarea class="form-control" id="alasan" rows="4" name="alasan"><?= $value->alasan ?></textarea>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="instansi_tujuan">Instansi Tujuan</label>
+                                                        <input type="text" class="form-control" id="instansi_tujuan" name="instansi_tujuan" value="<?= $value->instansi_tujuan ?>" required />
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="jabatan_tujuan">Jabatan Tujuan</label>
+                                                        <input type="text" class="form-control" id="jabatan_tujuan" name="jabatan_tujuan" value="<?= $value->jabatan_tujuan ?>" required />
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">

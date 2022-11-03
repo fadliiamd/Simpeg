@@ -44,6 +44,51 @@
                         <?php
                         }
                         ?>
+                        <?php
+                        if (!is_null($profiles->sk_cpns)) { ?>
+                            <li class="list-group-item d-flex align-items-center flex-wrap">
+                                <i class="mdi mdi-file mr-3"></i>
+                                <h6 class="mb-0"><a href="<?= base_url('uploads/' . $profiles->sk_cpns) ?>" target="_blank">SK CPNS</a></h6>
+                            </li>
+                        <?php
+                        }
+                        ?>
+                        <?php
+                        if (!is_null($profiles->sk_pns)) { ?>
+                            <li class="list-group-item d-flex align-items-center flex-wrap">
+                                <i class="mdi mdi-file mr-3"></i>
+                                <h6 class="mb-0"><a href="<?= base_url('uploads/' . $profiles->sk_pns) ?>" target="_blank">SK PNS</a></h6>
+                            </li>
+                        <?php
+                        }
+                        ?>
+                        <?php
+                        if (!is_null($profiles->sk_kgb)) { ?>
+                            <li class="list-group-item d-flex align-items-center flex-wrap">
+                                <i class="mdi mdi-file mr-3"></i>
+                                <h6 class="mb-0"><a href="<?= base_url('uploads/' . $profiles->sk_kgb) ?>" target="_blank">SK KGB</a></h6>
+                            </li>
+                        <?php
+                        }
+                        ?>
+                        <?php
+                        if (!is_null($profiles->sk_pangkat)) { ?>
+                            <li class="list-group-item d-flex align-items-center flex-wrap">
+                                <i class="mdi mdi-file mr-3"></i>
+                                <h6 class="mb-0"><a href="<?= base_url('uploads/' . $profiles->sk_pangkat) ?>" target="_blank">SK Pangkat</a></h6>
+                            </li>
+                        <?php
+                        }
+                        ?>
+                        <?php
+                        if (!is_null($profiles->dp3_akhir)) { ?>
+                            <li class="list-group-item d-flex align-items-center flex-wrap">
+                                <i class="mdi mdi-file mr-3"></i>
+                                <h6 class="mb-0"><a href="<?= base_url('uploads/' . $profiles->dp3_akhir) ?>" target="_blank">DP 3 Akhir</a></h6>
+                            </li>
+                        <?php
+                        }
+                        ?>
                     </ul>
                     <hr>
                     <h6 class="mb-3">Log Kegiatan :</h6>

@@ -125,8 +125,7 @@ class Pemberhentian_model extends CI_Model
         date_default_timezone_set('Asia/Jakarta');
         $date = date("Y-m-d H:i:s");
         $jenis_berhenti = $this->input->post('jenis_berhenti');
-        $alasan = $this->input->post('alasan');
-        $surat_pengunduran_diri = $this->do_upload("pdf", "surat_pengunduran_diri");
+        $alasan = $this->input->post('alasan');        
         $dokumen_pendukung = $this->do_upload("pdf", "dokumen_pendukung");
         
         if ($this->session->userdata("role") == "admin") {
@@ -165,8 +164,7 @@ class Pemberhentian_model extends CI_Model
             "pegawai_nip" => $pegawai_nip,
             "persetujuan_1" => $persetujuan_1,
             "persetujuan_2" => $persetujuan_2,
-            "persetujuan_3" => $persetujuan_3,
-            "surat_pengunduran_diri" => $surat_pengunduran_diri,
+            "persetujuan_3" => $persetujuan_3,            
             "dokumen_pendukung" => $dokumen_pendukung,
         );
     

@@ -27,147 +27,171 @@
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Data Pegawai</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Tambah Data Pegawai</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form action="<?= base_url("account/create_data_pegawai"); ?>" method="POST" enctype="multipart/form-data">
-                        <div class="modal-body">
-                            <div class="form-group row">
-                                <div class="col-md-6">
-                                    <label for="email">Email</label>
-                                    <input class="form-control" id="email" name="email">
+                    <div class="modal-body">
+                        <form id="form" action="<?= base_url("account/create_data_pegawai"); ?>" method="POST" enctype="multipart/form-data">
+                            <div class="mb-3"><ul id="progressbar">
+                                <li class="active" id="step1">
+                                    <strong>Akun</strong>
+                                </li>
+                                <li id="step2">
+                                    <strong>Biodata</strong>
+                                </li>
+                                <li id="step3">
+                                    <strong>Kepegawaian</strong>
+                                </li>
+                                <li id="step4"><strong>Berkas-Berkas</strong></li>
+                            </ul>
+                            <div class="progress">
+                                <div class="progress-bar"></div>
+                            </div></div>
+                            <fieldset class="container">
+                                <div class="form-group row">
+                                    <div class="col-md-6">
+                                        <label for="nip">NIP *</label>
+                                        <input type="number" class="form-control" id="nip" name="nip" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="password">Password *</label>
+                                        <input type="password" class="form-control" id="password" name="password" required>
+                                    </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <label for="password">Password (*)</label>
-                                    <input type="password" class="form-control" id="password" name="password" required>
+                                <input type="button" name="next-step" class="btn btn-primary next-step" value="Selanjutnya" />
+                            </fieldset>
+                            <fieldset class="container">
+                                <div class="form-group row">
+                                    <div class="col-md-4">
+                                        <label for="nama">Nama Lengkap *</label>
+                                        <input class="form-control" id="nama" name="nama" required>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="email">Email *</label>
+                                        <input class="form-control" id="email" name="email" required>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="no_hp">No. Handphone</label>
+                                        <input type="number" class="form-control hide-arrows" id="no_hp" name="no_hp">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group row">
-                                <div class="col-md-3">
-                                    <label for="nip">NIP (*)</label>
-                                    <input type="number" class="form-control" id="nip" name="nip" required>
+                                <div class="form-group row">
+                                    <div class="col-md-4">
+                                        <label for="tempat_lahir">Tempat Lahir *</label>
+                                        <input class="form-control" id="tempat_lahir" name="tempat_lahir" required>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="tgl_lahir">Tanggal Lahir *</label>
+                                        <input type="date" class="form-control" id="tgl_lahir" name="tgl_lahir" required>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="alamat">Alamat *</label>
+                                        <input class="form-control" id="alamat" name="alamat" required>
+                                    </div>
                                 </div>
-                                <div class="col-md-3">
-                                    <label for="nama">Nama Lengkap (*)</label>
-                                    <input class="form-control" id="nama" name="nama" required>
+                                <div class="form-group row">
+                                    <div class="col-md-4">
+                                        <label for="jenis_kelamin">Jenis Kelamin *</label>
+                                        <select class="form-control" id="jenis_kelamin" name="jenis_kelamin" required>
+                                            <option value="" selected disabled hidden>-- Pilih Jenis Kelamin --</option>
+                                            <option value="l">Laki-laki</option>
+                                            <option value="p">Perempuan</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="agama">Agama *</label>
+                                        <select class="form-control" id="agama" name="agama" required>
+                                            <option value="" selected disabled hidden>-- Pilih Agama --</option>
+                                            <option value="islam">Islam</option>
+                                            <option value="protestan">Protestan</option>
+                                            <option value="katholik">Katholik</option>
+                                            <option value="hindu">Hindu</option>
+                                            <option value="budha">Budha</option>
+                                            <option value="konghucu">Konghucu</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="pendidikan">Pendidikan *</label>
+                                        <select class="form-control" id="pendidikan" name="pendidikan" required>
+                                            <option value="" selected hidden>-- Pilih Pendidikan --</option>
+                                            <option value="SMA">SMA</option>
+                                            <option value="D2">D2</option>
+                                            <option value="D3">D3</option>
+                                            <option value="D4">D4</option>
+                                            <option value="S1">S1</option>
+                                            <option value="S2">S2</option>
+                                            <option value="S3">S3</option>
+                                        </select>
+                                    </div>
                                 </div>
-                                <div class="col-md-3">
-                                    <label for="jenis_kelamin">Jenis Kelamin (*)</label>
-                                    <select class="form-control" id="jenis_kelamin" name="jenis_kelamin" required>
-                                        <option value="" selected disabled hidden>-- Pilih Jenis Kelamin --</option>
-                                        <option value="l">Laki-laki</option>
-                                        <option value="p">Perempuan</option>
-                                    </select>
+                                <input type="button" name="previous-step" class="btn btn-secondary previous-step" value="Kembali" />
+                                <input type="button" name="next-step" class="btn btn-primary next-step" value="Selanjutnya" />
+                            </fieldset>
+                            <fieldset class="container">
+                                <div class="form-group row">
+                                    <div class="col">
+                                        <label for="status_pegawai">Status Pegawai *</label>
+                                        <select class="form-control" id="status_pegawai" name="status_pegawai" required>
+                                            <option value="" selected hidden>-- Pilih Status Pegawai --</option>
+                                            <option value="1">PNS</option>
+                                            <option value="2">Honorer</option>
+                                        </select>
+                                    </div>
                                 </div>
-                                <div class="col-md-3">
-                                    <label for="agama">Agama (*)</label>
-                                    <select class="form-control" id="agama" name="agama" required>
-                                        <option value="" selected disabled hidden>-- Pilih Agama --</option>
-                                        <option value="islam">Islam</option>
-                                        <option value="protestan">Protestan</option>
-                                        <option value="katholik">Katholik</option>
-                                        <option value="hindu">Hindu</option>
-                                        <option value="budha">Budha</option>
-                                        <option value="konghucu">Konghucu</option>
-                                    </select>
+                                <div class="form-group row">
+                                    <div class="col-md-3">
+                                        <label for="tgl_masuk">Tanggal Masuk *</label>
+                                        <input type="date" class="form-control" id="tgl_masuk" name="tgl_masuk">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="golongan_id">Golongan/Pangkat</label>
+                                        <select class="form-control" id="golongan_id" name="golongan_id">
+                                            <option value="">-- Pilih Golongan/Pangkat --</option>
+                                            <?php foreach ($golpang as $key => $value) { ?>
+                                                <option value="<?= $value->golongan ?>">
+                                                    <?= $value->golongan . " / " . $value->pangkat ?>
+                                                </option>
+                                            <?php
+                                            } ?>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="jabatan">Jabatan</label>
+                                        <select class="form-control" id="jabatan" name="jabatan">
+                                            <option value="" selected>-- Pilih Jabatan --</option>
+                                            <?php
+                                            $option = '';
+                                            foreach ($jabatan as $key => $value) {
+                                                $option .= '<option value="' . $value->id . '">' . $value->nama_jabatan . ' - ' . $value->jenis_jabatan . '</option>';
+                                            }
+                                            echo $option;
+                                            ?>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="tgl_menjabat">Tanggal Menjabat</label>
+                                        <input type="date" class="form-control" id="tgl_menjabat" name="tgl_menjabat">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group row">
-                                <div class="col-md-3">
-                                    <label for="no_hp">No. Handphone</label>
-                                    <input type="number" class="form-control hide-arrows" id="no_hp" name="no_hp">
+                                <div class="form-group row">
+                                    <div class="col">
+                                        <label for="unit_id">Atasan</label>
+                                        <select class="form-control" id="atasan" name="atasan">
+                                            <option value="" selected>-- Pilih Jabatan --</option>
+                                            <?php
+                                            $option = '';
+                                            foreach ($atasan as $key => $value) {
+                                                $option .= '<option value="' . $value->account_nip . '">' . $value->nama . ' - ' . $value->nama_jabatan . ' ' . $value->nama_jurusan . '</option>';
+                                            }
+                                            echo $option;
+                                            ?>
+                                        </select>
+                                    </div>
                                 </div>
-                                <div class="col-md-3">
-                                    <label for="tempat_lahir">Tempat Lahir (*)</label>
-                                    <input class="form-control" id="tempat_lahir" name="tempat_lahir" required>
-                                </div>
-                                <div class="col-md-3">
-                                    <label for="tgl_lahir">Tanggal Lahir (*)</label>
-                                    <input type="date" class="form-control" id="tgl_lahir" name="tgl_lahir" required>
-                                </div>
-                                <div class="col-md-3">
-                                    <label for="alamat">Alamat</label>
-                                    <input class="form-control" id="alamat" name="alamat">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <div class="col-md-4">
-                                    <label for="tgl_masuk">Tanggal Masuk (*)</label>
-                                    <input type="date" class="form-control" id="tgl_masuk" name="tgl_masuk">
-                                </div>
-                                <div class="col-md-4">
-                                    <label for="pendidikan">Pendidikan (*)</label>
-                                    <select class="form-control" id="pendidikan" name="pendidikan" required>
-                                        <option value="" selected hidden>-- Pilih Pendidikan --</option>
-                                        <option value="SMA">SMA</option>
-                                        <option value="D2">D2</option>
-                                        <option value="D3">D3</option>
-                                        <option value="D4">D4</option>
-                                        <option value="S1">S1</option>
-                                        <option value="S2">S2</option>
-                                        <option value="S3">S3</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-4">
-                                    <label for="gaji">Gaji</label>
-                                    <input type="number" class="form-control" id="gaji" name="gaji" placeholder="Rp.">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <div class="col-md-4">
-                                    <label for="golongan_id">Golongan/Pangkat</label>
-                                    <select class="form-control" id="golongan_id" name="golongan_id">
-                                        <option value="">-- Pilih Golongan/Pangkat --</option>
-                                        <?php foreach ($golpang as $key => $value) { ?>
-                                            <option value="<?= $value->golongan ?>">
-                                                <?= $value->golongan . " / " . $value->pangkat ?>
-                                            </option>
-                                        <?php
-                                        } ?>
-                                    </select>
-                                </div>
-                                <div class="col-md-4">
-                                    <label for="status_pegawai">Status Pegawai (*)</label>
-                                    <select class="form-control" id="status_pegawai" name="status_pegawai" required>
-                                        <option value="" selected hidden>-- Pilih Status Pegawai --</option>
-                                        <option value="1">PNS</option>
-                                        <option value="2">Honorer</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-4">
-                                    <label for="jabatan">Jabatan</label>
-                                    <select class="form-control" id="jabatan" name="jabatan">
-                                        <option value="" selected>-- Pilih Jabatan --</option>
-                                        <?php
-                                        $option = '';
-                                        foreach ($jabatan as $key => $value) {
-                                            $option .= '<option value="' . $value->id . '">' . $value->nama_jabatan . ' - ' . $value->jenis_jabatan . '</option>';
-                                        }
-                                        echo $option;
-                                        ?>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <div class="col">
-                                    <label for="unit_id">Atasan</label>
-                                    <select class="form-control" id="atasan" name="atasan">
-                                        <option value="" selected>-- Pilih Jabatan --</option>
-                                        <?php
-                                        $option = '';
-                                        foreach ($atasan as $key => $value) {
-                                            $option .= '<option value="' . $value->account_nip . '">' . $value->nama . ' - ' . $value->nama_jabatan . ' ' . $value->nama_jurusan . '</option>';
-                                        }
-                                        echo $option;
-                                        ?>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6 row">
-                                    <div class="col form-group">
+                                <div class="form-group row">
+                                    <div class="col-md-6">
                                         <label for="jurusan_id">Jurusan</label>
                                         <select class="form-control" id="jurusan_id" name="jurusan_id" onchange="change_jurusan(this, '<?= base_url() ?>');">
                                             <option value="">-- Pilih Jurusan --</option>
@@ -179,71 +203,80 @@
                                             } ?>
                                         </select>
                                     </div>
+                                    <div class="col-md-6" id="field_prodi">
+                                        <label for="prodi_id">Program Studi</label>
+                                        <select class="form-control" id="prodi_id" name="prodi_id">
+                                            <option value="">-- Pilih Program Studi --</option>
+                                            <option value="">Pilih jurusan dulu</option>
+                                        </select>
+                                    </div>
                                 </div>
-                                <div class="col-md-6" id="field_prodi">                   
+                                <div class="form-group row">
+                                    <div class="col-md-6">
+                                        <label for="bagian_id">Bagian</label>
+                                        <select class="form-control" id="bagian_id" name="bagian_id">
+                                            <option value="">-- Pilih Bagian --</option>
+                                            <?php foreach ($bagian as $key => $value) { ?>
+                                                <option value="<?= $value->id ?>">
+                                                    <?= $value->nama ?>
+                                                </option>
+                                            <?php
+                                            } ?>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="unit_id">Unit</label>
+                                        <select class="form-control" id="unit_id" name="unit_id">
+                                            <option value="">-- Pilih Unit --</option>
+                                            <?php foreach ($unit as $key => $value) { ?>
+                                                <option value="<?= $value->id ?>">
+                                                    <?= $value->nama ?>
+                                                </option>
+                                            <?php
+                                            } ?>
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label for="bagian_id">Bagian</label>
-                                    <select class="form-control" id="bagian_id" name="bagian_id">
-                                        <option value="">-- Pilih Bagian --</option>
-                                        <?php foreach ($bagian as $key => $value) { ?>
-                                            <option value="<?= $value->id ?>">
-                                                <?= $value->nama ?>
-                                            </option>
-                                        <?php
-                                        } ?>
-                                    </select>
+                                <div class="form-group row">
+                                    <div class="col">
+                                        <label for="gaji">Gaji</label>
+                                        <input type="number" class="form-control" id="gaji" name="gaji" placeholder="Rp.">
+                                    </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <label for="unit_id">Unit</label>
-                                    <select class="form-control" id="unit_id" name="unit_id">
-                                        <option value="">-- Pilih Unit --</option>
-                                        <?php foreach ($unit as $key => $value) { ?>
-                                            <option value="<?= $value->id ?>">
-                                                <?= $value->nama ?>
-                                            </option>
-                                        <?php
-                                        } ?>
-                                    </select>
+                                <input type="button" name="previous-step" class="btn btn-secondary previous-step" value="Kembali" />
+                                <input type="button" name="next-step" class="btn btn-primary next-step" value="Selanjutnya" />
+                            </fieldset>
+                            <fieldset>
+                                <div class="finish">                                    
+                                    <div class="form-group row">
+                                        <div class="col-md-4">
+                                            <label for="foto">Foto</label>
+                                            <input type="file" class="form-control-file" id="foto" name="foto">
+                                            <p class="card-description mt-1">
+                                                Format file: .pdf&emsp;Maksimal ukuran file: 2MB
+                                            </p>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="ijazah">Ijazah *</label>
+                                            <input type="file" class="form-control-file" id="ijazah" name="ijazah" required>
+                                            <p class="card-description mt-1">
+                                                Format file: .pdf&emsp;Maksimal ukuran file: 2MB
+                                            </p>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="karpeg">Kartu Pegawai</label>
+                                            <input type="file" class="form-control-file" id="karpeg" name="karpeg">
+                                            <p class="card-description mt-1">
+                                                Format file: .pdf&emsp;Maksimal ukuran file: 2MB
+                                            </p>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group row">
-                                <div class="col-md-4">
-                                    <label for="foto">Foto</label>
-                                    <input type="file" class="form-control-file" id="foto" name="foto">
-                                    <p class="card-description mt-1">
-                                        Format file: .pdf&emsp;Maksimal ukuran file: 2MB
-                                    </p>
-                                </div>
-                                <div class="col-md-4">
-                                    <label for="ijazah">Ijazah (*)</label>
-                                    <input type="file" class="form-control-file" id="ijazah" name="ijazah" required>
-                                    <p class="card-description mt-1">
-                                        Format file: .pdf&emsp;Maksimal ukuran file: 2MB
-                                    </p>
-                                </div>
-                                <div class="col-md-4">
-                                    <label for="karpeg">Kartu Pegawai</label>
-                                    <input type="file" class="form-control-file" id="karpeg" name="karpeg">
-                                    <p class="card-description mt-1">
-                                        Format file: .pdf&emsp;Maksimal ukuran file: 2MB
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <div class="col-md-4">
-                                    <label for="tgl_menjabat">Tanggal Menjabat</label>
-                                    <input type="date" class="form-control" id="tgl_menjabat" name="tgl_menjabat">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Kembali</button>
-                            <button type="submit" class="btn btn-primary">Tambah Pegawai</button>
-                        </div>
-                    </form>
+                                <input type="button" name="previous-step" class="btn btn-secondary previous-step" value="Kembali" />
+                                <button type="submit" name="submit" class="btn btn-primary" value="Previous Step">Tambahkan</button>
+                            </fieldset>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -310,16 +343,16 @@
                                                     </div>
                                                     <div class="form-group row">
                                                         <div class="col-md-3">
-                                                            <label for="nip">NIP (*)</label>
+                                                            <label for="nip">NIP *</label>
                                                             <input type="number" class="form-control" id="nip" name="nip" value="<?= $value->account_nip ?>">
                                                             <input type="hidden" class="form-control" id="nip_old" name="nip_old" value="<?= $value->account_nip ?>">
                                                         </div>
                                                         <div class="col-md-3">
-                                                            <label for="nama">Nama Lengkap (*)</label>
+                                                            <label for="nama">Nama Lengkap *</label>
                                                             <input class="form-control" id="nama" name="nama" value="<?= $value->nama_pegawai ?>">
                                                         </div>
                                                         <div class="col-md-3">
-                                                            <label for="jenis_kelamin">Jenis Kelamin (*)</label>
+                                                            <label for="jenis_kelamin">Jenis Kelamin *</label>
                                                             <select class="form-control" id="jenis_kelamin" name="jenis_kelamin">
                                                                 <option value="">-- Pilih Jenis Kelamin --</option>
                                                                 <option value="l" <?php if ($value->jenis_kelamin === 'l')  echo "selected"; ?>>Laki-laki</option>
@@ -327,7 +360,7 @@
                                                             </select>
                                                         </div>
                                                         <div class="col-md-3">
-                                                            <label for="agama">Agama (*)</label>
+                                                            <label for="agama">Agama *</label>
                                                             <select class="form-control" id="agama" name="agama">
                                                                 <option value="">-- Pilih Agama --</option>
                                                                 <option value="islam" <?php if ($value->agama === 'islam')  echo "selected"; ?>>Islam</option>
@@ -345,11 +378,11 @@
                                                             <input type="number" class="form-control hide-arrows" id="no_hp" name="no_hp" value="<?= $value->no_hp ?>">
                                                         </div>
                                                         <div class="col-md-3">
-                                                            <label for="tempat_lahir">Tempat Lahir (*)</label>
+                                                            <label for="tempat_lahir">Tempat Lahir *</label>
                                                             <input class="form-control" id="tempat_lahir" name="tempat_lahir" value="<?= $value->tempat_lahir ?>">
                                                         </div>
                                                         <div class="col-md-3">
-                                                            <label for="tgl_lahir">Tanggal Lahir (*)</label>
+                                                            <label for="tgl_lahir">Tanggal Lahir *</label>
                                                             <input type="date" class="form-control" id="tgl_lahir" name="tgl_lahir" value="<?= date('Y-m-d', strtotime($value->tgl_lahir)) ?>">
                                                         </div>
                                                         <div class="col-md-3">
@@ -359,11 +392,11 @@
                                                     </div>
                                                     <div class="form-group row">
                                                         <div class="col-md-4">
-                                                            <label for="tgl_masuk">Tanggal Masuk (*)</label>
+                                                            <label for="tgl_masuk">Tanggal Masuk *</label>
                                                             <input type="date" class="form-control" id="tgl_masuk" name="tgl_masuk" value="<?= date('Y-m-d', strtotime($value->tgl_masuk)) ?>">
                                                         </div>
                                                         <div class="col-md-4">
-                                                            <label for="pendidikan">Pendidikan (*)</label>
+                                                            <label for="pendidikan">Pendidikan *</label>
                                                             <select class="form-control" id="pendidikan" name="pendidikan" required>
                                                                 <option value="<?= $value->pendidikan ?>" selected hidden><?= $value->pendidikan ?></option>
                                                                 <option value="SMA">SMA</option>
@@ -394,7 +427,7 @@
                                                             </select>
                                                         </div>
                                                         <div class="col-md-4">
-                                                            <label for="status_pegawai">Status Pegawai (*)</label>
+                                                            <label for="status_pegawai">Status Pegawai *</label>
                                                             <select class="form-control" id="status_pegawai" name="status_pegawai" required>
                                                                 <option value="PNS" <?php if ($value->status === 'PNS')  echo "selected"; ?>>PNS</option>
                                                                 <option value="Honorer" <?php if ($value->status === 'Honorer')  echo "selected"; ?>>Honorer</option>
@@ -449,7 +482,7 @@
                                                             </select>
                                                         </div>
                                                         <div class="col-md-6" id="field_prodi">
-                                                            
+
                                                         </div>
                                                     </div>
                                                     <div class="form-group row">
@@ -491,7 +524,7 @@
                                                             } ?>
                                                         </div>
                                                         <div class="col-md-4">
-                                                            <label for="ijazah">Ijazah (*)</label>
+                                                            <label for="ijazah">Ijazah *</label>
                                                             <input type="file" class="form-control-file" id="ijazah" name="ijazah">
                                                             <p class="card-description mt-1">
                                                                 Format file: .pdf&emsp;Maksimal ukuran file: 2MB
@@ -564,5 +597,81 @@
 <script>
     $(document).ready(function() {
         $('#tbl-data-pegawai').DataTable();
+
+        var currentGfgStep, nextGfgStep, previousGfgStep;
+        var opacity;
+        var current = 1;
+        var steps = $("fieldset").length;
+
+        setProgressBar(current);
+
+        $(".next-step").click(function() {
+
+            currentGfgStep = $(this).parent();
+            nextGfgStep = $(this).parent().next();
+
+            $("#progressbar li").eq($("fieldset")
+                .index(nextGfgStep)).addClass("active");
+
+            nextGfgStep.show();
+            currentGfgStep.animate({
+                opacity: 0
+            }, {
+                step: function(now) {
+                    opacity = 1 - now;
+
+                    currentGfgStep.css({
+                        'display': 'none',
+                        'position': 'relative'
+                    });
+                    nextGfgStep.css({
+                        'opacity': opacity
+                    });
+                },
+                duration: 500
+            });
+            setProgressBar(++current);
+        });
+
+        $(".previous-step").click(function() {
+
+            currentGfgStep = $(this).parent();
+            previousGfgStep = $(this).parent().prev();
+
+            $("#progressbar li").eq($("fieldset")
+                .index(currentGfgStep)).removeClass("active");
+
+            previousGfgStep.show();
+
+            currentGfgStep.animate({
+                opacity: 0
+            }, {
+                step: function(now) {
+                    opacity = 1 - now;
+
+                    currentGfgStep.css({
+                        'display': 'none',
+                        'position': 'relative'
+                    });
+                    previousGfgStep.css({
+                        'opacity': opacity
+                    });
+                },
+                duration: 500
+            });
+            setProgressBar(--current);
+        });
+
+        function setProgressBar(currentStep) {
+            var percent = parseFloat(100 / steps) * current;
+            percent = percent.toFixed();
+            $(".progress-bar")
+                .css("width", percent + "%")
+        }
+
+        $(".submit").click(function() {
+            return false;
+        })
+
     });
 </script>

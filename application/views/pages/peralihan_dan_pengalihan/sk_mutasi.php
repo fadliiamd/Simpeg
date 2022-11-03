@@ -26,7 +26,10 @@
                         <th>No</th>
                         <th>Pegawai</th>
                         <th>Jenis Mutasi</th>
+                        <th>Instansi Tujuan</th>
+                        <th>Jabatan Tujuan</th>
                         <th>Tanggal Mutasi</th>
+                        <th>Tanggal Persetujuan</th>
                         <th>No Surat</th>
                         <th>File Mutasi</th>
                         <?php if($this->session->userdata("role") == "admin"){ ?>  
@@ -53,7 +56,10 @@
                                     <span class="badge badge-danger"><?= $value->jenis_mutasi ?></span>
                                 <?php } ?>
                             </td>
+                            <td><?= $value->instansi_tujuan ?></td>
+                            <td><?= $value->jabatan_tujuan ?></td>
                             <td><?= $value->tgl_mutasi ?></td>
+                            <td><?= $value->tgl_persetujuan ?></td>
                             <td><?= $value->nomor_surat ?></td>
                             <td>
                                 <?php if($value->file_mutasi != null){ ?>  

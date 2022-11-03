@@ -7,21 +7,20 @@ class Usulan_mutasi_model extends CI_Model
 
     public function do_upload($file_type, $post_name)
     {
-         // File
-            $config['upload_path']          = './uploads';
-            $config['allowed_types']        = $file_type;
-            $config['max_size']             = 2048;
-            $this->load->library('upload');
+        // File
+        $config['upload_path']          = './uploads';
+        $config['allowed_types']        = $file_type;
+        $config['max_size']             = 2048;
+        $this->load->library('upload');
 
-            $this->upload->initialize($config);
+        $this->upload->initialize($config);
 
-            if (($this->upload->do_upload($post_name)))
-            {
-                $data = $this->upload->data();
-                $data = $data['file_name'];
-            }
+        if (($this->upload->do_upload($post_name))) {
+            $data = $this->upload->data();
+            $data = $data['file_name'];
+        }
 
-            return $data;
+        return $data;
     }
 
     public function get_all()
@@ -40,9 +39,9 @@ class Usulan_mutasi_model extends CI_Model
             mutasi.pegawai_nip, mutasi.alasan, mutasi.id AS id_mutasi'
         );
         $this->db->from($this->table);
-        $this->db->join('berkasmutasi', 'berkasmutasi.id = usulanmutasi.berkasmutasi_id','LEFT');
-        $this->db->join('mutasi', 'mutasi.id = usulanmutasi.mutasi_id','LEFT');
-        $this->db->join('pegawai', 'pegawai.account_nip = mutasi.pegawai_nip','LEFT');
+        $this->db->join('berkasmutasi', 'berkasmutasi.id = usulanmutasi.berkasmutasi_id', 'LEFT');
+        $this->db->join('mutasi', 'mutasi.id = usulanmutasi.mutasi_id', 'LEFT');
+        $this->db->join('pegawai', 'pegawai.account_nip = mutasi.pegawai_nip', 'LEFT');
 
         $query = $this->db->get();
 
@@ -51,13 +50,13 @@ class Usulan_mutasi_model extends CI_Model
 
     public function insert_one()
     {
-        
+
         //check empty string for nullable
-        foreach( $this->input->post() as $key => $value) {
-            if($value === ""){
+        foreach ($this->input->post() as $key => $value) {
+            if ($value === "") {
                 $value = null;
             }
-            $_POST[$key] = $value;            
+            $_POST[$key] = $value;
         }
 
         date_default_timezone_set('Asia/Jakarta');
@@ -72,21 +71,20 @@ class Usulan_mutasi_model extends CI_Model
             "berkasmutasi_id" => $berkas_id,
             "mutasi_id" => $mutasi_id
         );
-    
+
         $this->db->insert($this->table, $data_usulan_mutasi);
-    
+
         return ($this->db->affected_rows() != 1) ? false : true;
-    
     }
 
     public function update_one($id)
-    {        
-         //check empty string for nullable
-        foreach( $this->input->post() as $key => $value) {
-            if($value === ""){
+    {
+        //check empty string for nullable
+        foreach ($this->input->post() as $key => $value) {
+            if ($value === "") {
                 $value = null;
             }
-            $_POST[$key] = $value;            
+            $_POST[$key] = $value;
         }
 
         $tgl_usulan = $this->input->post('tgl_usulan');
@@ -122,14 +120,14 @@ class Usulan_mutasi_model extends CI_Model
     }
 
     public function status_usulan_mutasi($id)
-    {        
+    {
 
         date_default_timezone_set('Asia/Jakarta');
         $date = date("Y-m-d H:i:s");
         if ($this->input->post('status') == "tolak") {
             $data_usulan_mutasi = array(
                 "status_persetujuan" => $this->input->post('status')
-            ); 
+            );
 
             $this->db->trans_start();
             $this->db->where('id', $id);
@@ -137,7 +135,7 @@ class Usulan_mutasi_model extends CI_Model
             $this->db->trans_complete();
 
             return "tolak";
-        }else{
+        } else {
             $data_usulan_mutasi = array(
                 "status_persetujuan" => $this->input->post('status'),
                 "tgl_persetujuan" => $date
@@ -148,18 +146,22 @@ class Usulan_mutasi_model extends CI_Model
             $this->db->update($this->table, $data_usulan_mutasi);
             $this->db->trans_complete();
 
-// ----------------------------------------- //
+            // ----------------------------------------- //
+            $usulan = $this->db->get_where('usulanmutasi', array('id' => $id))->row();
+            $mutasi = $this->db->get_where('mutasi', array('id' => $usulan->mutasi_id))->row();
 
-            $data_status_pegawai = array(
-                "status_kerja" => 'mutasi',
-            );
+            if ($mutasi->jenis_mutasi != "Satu instansi") {
+                $data_status_pegawai = array(
+                    "status_kerja" => 'mutasi',
+                );
 
-            $this->db->trans_start();
-            $this->db->where('account_nip', $this->input->post('pegawai_nip'));
-            $this->db->update('pegawai', $data_status_pegawai);
-            $this->db->trans_complete();
+                $this->db->trans_start();
+                $this->db->where('account_nip', $this->input->post('pegawai_nip'));
+                $this->db->update('pegawai', $data_status_pegawai);
+                $this->db->trans_complete();
 
-            return "setujui";
+                return "setujui";
+            }
         }
 
         if ($this->db->trans_status() === FALSE) {
@@ -168,13 +170,13 @@ class Usulan_mutasi_model extends CI_Model
     }
 
     public function upload_surat($id)
-    {        
-         //check empty string for nullable
-        foreach( $this->input->post() as $key => $value) {
-            if($value === ""){
+    {
+        //check empty string for nullable
+        foreach ($this->input->post() as $key => $value) {
+            if ($value === "") {
                 $value = null;
             }
-            $_POST[$key] = $value;            
+            $_POST[$key] = $value;
         }
 
         $surat_usulan = $this->do_upload("pdf", "surat_usulan");

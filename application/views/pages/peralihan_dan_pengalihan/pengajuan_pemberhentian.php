@@ -1,7 +1,45 @@
 <div class="row">
     <div class="col-lg-12">
-        <h4>Pengajuan Pemberhentian</h4>
+        <div class="d-flex justify-content-between">
+            <h4>Pengajuan Pemberhentian</h4>
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#staticBackdrop">
+            <i class="mdi mdi-information"></i> Persyaratan
+            </button>
 
+            <!-- Modal -->
+            <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="staticBackdropLabel">Berkas Persyaratan Pensiun Batas Usia dan Pensiun Dini</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <ol>
+                                <li>SK CPNS</li>
+                                <li>SK PNS</li>
+                                <li>SK Pangkat</li>
+                                <li>SK KGB</li>
+                                <li>Dp3 Akhir</li>
+                                <li>Kartu Keluarga</li>
+                                <li>Pas Foto 3x4 Latar Merah</li>
+                            </ol>
+                        </div>
+                        <div class="modal-footer">                            
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">Oke</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            $('.popover-dismiss').popover({
+                trigger: 'focus'
+            })
+        </script>
         <!-- Large modal -->
         <?php
         date_default_timezone_set('Asia/Jakarta');
@@ -107,10 +145,6 @@
                                         </label>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="surat_pengunduran_diri">Surat Pengajuan</label>
-                                <input type="file" class="form-control" id="surat_pengunduran_diri" name="surat_pengunduran_diri" required>
                             </div>
                             <div class="form-group">
                                 <label for="dokumen_pendukung">Dokumen Pendukung (Optional)</label>

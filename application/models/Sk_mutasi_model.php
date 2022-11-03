@@ -34,11 +34,11 @@ class Sk_mutasi_model extends CI_Model
     public function get_all_with_join()
     {
         $this->db->select(
-            'skmutasi.id, skmutasi.jenis_mutasi, skmutasi.tgl_mutasi, skmutasi.file_mutasi, skmutasi.nomor_surat,
-            penerimaanmutasi.id AS id_penerimaan, penerimaanmutasi.pegawai_nip AS penerimaan_nip,
-            usulanmutasi.id AS id_usulan,usulanmutasi.tgl_usulan,usulanmutasi.status_persetujuan,usulanmutasi.tgl_persetujuan,
+            'skmutasi.*,
+            penerimaanmutasi.id AS id_penerimaan, penerimaanmutasi.pegawai_nip AS penerimaan_nip, usulanmutasi.*,
+            usulanmutasi.id AS id_usulan,
             berkasmutasi.id As id_berkas, berkasmutasi.sk_cpns, berkasmutasi.sk_pns, berkasmutasi.karpeg, berkasmutasi.dp3_akhir, berkasmutasi.ijazah, berkasmutasi.riwayat_hidup, 
-            mutasi.pegawai_nip, mutasi.alasan, mutasi.id AS id_mutasi,
+            mutasi.*, mutasi.id AS id_mutasi,
             pegawai.bagian_id, pegawai.nama AS pegawai_nama'
         );
         $this->db->from($this->table);

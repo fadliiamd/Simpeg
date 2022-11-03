@@ -389,7 +389,7 @@ class Pegawai_model extends CI_Model
                 $data_pegawai += array(
                     'karpeg' => $karpeg
                 );
-            }
+            }            
         } else {
             return false;
         }
@@ -442,6 +442,12 @@ class Pegawai_model extends CI_Model
             $ijazah = $this->do_upload("pdf", "ijazah");
             $karpeg = $this->do_upload("pdf|jpg|png", "karpeg");
 
+            $sk_cpns = $this->do_upload("pdf", "sk_cpns");
+            $sk_pns = $this->do_upload("pdf", "sk_pns");
+            $sk_kgb = $this->do_upload("pdf", "sk_kgb");
+            $sk_pangkat = $this->do_upload("pdf", "sk_pangkat");
+            $dp3_akhir = $this->do_upload("pdf", "dp3_akhir");
+
             $data_pegawai = array(
                 "nama" => $nama,
                 "jenis_kelamin" => $jenis_kelamin,
@@ -478,6 +484,31 @@ class Pegawai_model extends CI_Model
                     'karpeg' => $karpeg
                 );
             }
+            if (!is_null($sk_cpns)) {
+                $data_pegawai += array(
+                    'sk_cpns' => $sk_cpns
+                );
+            }
+            if (!is_null($sk_pns)) {
+                $data_pegawai += array(
+                    'sk_pns' => $sk_pns
+                );
+            }
+            if (!is_null($sk_kgb)) {
+                $data_pegawai += array(
+                    'sk_kgb' => $sk_kgb
+                );
+            }
+            if (!is_null($sk_pangkat)) {
+                $data_pegawai += array(
+                    'sk_pangkat' => $sk_pangkat
+                );
+            }
+            if (!is_null($dp3_akhir)) {
+                $data_pegawai += array(
+                    'dp3_akhir' => $dp3_akhir
+                );
+            }           
         } else {
             return false;
         }
