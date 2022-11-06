@@ -39,7 +39,8 @@ class Sk_mutasi_model extends CI_Model
             usulanmutasi.id AS id_usulan,
             berkasmutasi.id As id_berkas, berkasmutasi.sk_cpns, berkasmutasi.sk_pns, berkasmutasi.karpeg, berkasmutasi.dp3_akhir, berkasmutasi.ijazah, berkasmutasi.riwayat_hidup, 
             mutasi.*, mutasi.id AS id_mutasi,
-            pegawai.bagian_id, pegawai.nama AS pegawai_nama'
+            pegawai.bagian_id, pegawai.nama AS pegawai_nama,
+            skmutasi.id as id,'
         );
         $this->db->from($this->table);
         $this->db->join('penerimaanmutasi', 'penerimaanmutasi.id = skmutasi.penerimaan_id','LEFT');
@@ -117,7 +118,7 @@ class Sk_mutasi_model extends CI_Model
     }
 
     public function update_one($id)
-    {        
+    {                
          //check empty string for nullable
         foreach( $this->input->post() as $key => $value) {
             if($value === ""){
@@ -194,7 +195,7 @@ class Sk_mutasi_model extends CI_Model
     }
 
     public function upload_surat($id)
-    {        
+    {                
          //check empty string for nullable
         foreach( $this->input->post() as $key => $value) {
             if($value === ""){
