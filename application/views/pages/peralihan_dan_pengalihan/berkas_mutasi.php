@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-lg-12">
-        <h3>Berkas Persyaratan</h3>
-
+        <h3>Berkas Persyaratan</h3>      
+        <?php if(!empty($mutasi)) { ?>
         <?php if ($this->session->userdata("role") == "pegawai") { ?>
             <!-- Large modal -->
             <?php if (($this->session->userdata("role") == "pegawai" && !$berkas_mutasi)) { ?>
@@ -321,5 +321,9 @@
                 </tbody>
             </table>
         </div>
+        <?php } 
+        else {
+            echo "<p> Tidak perlu mengupload berkas!</p>";
+        }?>
     </div>
 </div>
