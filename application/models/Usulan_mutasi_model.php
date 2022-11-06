@@ -162,8 +162,7 @@ class Usulan_mutasi_model extends CI_Model
     }
 
     public function status_usulan_mutasi($id)
-    {
-
+    {        
         date_default_timezone_set('Asia/Jakarta');
         $date = date("Y-m-d H:i:s");
         if ($this->input->post('status') == "tolak") {
@@ -200,10 +199,10 @@ class Usulan_mutasi_model extends CI_Model
                 $this->db->trans_start();
                 $this->db->where('account_nip', $this->input->post('pegawai_nip'));
                 $this->db->update('pegawai', $data_status_pegawai);
-                $this->db->trans_complete();
-
-                return "setujui";
+                $this->db->trans_complete();                
             }
+
+            return "setujui";
         }
 
         if ($this->db->trans_status() === FALSE) {
