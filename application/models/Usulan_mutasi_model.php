@@ -1,4 +1,5 @@
 <?php
+require_once 'vendor/autoload.php';
 
 class Usulan_mutasi_model extends CI_Model
 {
@@ -64,17 +65,58 @@ class Usulan_mutasi_model extends CI_Model
         $berkas_id = $this->input->post('id');
         $mutasi_id = $this->input->post('id_mutasi');
 
+        // create_surat_usulan_mutasi
+       $file = $this->create_surat($mutasi_id);
+
         $data_usulan_mutasi = array(
             "id" => "",
             "tgl_usulan" => $date,
             "status_persetujuan" => "pending",
             "berkasmutasi_id" => $berkas_id,
-            "mutasi_id" => $mutasi_id
+            "mutasi_id" => $mutasi_id,
+            "surat_usulan" => $file
         );
 
         $this->db->insert($this->table, $data_usulan_mutasi);
 
         return ($this->db->affected_rows() != 1) ? false : true;
+    }
+
+    public function create_surat($mutasi_id)
+    {
+        // load template
+        $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor('assets/pdf/surat_usulan_mutasi.docx');
+        
+        // get data mutasi
+        $mutasi = $this->db->get_where('mutasi', array('id' => $mutasi_id))->row();
+        
+        // get data pegawai
+        $pegawai = $this->db->get_where('pegawai', array('account_nip' => $mutasi->pegawai_nip))->row();
+
+        // get data jabatan
+        $jabatan = $this->db->get_where('jabatan', array('id' => $pegawai->jabatan_id))->row();
+
+        // get pangkatgolongan
+        $pangkatgolongan = $this->db->get_where('pangkatgolongan', array('golongan' => $pegawai->golongan_id))->row();
+
+        // set data to template
+        $templateProcessor->setValue('INSTANSI_TUJUAN', $mutasi->instansi_tujuan);
+        $templateProcessor->setValue('JABATAN_TUJUAN', $mutasi->jabatan_tujuan);
+        $templateProcessor->setValue('NAMA', $pegawai->nama);
+        $templateProcessor->setValue('NIP', $pegawai->account_nip);
+        $templateProcessor->setValue('TGL', date('d-m-Y'));
+        $templateProcessor->setValue('JABATAN', $jabatan->nama_jabatan);
+        if(is_null($pangkatgolongan)){
+            $templateProcessor->setValue('PANGKAT', "Belum ada pangkat");
+        }else{
+            $templateProcessor->setValue('PANGKAT', $pangkatgolongan->golongan.' '.$pangkatgolongan->pangkat);
+        }
+
+        $nama_file = 'surat_usulan_mutasi_'.$pegawai->account_nip.'.docx';
+        $pathToSave = 'uploads/'.$nama_file;
+        $templateProcessor->saveAs($pathToSave);
+
+        return $nama_file;
     }
 
     public function update_one($id)

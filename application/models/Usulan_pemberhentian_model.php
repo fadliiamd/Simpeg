@@ -1,4 +1,5 @@
 <?php
+require_once 'vendor/autoload.php';
 
 class Usulan_pemberhentian_model extends CI_Model
 {
@@ -65,12 +66,16 @@ class Usulan_pemberhentian_model extends CI_Model
         $berkaspensiun_id = $this->input->post('id');
         $pemberhentian_id = $this->input->post('pemberhentian_id');
 
+        // create_surat_usulan_pemberhentian
+       $file = $this->create_surat($pemberhentian_id);
+
         $data_usulan_pensiun = array(
             "id" => "",
             "tgl_usulan" => $date,
             "status_persetujuan" => "pending",
             "berkaspensiun_id" => $berkaspensiun_id,
-            "pemberhentian_id" => $pemberhentian_id
+            "pemberhentian_id" => $pemberhentian_id,
+            "surat_usulan" => $file
         );
     
         $this->db->insert($this->table, $data_usulan_pensiun);
@@ -78,6 +83,30 @@ class Usulan_pemberhentian_model extends CI_Model
         return ($this->db->affected_rows() != 1) ? false : true;
     
     }
+
+    public function create_surat($pemberhentian_id)
+    {
+        // load template
+        $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor('assets/pdf/surat_usulan_pensiun.docx');
+        
+        // get data pemberhentian        
+        $pemberhentian = $this->db->get_where('pemberhentian', array('id' => $pemberhentian_id))->row();
+        
+        // get data pegawai
+        $pegawai = $this->db->get_where('pegawai', array('account_nip' => $pemberhentian->pegawai_nip))->row();
+
+        // set data to template
+        $templateProcessor->setValue('NAMA', $pegawai->nama);
+        $templateProcessor->setValue('NIP', $pegawai->account_nip);
+        $templateProcessor->setValue('TGL', date('d-m-Y'));
+        
+        $nama_file = 'surat_usulan_pensiun_'.$pegawai->account_nip.'.docx';
+        $pathToSave = 'uploads/'.$nama_file;
+        $templateProcessor->saveAs($pathToSave);
+
+        return $nama_file;
+    }
+
 
     public function update_one($id)
     {        
