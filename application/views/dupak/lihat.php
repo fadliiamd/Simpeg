@@ -53,7 +53,7 @@
                                 $val = findObjectByUkId($uk->id, $nilai);
                                 $file = '';
                                 $nilai_akk = 0;
-                                if($val !== FALSE ){        
+                                if($val !== FALSE && !is_null($val->file) ){        
                                     $file = '<a href="' . base_url('uploads/' . $val->file) . '" target="_blank">Lihat File Bukti</a>';
                                     $nilai_akk=$val->nilai;
                                 }else{
