@@ -190,17 +190,26 @@ class Usulan_mutasi_model extends CI_Model
             // ----------------------------------------- //
             $usulan = $this->db->get_where('usulanmutasi', array('id' => $id))->row();
             $mutasi = $this->db->get_where('mutasi', array('id' => $usulan->mutasi_id))->row();
-
+            
+            $data_status_pegawai = array();
+            
             if ($mutasi->jenis_mutasi != "Satu instansi") {
                 $data_status_pegawai = array(
                     "status_kerja" => 'mutasi',
                 );
+                
+            }
+            
+            // select jabatan id where nama jabatan = jabatan tujuan
+            $jabatan = $this->db->get_where('jabatan', array('nama_jabatan' => $mutasi->jabatan_tujuan))->row();
+            $data_status_pegawai += array(
+                "jabatan_id" => $jabatan->id,
+            );
 
-                $this->db->trans_start();
+            $this->db->trans_start();
                 $this->db->where('account_nip', $this->input->post('pegawai_nip'));
                 $this->db->update('pegawai', $data_status_pegawai);
                 $this->db->trans_complete();                
-            }
 
             return "setujui";
         }

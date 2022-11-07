@@ -96,7 +96,21 @@
                             </div>
                             <div class="form-group">
                                 <label for="jabatan_tujuan">Jabatan Tujuan</label>
-                                <input type="text" class="form-control" id="jabatan_tujuan" name="jabatan_tujuan" required />
+                                <select class="form-control" id="jabatan_tujuan" name="jabatan_tujuan">
+                                    <option value="">-- Pilih Jabatan --</option>
+                                    <?php
+                                    $option = '';
+                                    foreach ($jabatan as $k => $v) {
+                                        if ($value->jabatan_id == $v->id) {
+                                            $selected = 'selected';
+                                        } else {
+                                            $selected = '';
+                                        }
+                                        $option .= '<option value="' . $v->nama_jabatan . '" ' . $selected . '>' . $v->nama_jabatan . ' - ' . $v->jenis_jabatan . '</option>';
+                                    }
+                                    echo $option;
+                                    ?>
+                                </select>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -475,7 +489,7 @@
                                             <form class="forms-sample" action="<?= base_url("mutasi/delete_data_mutasi"); ?>" method="POST">
                                                 <div class="modal-header">
                                                     <h5 class="modal-title" id="exampleModalLabel">Hapus Mutasi No : <b><?= $i ?></b> </h5>
-                                                    <input type="hidden" name="id" value="<?= $value->id ?>">
+                                                    <input type="hidden" name="id" value="<?= $value->id_mutasi ?>">
                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                         <span aria-hidden="true">&times;</span>
                                                     </button>

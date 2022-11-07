@@ -114,11 +114,13 @@ class Mutasi_model extends CI_Model
             $persetujuan_1 = "setujui";
             $persetujuan_2 = "setujui";
             $persetujuan_3 = "setujui";
+            $status_pengajuan = "setujui";
         }else {
             $tgl_persetujuan = null;
             $persetujuan_1 = "pending";
             $persetujuan_2 = "pending";
             $persetujuan_3 = "pending";
+            $status_pengajuan = "pending";
         }
 
 
@@ -130,6 +132,7 @@ class Mutasi_model extends CI_Model
             "tgl_persetujuan" => $tgl_persetujuan,
             "pegawai_nip" => $pegawai_nip,            
             "jenis_mutasi" => $jenis_mutasi,
+            "status_pengajuan" => $status_pengajuan,
             "persetujuan_1" => $persetujuan_1,
             "persetujuan_2" => $persetujuan_2,
             "persetujuan_3" => $persetujuan_3,

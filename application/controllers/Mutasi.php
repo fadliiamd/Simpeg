@@ -16,6 +16,7 @@ class Mutasi extends Roles {
             'pegawai_model',
             'direktur_model',
             'bagian_model',
+            'jabatan_model'
         ]);
         $this->load->library('form_validation');   
 	}
@@ -114,6 +115,7 @@ class Mutasi extends Roles {
 	{
         $pegawai = $this->pegawai_model->get_condition("status_kerja","aktif");
         $users = $this->pegawai_model->get_condition("account_nip",$this->session->userdata("nip"));
+        $jabatan = $this->jabatan_model->get_all();
         
 		if ($this->session->userdata("role") == "admin" 
         || $this->session->userdata("role") == "direktur") {
@@ -137,6 +139,7 @@ class Mutasi extends Roles {
 			"pegawai" => $pegawai,
 			"mutasi" => $mutasi,
             "users" => $users,
+            "jabatan" => $jabatan,
 		]);
 		$this->load->view('partials/main-footer');
 	}
