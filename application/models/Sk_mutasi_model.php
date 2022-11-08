@@ -215,12 +215,43 @@ class Sk_mutasi_model extends CI_Model
         $this->db->trans_start();
         $this->db->where('id', $id);
         $this->db->update($this->table, $data_mutasi_mutasi);
-        $this->db->trans_complete();
+        $this->db->trans_complete();        
 
         if ($this->db->trans_status() === FALSE) {
             return false;
         }
 
+        // send email surat keputusan
+        $this->email_sk_mutasi($nomor_surat, $surat_mutasi);    
+
         return true;
+    }
+
+    public function email_sk_mutasi($nomor, $sk_mutasi)
+    {
+        $this->load->config('email');
+        $this->load->library('email');
+
+        $pegawai = $this->db->get_where('pegawai', array('account_nip' => $this->input->post('account_nip')))->row();        
+        $from = $this->config->item('smtp_user');        
+        $subject = 'Surat Keputusan Mutasi';        
+        $message = "<strong>Surat Keputusan Mutasi</strong><br><br>
+
+        Yth, ".$pegawai->nama."<br><br>
+        Berikut kami lampirkan surat keputusan mutasi dengan nomor surat ".$nomor."<br> 
+        Terima Kasih<br><br>";
+        
+        $this->email->set_newline("\r\n");
+        $this->email->from($from);
+        $this->email->to($pegawai->email);
+        $this->email->subject($subject);    
+        $this->email->attach(base_url('uploads/'.$sk_mutasi));                 
+        $this->email->message($message);
+
+        if ($this->email->send()) {
+            echo 'Your Email has successfully been sent.';
+        } else {
+            show_error($this->email->print_debugger());
+        }
     }
 }

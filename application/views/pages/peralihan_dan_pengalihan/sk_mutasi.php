@@ -81,6 +81,7 @@
                                                 </div>
                                                 <form class="forms-sample" action="<?= base_url("mutasi/upload_data_sk"); ?>" method="POST" enctype="multipart/form-data">
                                                     <input type="hidden" name="id" value="<?= $value->id ?>">
+                                                    <input type="hidden" name="account_nip" value="<?= $value->pegawai_nip ?>">
                                                     <div class="modal-body">
                                                         <?php if($value->jenis_mutasi == "Mutasi Keluar") { ?>
                                                             <div class="form-group">
