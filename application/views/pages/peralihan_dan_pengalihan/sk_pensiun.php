@@ -65,6 +65,7 @@
                                             </div>
                                             <form class="forms-sample" action="<?= base_url("pemberhentian/upload_data_sk"); ?>" method="POST" enctype="multipart/form-data">
                                                 <input type="hidden" name="id" value="<?= $value->id ?>">
+                                                <input type="hidden" name="account_nip" value="<?= $value->pegawai_nip ?>">
                                                 <div class="modal-body">
                                                     <div class="form-group">
                                                         <label for="nip">NIP</label>

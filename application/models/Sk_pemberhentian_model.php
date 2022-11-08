@@ -199,6 +199,37 @@ class Sk_pemberhentian_model extends CI_Model
             return false;
         }
 
+        // send email surat keputusan
+        $this->email_sk_pensiun($nomor_surat, $surat_usulan);   
+
         return true;
+    }
+
+    public function email_sk_pensiun($nomor, $sk_pensiun)
+    {
+        $this->load->config('email');
+        $this->load->library('email');
+
+        $pegawai = $this->db->get_where('pegawai', array('account_nip' => $this->input->post('account_nip')))->row();        
+        $from = $this->config->item('smtp_user');        
+        $subject = 'Surat Keputusan Pensiun';        
+        $message = "<strong>Surat Keputusan Pensiun</strong><br><br>
+
+        Yth, ".$pegawai->nama."<br><br>
+        Berikut kami lampirkan surat keputusan pensiun dengan nomor surat ".$nomor."<br> 
+        Terima Kasih<br><br>";
+        
+        $this->email->set_newline("\r\n");
+        $this->email->from($from);
+        $this->email->to($pegawai->email);
+        $this->email->subject($subject);    
+        $this->email->attach(base_url('uploads/'.$sk_pensiun));                 
+        $this->email->message($message);
+
+        if ($this->email->send()) {
+            echo 'Your Email has successfully been sent.';
+        } else {
+            show_error($this->email->print_debugger());
+        }
     }
 }
