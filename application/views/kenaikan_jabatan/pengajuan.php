@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-lg-12">
-        <h3>Data Pengajuan Kenaikan Jabatan</h3>
+        <h3>Data Pengajuan Kenaikan Jabatan</h3>        
 
         <!-- Large modal -->
         <?php if ($_SESSION['role'] !== 'direktur') { ?>
@@ -30,7 +30,7 @@
                                                 } else {
                                                     $selected = '';
                                                 }
-                                                $option .= '<option value="' . $p->account_nip . '" ' . $selected . '>' . $p->account_nip . ' - ' . $p->nama . '</option>';
+                                                $option .= '<option value="' . $p->account_nip . '" ' . $selected . '>' . $p->account_nip . ' - ' . $p->nama . ' - '. get_jabatan($p->jabatan_id).  '</option>';
                                             }
                                             echo $option;
                                             ?>
@@ -92,9 +92,9 @@
                         <th>NIP</th>
                         <th>Jabatan Tujuan</th>
                         <th>Bukti 1</th>
-                        <th>Bukti 2</th>                        
-                        <th>Bukti 3</th>                        
-                        <th>Bukti 4</th>                        
+                        <th>Bukti 2</th>
+                        <th>Bukti 3</th>
+                        <th>Bukti 4</th>
                         <th>AK Tujuan</th>
                         <th>AK</th>
                         <th>Sisa AK</th>
@@ -148,7 +148,7 @@
                             </td>
                             <td>
                                 <a target="_blank" href="<?= !is_null($value->bukti_3) ? base_url('uploads/' . $value->bukti_2) : '#' ?>">
-                                    <?= !is_null($value->bukti_3) ? "Lihat ". $label_bukti_3[$value->jabatan_tujuan] : "-" ?>
+                                    <?= !is_null($value->bukti_3) ? "Lihat " . $label_bukti_3[$value->jabatan_tujuan] : "-" ?>
                                 </a>
                             </td>
                             <td>
@@ -161,26 +161,26 @@
                                 <?php
                                 $this->load->model("rekap_nilai_model");
                                 $last_akk = $this->rekap_nilai_model->get_akk_terakhir([
-                                    "account_nip"=> $value->account_nip,
+                                    "account_nip" => $value->account_nip,
                                     "tgl_usulan <=" => $value->created_at,
                                     "status" => 'disetujui'
                                 ]);
-                                if(is_null($last_akk)){
-                                    $last_akk = 0;                                    
+                                if (is_null($last_akk)) {
+                                    $last_akk = 0;
                                 }
                                 echo $last_akk;
                                 ?>
                             </td>
                             <td>
-                            <?php 
+                                <?php
                                 $sisa = $angka_kredit_tujuan[$value->jabatan_tujuan] - $last_akk;
-                                if($sisa<=0){
+                                if ($sisa <= 0) {
                                     echo 0;
-                                }else{
+                                } else {
                                     echo $sisa;
                                 }
-                            ?>
-                             </td>
+                                ?>
+                            </td>
                             <td>
                                 <span class="badge <?= $label_badge[$value->status] ?>">
                                     <?= $value->status ?>
@@ -292,7 +292,7 @@
 
                                     </div>
                                 <?php } ?>
-                            </td>                            
+                            </td>
                             <td>
                                 <!-- Large modal -->
                                 <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#edittable<?= $value->id ?>">Edit</button>
@@ -309,37 +309,62 @@
                                             </div>
                                             <form class="forms-sample" action="<?= base_url("kenaikan_jabatan/update_berkas/" . $value->id); ?>" method="POST" enctype="multipart/form-data">
                                                 <div class="modal-body">
-                                                    <div class="form-group row">
-                                                        <div class="<?= $value->jabatan_tujuan == "asisten ahli" ? "col-md-4" : "col-md-6" ?> mb-3">
-                                                            <label for="bukti_1">Bukti Ijazah Magister</label>
-                                                            <input type="file" class="form-control-file" id="bukti_1" name="bukti_1">
-                                                            <?= !is_null($value->bukti_1) ? '<a target="_blank" href="' . base_url('uploads/' . $value->bukti_1) . '">Lihat Ijazah Magister</a>' : "" ?>
-                                                        </div>
-                                                        <div class="<?= $value->jabatan_tujuan == "asisten ahli" ? "col-md-4" : "col-md-6" ?> mb-3">
-                                                            <label for="bukti_2">Bukti SKP/Nilai Prestasi Kerja Selama 1 Tahun</label>
-                                                            <input type="file" class="form-control-file" id="bukti_2" name="bukti_2">
-                                                            <?= !is_null($value->bukti_2) ? '<a target="_blank" href="' . base_url('uploads/' . $value->bukti_2) . '">Lihat Bukti SKP</a>' : "" ?>
-                                                        </div>
-                                                        <?php if($value->jabatan_tujuan == "asisten ahli") { ?>     
-                                                        <div class="col-md-4 mb-3">
-                                                            <label for="bukti_3">Publikasi Jurnal/Ilmiah Nasional</label>
-                                                            <input type="file" class="form-control-file" id="bukti_3" name="bukti_3">
-                                                            <?= !is_null($value->bukti_3) ? '<a target="_blank" href="' . base_url('uploads/' . $value->bukti_3) . '">Lihat Publikasi Jurnal/Ilmiah Nasional</a>' : "" ?>
-                                                        </div>
-                                                        <?php } 
-                                                        else { ?>
-                                                        <div class="col-md-6 mb-3">
-                                                            <label for="bukti_3">Bukti Pengabdian Kepada Masyarakat</label>
-                                                            <input type="file" class="form-control-file" id="bukti_3" name="bukti_3">
-                                                            <?= !is_null($value->bukti_3) ? '<a target="_blank" href="' . base_url('uploads/' . $value->bukti_3) . '">Lihat Bukti PKM</a>' : "" ?>
-                                                        </div>
-                                                        <div class="col-md-6 mb-3">
-                                                            <label for="bukti_3">Bukti Mengajar Paling Singkat 1 (satu) tahun</label>
-                                                            <input type="file" class="form-control-file" id="bukti_3" name="bukti_3">
-                                                            <?= !is_null($value->bukti_3) ? '<a target="_blank" href="' . base_url('uploads/' . $value->bukti_3) . '">Lihat Bukti Mengajar</a>' : "" ?>
-                                                        </div>
+                                                    <div class="row">
+                                                        <?php if ($value->jabatan_tujuan == "asisten ahli") { ?>
+                                                            <div class="form-group col-md-4">
+                                                                <label for="nama">Ijazah Magister</label>
+                                                                <input type="file" name="bukti_1" class="form-control">
+                                                                <?= !is_null($value->bukti_1) ? '<a target="_blank" href="' . base_url('uploads/' . $value->bukti_1) . '">Lihat File</a>' : "" ?>
+                                                            </div>
+                                                            <div class="form-group col-md-4">
+                                                                <label for="nama">Bukti SKP/Nilai Prestasi Kerja Selama 1 Tahun</label>
+                                                                <input type="file" name="bukti_2" class="form-control">
+                                                                <?= !is_null($value->bukti_2) ? '<a target="_blank" href="' . base_url('uploads/' . $value->bukti_2) . '">Lihat File</a>' : "" ?>
+                                                            </div>
+                                                            <div class="form-group col-md-4">
+                                                                <label for="nama">Publikasi Jurnal/Ilmiah Nasional</label>
+                                                                <input type="file" name="bukti_3" class="form-control">
+                                                                <?= !is_null($value->bukti_3) ? '<a target="_blank" href="' . base_url('uploads/' . $value->bukti_3) . '">Lihat File</a>' : "" ?>
+                                                            </div>
+                                                        <?php } else { ?>
+                                                            <div class="form-group col-md-6">
+                                                                <label for="nama">Ijazah Magister</label>
+                                                                <input type="file" name="bukti_1" class="form-control">
+                                                                <?= !is_null($value->bukti_1) ? '<a target="_blank" href="' . base_url('uploads/' . $value->bukti_1) . '">Lihat File</a>' : "" ?>
+                                                            </div>
+                                                            <div class="form-group col-md-6">
+                                                                <label for="nama">Bukti SKP/Nilai Prestasi Kerja Selama 1 Tahun</label>
+                                                                <input type="file" name="bukti_2" class="form-control">
+                                                                <?= !is_null($value->bukti_2) ? '<a target="_blank" href="' . base_url('uploads/' . $value->bukti_2) . '">Lihat File</a>' : "" ?>
+                                                            </div>
+                                                            <div class="form-group col-md-6">
+                                                                <label for="nama">Bukti Pengabdian Kepada Masyarakat</label>
+                                                                <input type="file" name="bukti_3" class="form-control">
+                                                                <?= !is_null($value->bukti_3) ? '<a target="_blank" href="' . base_url('uploads/' . $value->bukti_3) . '">Lihat File</a>' : "" ?>
+                                                            </div>
+                                                            <div class="form-group col-md-6">
+                                                                <label for="nama">Bukti Mengajar Paling Singkat 1 (satu) tahun</label>
+                                                                <input type="file" name="bukti_4" class="form-control">
+                                                                <?= !is_null($value->bukti_4) ? '<a target="_blank" href="' . base_url('uploads/' . $value->bukti_4) . '">Lihat File</a>' : "" ?>
+                                                            </div>
                                                         <?php } ?>
                                                     </div>
+                                                    <?php
+                                                    // if userdata bagian id == 4
+                                                    if (isset($this->session->userdata('user')->bagian_id)) {
+                                                        if ($this->session->userdata('user')->bagian_id == 4) { ?>
+                                                            <div class="row">
+                                                                <div class="form-group col">
+                                                                    <label for="nama">Status</label>
+                                                                    <select name="status" class="form-control">
+                                                                        <option value="pending" <?= $value->status == 'pending' ? "selected" : "" ?>>Pending</option>
+                                                                        <option value="disetujui" <?= $value->status == 'disetujui' ? "selected" : "" ?>>disetujui</option>
+                                                                        <option value="ditolak" <?= $value->status == 'ditolak' ? "selected" : "" ?>>Ditolak</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                    <?php }
+                                                    } ?>
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Kembali</button>

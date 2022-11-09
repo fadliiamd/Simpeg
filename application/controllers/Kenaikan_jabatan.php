@@ -35,7 +35,8 @@ class Kenaikan_jabatan extends Roles {
         if($this->session->userdata('role') == 'admin'
         || $this->session->userdata('user')->bagian_id == 4)
         {            
-            $pegawai = $this->pegawai_model->get_all();
+            // $pegawai = $this->pegawai_model->get_all();
+            $pegawai = $this->pegawai_model->get_all_where_join(["jabatan.jenis_jabatan" => "fungsional"], "jabatan", "jabatan.id = pegawai.jabatan_id");
             $pengajuan = $this->kenaikan_jabatan_model->get_all();        
         }else{
             $pegawai = $this->pegawai_model->get_one_with_join(array(

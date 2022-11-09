@@ -48,5 +48,28 @@ function get_number_usulan($id, $usulan){
         return 0;
     }    
 }
+
+function get_jabatan($id){
+    $CI =& get_instance();
+    $CI->load->model('Jabatan_model');
+    $jabatan = $CI->Jabatan_model->get_one(["id" => $id]);    
+    if($jabatan){
+        return $jabatan->nama_jabatan;
+    }else{
+        return null;
+    }
+}
+
+function get_pegawai($nip)
+{
+    $CI =& get_instance();
+    $CI->load->model('Pegawai_model');
+    $pegawai = $CI->Pegawai_model->get_one(["account_nip" => $nip]);
+    if($pegawai){
+        return $pegawai;
+    }else{
+        return null;
+    }
+}
 /* End of file extra.php */
 /* Location: ./application/helpers/extra.php */

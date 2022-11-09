@@ -19,7 +19,8 @@ class Account extends Roles
             'diklat_model',
             'bimtek_model',
             'prajabatan_model',
-            'keahlian_model'
+            'keahlian_model',
+            'tim_penilai_model'
         ]);
     }
 
@@ -37,6 +38,49 @@ class Account extends Roles
         $this->load->view('partials/main-header', ['title' => ': Pemeriksa PAK']);
         $this->load->view('dupak/pemeriksa_pak', $data);
         $this->load->view('partials/main-footer');
+    }
+
+    public function tim_penilai_pak()
+    {
+        // Get all where join table jabatan when jenis_jabatan = 'fungsional'
+        $data['tim'] = $this->tim_penilai_model->get_all();
+        $data['pegawai'] = $this->pegawai_model->get_all_where_join(
+            [
+                "jabatan.jenis_jabatan" => "fungsional",                
+                "pegawai.status_kerja" => "aktif"
+            ],
+            "jabatan",
+            "pegawai.jabatan_id = jabatan.id"
+        );
+        $data['penilai'] = $this->pegawai_model->get_all_where_join(
+            [
+                "jabatan.jenis_jabatan" => "fungsional",
+                "jabatan.nama_jabatan !=" => "Pengajar",
+                "pegawai.status_kerja" => "aktif"
+            ],
+            "jabatan",
+            "pegawai.jabatan_id = jabatan.id"
+        );
+        $this->load->view('partials/main-header', ['title' => ': Pemeriksa PAK']);
+        $this->load->view('dupak/tim_penilai', $data);
+        $this->load->view('partials/main-footer');
+    }
+
+    public function create_tim_penilai_pak()
+    {
+        $add = $this->tim_penilai_model->insert(array(
+            'ketua' => $this->input->post('ketua'),
+            'anggota1' => $this->input->post('anggota1'),
+            'anggota2' => $this->input->post('anggota2'),
+        ));
+
+        if ($add) {
+            $this->session->set_flashdata('message_success', 'Behasil menambahkan tim penilai!');
+            redirect("account/tim_penilai_pak");
+        } else {
+            $this->session->set_flashdata('message_error', 'Gagal menambahkan tim penilai!');
+            redirect("account/tim_penilai_pak");
+        }
     }
 
     public function update_pemeriksa_pak($id)

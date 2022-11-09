@@ -511,6 +511,7 @@
               <div class="collapse" id="kepegawaian">
                 <ul class="nav flex-column sub-menu">
                   <li class="nav-item"> <a class="nav-link" href="<?= base_url("account/pemeriksa_pak"); ?>">Pemeriksa PAK</a></li>                 
+                  <li class="nav-item"> <a class="nav-link" href="<?= base_url("account/tim_penilai_pak"); ?>">Tim Penilai PAK</a></li>
                 </ul>
               </div>
             </li>
